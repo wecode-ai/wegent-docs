@@ -1,0 +1,97 @@
+name: Sync Documentation from Main Repo
+
+on:
+  repository_dispatch:
+    types: [docs-updated]
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: 'Branch or commit from source repo'
+        required: false
+        default: 'main'
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: docs-repo
+
+      - name: Checkout main Wegent repository
+        uses: actions/checkout@v4
+        with:
+          repository: wecode-ai/Wegent
+          ref: ${{ github.event.inputs.source_ref || 'main' }}
+          path: main-repo
+          token: ${{ secrets.DOCS_REPO_TOKEN }}
+
+      - name: Sync English documentation
+        run: |
+          # Remove existing docs (except category files we want to preserve)
+          find docs-repo/docs -name "*.md" -type f -delete 2>/dev/null || true
+
+          # Copy English docs
+          if [ -d "main-repo/docs/en" ]; then
+            cp -r main-repo/docs/en/* docs-repo/docs/
+          fi
+
+      - name: Sync Chinese documentation
+        run: |
+          # Remove existing Chinese docs
+          find docs-repo/i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -delete 2>/dev/null || true
+
+          # Copy Chinese docs
+          if [ -d "main-repo/docs/zh" ]; then
+            cp -r main-repo/docs/zh/* docs-repo/i18n/zh/docusaurus-plugin-content-docs/current/
+          fi
+
+      - name: Sync images
+        run: |
+          # Copy images
+          if [ -d "main-repo/docs/assets/images" ]; then
+            cp -r main-repo/docs/assets/images/* docs-repo/static/img/ 2>/dev/null || true
+          fi
+
+      - name: Sync examples
+        run: |
+          # Copy examples
+          if [ -d "main-repo/docs/examples" ]; then
+            mkdir -p docs-repo/static/examples
+            cp -r main-repo/docs/examples/* docs-repo/static/examples/ 2>/dev/null || true
+          fi
+
+      - name: Update image paths in documentation
+        run: |
+          cd docs-repo
+          # Update image paths in English docs
+          find docs -name "*.md" -type f -exec sed -i 's|\.\.\/\.\.\/assets\/images\/|/img/|g' {} \;
+          find docs -name "*.md" -type f -exec sed -i 's|\.\.\/assets\/images\/|/img/|g' {} \;
+
+          # Update image paths in Chinese docs
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's|\.\.\/\.\.\/assets\/images\/|/img/|g' {} \;
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's|\.\.\/assets\/images\/|/img/|g' {} \;
+
+      - name: Update example paths
+        run: |
+          cd docs-repo
+          # Update example paths
+          find docs -name "*.md" -type f -exec sed -i 's|\.\.\/examples\/|/examples/|g' {} \;
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's|\.\.\/examples\/|/examples/|g' {} \;
+
+      - name: Commit and push changes
+        run: |
+          cd docs-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync documentation from main Wegent repository"
+            git push
+          fi
