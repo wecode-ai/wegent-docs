@@ -1,15 +1,54 @@
 {
-  "homepage.tagline": "AI 驱动的多 Agent 协作平台",
-  "homepage.getStarted": "快速开始",
-  "homepage.learnMore": "了解更多",
-  "homepage.title": "首页",
-  "homepage.description": "Wegent - AI 驱动的多 Agent 协作平台",
-  "homepage.feature.quickStart.title": "快速开始",
-  "homepage.feature.quickStart.description": "几分钟内启动并运行 Wegent。学习基础知识并创建您的第一个 AI Agent。",
-  "homepage.feature.coreConcepts.title": "核心概念",
-  "homepage.feature.coreConcepts.description": "理解 Ghost、Bot、Team、Skill 等基本概念。",
-  "homepage.feature.guides.title": "用户指南",
-  "homepage.feature.guides.description": "创建和管理 Agent、团队和任务的完整指南。",
-  "homepage.resources.title": "资源",
-  "homepage.resources.apiReference": "API 参考"
+  "homepage.tagline": {
+    "message": "AI 驱动的多 Agent 协作平台",
+    "description": "The tagline on the homepage"
+  },
+  "homepage.getStarted": {
+    "message": "快速开始",
+    "description": "Get started button text"
+  },
+  "homepage.learnMore": {
+    "message": "了解更多",
+    "description": "Learn more button text"
+  },
+  "homepage.title": {
+    "message": "首页",
+    "description": "Homepage title"
+  },
+  "homepage.description": {
+    "message": "Wegent - AI 驱动的多 Agent 协作平台",
+    "description": "Homepage meta description"
+  },
+  "homepage.feature.quickStart.title": {
+    "message": "快速开始",
+    "description": "Quick start feature title"
+  },
+  "homepage.feature.quickStart.description": {
+    "message": "几分钟内启动并运行 Wegent。学习基础知识并创建您的第一个 AI Agent。",
+    "description": "Quick start feature description"
+  },
+  "homepage.feature.coreConcepts.title": {
+    "message": "核心概念",
+    "description": "Core concepts feature title"
+  },
+  "homepage.feature.coreConcepts.description": {
+    "message": "理解 Ghost、Bot、Team、Skill 等基本概念。",
+    "description": "Core concepts feature description"
+  },
+  "homepage.feature.guides.title": {
+    "message": "用户指南",
+    "description": "User guides feature title"
+  },
+  "homepage.feature.guides.description": {
+    "message": "创建和管理 Agent、团队和任务的完整指南。",
+    "description": "User guides feature description"
+  },
+  "homepage.resources.title": {
+    "message": "资源",
+    "description": "Resources section title"
+  },
+  "homepage.resources.apiReference": {
+    "message": "API 参考",
+    "description": "API reference link text"
+  }
 }
