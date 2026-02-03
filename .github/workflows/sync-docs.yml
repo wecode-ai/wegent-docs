@@ -81,6 +81,21 @@ jobs:
           find docs -name "*.md" -type f -exec sed -i 's|\.\.\/examples\/|/examples/|g' {} \;
           find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's|\.\.\/examples\/|/examples/|g' {} \;
 
+      - name: Fix MDX compatibility issues
+        run: |
+          cd docs-repo
+          # Fix <br> tags (convert to self-closing)
+          find docs -name "*.md" -type f -exec sed -i 's/<br>/<br\/>/gi' {} \;
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's/<br>/<br\/>/gi' {} \;
+          
+          # Fix < followed by numbers (escape for MDX)
+          find docs -name "*.md" -type f -exec sed -i 's/<\([0-9]\)/\&lt;\1/g' {} \;
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's/<\([0-9]\)/\&lt;\1/g' {} \;
+          
+          # Fix {variable} patterns outside code blocks (wrap in backticks)
+          find docs -name "*.md" -type f -exec sed -i 's/{model}/`{model}`/g' {} \;
+          find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i 's/{model}/`{model}`/g' {} \;
+
       - name: Commit and push changes
         run: |
           cd docs-repo

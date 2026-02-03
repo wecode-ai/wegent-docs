@@ -676,10 +676,10 @@ docker-compose logs executor_manager
 
 | 错误码 | 错误信息 | 原因 | 解决方案 |
 |--------|---------|------|---------|
-| **401** | `Unauthorized` / `Invalid API Key` | API Key 无效或过期 | 1. 检查 API Key 格式是否正确<br>2. 重新生成 API Key<br>3. 确认 API Key 已激活 |
-| **429** | `Too Many Requests` / `Rate Limit Exceeded` | 超过速率限制 | 1. 等待一段时间后重试<br>2. 检查是否有其他程序在使用同一 API Key<br>3. 升级 API 套餐 |
-| **500** | `Internal Server Error` | 配置格式错误或服务器内部错误 | 1. 检查 JSON 格式是否正确<br>2. 检查环境变量名称拼写<br>3. 查看后端日志获取详细错误信息 |
-| **404** | `Model not found` | 模型名称不存在 | 1. 检查模型名称拼写<br>2. 确认模型在 API 提供商处可用<br>3. 参考官方文档确认模型名称 |
+| **401** | `Unauthorized` / `Invalid API Key` | API Key 无效或过期 | 1. 检查 API Key 格式是否正确<br/>2. 重新生成 API Key<br/>3. 确认 API Key 已激活 |
+| **429** | `Too Many Requests` / `Rate Limit Exceeded` | 超过速率限制 | 1. 等待一段时间后重试<br/>2. 检查是否有其他程序在使用同一 API Key<br/>3. 升级 API 套餐 |
+| **500** | `Internal Server Error` | 配置格式错误或服务器内部错误 | 1. 检查 JSON 格式是否正确<br/>2. 检查环境变量名称拼写<br/>3. 查看后端日志获取详细错误信息 |
+| **404** | `Model not found` | 模型名称不存在 | 1. 检查模型名称拼写<br/>2. 确认模型在 API 提供商处可用<br/>3. 参考官方文档确认模型名称 |
 
 #### 调试步骤
 

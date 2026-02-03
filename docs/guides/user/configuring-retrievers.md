@@ -380,7 +380,7 @@ This approach is **less efficient** than RAG retrieval:
 | Search Speed | Fast (vector similarity) | Slower (sequential reading) |
 | Token Usage | Lower (relevant chunks only) | Higher (may read full documents) |
 | Accuracy | Semantic understanding | Depends on document summaries |
-| Best For | Large knowledge bases | Small knowledge bases (<50 docs) |
+| Best For | Large knowledge bases | Small knowledge bases (&lt;50 docs) |
 
 ### Setting Up No-RAG Mode
 

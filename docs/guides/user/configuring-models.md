@@ -483,7 +483,7 @@ Before saving, use the **Test Connection** feature to verify your configuration:
    - Model availability
    - Network connectivity
 3. Results:
-   - ✅ "Successfully connected to {model}" - Configuration is valid
+   - ✅ "Successfully connected to `{model}`" - Configuration is valid
    - ❌ Error message - Check your API key or network settings
 
 #### Step 4: Save Configuration
@@ -676,10 +676,10 @@ docker-compose logs executor_manager
 
 | Error Code | Error Message | Reason | Solution |
 |--------|---------|------|---------|
-| **401** | `Unauthorized` / `Invalid API Key` | API Key invalid or expired | 1. Check if API Key format is correct<br>2. Regenerate API Key<br>3. Confirm API Key is activated |
-| **429** | `Too Many Requests` / `Rate Limit Exceeded` | Rate limit exceeded | 1. Wait for some time and retry<br>2. Check if other programs are using the same API Key<br>3. Upgrade API plan |
-| **500** | `Internal Server Error` | Configuration format error or server internal error | 1. Check if JSON format is correct<br>2. Check environment variable name spelling<br>3. View backend logs for detailed error information |
-| **404** | `Model not found` | Model name doesn't exist | 1. Check model name spelling<br>2. Confirm model is available at API provider<br>3. Refer to official documentation to confirm model name |
+| **401** | `Unauthorized` / `Invalid API Key` | API Key invalid or expired | 1. Check if API Key format is correct<br/>2. Regenerate API Key<br/>3. Confirm API Key is activated |
+| **429** | `Too Many Requests` / `Rate Limit Exceeded` | Rate limit exceeded | 1. Wait for some time and retry<br/>2. Check if other programs are using the same API Key<br/>3. Upgrade API plan |
+| **500** | `Internal Server Error` | Configuration format error or server internal error | 1. Check if JSON format is correct<br/>2. Check environment variable name spelling<br/>3. View backend logs for detailed error information |
+| **404** | `Model not found` | Model name doesn't exist | 1. Check model name spelling<br/>2. Confirm model is available at API provider<br/>3. Refer to official documentation to confirm model name |
 
 #### Debugging Steps
 

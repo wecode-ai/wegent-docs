@@ -1,14 +1,18 @@
 {
   "homepage.tagline": {
-    "message": "AI 驱动的多 Agent 协作平台",
+    "message": "构建、编排、部署智能体团队，让 AI 协作变得简单而强大",
     "description": "The tagline on the homepage"
   },
+  "homepage.taglineBadge": {
+    "message": "新一代 AI 多智能体协作平台",
+    "description": "The badge text above the title"
+  },
   "homepage.getStarted": {
-    "message": "快速开始",
+    "message": "🚀 快速开始",
     "description": "Get started button text"
   },
   "homepage.learnMore": {
-    "message": "了解更多",
+    "message": "📖 了解更多",
     "description": "Learn more button text"
   },
   "homepage.title": {
@@ -16,7 +20,7 @@
     "description": "Homepage title"
   },
   "homepage.description": {
-    "message": "Wegent - AI 驱动的多 Agent 协作平台",
+    "message": "Wegent - AI 驱动的多智能体协作平台",
     "description": "Homepage meta description"
   },
   "homepage.feature.quickStart.title": {
@@ -24,7 +28,7 @@
     "description": "Quick start feature title"
   },
   "homepage.feature.quickStart.description": {
-    "message": "几分钟内启动并运行 Wegent。学习基础知识并创建您的第一个 AI Agent。",
+    "message": "几分钟内即可启动 Wegent。学习基础知识并创建您的第一个 AI 智能体。",
     "description": "Quick start feature description"
   },
   "homepage.feature.coreConcepts.title": {
@@ -32,23 +36,71 @@
     "description": "Core concepts feature title"
   },
   "homepage.feature.coreConcepts.description": {
-    "message": "理解 Ghost、Bot、Team、Skill 等基本概念。",
+    "message": "深入理解 Ghost、Bot、Team、Skill 等核心概念，掌握多智能体协作的精髓。",
     "description": "Core concepts feature description"
   },
   "homepage.feature.guides.title": {
-    "message": "用户指南",
+    "message": "使用指南",
     "description": "User guides feature title"
   },
   "homepage.feature.guides.description": {
-    "message": "创建和管理 Agent、团队和任务的完整指南。",
+    "message": "全面的指南帮助您创建和管理智能体、团队和任务，释放 AI 协作的无限可能。",
     "description": "User guides feature description"
   },
+  "homepage.features.title": {
+    "message": "为什么选择 Wegent？",
+    "description": "Features section title"
+  },
+  "homepage.features.subtitle": {
+    "message": "强大的功能，简洁的设计，无限的可能",
+    "description": "Features section subtitle"
+  },
+  "homepage.exploreMore": {
+    "message": "探索更多",
+    "description": "Explore more link text"
+  },
+  "homepage.stats.skills": {
+    "message": "内置技能",
+    "description": "Stats - built-in skills"
+  },
+  "homepage.stats.models": {
+    "message": "支持模型",
+    "description": "Stats - supported models"
+  },
+  "homepage.stats.agents": {
+    "message": "智能体组合",
+    "description": "Stats - agent combinations"
+  },
+  "homepage.stats.availability": {
+    "message": "全天候服务",
+    "description": "Stats - availability"
+  },
   "homepage.resources.title": {
-    "message": "资源",
+    "message": "📦 资源与链接",
     "description": "Resources section title"
   },
   "homepage.resources.apiReference": {
-    "message": "API 参考",
+    "message": "API 参考文档",
     "description": "API reference link text"
+  },
+  "homepage.resources.architecture": {
+    "message": "系统架构",
+    "description": "Architecture link text"
+  },
+  "homepage.resources.faq": {
+    "message": "常见问题",
+    "description": "FAQ link text"
+  },
+  "homepage.cta.title": {
+    "message": "准备好开始了吗？",
+    "description": "CTA section title"
+  },
+  "homepage.cta.description": {
+    "message": "加入 Wegent 社区，探索 AI 多智能体协作的无限可能。从今天开始构建您的智能体团队！",
+    "description": "CTA section description"
+  },
+  "homepage.cta.button": {
+    "message": "立即安装 Wegent",
+    "description": "CTA button text"
   }
 }

@@ -183,7 +183,7 @@ Configure these in the knowledge base advanced settings.
 
 | Choose RAG When | Choose Exploration When |
 |-----------------|------------------------|
-| Large document collections | Small collections (<50 docs) |
+| Large document collections | Small collections (&lt;50 docs) |
 | Need semantic search | Testing without infrastructure |
 | High query volume | Avoiding embedding costs |
 | Complex multi-document queries | Simple document lookup |
