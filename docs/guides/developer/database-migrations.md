@@ -1,82 +1,193 @@
----
-sidebar_position: 3
----
+# Database Migrations Guide
 
-# Database Migrations
-
-Learn how to manage database migrations in Wegent.
+This guide covers database migration management using Alembic for the Wegent Backend application.
 
 ## Overview
 
-Wegent uses Alembic for database migrations. Migrations track changes to the database schema over time.
+Alembic is a database migration tool for SQLAlchemy. It provides version control for your database schema, allowing you to track changes, apply upgrades, and rollback if needed.
 
-## Migration Commands
+## Quick Start
 
-### Create a Migration
+### View Current Migration Status
 
 ```bash
-wegent db migrate -m "Add user table"
+# Check current database revision
+alembic current
+
+# View migration history
+alembic history --verbose
 ```
 
 ### Apply Migrations
 
 ```bash
-wegent db upgrade
+# Upgrade to the latest version
+alembic upgrade head
+
+# Upgrade by one version
+alembic upgrade +1
+
+# Upgrade to a specific revision
+alembic upgrade <revision_id>
 ```
 
-### Rollback
+### Rollback Migrations
 
 ```bash
-wegent db downgrade -1
+# Downgrade by one version
+alembic downgrade -1
+
+# Downgrade to a specific revision
+alembic downgrade <revision_id>
+
+# Downgrade to base (remove all migrations)
+alembic downgrade base
 ```
 
-### Check Status
+### Create New Migrations
 
 ```bash
-wegent db status
+# Auto-generate a migration script based on model changes
+alembic revision --autogenerate -m "description of changes"
+
+# Create an empty migration script
+alembic revision -m "description of changes"
 ```
 
-## Writing Migrations
+After generating a migration script, always review it before applying to ensure it does what you expect.
 
-### Auto-generated Migration
+## Important Notes
 
-Alembic can auto-generate migrations based on model changes:
+### Development vs Production
+
+- **Development Mode**: Migrations run automatically on application startup when `ENVIRONMENT=development` and `DB_AUTO_MIGRATE=True`
+- **Production Mode**: Migrations must be run manually. The application will log a warning if there are pending migrations.
+
+### Best Practices
+
+1. **Always review auto-generated migrations** - Alembic may not detect all changes correctly
+2. **Test migrations on a copy of production data** before applying to production
+3. **Backup your database** before running migrations in production
+4. **Never edit applied migrations** - create a new migration instead
+5. **Keep migrations small and focused** - easier to review and rollback if needed
+
+### Migration Safety
+
+- Initial migration uses `CREATE TABLE IF NOT EXISTS` to safely handle existing databases
+- All migrations include both `upgrade()` and `downgrade()` functions for rollback support
+- Foreign key constraints are properly handled in the correct order
+
+## Common Commands
 
 ```bash
-wegent db migrate --autogenerate -m "Add email field"
+# Navigate to backend directory first
+cd /path/to/wegent/backend
+
+# Check what migrations will be applied
+alembic upgrade head --sql
+
+# Show the diff between database and models
+alembic upgrade head --sql > migration.sql
+
+# Get help
+alembic --help
+alembic upgrade --help
 ```
 
-### Manual Migration
+## Troubleshooting
 
-Create a manual migration:
+### Migration Fails
 
-```python
-"""Add user preferences table
+1. Check database connection in `alembic.ini` or `DATABASE_URL` environment variable
+2. Review the migration script for errors
+3. Check database logs for detailed error messages
 
-Revision ID: abc123
-Create Date: 2024-01-01
-"""
+### Conflict with Existing Tables
 
-from alembic import op
-import sqlalchemy as sa
+If you have an existing database:
+1. The initial migration is designed to be safe with `CREATE TABLE IF NOT EXISTS`
+2. Run `alembic stamp head` to mark the database as up-to-date without running migrations
+3. Future migrations will then apply normally
 
-def upgrade():
-    op.create_table(
-        'user_preferences',
-        sa.Column('id', sa.Integer, primary_key=True),
-        sa.Column('user_id', sa.Integer, sa.ForeignKey('users.id')),
-        sa.Column('theme', sa.String(50)),
-        sa.Column('language', sa.String(10))
-    )
+### Reset Migrations
 
-def downgrade():
-    op.drop_table('user_preferences')
+**WARNING**: This will drop all tables and data!
+
+```bash
+# Downgrade to base
+alembic downgrade base
+
+# Upgrade to latest
+alembic upgrade head
 ```
 
-## Best Practices
+## Migration File Structure
 
-- Always review auto-generated migrations
-- Test migrations on a copy of production data
-- Keep migrations small and focused
-- Include both upgrade and downgrade functions
-- Never modify existing migrations after they're deployed
+```
+backend/alembic/
+├── versions/           # Migration scripts (never edit after applying)
+│   ├── 0c086b93f8b9_initial_migration.py
+│   └── b2c3d4e5f6a7_add_role_to_users.py  # User role migration
+├── env.py             # Alembic runtime environment
+├── script.py.mako     # Template for new migrations
+└── README             # Quick reference
+```
+
+## Notable Migrations
+
+### User Role Migration (`b2c3d4e5f6a7`)
+
+This migration adds the `role` column to the `users` table for role-based access control:
+
+- **Column**: `role` (VARCHAR(20), NOT NULL, default: 'user')
+- **Values**: 'admin' or 'user'
+- **Auto-upgrade**: Users with `user_name='admin'` are automatically set to `role='admin'`
+
+The migration uses conditional SQL to safely handle cases where the column already exists.
+
+## Workflow Example
+
+Here's a typical workflow for adding a new model field:
+
+1. **Modify the model** in `backend/app/models/`:
+   ```python
+   # Add new field to model
+   class User(Base):
+       # ... existing fields ...
+       new_field = Column(String(100), nullable=True)
+   ```
+
+2. **Generate migration**:
+   ```bash
+   cd backend
+   alembic revision --autogenerate -m "add new_field to user table"
+   ```
+
+3. **Review the generated migration** in `backend/alembic/versions/`:
+   - Check that the changes match your expectations
+   - Verify data type conversions
+   - Ensure nullable/default values are correct
+
+4. **Test the migration**:
+   ```bash
+   # Apply migration
+   alembic upgrade head
+   
+   # Verify it works
+   # Test your application
+   
+   # If needed, rollback
+   alembic downgrade -1
+   ```
+
+5. **Commit the migration**:
+   ```bash
+   git add backend/alembic/versions/<new_migration>.py
+   git commit -m "feat(backend): add new_field to user table"
+   ```
+
+## For More Information
+
+- [Alembic Documentation](https://alembic.sqlalchemy.org/)
+- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
+- [AGENTS.md - Backend Section](../../../../AGENTS.md#backend)
