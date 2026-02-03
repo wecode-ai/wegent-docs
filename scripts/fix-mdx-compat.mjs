@@ -47,6 +47,17 @@ function getMdFiles(dir) {
 }
 
 /**
+ * 检查位置是否在代码块内
+ */
+function isInCodeBlock(content, position) {
+  // 查找位置之前的所有 ``` 标记
+  const beforeContent = content.substring(0, position);
+  const codeBlockMarkers = beforeContent.match(/```/g);
+  // 如果 ``` 出现奇数次，说明在代码块内
+  return codeBlockMarkers && codeBlockMarkers.length % 2 === 1;
+}
+
+/**
  * 修复 MDX 兼容性问题
  */
 function fixMdxCompat(content) {
@@ -60,12 +71,47 @@ function fixMdxCompat(content) {
   fixed = fixed.replace(/(?<!&lt;|&)(<)(\d)/g, '&lt;$2');
   
   // 3. 转义花括号中的变量引用（在非代码块中）
-  // 匹配 {word} 模式，但排除代码块内的内容
-  // 使用简单的方法：只处理行内的 {word} 模式
-  fixed = fixed.replace(/(?<!`[^`]*)\{([a-zA-Z_][a-zA-Z0-9_]*)\}(?![^`]*`)/g, (match, varName) => {
-    // 检查是否在代码块中（简单检查：如果行以 ``` 开头则跳过）
-    return `\\{${varName}\\}`;
-  });
+  // 匹配 {word} 模式，包括中文字符
+  // 排除代码块内的内容
+  fixed = fixed.replace(
+    /\{([a-zA-Z_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*)\}/g,
+    (match, varName, offset) => {
+      // 检查是否在代码块内
+      if (isInCodeBlock(fixed, offset)) {
+        return match;
+      }
+      // 检查是否在行内代码中（被反引号包裹）
+      const lineStart = fixed.lastIndexOf('\n', offset) + 1;
+      const lineEnd = fixed.indexOf('\n', offset);
+      const line = fixed.substring(lineStart, lineEnd === -1 ? fixed.length : lineEnd);
+      const posInLine = offset - lineStart;
+      
+      // 简单检查：计算该位置之前的反引号数量
+      const beforeInLine = line.substring(0, posInLine);
+      const backtickCount = (beforeInLine.match(/`/g) || []).length;
+      if (backtickCount % 2 === 1) {
+        // 在行内代码中，不处理
+        return match;
+      }
+      
+      return `\\{${varName}\\}`;
+    }
+  );
+  
+  // 4. 将裸露的 URL 用反引号包裹（避免 MDX 解析错误）
+  // 匹配 http:// 或 https:// 开头的 URL
+  // URL 字符集：只匹配 ASCII 字符，遇到中文字符停止
+  // 排除已经在反引号、链接语法 []() 中的 URL
+  fixed = fixed.replace(
+    /(?<!`|]\()(https?:\/\/[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+)(?!`|\))/g,
+    (match, url, offset) => {
+      // 检查是否在代码块内
+      if (isInCodeBlock(fixed, offset)) {
+        return match;
+      }
+      return `\`${url}\``;
+    }
+  );
   
   return fixed;
 }
