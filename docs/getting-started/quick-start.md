@@ -22,7 +22,7 @@ Before you begin, ensure your system has:
 curl -fsSL https://raw.githubusercontent.com/wecode-ai/Wegent/main/install.sh | bash
 ```
 
-Then open `http://localhost:3000` in your browser.
+Then open http://localhost:3000 in your browser.
 
 > Optional: Enable RAG features with `docker compose --profile rag up -d`
 
