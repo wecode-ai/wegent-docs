@@ -27,21 +27,61 @@
     "message": "Wegent 功能使用指南。",
     "description": "The generated-index page description for category 'User Guide' in sidebar 'docsSidebar'"
   },
-  "sidebar.docsSidebar.category.💬 AI 对话": {
-    "message": "💬 AI 对话",
-    "description": "The label for category '💬 AI 对话' in sidebar 'docsSidebar'"
+  "sidebar.docsSidebar.category.AI Chat": {
+    "message": "AI 对话",
+    "description": "The label for category 'AI Chat' in sidebar 'docsSidebar'"
   },
-  "sidebar.docsSidebar.category.📚 AI 知识库": {
-    "message": "📚 AI 知识库",
-    "description": "The label for category '📚 AI 知识库' in sidebar 'docsSidebar'"
+  "sidebar.docsSidebar.category.AI Chat.link.generated-index.description": {
+    "message": "了解如何使用 Wegent 的 AI 对话功能。",
+    "description": "The generated-index page description for category 'AI Chat' in sidebar 'docsSidebar'"
   },
-  "sidebar.docsSidebar.category.💻 AI 设备": {
-    "message": "💻 AI 设备",
-    "description": "The label for category '💻 AI 设备' in sidebar 'docsSidebar'"
+  "sidebar.docsSidebar.category.AI Coding": {
+    "message": "AI 编码",
+    "description": "The label for category 'AI Coding' in sidebar 'docsSidebar'"
   },
-  "sidebar.docsSidebar.category.⚙️ 设置": {
-    "message": "⚙️ 设置",
-    "description": "The label for category '⚙️ 设置' in sidebar 'docsSidebar'"
+  "sidebar.docsSidebar.category.AI Coding.link.generated-index.description": {
+    "message": "了解如何使用 Wegent 的 AI 编程功能。",
+    "description": "The generated-index page description for category 'AI Coding' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Knowledge": {
+    "message": "AI 知识库",
+    "description": "The label for category 'AI Knowledge' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Knowledge.link.generated-index.description": {
+    "message": "了解如何管理知识库和检索器。",
+    "description": "The generated-index page description for category 'AI Knowledge' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Devices": {
+    "message": "AI 设备",
+    "description": "The label for category 'AI Devices' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Devices.link.generated-index.description": {
+    "message": "了解如何连接和管理本地设备。",
+    "description": "The generated-index page description for category 'AI Devices' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Integrations": {
+    "message": "AI 集成",
+    "description": "The label for category 'AI Integrations' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Integrations.link.generated-index.description": {
+    "message": "了解如何将 Wegent 与 IM 渠道和外部服务集成。",
+    "description": "The generated-index page description for category 'AI Integrations' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Watch": {
+    "message": "AI 监控",
+    "description": "The label for category 'AI Watch' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.AI Watch.link.generated-index.description": {
+    "message": "了解如何监控 AI 活动。",
+    "description": "The generated-index page description for category 'AI Watch' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.Settings": {
+    "message": "设置",
+    "description": "The label for category 'Settings' in sidebar 'docsSidebar'"
+  },
+  "sidebar.docsSidebar.category.Settings.link.generated-index.description": {
+    "message": "配置智能体、模型、Shell 和技能。",
+    "description": "The generated-index page description for category 'Settings' in sidebar 'docsSidebar'"
   },
   "sidebar.docsSidebar.category.Developer Guide": {
     "message": "开发者指南",

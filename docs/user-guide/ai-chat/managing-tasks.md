@@ -121,6 +121,8 @@ The input area contains the following controls:
 | **Context Button** | Add knowledge bases | Control bar |
 | **Attachment Button** | Upload files | Control bar |
 | **Skill Button** | Select skills | Control bar |
+| **Clarification Button** | Enable clarification mode | Control bar |
+| **Correction Button** | Enable correction mode | Control bar |
 | **Send Button** | Send message | Right side of input box |
 
 ### Message Area
@@ -172,9 +174,22 @@ Enable extended reasoning for complex problems:
 
 Enable clarification mode for the agent to confirm requirements before execution:
 
-1. **Click the clarification icon** - In the input control bar
+1. **Click the clarification icon** (💬) - In the input control bar
 2. **Agent asks questions first** - Confirms your requirement details
 3. **After answering questions** - Agent starts executing the task
+
+> 📖 For detailed information, see [Clarification Mode Guide](./clarification-mode-guide.md)
+
+### Correction Mode
+
+Enable correction mode to have another AI model verify and improve responses:
+
+1. **Click the correction icon** (✓) - In the input control bar
+2. **Select correction model** - Choose from the popup dialog
+3. **View evaluation results** - Scores and improvement suggestions appear after agent responds
+4. **Apply improvements** (optional) - Click "Apply" button to adopt the improved version
+
+> 📖 For detailed information, see [Correction Mode Guide](./correction-mode-guide.md)
 
 ### File Attachments
 
@@ -317,8 +332,9 @@ Add additional capabilities to the agent:
 ### Detailed Feature Documentation
 
 For more details on advanced features, see:
+- [Clarification Mode Guide](./clarification-mode-guide.md) - Let agent confirm requirements before execution
+- [Correction Mode Guide](./correction-mode-guide.md) - Use another model to verify and improve responses
 - [IM Channel Integration](./im-channel-integration.md) - Integrate enterprise IM
-- [Spec Clarification Guide](./spec-clarification-guide.md) - Using clarification mode
 
 ---
 

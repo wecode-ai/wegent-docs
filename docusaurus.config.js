@@ -12,7 +12,12 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Wegent',
   tagline: 'AI-Powered Multi-Agent Collaboration Platform',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/wegent.png',
+
+  // Enable Mermaid diagram rendering
+  markdown: {
+    mermaid: true,
+  },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -67,6 +72,7 @@ const config = {
   ],
 
   themes: [
+    '@docusaurus/theme-mermaid',
     [
       '@easyops-cn/docusaurus-search-local',
       /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
@@ -93,7 +99,7 @@ const config = {
         title: 'Wegent',
         logo: {
           alt: 'Wegent Logo',
-          src: 'img/logo.svg',
+          src: 'img/wegent.png',
         },
         items: [
           {
