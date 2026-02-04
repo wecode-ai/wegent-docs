@@ -42,12 +42,12 @@ docker-compose up -d
 ```
 
 这将启动所有必需的服务:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000
-- **API 文档**: http://localhost:8000/api/docs
+- **Frontend**: `http://localhost:3000`
+- **Backend API**: `http://localhost:8000`
+- **API 文档**: `http://localhost:8000/api/docs`
 - **MySQL**: localhost:3306
 - **Redis**: localhost:6379
-- **Executor Manager**: http://localhost:8001
+- **Executor Manager**: `http://localhost:8001`
 
 ---
 
@@ -164,8 +164,8 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 访问 API 文档:
-- Swagger UI: http://localhost:8000/api/docs
-- ReDoc: http://localhost:8000/api/redoc
+- Swagger UI: `http://localhost:8000/api/docs`
+- ReDoc: `http://localhost:8000/api/redoc`
 
 #### 后端目录结构
 
@@ -223,7 +223,7 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-访问应用: http://localhost:3000
+访问应用: `http://localhost:3000`
 
 #### 其他命令
 

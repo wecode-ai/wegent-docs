@@ -323,7 +323,7 @@ docker logs -f wegent-backend --tail 50
 
 ### 问题 6: 前端无法访问
 
-**症状**: 浏览器无法打开 http://localhost:3000
+**症状**: 浏览器无法打开 `http://localhost:3000`
 
 **解决步骤**:
 

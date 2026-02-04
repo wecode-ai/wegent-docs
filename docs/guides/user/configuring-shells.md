@@ -115,7 +115,7 @@ Wegent currently supports three main runtimes:
 
 **Environment Variables**:
 - `DIFY_API_KEY`: Your Dify API key
-- `DIFY_BASE_URL`: Dify server URL (default: https://api.dify.ai/v1)
+- `DIFY_BASE_URL`: Dify server URL (default: `https://api.dify.ai/v1)`
 - `DIFY_APP_ID`: Dify application ID
 - `DIFY_PARAMS`: Additional parameters in JSON format
 
@@ -205,7 +205,7 @@ spec:
 
 ### Method 2: View Existing Shells via Web Interface
 
-1. Log in to Wegent Web interface (http://localhost:3000)
+1. Log in to Wegent Web interface (`http://localhost:3000)`
 2. Navigate to **Resource Management** → **Shell Configuration**
 3. View the list of Shells in the system
 4. Select an appropriate Shell for your Bot
@@ -442,7 +442,7 @@ spec:
 - View the Shell list
 
 **Method 2: API Query**
-- Visit http://localhost:8000/api/docs
+- Visit `http://localhost:8000/api/docs`
 - Use Shell-related API endpoints to query
 
 ### Q2: What's the difference between ClaudeCode, Agno, and Dify?

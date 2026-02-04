@@ -119,8 +119,8 @@ docker-compose restart backend executor_manager
 
 ### 4. Access the UIs
 
-- **Jaeger UI** (Trace Visualization): http://localhost:16686
-- **Kibana** (Query & Dashboard): http://localhost:5601
+- **Jaeger UI** (Trace Visualization): `http://localhost:16686`
+- **Kibana** (Query & Dashboard): `http://localhost:5601`
 
 ## Configuration
 
@@ -309,7 +309,7 @@ Jaeger provides the best experience for viewing trace call chains and service de
 
 ### Access Jaeger UI
 
-Open http://localhost:16686 in your browser.
+Open `http://localhost:16686` in your browser.
 
 ### Search Traces
 
@@ -571,12 +571,12 @@ docker-compose restart backend executor_manager
 
 | Service | Port | URL | Purpose |
 |---------|------|-----|---------|
-| Jaeger UI | 16686 | http://localhost:16686 | Trace visualization |
-| Kibana | 5601 | http://localhost:5601 | Query & Dashboard |
-| Elasticsearch | 9200 | http://localhost:9200 | Data storage API |
+| Jaeger UI | 16686 | `http://localhost:16686` | Trace visualization |
+| Kibana | 5601 | `http://localhost:5601` | Query & Dashboard |
+| Elasticsearch | 9200 | `http://localhost:9200` | Data storage API |
 | OTLP gRPC | 4317 | - | Telemetry data ingestion |
 | OTLP HTTP | 4318 | - | Telemetry data ingestion |
-| Collector Metrics | 8888 | http://localhost:8888/metrics | Collector self-metrics |
+| Collector Metrics | 8888 | `http://localhost:8888/metrics` | Collector self-metrics |
 
 ## References
 

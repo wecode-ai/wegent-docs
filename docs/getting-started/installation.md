@@ -128,14 +128,14 @@ Wait for services to start completely (about 30 seconds). Database tables and in
 
 Visit the following URLs to verify installation:
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/api/docs
-- **Executor Manager**: http://localhost:8001
+- **Frontend**: `http://localhost:3000`
+- **Backend API**: `http://localhost:8000`
+- **API Documentation**: `http://localhost:8000/api/docs`
+- **Executor Manager**: `http://localhost:8001`
 
 ### Step 5: Configure GitHub Integration (Optional)
 
-1. Visit http://localhost:3000
+1. Visit `http://localhost:3000`
 2. Follow on-screen instructions to configure GitHub Personal Access Token
 3. Required token permissions:
    - `repo` - Full repository access
@@ -355,7 +355,7 @@ curl http://localhost:8000/api/health
 
 ### Test Frontend
 
-Visit http://localhost:3000 in your browser, you should see the Wegent login page.
+Visit `http://localhost:3000` in your browser, you should see the Wegent login page.
 
 ---
 

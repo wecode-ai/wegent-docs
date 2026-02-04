@@ -162,7 +162,7 @@ Wegent 支持两种类型的模型:
 
 #### 步骤 1: 访问 Anthropic Console
 
-访问官网: https://console.anthropic.com/settings/keys
+访问官网: `https://console.anthropic.com/settings/keys`
 
 <!-- TODO: 添加截图 - Anthropic Console 登录页面 -->
 
@@ -194,7 +194,7 @@ Wegent 支持两种类型的模型:
 sk-ant-api03-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**官网链接**: https://console.anthropic.com/settings/keys
+**官网链接**: `https://console.anthropic.com/settings/keys`
 
 ---
 
@@ -202,7 +202,7 @@ sk-ant-api03-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 #### 步骤 1: 访问 OpenAI Platform
 
-访问官网: https://platform.openai.com/api-keys
+访问官网: `https://platform.openai.com/api-keys`
 
 <!-- TODO: 添加截图 - OpenAI Platform 登录页面 -->
 
@@ -235,7 +235,7 @@ sk-ant-api03-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-**官网链接**: https://platform.openai.com/api-keys
+**官网链接**: `https://platform.openai.com/api-keys`
 
 ---
 
@@ -316,7 +316,7 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 **作用**: 提供 API 认证凭证
 
-**获取方式**: 从 https://console.anthropic.com/settings/keys 创建
+**获取方式**: 从 `https://console.anthropic.com/settings/keys` 创建
 
 **格式**: 以 `sk-ant-` 开头的字符串
 
@@ -393,7 +393,7 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 **作用**: 提供 OpenAI API 认证凭证
 
-**获取方式**: 从 https://platform.openai.com/api-keys 创建
+**获取方式**: 从 `https://platform.openai.com/api-keys` 创建
 
 **格式**: 以 `sk-` 开头的字符串
 
@@ -447,7 +447,7 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 #### 步骤 1: 进入 Model 管理页面
 
-1. 登录 Wegent Web 界面 (http://localhost:3000)
+1. 登录 Wegent Web 界面 (`http://localhost:3000)`
 2. 进入 **设置** → **Models** 标签页
 3. 您将看到统一的模型列表，显示公共模型和用户自定义模型
 4. 点击 **创建新模型** 按钮添加新模型
@@ -483,7 +483,7 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    - 模型可用性
    - 网络连通性
 3. 结果:
-   - ✅ "成功连接到 {模型}" - 配置有效
+   - ✅ "成功连接到 \{模型\}" - 配置有效
    - ❌ 错误信息 - 检查您的 API 密钥或网络设置
 
 #### 步骤 4: 保存配置
@@ -614,7 +614,7 @@ spec:
 
 #### 步骤 1: 访问 API 文档
 
-访问: http://localhost:8000/api/docs
+访问: `http://localhost:8000/api/docs`
 
 #### 步骤 2: 测试 Model 接口
 
