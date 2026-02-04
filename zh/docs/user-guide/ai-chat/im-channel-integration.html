@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-user-guide/ai-chat/im-channel-integration" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">📱 IM 通道集成指南 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="📱 IM 通道集成指南 | Wegent"><meta data-rh="true" name="description" content="IM 通道集成允许您将 Wegent 智能体连接到即时通讯平台（如钉钉），让用户可以在熟悉的聊天工具中直接与 AI 智能体对话。"><meta data-rh="true" property="og:description" content="IM 通道集成允许您将 Wegent 智能体连接到即时通讯平台（如钉钉），让用户可以在熟悉的聊天工具中直接与 AI 智能体对话。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/ai-chat/im-channel-integration" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/ai-chat/im-channel-integration" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"用户指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"💬 AI 对话","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/ai-chat/"},{"@type":"ListItem","position":3,"name":"📱 IM 通道集成指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.7e71e62b.css">
+<script src="/wegent-docs/zh/assets/js/runtime~main.5b4679fb.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.54d09b0c.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/zh/img/logo.svg"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/zh/"><div class="navbar__logo"><img src="/wegent-docs/zh/img/logo.svg" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/zh/img/logo.svg" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/zh/docs/category/getting-started">文档</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/user-guide/ai-chat/im-channel-integration" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="搜索" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/getting-started"><span title="快速入门" class="categoryLinkLabel_W154">快速入门</span></a><button aria-label="展开侧边栏分类 &#x27;快速入门&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/concepts"><span title="概念" class="categoryLinkLabel_W154">概念</span></a><button aria-label="展开侧边栏分类 &#x27;概念&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/guides"><span title="Guides" class="categoryLinkLabel_W154">Guides</span></a><button aria-label="展开侧边栏分类 &#x27;Guides&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/zh/docs/category/user-guide"><span title="用户指南" class="categoryLinkLabel_W154">用户指南</span></a><button aria-label="折叠侧边栏分类 &#x27;用户指南&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-chat"><span title="💬 AI 对话" class="categoryLinkLabel_W154">💬 AI 对话</span></a><button aria-label="折叠侧边栏分类 &#x27;💬 AI 对话&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-chat/managing-tasks"><span title="💬 创建对话" class="linkLabel_WmDU">💬 创建对话</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-chat/im-channel-integration"><span title="📱 IM 通道集成指南" class="linkLabel_WmDU">📱 IM 通道集成指南</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-chat/spec-clarification-guide"><span title="需求规范澄清(Spec Clarification)使用指南" class="linkLabel_WmDU">需求规范澄清(Spec Clarification)使用指南</span></a></li></ul></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-watch"><span title="👀 AI 关注" class="linkLabel_WmDU">👀 AI 关注</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-coding"><span title="💻 AI 编码" class="linkLabel_WmDU">💻 AI 编码</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-knowledge"><span title="📚 AI 知识库" class="categoryLinkLabel_W154">📚 AI 知识库</span></a><button aria-label="展开侧边栏分类 &#x27;📚 AI 知识库&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/user-guide/ai-devices"><span title="💻 AI 设备" class="categoryLinkLabel_W154">💻 AI 设备</span></a><button aria-label="展开侧边栏分类 &#x27;💻 AI 设备&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/user-guide/settings"><span title="⚙️ 设置" class="categoryLinkLabel_W154">⚙️ 设置</span></a><button aria-label="展开侧边栏分类 &#x27;⚙️ 设置&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/user-guide"><span title="📚 用户指南" class="linkLabel_WmDU">📚 用户指南</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/developer-guide"><span title="开发者指南" class="categoryLinkLabel_W154">开发者指南</span></a><button aria-label="展开侧边栏分类 &#x27;开发者指南&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/reference"><span title="参考" class="categoryLinkLabel_W154">参考</span></a><button aria-label="展开侧边栏分类 &#x27;参考&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs"><span title="📚 Wegent 中文文档" class="linkLabel_WmDU">📚 Wegent 中文文档</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/faq"><span title="❓ 常见问题 (FAQ)" class="linkLabel_WmDU">❓ 常见问题 (FAQ)</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/troubleshooting"><span title="🔧 故障排查指南" class="linkLabel_WmDU">🔧 故障排查指南</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/wegent-docs/zh/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/category/user-guide"><span>用户指南</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/user-guide/ai-chat"><span>💬 AI 对话</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">📱 IM 通道集成指南</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>📱 IM 通道集成指南</h1></header>
+<p>IM 通道集成允许您将 Wegent 智能体连接到即时通讯平台（如钉钉），让用户可以在熟悉的聊天工具中直接与 AI 智能体对话。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-目录">📋 目录<a href="#-目录" class="hash-link" aria-label="📋 目录的直接链接" title="📋 目录的直接链接" translate="no">​</a></h2>
+<ul>
+<li class=""><a href="#-%E6%A6%82%E8%BF%B0" class="">概述</a></li>
+<li class=""><a href="#-%E6%9E%B6%E6%9E%84%E8%AF%B4%E6%98%8E" class="">架构说明</a></li>
+<li class=""><a href="#-%E9%92%89%E9%92%89%E9%9B%86%E6%88%90%E9%85%8D%E7%BD%AE" class="">钉钉集成配置</a></li>
+<li class=""><a href="#-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" class="">使用说明</a></li>
+<li class=""><a href="#-%E7%AE%A1%E7%90%86%E5%8A%9F%E8%83%BD" class="">管理功能</a></li>
+<li class=""><a href="#-%E7%94%A8%E6%88%B7%E6%98%A0%E5%B0%84%E6%9C%BA%E5%88%B6" class="">用户映射机制</a></li>
+<li class=""><a href="#-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" class="">常见问题</a></li>
+<li class=""><a href="#-%E7%9B%B8%E5%85%B3%E8%B5%84%E6%BA%90" class="">相关资源</a></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-概述">🎯 概述<a href="#-概述" class="hash-link" aria-label="🎯 概述的直接链接" title="🎯 概述的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="什么是-im-通道集成">什么是 IM 通道集成？<a href="#什么是-im-通道集成" class="hash-link" aria-label="什么是 IM 通道集成？的直接链接" title="什么是 IM 通道集成？的直接链接" translate="no">​</a></h3>
+<p>IM 通道集成将 Wegent 智能体连接到即时通讯平台，让用户无需访问 Wegent 网页界面，即可在日常使用的聊天软件中直接与 AI 智能体对话。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="核心价值">核心价值<a href="#核心价值" class="hash-link" aria-label="核心价值的直接链接" title="核心价值的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>价值</th><th>描述</th></tr></thead><tbody><tr><td><strong>熟悉的环境</strong></td><td>在您每天使用的聊天工具中使用 AI 智能体</td></tr><tr><td><strong>实时响应</strong></td><td>通过 AI 卡片技术获得流式 AI 响应</td></tr><tr><td><strong>多轮对话</strong></td><td>在多条消息之间保持上下文连贯</td></tr><tr><td><strong>团队协作</strong></td><td>与整个组织共享 AI 能力</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="支持的平台">支持的平台<a href="#支持的平台" class="hash-link" aria-label="支持的平台的直接链接" title="支持的平台的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>平台</th><th>状态</th><th>功能</th></tr></thead><tbody><tr><td><strong>钉钉</strong></td><td>✅ 已支持</td><td>流模式、AI 卡片流式响应、多轮对话</td></tr><tr><td><strong>飞书</strong></td><td>🔜 规划中</td><td>即将推出</td></tr><tr><td><strong>企业微信</strong></td><td>🔜 规划中</td><td>即将推出</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-架构说明">🏗 架构说明<a href="#-架构说明" class="hash-link" aria-label="🏗 架构说明的直接链接" title="🏗 架构说明的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="消息流转">消息流转<a href="#消息流转" class="hash-link" aria-label="消息流转的直接链接" title="消息流转的直接链接" translate="no">​</a></h3>
+<p>下图展示了消息在 IM 集成系统中的流转过程：</p>
+<div class="language-mermaid codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-mermaid codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">sequenceDiagram</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    participant User as 用户 (钉钉)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    participant IM as IM 平台</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    participant Backend as Wegent 后端</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    participant Agent as AI 智能体</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    User-&gt;&gt;IM: 发送消息</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    IM-&gt;&gt;Backend: Stream API 回调</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Backend-&gt;&gt;Backend: 解析用户身份</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Backend-&gt;&gt;Backend: 创建/获取任务</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Backend-&gt;&gt;Agent: 触发 AI 响应</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    loop 流式响应</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        Agent-&gt;&gt;Backend: 生成内容片段</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        Backend-&gt;&gt;IM: 更新 AI 卡片</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        IM-&gt;&gt;User: 显示流式内容</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    end</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Agent-&gt;&gt;Backend: 完成响应</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    Backend-&gt;&gt;IM: 完成 AI 卡片</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    IM-&gt;&gt;User: 显示最终响应</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="关键组件">关键组件<a href="#关键组件" class="hash-link" aria-label="关键组件的直接链接" title="关键组件的直接链接" translate="no">​</a></h3>
+<div class="language-mermaid codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-mermaid codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">graph TB</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    subgraph &quot;IM 集成层&quot;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        CM[通道管理器]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        CP[通道提供者]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        MH[消息处理器]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        RE[响应发射器]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    end</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    subgraph &quot;核心服务&quot;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        TS[任务服务]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        US[用户服务]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        AS[智能体服务]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    end</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    subgraph &quot;外部平台&quot;</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        DT[钉钉 API]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        FS[飞书 API]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    end</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    CM --&gt; CP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    CP --&gt; MH</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    MH --&gt; RE</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    MH --&gt; TS</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    MH --&gt; US</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    TS --&gt; AS</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    CP &lt;--&gt; DT</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    CP &lt;--&gt; FS</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    style CM fill:#14B8A6,color:#fff</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    style CP fill:#14B8A6,color:#fff</span><br></span></code></pre></div></div>
+<table><thead><tr><th>组件</th><th>用途</th></tr></thead><tbody><tr><td><strong>通道管理器 (Channel Manager)</strong></td><td>管理所有 IM 通道连接的生命周期</td></tr><tr><td><strong>通道提供者 (Channel Provider)</strong></td><td>平台特定的连接处理器（钉钉、飞书等）</td></tr><tr><td><strong>消息处理器 (Message Handler)</strong></td><td>处理传入消息并路由到智能体</td></tr><tr><td><strong>响应发射器 (Response Emitter)</strong></td><td>将 AI 响应发送回 IM 平台（同步或流式）</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-钉钉集成配置">🔧 钉钉集成配置<a href="#-钉钉集成配置" class="hash-link" aria-label="🔧 钉钉集成配置的直接链接" title="🔧 钉钉集成配置的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="前置条件">前置条件<a href="#前置条件" class="hash-link" aria-label="前置条件的直接链接" title="前置条件的直接链接" translate="no">​</a></h3>
+<p>在设置钉钉集成之前，请确保您具备：</p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->具有管理员权限的钉钉企业账号</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->访问<a href="https://open.dingtalk.com" target="_blank" rel="noopener noreferrer" class="">钉钉开放平台</a>的权限</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->具有管理员权限的 Wegent 实例</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->在 Wegent 中至少配置了一个智能体（Team）</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-1创建钉钉应用">步骤 1：创建钉钉应用<a href="#步骤-1创建钉钉应用" class="hash-link" aria-label="步骤 1：创建钉钉应用的直接链接" title="步骤 1：创建钉钉应用的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">登录<a href="https://open.dingtalk.com" target="_blank" rel="noopener noreferrer" class="">钉钉开放平台</a></li>
+<li class="">导航至 <strong>应用开发</strong> → <strong>企业内部应用</strong></li>
+<li class="">点击 <strong>创建应用</strong></li>
+<li class="">填写应用信息：<!-- -->
+<ul>
+<li class=""><strong>应用名称</strong>：您的机器人名称（如 &quot;Wegent AI 助手&quot;）</li>
+<li class=""><strong>应用描述</strong>：机器人用途的简要描述</li>
+<li class=""><strong>应用图标</strong>：上传合适的图标</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-2配置应用权限">步骤 2：配置应用权限<a href="#步骤-2配置应用权限" class="hash-link" aria-label="步骤 2：配置应用权限的直接链接" title="步骤 2：配置应用权限的直接链接" translate="no">​</a></h3>
+<p>为您的应用启用以下权限：</p>
+<p><strong>机器人权限：</strong></p>
+<ul>
+<li class=""><code>qyapi_robot_sendmsg</code> - 发送机器人消息</li>
+<li class=""><code>qyapi_chat_manage</code> - 管理群聊</li>
+</ul>
+<p><strong>用户信息权限：</strong></p>
+<ul>
+<li class=""><code>Contact.User.Read</code> - 读取用户信息</li>
+<li class=""><code>Contact.User.mobile</code> - 访问用户手机号（可选）</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-3获取应用凭证">步骤 3：获取应用凭证<a href="#步骤-3获取应用凭证" class="hash-link" aria-label="步骤 3：获取应用凭证的直接链接" title="步骤 3：获取应用凭证的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">在应用设置中，导航至 <strong>凭证与基础信息</strong></li>
+<li class="">复制以下值：<!-- -->
+<ul>
+<li class=""><strong>Client ID</strong> (AppKey)</li>
+<li class=""><strong>Client Secret</strong> (AppSecret)</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>⚠️ <strong>安全提示</strong>：请妥善保管您的 Client Secret。切勿分享或提交到版本控制系统。</p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-4启用消息流模式">步骤 4：启用消息流模式<a href="#步骤-4启用消息流模式" class="hash-link" aria-label="步骤 4：启用消息流模式的直接链接" title="步骤 4：启用消息流模式的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">在应用设置中，进入 <strong>机器人配置</strong></li>
+<li class="">启用 <strong>消息接收模式</strong>：Stream 模式</li>
+<li class="">这允许 Wegent 通过 WebSocket 接收消息，无需配置回调 URL</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-5在-wegent-中配置-im-通道">步骤 5：在 Wegent 中配置 IM 通道<a href="#步骤-5在-wegent-中配置-im-通道" class="hash-link" aria-label="步骤 5：在 Wegent 中配置 IM 通道的直接链接" title="步骤 5：在 Wegent 中配置 IM 通道的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">以管理员身份登录 Wegent</li>
+<li class="">导航至 <strong>管理后台</strong> → <strong>IM 渠道</strong></li>
+<li class="">点击 <strong>添加渠道</strong></li>
+<li class="">填写配置：</li>
+</ol>
+<table><thead><tr><th>字段</th><th>描述</th><th>示例</th></tr></thead><tbody><tr><td><strong>通道名称</strong></td><td>此通道的显示名称</td><td>&quot;钉钉机器人&quot;</td></tr><tr><td><strong>通道类型</strong></td><td>选择平台</td><td>钉钉</td></tr><tr><td><strong>Client ID</strong></td><td>来自步骤 3</td><td><code>dingxxxxxxxx</code></td></tr><tr><td><strong>Client Secret</strong></td><td>来自步骤 3</td><td><code>xxxxxxxxxxxxxxxx</code></td></tr><tr><td><strong>默认智能体</strong></td><td>处理消息的智能体</td><td>从列表中选择</td></tr><tr><td><strong>默认模型</strong></td><td>覆盖模型（可选）</td><td>留空使用智能体默认模型</td></tr><tr><td><strong>启用 AI 卡片</strong></td><td>使用流式 AI 卡片</td><td>✅ 推荐启用</td></tr></tbody></table>
+<ol start="5">
+<li class="">点击 <strong>保存</strong> 创建通道</li>
+<li class="">切换 <strong>启用</strong> 开关激活通道</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-6验证连接">步骤 6：验证连接<a href="#步骤-6验证连接" class="hash-link" aria-label="步骤 6：验证连接的直接链接" title="步骤 6：验证连接的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">在 IM 渠道列表中检查通道状态</li>
+<li class="">状态应显示 <strong>已连接</strong>（绿色指示器）</li>
+<li class="">查看运行时长和最近错误信息（如有）</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="步骤-7测试集成">步骤 7：测试集成<a href="#步骤-7测试集成" class="hash-link" aria-label="步骤 7：测试集成的直接链接" title="步骤 7：测试集成的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">打开钉钉并找到您的机器人</li>
+<li class="">发送测试消息：&quot;你好&quot;</li>
+<li class="">验证是否收到 AI 响应</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-使用说明">💬 使用说明<a href="#-使用说明" class="hash-link" aria-label="💬 使用说明的直接链接" title="💬 使用说明的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="基本对话">基本对话<a href="#基本对话" class="hash-link" aria-label="基本对话的直接链接" title="基本对话的直接链接" translate="no">​</a></h3>
+<p>像在任何聊天中一样向机器人发送消息：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">用户：你能帮我做什么？</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">机器人：我是由 Wegent 驱动的 AI 助手。我可以帮助您...</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="多轮对话">多轮对话<a href="#多轮对话" class="hash-link" aria-label="多轮对话的直接链接" title="多轮对话的直接链接" translate="no">​</a></h3>
+<p>机器人在同一聊天会话中保持对话上下文：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">用户：我正在开发一个 React 项目</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">机器人：很好！我很乐意帮助您的 React 项目...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">用户：如何优化性能？</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">机器人：对于您的 React 项目，这里有一些性能优化建议...</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="开始新对话">开始新对话<a href="#开始新对话" class="hash-link" aria-label="开始新对话的直接链接" title="开始新对话的直接链接" translate="no">​</a></h3>
+<p>要清除上下文并重新开始，使用 <code>/new</code> 命令：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">用户：/new</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">机器人：已开始新对话。有什么可以帮助您的？</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ai-卡片流式响应">AI 卡片流式响应<a href="#ai-卡片流式响应" class="hash-link" aria-label="AI 卡片流式响应的直接链接" title="AI 卡片流式响应的直接链接" translate="no">​</a></h3>
+<p>启用 AI 卡片流式响应后，您将看到响应实时出现：</p>
+<ol>
+<li class="">机器人显示&quot;思考中...&quot;指示器</li>
+<li class="">响应文本逐步流式显示</li>
+<li class="">最终响应以格式化形式呈现</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="️-管理功能">⚙️ 管理功能<a href="#️-管理功能" class="hash-link" aria-label="⚙️ 管理功能的直接链接" title="⚙️ 管理功能的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="通道状态监控">通道状态监控<a href="#通道状态监控" class="hash-link" aria-label="通道状态监控的直接链接" title="通道状态监控的直接链接" translate="no">​</a></h3>
+<p>在管理面板中查看通道健康状态：</p>
+<table><thead><tr><th>状态</th><th>指示器</th><th>描述</th></tr></thead><tbody><tr><td><strong>已连接</strong></td><td>🟢 绿色</td><td>通道活跃并正在接收消息</td></tr><tr><td><strong>已断开</strong></td><td>🔴 红色</td><td>通道离线或遇到错误</td></tr><tr><td><strong>已禁用</strong></td><td>⚪ 灰色</td><td>通道被手动禁用</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="通道操作">通道操作<a href="#通道操作" class="hash-link" aria-label="通道操作的直接链接" title="通道操作的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>操作</th><th>描述</th></tr></thead><tbody><tr><td><strong>启用/禁用</strong></td><td>在不删除配置的情况下切换通道状态</td></tr><tr><td><strong>重启</strong></td><td>重新连接到 IM 平台（网络问题后有用）</td></tr><tr><td><strong>编辑</strong></td><td>修改通道设置（密钥留空保持现有值）</td></tr><tr><td><strong>删除</strong></td><td>移除通道配置</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="更新配置">更新配置<a href="#更新配置" class="hash-link" aria-label="更新配置的直接链接" title="更新配置的直接链接" translate="no">​</a></h3>
+<p>编辑通道时：</p>
+<ul>
+<li class=""><strong>敏感字段</strong>（Client Secret）以 <code>***</code> 显示</li>
+<li class=""><strong>留空</strong>敏感字段以保留现有值</li>
+<li class="">输入新值以更新凭证</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="监控指标">监控指标<a href="#监控指标" class="hash-link" aria-label="监控指标的直接链接" title="监控指标的直接链接" translate="no">​</a></h3>
+<p>每个通道可用的指标：</p>
+<ul>
+<li class=""><strong>运行时长</strong>：通道已连接的时间</li>
+<li class=""><strong>最近错误</strong>：最近的错误消息（如有）</li>
+<li class=""><strong>连接时间</strong>：通道最后连接的时间</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-用户映射机制">👥 用户映射机制<a href="#-用户映射机制" class="hash-link" aria-label="👥 用户映射机制的直接链接" title="👥 用户映射机制的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="自动用户创建">自动用户创建<a href="#自动用户创建" class="hash-link" aria-label="自动用户创建的直接链接" title="自动用户创建的直接链接" translate="no">​</a></h3>
+<p>当钉钉用户首次与机器人交互时：</p>
+<ol>
+<li class="">系统尝试查找现有的 Wegent 用户</li>
+<li class="">如果未找到，自动创建新用户账号</li>
+<li class="">用户与其钉钉身份关联</li>
+</ol>
+<p><strong>默认用户创建：</strong></p>
+<ul>
+<li class=""><strong>用户名</strong>：钉钉员工 ID</li>
+<li class=""><strong>邮箱</strong>：<code>{staff_id}@dingtalk.com</code></li>
+<li class=""><strong>认证来源</strong>：<code>dingtalk</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="企业用户映射">企业用户映射<a href="#企业用户映射" class="hash-link" aria-label="企业用户映射的直接链接" title="企业用户映射的直接链接" translate="no">​</a></h3>
+<p>对于拥有现有用户目录（ERP、LDAP）的组织，可以配置自定义用户映射器：</p>
+<div class="language-mermaid codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-mermaid codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">flowchart LR</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    DT[钉钉用户] --&gt; UM[用户映射器]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    UM --&gt; |自定义映射| ERP[ERP/LDAP 查询]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    UM --&gt; |默认| AC[自动创建]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ERP --&gt; WU[Wegent 用户]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    AC --&gt; WU</span><br></span></code></pre></div></div>
+<p>请联系您的系统管理员配置企业用户映射。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-常见问题">❓ 常见问题<a href="#-常见问题" class="hash-link" aria-label="❓ 常见问题的直接链接" title="❓ 常见问题的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="连接问题">连接问题<a href="#连接问题" class="hash-link" aria-label="连接问题的直接链接" title="连接问题的直接链接" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="通道显示已断开">通道显示&quot;已断开&quot;<a href="#通道显示已断开" class="hash-link" aria-label="通道显示&quot;已断开&quot;的直接链接" title="通道显示&quot;已断开&quot;的直接链接" translate="no">​</a></h4>
+<p><strong>可能原因：</strong></p>
+<ol>
+<li class="">Client ID 或 Client Secret 无效</li>
+<li class="">网络连接问题</li>
+<li class="">钉钉 API 服务中断</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li class="">在钉钉开放平台验证凭证</li>
+<li class="">检查 Wegent 服务器的网络连接</li>
+<li class="">尝试重启通道</li>
+<li class="">检查钉钉服务状态</li>
+</ol>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="消息未被接收">消息未被接收<a href="#消息未被接收" class="hash-link" aria-label="消息未被接收的直接链接" title="消息未被接收的直接链接" translate="no">​</a></h4>
+<p><strong>可能原因：</strong></p>
+<ol>
+<li class="">钉钉中未启用 Stream 模式</li>
+<li class="">机器人权限未配置</li>
+<li class="">Wegent 中通道未启用</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li class="">验证钉钉应用设置中已启用 Stream 模式</li>
+<li class="">检查所有必需权限已授予</li>
+<li class="">确保通道已启用（开关已打开）</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="响应问题">响应问题<a href="#响应问题" class="hash-link" aria-label="响应问题的直接链接" title="响应问题的直接链接" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="机器人无响应">机器人无响应<a href="#机器人无响应" class="hash-link" aria-label="机器人无响应的直接链接" title="机器人无响应的直接链接" translate="no">​</a></h4>
+<p><strong>可能原因：</strong></p>
+<ol>
+<li class="">默认智能体未配置</li>
+<li class="">智能体未分配模型</li>
+<li class="">速率限制</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li class="">验证通道已选择默认智能体</li>
+<li class="">确保智能体有可用的模型配置</li>
+<li class="">检查通道状态中的速率限制错误</li>
+</ol>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="响应缓慢或不完整">响应缓慢或不完整<a href="#响应缓慢或不完整" class="hash-link" aria-label="响应缓慢或不完整的直接链接" title="响应缓慢或不完整的直接链接" translate="no">​</a></h4>
+<p><strong>可能原因：</strong></p>
+<ol>
+<li class="">AI 卡片流式传输问题</li>
+<li class="">网络延迟</li>
+<li class="">响应内容过大</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li class="">尝试临时禁用 AI 卡片流式传输</li>
+<li class="">检查网络连接</li>
+<li class="">系统会在流式传输失败时回退到同步模式</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="用户问题">用户问题<a href="#用户问题" class="hash-link" aria-label="用户问题的直接链接" title="用户问题的直接链接" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="用户未被识别">用户未被识别<a href="#用户未被识别" class="hash-link" aria-label="用户未被识别的直接链接" title="用户未被识别的直接链接" translate="no">​</a></h4>
+<p><strong>可能原因：</strong></p>
+<ol>
+<li class="">用户映射配置问题</li>
+<li class="">钉钉用户信息不可访问</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li class="">检查钉钉应用中的用户权限</li>
+<li class="">验证用户映射配置</li>
+<li class="">联系管理员配置企业用户映射</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-相关资源">🔗 相关资源<a href="#-相关资源" class="hash-link" aria-label="🔗 相关资源的直接链接" title="🔗 相关资源的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="文档">文档<a href="#文档" class="hash-link" aria-label="文档的直接链接" title="文档的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><a class="" href="/wegent-docs/zh/docs/concepts/core-concepts">核心概念</a> - 了解 Wegent 的架构</li>
+<li class=""><a class="" href="/wegent-docs/zh/docs/user-guide/ai-chat/agent-settings.md">智能体设置</a> - 为 IM 通道配置智能体</li>
+<li class=""><a class="" href="/wegent-docs/zh/docs/user-guide/ai-chat/configuring-models.md">配置模型</a> - 设置 AI 模型</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="外部资源">外部资源<a href="#外部资源" class="hash-link" aria-label="外部资源的直接链接" title="外部资源的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://open.dingtalk.com/document/" target="_blank" rel="noopener noreferrer" class="">钉钉开放平台文档</a></li>
+<li class=""><a href="https://open.dingtalk.com/document/orgapp/receive-message" target="_blank" rel="noopener noreferrer" class="">钉钉 Stream 模式指南</a></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-获取帮助">💬 获取帮助<a href="#-获取帮助" class="hash-link" aria-label="💬 获取帮助的直接链接" title="💬 获取帮助的直接链接" translate="no">​</a></h2>
+<p>需要帮助？</p>
+<ul>
+<li class="">📖 查看 <a class="" href="/wegent-docs/zh/docs/faq">常见问题</a></li>
+<li class="">🐛 提交 <a href="https://github.com/wecode-ai/wegent/issues" target="_blank" rel="noopener noreferrer" class="">GitHub Issue</a></li>
+<li class="">💬 加入社区讨论</li>
+</ul>
+<hr>
+<p align="center">将您的 AI 智能体连接到钉钉，赋能您的团队！ 🚀</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/user-guide/ai-chat/im-channel-integration.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/user-guide/ai-chat/managing-tasks"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">💬 创建对话</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/user-guide/ai-chat/spec-clarification-guide"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">需求规范澄清(Spec Clarification)使用指南</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#-目录" class="table-of-contents__link toc-highlight">📋 目录</a></li><li><a href="#-概述" class="table-of-contents__link toc-highlight">🎯 概述</a><ul><li><a href="#什么是-im-通道集成" class="table-of-contents__link toc-highlight">什么是 IM 通道集成？</a></li><li><a href="#核心价值" class="table-of-contents__link toc-highlight">核心价值</a></li><li><a href="#支持的平台" class="table-of-contents__link toc-highlight">支持的平台</a></li></ul></li><li><a href="#-架构说明" class="table-of-contents__link toc-highlight">🏗 架构说明</a><ul><li><a href="#消息流转" class="table-of-contents__link toc-highlight">消息流转</a></li><li><a href="#关键组件" class="table-of-contents__link toc-highlight">关键组件</a></li></ul></li><li><a href="#-钉钉集成配置" class="table-of-contents__link toc-highlight">🔧 钉钉集成配置</a><ul><li><a href="#前置条件" class="table-of-contents__link toc-highlight">前置条件</a></li><li><a href="#步骤-1创建钉钉应用" class="table-of-contents__link toc-highlight">步骤 1：创建钉钉应用</a></li><li><a href="#步骤-2配置应用权限" class="table-of-contents__link toc-highlight">步骤 2：配置应用权限</a></li><li><a href="#步骤-3获取应用凭证" class="table-of-contents__link toc-highlight">步骤 3：获取应用凭证</a></li><li><a href="#步骤-4启用消息流模式" class="table-of-contents__link toc-highlight">步骤 4：启用消息流模式</a></li><li><a href="#步骤-5在-wegent-中配置-im-通道" class="table-of-contents__link toc-highlight">步骤 5：在 Wegent 中配置 IM 通道</a></li><li><a href="#步骤-6验证连接" class="table-of-contents__link toc-highlight">步骤 6：验证连接</a></li><li><a href="#步骤-7测试集成" class="table-of-contents__link toc-highlight">步骤 7：测试集成</a></li></ul></li><li><a href="#-使用说明" class="table-of-contents__link toc-highlight">💬 使用说明</a><ul><li><a href="#基本对话" class="table-of-contents__link toc-highlight">基本对话</a></li><li><a href="#多轮对话" class="table-of-contents__link toc-highlight">多轮对话</a></li><li><a href="#开始新对话" class="table-of-contents__link toc-highlight">开始新对话</a></li><li><a href="#ai-卡片流式响应" class="table-of-contents__link toc-highlight">AI 卡片流式响应</a></li></ul></li><li><a href="#️-管理功能" class="table-of-contents__link toc-highlight">⚙️ 管理功能</a><ul><li><a href="#通道状态监控" class="table-of-contents__link toc-highlight">通道状态监控</a></li><li><a href="#通道操作" class="table-of-contents__link toc-highlight">通道操作</a></li><li><a href="#更新配置" class="table-of-contents__link toc-highlight">更新配置</a></li><li><a href="#监控指标" class="table-of-contents__link toc-highlight">监控指标</a></li></ul></li><li><a href="#-用户映射机制" class="table-of-contents__link toc-highlight">👥 用户映射机制</a><ul><li><a href="#自动用户创建" class="table-of-contents__link toc-highlight">自动用户创建</a></li><li><a href="#企业用户映射" class="table-of-contents__link toc-highlight">企业用户映射</a></li></ul></li><li><a href="#-常见问题" class="table-of-contents__link toc-highlight">❓ 常见问题</a><ul><li><a href="#连接问题" class="table-of-contents__link toc-highlight">连接问题</a></li><li><a href="#响应问题" class="table-of-contents__link toc-highlight">响应问题</a></li><li><a href="#用户问题" class="table-of-contents__link toc-highlight">用户问题</a></li></ul></li><li><a href="#-相关资源" class="table-of-contents__link toc-highlight">🔗 相关资源</a><ul><li><a href="#文档" class="table-of-contents__link toc-highlight">文档</a></li><li><a href="#外部资源" class="table-of-contents__link toc-highlight">外部资源</a></li></ul></li><li><a href="#-获取帮助" class="table-of-contents__link toc-highlight">💬 获取帮助</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/getting-started/quick-start">快速开始</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/concepts/core-concepts">核心概念</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en-US" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-user-guide/settings/managing-skills" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">✨ Managing Skills | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/managing-skills"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="✨ Managing Skills | Wegent"><meta data-rh="true" name="description" content="Skills are Claude Code capability extension packages that add specialized functionality to your Bots. This guide will teach you how to upload, manage, and use Skills in Wegent."><meta data-rh="true" property="og:description" content="Skills are Claude Code capability extension packages that add specialized functionality to your Bots. This guide will teach you how to upload, manage, and use Skills in Wegent."><link data-rh="true" rel="icon" href="/wegent-docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/managing-skills"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/managing-skills" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/settings/managing-skills" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/managing-skills" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"⚙️ Settings","item":"https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/"},{"@type":"ListItem","position":3,"name":"✨ Managing Skills","item":"https://wecode-ai.github.io/wegent-docs/docs/user-guide/settings/managing-skills"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.7e71e62b.css">
+<script src="/wegent-docs/assets/js/runtime~main.626fce08.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.c5d3dcb6.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/img/logo.svg"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/"><div class="navbar__logo"><img src="/wegent-docs/img/logo.svg" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/img/logo.svg" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/docs/category/getting-started">Docs</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/user-guide/settings/managing-skills" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/user-guide/settings/managing-skills" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/getting-started"><span title="Getting Started" class="categoryLinkLabel_W154">Getting Started</span></a><button aria-label="Expand sidebar category &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/concepts"><span title="Concepts" class="categoryLinkLabel_W154">Concepts</span></a><button aria-label="Expand sidebar category &#x27;Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/guides"><span title="Guides" class="categoryLinkLabel_W154">Guides</span></a><button aria-label="Expand sidebar category &#x27;Guides&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/docs/category/user-guide"><span title="User Guide" class="categoryLinkLabel_W154">User Guide</span></a><button aria-label="Collapse sidebar category &#x27;User Guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/user-guide/ai-chat"><span title="💬 AI Chat" class="categoryLinkLabel_W154">💬 AI Chat</span></a><button aria-label="Expand sidebar category &#x27;💬 AI Chat&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide/ai-watch"><span title="👀 AI Watch" class="linkLabel_WmDU">👀 AI Watch</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide/ai-coding"><span title="💻 AI Coding" class="linkLabel_WmDU">💻 AI Coding</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/user-guide/ai-knowledge"><span title="📚 AI Knowledge" class="categoryLinkLabel_W154">📚 AI Knowledge</span></a><button aria-label="Expand sidebar category &#x27;📚 AI Knowledge&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/user-guide/ai-devices"><span title="💻 AI Devices" class="categoryLinkLabel_W154">💻 AI Devices</span></a><button aria-label="Expand sidebar category &#x27;💻 AI Devices&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/wegent-docs/docs/user-guide/settings"><span title="⚙️ Settings" class="categoryLinkLabel_W154">⚙️ Settings</span></a><button aria-label="Collapse sidebar category &#x27;⚙️ Settings&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide/settings/agent-settings"><span title="🤖 Agent Settings Guide" class="linkLabel_WmDU">🤖 Agent Settings Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide/settings/configuring-models"><span title="🧠 Model Configuration Guide" class="linkLabel_WmDU">🧠 Model Configuration Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide/settings/configuring-shells"><span title="🔧 Shell (Executor) Configuration Guide" class="linkLabel_WmDU">🔧 Shell (Executor) Configuration Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/docs/user-guide/settings/managing-skills"><span title="✨ Managing Skills" class="linkLabel_WmDU">✨ Managing Skills</span></a></li></ul></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/user-guide"><span title="📚 User Guide" class="linkLabel_WmDU">📚 User Guide</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/developer-guide"><span title="Developer Guide" class="categoryLinkLabel_W154">Developer Guide</span></a><button aria-label="Expand sidebar category &#x27;Developer Guide&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/reference"><span title="Reference" class="categoryLinkLabel_W154">Reference</span></a><button aria-label="Expand sidebar category &#x27;Reference&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs"><span title="📚 Wegent English Documentation" class="linkLabel_WmDU">📚 Wegent English Documentation</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/faq"><span title="❓ Frequently Asked Questions (FAQ)" class="linkLabel_WmDU">❓ Frequently Asked Questions (FAQ)</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/troubleshooting"><span title="🔧 Troubleshooting Guide" class="linkLabel_WmDU">🔧 Troubleshooting Guide</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/wegent-docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/category/user-guide"><span>User Guide</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/user-guide/settings"><span>⚙️ Settings</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">✨ Managing Skills</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>✨ Managing Skills</h1></header>
+<p>Skills are Claude Code capability extension packages that add specialized functionality to your Bots. This guide will teach you how to upload, manage, and use Skills in Wegent.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-table-of-contents">📋 Table of Contents<a href="#-table-of-contents" class="hash-link" aria-label="Direct link to 📋 Table of Contents" title="Direct link to 📋 Table of Contents" translate="no">​</a></h2>
+<ul>
+<li class=""><a href="#-what-is-a-skill" class="">What is a Skill</a></li>
+<li class=""><a href="#-creating-a-skill-package" class="">Creating a Skill Package</a></li>
+<li class=""><a href="#-uploading-skills" class="">Uploading Skills</a></li>
+<li class=""><a href="#-managing-skills" class="">Managing Skills</a></li>
+<li class=""><a href="#-using-skills-in-bots" class="">Using Skills in Bots</a></li>
+<li class=""><a href="#-best-practices" class="">Best Practices</a></li>
+<li class=""><a href="#-common-issues" class="">Common Issues</a></li>
+<li class=""><a href="#-related-resources" class="">Related Resources</a></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-what-is-a-skill">🎯 What is a Skill<a href="#-what-is-a-skill" class="hash-link" aria-label="Direct link to 🎯 What is a Skill" title="Direct link to 🎯 What is a Skill" translate="no">​</a></h2>
+<p>A <strong>Skill</strong> is a Claude Code capability extension package that contains executable code, configurations, and documentation. Skills are deployed to <code>~/.claude/skills/</code> when a task starts, extending the agent&#x27;s capabilities.</p>
+<p><strong>Analogy</strong>: If a Bot is like a person, Skills are like tools or special training:</p>
+<ul>
+<li class=""><strong>Ghost</strong>: Person&#x27;s personality and base knowledge</li>
+<li class=""><strong>Skills</strong>: Specialized tools and techniques the person can use</li>
+<li class=""><strong>Bot</strong>: Complete person with tools</li>
+</ul>
+<p><strong>Examples of Skills</strong>:</p>
+<ul>
+<li class="">Python debugging tools</li>
+<li class="">Code formatters and linters</li>
+<li class="">API testing utilities</li>
+<li class="">Database query helpers</li>
+<li class="">Custom workflow automation</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-creating-a-skill-package">📦 Creating a Skill Package<a href="#-creating-a-skill-package" class="hash-link" aria-label="Direct link to 📦 Creating a Skill Package" title="Direct link to 📦 Creating a Skill Package" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="requirements">Requirements<a href="#requirements" class="hash-link" aria-label="Direct link to Requirements" title="Direct link to Requirements" translate="no">​</a></h3>
+<p>A Skill must be packaged as a ZIP file containing:</p>
+<ol>
+<li class=""><strong>SKILL.md</strong> (required): Documentation with YAML frontmatter</li>
+<li class=""><strong>Other files</strong>: Scripts, configurations, assets, etc.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="skillmd-format">SKILL.md Format<a href="#skillmd-format" class="hash-link" aria-label="Direct link to SKILL.md Format" title="Direct link to SKILL.md Format" translate="no">​</a></h3>
+<div class="language-markdown codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-markdown codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token front-matter-block punctuation" style="color:#393A34">---</span><span class="token front-matter-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">description</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;Brief description of what this skill does&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">version</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;1.0.0&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">author</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;Your Name&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">tags</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">[</span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;category1&quot;</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">,</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;category2&quot;</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">]</span><span class="token front-matter-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block"></span><span class="token front-matter-block punctuation" style="color:#393A34">---</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">#</span><span class="token title important"> Skill Name</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">##</span><span class="token title important"> Overview</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Detailed description of the skill&#x27;s functionality.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">##</span><span class="token title important"> Usage</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">How to use this skill...</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">##</span><span class="token title important"> Examples</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Example code or commands...</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="yaml-frontmatter-fields">YAML Frontmatter Fields<a href="#yaml-frontmatter-fields" class="hash-link" aria-label="Direct link to YAML Frontmatter Fields" title="Direct link to YAML Frontmatter Fields" translate="no">​</a></h3>
+<table><thead><tr><th>Field</th><th>Required</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>description</code></td><td>Yes</td><td>Brief skill description</td><td>&quot;Python debugging tool with breakpoint support&quot;</td></tr><tr><td><code>version</code></td><td>No</td><td>Semantic version number</td><td>&quot;1.0.0&quot;, &quot;2.3.1&quot;</td></tr><tr><td><code>author</code></td><td>No</td><td>Author name or organization</td><td>&quot;WeCode Team&quot;, &quot;Your Name&quot;</td></tr><tr><td><code>tags</code></td><td>No</td><td>Category tags (array)</td><td>[&quot;python&quot;, &quot;debugging&quot;, &quot;development&quot;]</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="directory-structure-example">Directory Structure Example<a href="#directory-structure-example" class="hash-link" aria-label="Direct link to Directory Structure Example" title="Direct link to Directory Structure Example" translate="no">​</a></h3>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">my-skill.zip</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── SKILL.md                 # Required: Documentation with frontmatter</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── main.py                  # Your skill code</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── config.json              # Configuration file (optional)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── utils/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   ├── helper.py</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   └── formatter.py</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└── README.md                # Additional docs (optional)</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="creating-the-zip-package">Creating the ZIP Package<a href="#creating-the-zip-package" class="hash-link" aria-label="Direct link to Creating the ZIP Package" title="Direct link to Creating the ZIP Package" translate="no">​</a></h3>
+<p><strong>Using command line:</strong></p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token builtin class-name">cd</span><span class="token plain"> my-skill-directory</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">zip</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">-r</span><span class="token plain"> my-skill.zip </span><span class="token builtin class-name">.</span><br></span></code></pre></div></div>
+<p><strong>Important</strong>:</p>
+<ul>
+<li class="">Include SKILL.md at the root level or in a subdirectory</li>
+<li class="">Keep file size under 10MB</li>
+<li class="">Avoid including sensitive data (API keys, passwords)</li>
+<li class="">Use relative paths in your code</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="️-uploading-skills">⬆️ Uploading Skills<a href="#️-uploading-skills" class="hash-link" aria-label="Direct link to ⬆️ Uploading Skills" title="Direct link to ⬆️ Uploading Skills" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="via-web-ui">Via Web UI<a href="#via-web-ui" class="hash-link" aria-label="Direct link to Via Web UI" title="Direct link to Via Web UI" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Navigate to Skills Page</strong></p>
+<ul>
+<li class="">Go to Settings (⚙️)</li>
+<li class="">Click on &quot;Skills&quot; tab</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Upload Skill</strong></p>
+<ul>
+<li class="">Click &quot;Upload Skill&quot; button</li>
+<li class="">Enter a unique skill name (e.g., <code>python-debugger</code>)</li>
+<li class="">Select or drag-and-drop your ZIP file</li>
+<li class="">Wait for upload to complete</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Verify Upload</strong></p>
+<ul>
+<li class="">Skill card appears in the list</li>
+<li class="">Check metadata (version, author, tags)</li>
+<li class="">Status shows &quot;Available&quot;</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="upload-requirements">Upload Requirements<a href="#upload-requirements" class="hash-link" aria-label="Direct link to Upload Requirements" title="Direct link to Upload Requirements" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>File format</strong>: Must be a <code>.zip</code> file</li>
+<li class=""><strong>File size</strong>: Maximum 10MB</li>
+<li class=""><strong>Name</strong>: Unique identifier (lowercase, hyphens allowed)</li>
+<li class=""><strong>SKILL.md</strong>: Must be present and valid</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="validation">Validation<a href="#validation" class="hash-link" aria-label="Direct link to Validation" title="Direct link to Validation" translate="no">​</a></h3>
+<p>The system validates:</p>
+<ul>
+<li class="">✅ ZIP file format</li>
+<li class="">✅ File size &lt; 10MB</li>
+<li class="">✅ SKILL.md exists</li>
+<li class="">✅ YAML frontmatter is valid</li>
+<li class="">✅ <code>description</code> field is present</li>
+<li class="">✅ No security issues (Zip Slip attacks)</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="️-managing-skills">🛠️ Managing Skills<a href="#️-managing-skills" class="hash-link" aria-label="Direct link to 🛠️ Managing Skills" title="Direct link to 🛠️ Managing Skills" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="viewing-skills">Viewing Skills<a href="#viewing-skills" class="hash-link" aria-label="Direct link to Viewing Skills" title="Direct link to Viewing Skills" translate="no">​</a></h3>
+<p><strong>Skills List displays:</strong></p>
+<ul>
+<li class="">Skill name</li>
+<li class="">Description (first 2 lines)</li>
+<li class="">Version, author, tags</li>
+<li class="">File size and status</li>
+<li class="">Last updated time</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="downloading-skills">Downloading Skills<a href="#downloading-skills" class="hash-link" aria-label="Direct link to Downloading Skills" title="Direct link to Downloading Skills" translate="no">​</a></h3>
+<ol>
+<li class="">Find your skill in the list</li>
+<li class="">Click the download icon (⬇️)</li>
+<li class="">ZIP file is downloaded to your computer</li>
+</ol>
+<p><strong>Use case</strong>: Backup, share with team, or modify locally</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="updating-skills">Updating Skills<a href="#updating-skills" class="hash-link" aria-label="Direct link to Updating Skills" title="Direct link to Updating Skills" translate="no">​</a></h3>
+<ol>
+<li class="">Click the edit icon (✏️) on a skill card</li>
+<li class="">Upload a new ZIP file</li>
+<li class="">Name and namespace cannot be changed</li>
+<li class="">Metadata is extracted from the new SKILL.md</li>
+</ol>
+<p><strong>Note</strong>: All Bots using this skill will get the updated version on next task start.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="deleting-skills">Deleting Skills<a href="#deleting-skills" class="hash-link" aria-label="Direct link to Deleting Skills" title="Direct link to Deleting Skills" translate="no">​</a></h3>
+<ol>
+<li class="">Click the delete icon (🗑️) on a skill card</li>
+<li class="">Confirm deletion in the dialog</li>
+</ol>
+<p><strong>Important</strong>:</p>
+<ul>
+<li class="">⚠️ Cannot delete skills referenced by Bots/Ghosts</li>
+<li class="">Remove skill from all Bots first</li>
+<li class="">Error message shows which Bots are using the skill</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-using-skills-in-bots">🤖 Using Skills in Bots<a href="#-using-skills-in-bots" class="hash-link" aria-label="Direct link to 🤖 Using Skills in Bots" title="Direct link to 🤖 Using Skills in Bots" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="associating-skills-with-bots">Associating Skills with Bots<a href="#associating-skills-with-bots" class="hash-link" aria-label="Direct link to Associating Skills with Bots" title="Direct link to Associating Skills with Bots" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Edit Bot</strong></p>
+<ul>
+<li class="">Go to Settings &gt; Bots</li>
+<li class="">Click edit on a Bot</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Add Skills</strong></p>
+<ul>
+<li class="">Find the &quot;Skills&quot; section (below Agent Config)</li>
+<li class="">Click the dropdown to see available skills</li>
+<li class="">Select skills to add</li>
+<li class="">Skills appear as removable tags</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Save Bot</strong></p>
+<ul>
+<li class="">Click &quot;Save&quot; button</li>
+<li class="">Skills are now associated with the Bot</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="via-yaml-configuration">Via YAML Configuration<a href="#via-yaml-configuration" class="hash-link" aria-label="Direct link to Via YAML Configuration" title="Direct link to Via YAML Configuration" translate="no">​</a></h3>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token key atrule" style="color:#00a4db">apiVersion</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> agent.wecode.io/v1</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">kind</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> Ghost</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">metadata</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> developer</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">ghost</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">namespace</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> default</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token key atrule" style="color:#00a4db">spec</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">systemPrompt</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;You are a senior developer...&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">mcpServers</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token key atrule" style="color:#00a4db">github</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token key atrule" style="color:#00a4db">command</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> docker</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token key atrule" style="color:#00a4db">args</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">...</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token key atrule" style="color:#00a4db">skills</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> python</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">debugger      </span><span class="token comment" style="color:#999988;font-style:italic"># Skill name</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> code</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">formatter</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain"> api</span><span class="token punctuation" style="color:#393A34">-</span><span class="token plain">tester</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-skills-are-deployed">How Skills Are Deployed<a href="#how-skills-are-deployed" class="hash-link" aria-label="Direct link to How Skills Are Deployed" title="Direct link to How Skills Are Deployed" translate="no">​</a></h3>
+<p>When a task starts:</p>
+<ol>
+<li class=""><strong>Executor fetches Bot configuration</strong> including skills list</li>
+<li class=""><strong>Downloads each skill</strong> from the API</li>
+<li class=""><strong>Extracts ZIP files</strong> to <code>~/.claude/skills/{skill-name}/</code></li>
+<li class=""><strong>Claude Code loads skills</strong> automatically</li>
+<li class=""><strong>Agent can use skill capabilities</strong> during task execution</li>
+</ol>
+<p><strong>Deployment path example</strong>:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">~/.claude/skills/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── python-debugger/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   ├── SKILL.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   ├── main.py</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   └── utils/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── code-formatter/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   ├── SKILL.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│   └── formatter.py</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└── api-tester/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ├── SKILL.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    └── test_runner.py</span><br></span></code></pre></div></div>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-best-practices">💡 Best Practices<a href="#-best-practices" class="hash-link" aria-label="Direct link to 💡 Best Practices" title="Direct link to 💡 Best Practices" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="creating-skills">Creating Skills<a href="#creating-skills" class="hash-link" aria-label="Direct link to Creating Skills" title="Direct link to Creating Skills" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Clear Documentation</strong></p>
+<ul>
+<li class="">Write comprehensive SKILL.md</li>
+<li class="">Include usage examples</li>
+<li class="">Document dependencies</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Semantic Versioning</strong></p>
+<ul>
+<li class="">Use version numbers: <code>MAJOR.MINOR.PATCH</code></li>
+<li class="">Increment major for breaking changes</li>
+<li class="">Increment minor for new features</li>
+<li class="">Increment patch for bug fixes</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Meaningful Tags</strong></p>
+<ul>
+<li class="">Use descriptive category tags</li>
+<li class="">Examples: <code>[&quot;python&quot;, &quot;testing&quot;]</code>, <code>[&quot;nodejs&quot;, &quot;linting&quot;]</code></li>
+<li class="">Helps with discovery and organization</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Keep It Focused</strong></p>
+<ul>
+<li class="">One skill = one specific capability</li>
+<li class="">Don&#x27;t create monolithic skills</li>
+<li class="">Easier to maintain and reuse</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="managing-skills">Managing Skills<a href="#managing-skills" class="hash-link" aria-label="Direct link to Managing Skills" title="Direct link to Managing Skills" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Naming Convention</strong></p>
+<ul>
+<li class="">Use lowercase with hyphens: <code>my-skill-name</code></li>
+<li class="">Be descriptive: <code>python-unit-test-runner</code> vs <code>runner</code></li>
+<li class="">Include language/framework if relevant</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Version Control</strong></p>
+<ul>
+<li class="">Update version number when modifying</li>
+<li class="">Keep old versions for rollback (download before update)</li>
+<li class="">Document changes in SKILL.md</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Security</strong></p>
+<ul>
+<li class="">Never include API keys or passwords</li>
+<li class="">Use environment variables for secrets</li>
+<li class="">Review ZIP contents before uploading</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Size Optimization</strong></p>
+<ul>
+<li class="">Remove unnecessary files</li>
+<li class="">Compress assets when possible</li>
+<li class="">Stay well under 10MB limit</li>
+</ul>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="using-skills">Using Skills<a href="#using-skills" class="hash-link" aria-label="Direct link to Using Skills" title="Direct link to Using Skills" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>Test Individually</strong></p>
+<ul>
+<li class="">Create a Bot with one skill first</li>
+<li class="">Verify it works correctly</li>
+<li class="">Then combine multiple skills</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Document Dependencies</strong></p>
+<ul>
+<li class="">Note which skills work together</li>
+<li class="">Document any conflicts</li>
+<li class="">Update Bot descriptions</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Monitor Usage</strong></p>
+<ul>
+<li class="">Check which Bots use each skill</li>
+<li class="">Remove unused skills</li>
+<li class="">Keep skills up to date</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-common-issues">❓ Common Issues<a href="#-common-issues" class="hash-link" aria-label="Direct link to ❓ Common Issues" title="Direct link to ❓ Common Issues" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="upload-failures">Upload Failures<a href="#upload-failures" class="hash-link" aria-label="Direct link to Upload Failures" title="Direct link to Upload Failures" translate="no">​</a></h3>
+<p><strong>Problem</strong>: &quot;SKILL.md not found in ZIP package&quot;</p>
+<ul>
+<li class="">✅ Ensure SKILL.md exists at root or in subdirectory</li>
+<li class="">✅ Check file name is exactly <code>SKILL.md</code> (case-sensitive)</li>
+</ul>
+<p><strong>Problem</strong>: &quot;Invalid YAML frontmatter&quot;</p>
+<ul>
+<li class="">✅ Verify YAML syntax between <code>---</code> markers</li>
+<li class="">✅ Ensure <code>description</code> field is present</li>
+<li class="">✅ Check for proper indentation</li>
+</ul>
+<p><strong>Problem</strong>: &quot;File size exceeds 10MB&quot;</p>
+<ul>
+<li class="">✅ Remove unnecessary files</li>
+<li class="">✅ Compress large assets</li>
+<li class="">✅ Split into multiple smaller skills</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="deletion-issues">Deletion Issues<a href="#deletion-issues" class="hash-link" aria-label="Direct link to Deletion Issues" title="Direct link to Deletion Issues" translate="no">​</a></h3>
+<p><strong>Problem</strong>: &quot;Cannot delete Skill referenced by Ghosts&quot;</p>
+<ul>
+<li class="">✅ Check error message for Bot/Ghost names</li>
+<li class="">✅ Edit those Bots to remove the skill</li>
+<li class="">✅ Then delete the skill</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="deployment-issues">Deployment Issues<a href="#deployment-issues" class="hash-link" aria-label="Direct link to Deployment Issues" title="Direct link to Deployment Issues" translate="no">​</a></h3>
+<p><strong>Problem</strong>: Skill not available in task</p>
+<ul>
+<li class="">✅ Verify skill is associated with Bot</li>
+<li class="">✅ Check task logs for download errors</li>
+<li class="">✅ Ensure skill status is &quot;Available&quot;</li>
+</ul>
+<p><strong>Problem</strong>: &quot;Unsafe file path detected in ZIP&quot;</p>
+<ul>
+<li class="">✅ Don&#x27;t use <code>../</code> in file paths</li>
+<li class="">✅ Don&#x27;t use absolute paths like <code>/etc/</code></li>
+<li class="">✅ Use only relative paths within the ZIP</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-related-resources">🔗 Related Resources<a href="#-related-resources" class="hash-link" aria-label="Direct link to 🔗 Related Resources" title="Direct link to 🔗 Related Resources" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="documentation">Documentation<a href="#documentation" class="hash-link" aria-label="Direct link to Documentation" title="Direct link to Documentation" translate="no">​</a></h3>
+<ul>
+<li class=""><a class="" href="/reference/yaml-specification.md#-skill">YAML Specification - Skill</a></li>
+<li class=""><a class="" href="/wegent-docs/docs/user-guide/settings/agent-settings">Agent Settings</a> - Configure agents and bots with skills</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="external-resources">External Resources<a href="#external-resources" class="hash-link" aria-label="Direct link to External Resources" title="Direct link to External Resources" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://docs.claude.com/en/docs/claude-code/skills" target="_blank" rel="noopener noreferrer" class="">Claude Code Skills Documentation</a></li>
+<li class=""><a href="https://semver.org/" target="_blank" rel="noopener noreferrer" class="">Semantic Versioning</a></li>
+<li class=""><a href="https://yaml.org/spec/1.2/spec.html" target="_blank" rel="noopener noreferrer" class="">YAML Syntax Guide</a></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="examples">Examples<a href="#examples" class="hash-link" aria-label="Direct link to Examples" title="Direct link to Examples" translate="no">​</a></h3>
+<ul>
+<li class="">Coming soon: Wegent Skills Repository</li>
+<li class="">Community-contributed skills</li>
+<li class="">Pre-built skill templates</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-quick-start-example">🎓 Quick Start Example<a href="#-quick-start-example" class="hash-link" aria-label="Direct link to 🎓 Quick Start Example" title="Direct link to 🎓 Quick Start Example" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-create-a-simple-skill">1. Create a Simple Skill<a href="#1-create-a-simple-skill" class="hash-link" aria-label="Direct link to 1. Create a Simple Skill" title="Direct link to 1. Create a Simple Skill" translate="no">​</a></h3>
+<p>Create a directory structure:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">hello-skill/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── SKILL.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└── hello.py</span><br></span></code></pre></div></div>
+<p><strong>SKILL.md</strong>:</p>
+<div class="language-markdown codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-markdown codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token front-matter-block punctuation" style="color:#393A34">---</span><span class="token front-matter-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">description</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;A simple hello world skill&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">version</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;1.0.0&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">author</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;Your Name&quot;</span><span class="token front-matter-block front-matter yaml language-yaml"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block front-matter yaml language-yaml"></span><span class="token front-matter-block front-matter yaml language-yaml key atrule" style="color:#00a4db">tags</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">:</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">[</span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;example&quot;</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">,</span><span class="token front-matter-block front-matter yaml language-yaml"> </span><span class="token front-matter-block front-matter yaml language-yaml string" style="color:#e3116c">&quot;tutorial&quot;</span><span class="token front-matter-block front-matter yaml language-yaml punctuation" style="color:#393A34">]</span><span class="token front-matter-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token front-matter-block"></span><span class="token front-matter-block punctuation" style="color:#393A34">---</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">#</span><span class="token title important"> Hello Skill</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">A simple example skill that prints a greeting.</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token title important punctuation" style="color:#393A34">##</span><span class="token title important"> Usage</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">This skill provides a hello() function that can be called by the agent.</span><br></span></code></pre></div></div>
+<p><strong>hello.py</strong>:</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">def</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">hello</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">name</span><span class="token operator" style="color:#393A34">=</span><span class="token string" style="color:#e3116c">&quot;World&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">return</span><span class="token plain"> </span><span class="token string-interpolation string" style="color:#e3116c">f&quot;Hello, </span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">{</span><span class="token string-interpolation interpolation">name</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">}</span><span class="token string-interpolation string" style="color:#e3116c">!&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> __name__ </span><span class="token operator" style="color:#393A34">==</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;__main__&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">hello</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-package-the-skill">2. Package the Skill<a href="#2-package-the-skill" class="hash-link" aria-label="Direct link to 2. Package the Skill" title="Direct link to 2. Package the Skill" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token builtin class-name">cd</span><span class="token plain"> hello-skill</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">zip</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">-r</span><span class="token plain"> hello-skill.zip </span><span class="token builtin class-name">.</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-upload-to-wegent">3. Upload to Wegent<a href="#3-upload-to-wegent" class="hash-link" aria-label="Direct link to 3. Upload to Wegent" title="Direct link to 3. Upload to Wegent" translate="no">​</a></h3>
+<ol>
+<li class="">Go to Settings &gt; Skills</li>
+<li class="">Click &quot;Upload Skill&quot;</li>
+<li class="">Name: <code>hello-skill</code></li>
+<li class="">Upload <code>hello-skill.zip</code></li>
+<li class="">Wait for success message</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-use-in-a-bot">4. Use in a Bot<a href="#4-use-in-a-bot" class="hash-link" aria-label="Direct link to 4. Use in a Bot" title="Direct link to 4. Use in a Bot" translate="no">​</a></h3>
+<ol>
+<li class="">Go to Settings &gt; Bots</li>
+<li class="">Edit or create a Bot</li>
+<li class="">Scroll to &quot;Skills&quot; section</li>
+<li class="">Select <code>hello-skill</code></li>
+<li class="">Save Bot</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-test-in-a-task">5. Test in a Task<a href="#5-test-in-a-task" class="hash-link" aria-label="Direct link to 5. Test in a Task" title="Direct link to 5. Test in a Task" translate="no">​</a></h3>
+<p>Create a task using this Bot and ask it to use the hello skill!</p>
+<hr>
+<p><strong>Need Help?</strong></p>
+<ul>
+<li class="">Check <a href="#-common-issues" class="">Common Issues</a></li>
+<li class="">Review <a class="" href="/wegent-docs/docs/reference/yaml-specification">YAML Specification</a></li>
+<li class="">Ask in Wegent community forums</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/user-guide/settings/managing-skills.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/user-guide/settings/configuring-shells"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">🔧 Shell (Executor) Configuration Guide</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/user-guide"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">📚 User Guide</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#-table-of-contents" class="table-of-contents__link toc-highlight">📋 Table of Contents</a></li><li><a href="#-what-is-a-skill" class="table-of-contents__link toc-highlight">🎯 What is a Skill</a></li><li><a href="#-creating-a-skill-package" class="table-of-contents__link toc-highlight">📦 Creating a Skill Package</a><ul><li><a href="#requirements" class="table-of-contents__link toc-highlight">Requirements</a></li><li><a href="#skillmd-format" class="table-of-contents__link toc-highlight">SKILL.md Format</a></li><li><a href="#yaml-frontmatter-fields" class="table-of-contents__link toc-highlight">YAML Frontmatter Fields</a></li><li><a href="#directory-structure-example" class="table-of-contents__link toc-highlight">Directory Structure Example</a></li><li><a href="#creating-the-zip-package" class="table-of-contents__link toc-highlight">Creating the ZIP Package</a></li></ul></li><li><a href="#️-uploading-skills" class="table-of-contents__link toc-highlight">⬆️ Uploading Skills</a><ul><li><a href="#via-web-ui" class="table-of-contents__link toc-highlight">Via Web UI</a></li><li><a href="#upload-requirements" class="table-of-contents__link toc-highlight">Upload Requirements</a></li><li><a href="#validation" class="table-of-contents__link toc-highlight">Validation</a></li></ul></li><li><a href="#️-managing-skills" class="table-of-contents__link toc-highlight">🛠️ Managing Skills</a><ul><li><a href="#viewing-skills" class="table-of-contents__link toc-highlight">Viewing Skills</a></li><li><a href="#downloading-skills" class="table-of-contents__link toc-highlight">Downloading Skills</a></li><li><a href="#updating-skills" class="table-of-contents__link toc-highlight">Updating Skills</a></li><li><a href="#deleting-skills" class="table-of-contents__link toc-highlight">Deleting Skills</a></li></ul></li><li><a href="#-using-skills-in-bots" class="table-of-contents__link toc-highlight">🤖 Using Skills in Bots</a><ul><li><a href="#associating-skills-with-bots" class="table-of-contents__link toc-highlight">Associating Skills with Bots</a></li><li><a href="#via-yaml-configuration" class="table-of-contents__link toc-highlight">Via YAML Configuration</a></li><li><a href="#how-skills-are-deployed" class="table-of-contents__link toc-highlight">How Skills Are Deployed</a></li></ul></li><li><a href="#-best-practices" class="table-of-contents__link toc-highlight">💡 Best Practices</a><ul><li><a href="#creating-skills" class="table-of-contents__link toc-highlight">Creating Skills</a></li><li><a href="#managing-skills" class="table-of-contents__link toc-highlight">Managing Skills</a></li><li><a href="#using-skills" class="table-of-contents__link toc-highlight">Using Skills</a></li></ul></li><li><a href="#-common-issues" class="table-of-contents__link toc-highlight">❓ Common Issues</a><ul><li><a href="#upload-failures" class="table-of-contents__link toc-highlight">Upload Failures</a></li><li><a href="#deletion-issues" class="table-of-contents__link toc-highlight">Deletion Issues</a></li><li><a href="#deployment-issues" class="table-of-contents__link toc-highlight">Deployment Issues</a></li></ul></li><li><a href="#-related-resources" class="table-of-contents__link toc-highlight">🔗 Related Resources</a><ul><li><a href="#documentation" class="table-of-contents__link toc-highlight">Documentation</a></li><li><a href="#external-resources" class="table-of-contents__link toc-highlight">External Resources</a></li><li><a href="#examples" class="table-of-contents__link toc-highlight">Examples</a></li></ul></li><li><a href="#-quick-start-example" class="table-of-contents__link toc-highlight">🎓 Quick Start Example</a><ul><li><a href="#1-create-a-simple-skill" class="table-of-contents__link toc-highlight">1. Create a Simple Skill</a></li><li><a href="#2-package-the-skill" class="table-of-contents__link toc-highlight">2. Package the Skill</a></li><li><a href="#3-upload-to-wegent" class="table-of-contents__link toc-highlight">3. Upload to Wegent</a></li><li><a href="#4-use-in-a-bot" class="table-of-contents__link toc-highlight">4. Use in a Bot</a></li><li><a href="#5-test-in-a-task" class="table-of-contents__link toc-highlight">5. Test in a Task</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/getting-started/quick-start">Quick Start</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/concepts/core-concepts">Core Concepts</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
