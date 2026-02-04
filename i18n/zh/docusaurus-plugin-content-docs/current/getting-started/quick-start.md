@@ -22,7 +22,7 @@ sidebar_position: 1
 curl -fsSL https://raw.githubusercontent.com/wecode-ai/Wegent/main/install.sh | bash
 ```
 
-然后在浏览器中访问 `http://localhost:3000`
+然后在浏览器中访问 http://localhost:3000
 
 > 可选：启用 RAG 功能 `docker compose --profile rag up -d`
 
