@@ -10,7 +10,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DOCS_REPO="$(dirname "$SCRIPT_DIR")"
 
-# 主仓库路径，默认为 ../ws1
+# 主仓库路径
 MAIN_REPO="${1:-$DOCS_REPO/../wegent}"
 
 # 转换为绝对路径
@@ -107,19 +107,27 @@ echo "  ✓ 已更新图片和示例路径"
 echo ""
 echo "[6/6] 修复 MDX 兼容性问题..."
 
-# 修复 <br> 标签
-find docs -name "*.md" -type f -exec sed -i '' 's/<br>/<br\/>/gi' {} \; 2>/dev/null || true
-find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/<br>/<br\/>/gi' {} \; 2>/dev/null || true
+# 使用 Node.js 脚本进行更完善的 MDX 修复
+if [ -f "$DOCS_REPO/scripts/fix-mdx-compat.mjs" ]; then
+    node "$DOCS_REPO/scripts/fix-mdx-compat.mjs"
+    echo "  ✓ 已使用 fix-mdx-compat.mjs 修复 MDX 兼容性问题"
+else
+    echo "  ⚠ fix-mdx-compat.mjs 不存在，使用基础 sed 修复..."
+    
+    # 修复 <br> 标签
+    find docs -name "*.md" -type f -exec sed -i '' 's/<br>/<br\/>/gi' {} \; 2>/dev/null || true
+    find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/<br>/<br\/>/gi' {} \; 2>/dev/null || true
 
-# 修复 < 后跟数字的情况
-find docs -name "*.md" -type f -exec sed -i '' 's/<\([0-9]\)/\&lt;\1/g' {} \; 2>/dev/null || true
-find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/<\([0-9]\)/\&lt;\1/g' {} \; 2>/dev/null || true
+    # 修复 < 后跟数字的情况
+    find docs -name "*.md" -type f -exec sed -i '' 's/<\([0-9]\)/\&lt;\1/g' {} \; 2>/dev/null || true
+    find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/<\([0-9]\)/\&lt;\1/g' {} \; 2>/dev/null || true
 
-# 修复 {variable} 模式
-find docs -name "*.md" -type f -exec sed -i '' 's/{model}/`{model}`/g' {} \; 2>/dev/null || true
-find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/{model}/`{model}`/g' {} \; 2>/dev/null || true
+    # 修复 {variable} 模式
+    find docs -name "*.md" -type f -exec sed -i '' 's/{model}/`{model}`/g' {} \; 2>/dev/null || true
+    find i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -exec sed -i '' 's/{model}/`{model}`/g' {} \; 2>/dev/null || true
 
-echo "  ✓ 已修复 MDX 兼容性问题"
+    echo "  ✓ 已修复 MDX 兼容性问题"
+fi
 
 echo ""
 echo "=========================================="

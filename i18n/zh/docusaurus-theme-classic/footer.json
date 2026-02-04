@@ -21,15 +21,15 @@
   },
   "link.item.label.GitHub Issues": {
     "message": "GitHub Issues",
-    "description": "The label of footer link with label=GitHub Issues"
+    "description": "The label of footer link with label=GitHub Issues linking to https://github.com/wecode-ai/Wegent/issues"
   },
   "link.item.label.Discussions": {
     "message": "讨论区",
-    "description": "The label of footer link with label=Discussions"
+    "description": "The label of footer link with label=Discussions linking to https://github.com/wecode-ai/Wegent/discussions"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",
-    "description": "The label of footer link with label=GitHub"
+    "description": "The label of footer link with label=GitHub linking to https://github.com/wecode-ai/Wegent"
   },
   "copyright": {
     "message": "Copyright © 2024 Wecode AI. Built with Docusaurus.",
