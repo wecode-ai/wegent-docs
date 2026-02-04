@@ -287,7 +287,7 @@ docker logs -f wegent-backend --tail 50
 
 ### Issue 5: Cannot Access Frontend
 
-**Symptoms**: Browser cannot open `http://localhost:3000`
+**Symptoms**: Browser cannot open http://localhost:3000
 
 **Solutions**:
 

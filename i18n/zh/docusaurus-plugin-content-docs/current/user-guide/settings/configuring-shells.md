@@ -119,7 +119,7 @@ Wegent 目前支持三种主要运行时:
 
 **环境变量**:
 - `DIFY_API_KEY`: 您的 Dify API 密钥
-- `DIFY_BASE_URL`: Dify 服务器 URL (默认: `https://api.dify.ai/v1)`
+- `DIFY_BASE_URL`: Dify 服务器 URL (默认: https://api.dify.ai/v1)
 - `DIFY_APP_ID`: Dify 应用 ID
 - `DIFY_PARAMS`: JSON 格式的额外参数
 
@@ -209,7 +209,7 @@ spec:
 
 ### 方式 2: 通过 Web 界面查看现有 Shell
 
-1. 登录 Wegent Web 界面 (`http://localhost:3000)`
+1. 登录 Wegent Web 界面 (http://localhost:3000)
 2. 进入 **资源管理** → **Shell 配置**
 3. 查看系统中已有的 Shell 列表
 4. 选择合适的 Shell 用于您的 Bot
@@ -446,7 +446,7 @@ spec:
 - 查看 Shell 列表
 
 **方式 2: API 查询**
-- 访问 `http://localhost:8000/api/docs`
+- 访问 http://localhost:8000/api/docs
 - 使用 Shell 相关的 API 接口查询
 
 ### Q2: ClaudeCode、Agno 和 Dify 有什么区别?

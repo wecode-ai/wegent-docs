@@ -33,16 +33,16 @@ docker-compose up -d
 ```
 
 这将启动所有必需的服务:
-- **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8000`
-- **API 文档**: `http://localhost:8000/api/docs`
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API 文档**: http://localhost:8000/api/docs
 - **MySQL**: localhost:3306
 - **Redis**: localhost:6379
-- **Executor Manager**: `http://localhost:8001`
+- **Executor Manager**: http://localhost:8001
 
 ### 步骤 3: 访问 Web 界面
 
-在浏览器中打开 `http://localhost:3000`
+在浏览器中打开 http://localhost:3000
 
 ### 步骤 4: 配置 GitHub 访问令牌
 
@@ -149,7 +149,7 @@ docker-compose restart
 ### API 连接失败?
 
 - 确保后端服务正常运行
-- 访问 `http://localhost:8000/api/docs` 检查 API 状态
+- 访问 http://localhost:8000/api/docs 检查 API 状态
 
 ---
 

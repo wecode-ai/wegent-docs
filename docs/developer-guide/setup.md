@@ -42,12 +42,12 @@ docker-compose up -d
 ```
 
 This will start all required services:
-- **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8000`
-- **API Documentation**: `http://localhost:8000/api/docs`
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/api/docs
 - **MySQL**: localhost:3306
 - **Redis**: localhost:6379
-- **Executor Manager**: `http://localhost:8001`
+- **Executor Manager**: http://localhost:8001
 
 ---
 
@@ -164,8 +164,8 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 Access API documentation:
-- Swagger UI: `http://localhost:8000/api/docs`
-- ReDoc: `http://localhost:8000/api/redoc`
+- Swagger UI: http://localhost:8000/api/docs
+- ReDoc: http://localhost:8000/api/redoc
 
 #### Backend Directory Structure
 
@@ -223,7 +223,7 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-Access application: `http://localhost:3000`
+Access application: http://localhost:3000
 
 #### Other Commands
 

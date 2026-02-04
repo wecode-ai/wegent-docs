@@ -33,16 +33,16 @@ docker-compose up -d
 ```
 
 This will start all required services:
-- **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8000`
-- **API Documentation**: `http://localhost:8000/api/docs`
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/api/docs
 - **MySQL**: localhost:3306
 - **Redis**: localhost:6379
-- **Executor Manager**: `http://localhost:8001`
+- **Executor Manager**: http://localhost:8001
 
 ### Step 3: Access the Web Interface
 
-Open `http://localhost:3000` in your browser
+Open http://localhost:3000 in your browser
 
 ### Step 4: Configure GitHub Access Token
 
@@ -148,7 +148,7 @@ docker-compose restart
 ### API Connection Failed?
 
 - Ensure backend service is running
-- Visit `http://localhost:8000/api/docs` to check API status
+- Visit http://localhost:8000/api/docs to check API status
 
 ---
 
