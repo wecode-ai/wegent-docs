@@ -92,7 +92,7 @@ docker compose restart
 ### API 连接失败？
 
 - 确保后端服务正常运行
-- 访问 `http://localhost:8000/api/docs` 检查 API 状态
+- 访问 http://localhost:8000/api/docs 检查 API 状态
 
 ---
 

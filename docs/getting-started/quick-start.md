@@ -92,7 +92,7 @@ docker compose restart
 ### API Connection Failed?
 
 - Ensure backend service is running
-- Visit `http://localhost:8000/api/docs` to check API status
+- Visit http://localhost:8000/api/docs to check API status
 
 ---
 

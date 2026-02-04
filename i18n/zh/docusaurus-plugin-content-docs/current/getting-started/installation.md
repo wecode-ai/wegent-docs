@@ -132,14 +132,14 @@ docker-compose logs -f
 
 访问以下 URL 验证安装：
 
-- **Frontend**: `http://localhost:3000`
-- **Backend API**: `http://localhost:8000`
-- **API 文档**: `http://localhost:8000/api/docs`
-- **Executor Manager**: `http://localhost:8001`
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API 文档**: http://localhost:8000/api/docs
+- **Executor Manager**: http://localhost:8001
 
 ### 步骤 5: 配置 GitHub 集成（可选）
 
-1. 访问 `http://localhost:3000`
+1. 访问 http://localhost:3000
 2. 按照界面提示配置 GitHub Personal Access Token
 3. Token 权限要求：
    - `repo` - 完整仓库访问
@@ -359,7 +359,7 @@ curl http://localhost:8000/api/health
 
 ### 测试前端
 
-在浏览器中访问 `http://localhost:3000`，应该看到 Wegent 登录页面。
+在浏览器中访问 http://localhost:3000，应该看到 Wegent 登录页面。
 
 ---
 
