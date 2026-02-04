@@ -7,18 +7,18 @@ import Translate, {translate} from '@docusaurus/Translate';
 
 import styles from './index.module.css';
 
-// 特性数据
+// Feature data
 const FeatureList = [
   {
     icon: '🚀',
     iconClass: 'featureIconRocket',
     title: translate({
       id: 'homepage.feature.quickStart.title',
-      message: '快速开始',
+      message: 'Quick Start',
     }),
     description: translate({
       id: 'homepage.feature.quickStart.description',
-      message: '几分钟内即可启动 Wegent。学习基础知识并创建您的第一个 AI 智能体。',
+      message: 'Get started with Wegent in minutes. Learn the basics and create your first AI agent.',
     }),
     link: '/docs/getting-started/quick-start',
   },
@@ -27,11 +27,11 @@ const FeatureList = [
     iconClass: 'featureIconBrain',
     title: translate({
       id: 'homepage.feature.coreConcepts.title',
-      message: '核心概念',
+      message: 'Core Concepts',
     }),
     description: translate({
       id: 'homepage.feature.coreConcepts.description',
-      message: '深入理解 Ghost、Bot、Team、Skill 等核心概念，掌握多智能体协作的精髓。',
+      message: 'Understand Ghost, Bot, Team, Skill and other core concepts to master multi-agent collaboration.',
     }),
     link: '/docs/concepts/core-concepts',
   },
@@ -40,93 +40,93 @@ const FeatureList = [
     iconClass: 'featureIconBook',
     title: translate({
       id: 'homepage.feature.guides.title',
-      message: '使用指南',
+      message: 'User Guides',
     }),
     description: translate({
       id: 'homepage.feature.guides.description',
-      message: '全面的指南帮助您创建和管理智能体、团队和任务，释放 AI 协作的无限可能。',
+      message: 'Comprehensive guides to help you create and manage agents, teams, and tasks for unlimited AI collaboration.',
     }),
     link: '/docs/guides/user/creating-ghosts',
   },
 ];
 
-// 统计数据
+// Statistics data
 const StatsList = [
   {
     number: '10+',
     label: translate({
       id: 'homepage.stats.skills',
-      message: '内置技能',
+      message: 'Built-in Skills',
     }),
   },
   {
     number: '5+',
     label: translate({
       id: 'homepage.stats.models',
-      message: '支持模型',
+      message: 'Supported Models',
     }),
   },
   {
     number: '∞',
     label: translate({
       id: 'homepage.stats.agents',
-      message: '智能体组合',
+      message: 'Agent Combinations',
     }),
   },
   {
     number: '24/7',
     label: translate({
       id: 'homepage.stats.availability',
-      message: '全天候服务',
+      message: 'Always Available',
     }),
   },
 ];
 
-// Hero 区域组件
+// Hero section component
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      {/* 装饰性背景元素 */}
+      {/* Decorative background elements */}
       <div className={clsx(styles.heroDecoration, styles.heroOrb1)} />
       <div className={clsx(styles.heroDecoration, styles.heroOrb2)} />
       <div className={clsx(styles.heroDecoration, styles.heroOrb3)} />
       
       <div className={clsx('container', styles.heroContent)}>
-        {/* 标语徽章 */}
+        {/* Tagline badge */}
         <div className={styles.heroTagline}>
           <span className={styles.heroTaglineIcon}>✨</span>
           <Translate id="homepage.taglineBadge">
-            新一代 AI 多智能体协作平台
+            Next-Generation AI Multi-Agent Collaboration Platform
           </Translate>
         </div>
         
-        {/* 主标题 */}
+        {/* Main title */}
         <Heading as="h1" className={clsx('hero__title', styles.heroTitle)}>
           <span className={styles.heroTitleGradient}>{siteConfig.title}</span>
         </Heading>
         
-        {/* 副标题 */}
+        {/* Subtitle */}
         <p className={clsx('hero__subtitle', styles.heroSubtitle)}>
           <Translate id="homepage.tagline">
-            构建、编排、部署智能体团队，让 AI 协作变得简单而强大
+            Build, orchestrate, and deploy agent teams - making AI collaboration simple and powerful
           </Translate>
         </p>
         
-        {/* 按钮组 */}
+        {/* Button group */}
         <div className={styles.buttons}>
           <Link
             className={clsx('button button--lg', styles.heroButton, styles.heroButtonPrimary)}
             to="/docs/getting-started/quick-start">
             <Translate id="homepage.getStarted">
-              🚀 快速开始
+              🚀 Get Started
             </Translate>
           </Link>
           <Link
             className={clsx('button button--lg', styles.heroButton, styles.heroButtonSecondary)}
             to="/docs/concepts/core-concepts">
             <Translate id="homepage.learnMore">
-              📖 了解更多
+              📖 Learn More
             </Translate>
           </Link>
         </div>
@@ -135,7 +135,7 @@ function HomepageHeader() {
   );
 }
 
-// 特性卡片组件
+// Feature card component
 function FeatureCard({icon, iconClass, title, description, link}) {
   return (
     <div className={styles.featureCard}>
@@ -147,33 +147,33 @@ function FeatureCard({icon, iconClass, title, description, link}) {
       </Heading>
       <p className={styles.featureDescription}>{description}</p>
       <Link className={styles.featureLink} to={link}>
-        <Translate id="homepage.exploreMore">探索更多</Translate>
+        <Translate id="homepage.exploreMore">Explore More</Translate>
         <span className={styles.featureLinkArrow}>→</span>
       </Link>
     </div>
   );
 }
 
-// 特性展示区域
+// Features section
 function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
-        {/* 区域标题 */}
+        {/* Section title */}
         <div className={styles.featuresTitle}>
           <Heading as="h2" className={styles.featuresTitleText}>
             <Translate id="homepage.features.title">
-              为什么选择 Wegent？
+              Why Choose Wegent?
             </Translate>
           </Heading>
           <p className={styles.featuresSubtitle}>
             <Translate id="homepage.features.subtitle">
-              强大的功能，简洁的设计，无限的可能
+              Powerful features, elegant design, unlimited possibilities
             </Translate>
           </p>
         </div>
         
-        {/* 特性卡片网格 */}
+        {/* Feature cards grid */}
         <div className={styles.featuresGrid}>
           {FeatureList.map((props, idx) => (
             <FeatureCard key={idx} {...props} />
@@ -184,7 +184,7 @@ function HomepageFeatures() {
   );
 }
 
-// 统计数据区域
+// Statistics section
 function HomepageStats() {
   return (
     <section className={styles.stats}>
@@ -200,14 +200,14 @@ function HomepageStats() {
   );
 }
 
-// 资源链接区域
+// Resources links section
 function HomepageLinks() {
   return (
     <section className={styles.links}>
       <div className="container">
         <Heading as="h2" className={styles.linksTitle}>
           <Translate id="homepage.resources.title">
-            📦 资源与链接
+            📦 Resources & Links
           </Translate>
         </Heading>
         <div className={styles.linkButtons}>
@@ -222,7 +222,7 @@ function HomepageLinks() {
             to="/docs/reference/yaml-specification">
             <span className={styles.linkButtonIcon}>📋</span>
             <Translate id="homepage.resources.apiReference">
-              API 参考文档
+              API Reference
             </Translate>
           </Link>
           <Link
@@ -230,7 +230,7 @@ function HomepageLinks() {
             to="/docs/concepts/architecture">
             <span className={styles.linkButtonIcon}>🏗️</span>
             <Translate id="homepage.resources.architecture">
-              系统架构
+              Architecture
             </Translate>
           </Link>
           <Link
@@ -238,7 +238,7 @@ function HomepageLinks() {
             to="/docs/faq">
             <span className={styles.linkButtonIcon}>❓</span>
             <Translate id="homepage.resources.faq">
-              常见问题
+              FAQ
             </Translate>
           </Link>
         </div>
@@ -247,26 +247,26 @@ function HomepageLinks() {
   );
 }
 
-// CTA 区域
+// CTA section
 function HomepageCTA() {
   return (
     <section className={styles.cta}>
       <div className={styles.ctaContent}>
         <Heading as="h2" className={styles.ctaTitle}>
           <Translate id="homepage.cta.title">
-            准备好开始了吗？
+            Ready to Get Started?
           </Translate>
         </Heading>
         <p className={styles.ctaDescription}>
           <Translate id="homepage.cta.description">
-            加入 Wegent 社区，探索 AI 多智能体协作的无限可能。从今天开始构建您的智能体团队！
+            Join the Wegent community and explore the unlimited possibilities of AI multi-agent collaboration. Start building your agent team today!
           </Translate>
         </p>
         <Link
           className={styles.ctaButton}
           to="/docs/getting-started/installation">
           <Translate id="homepage.cta.button">
-            立即安装 Wegent
+            Install Wegent Now
           </Translate>
           <span>→</span>
         </Link>
@@ -275,17 +275,17 @@ function HomepageCTA() {
   );
 }
 
-// 主页组件
+// Homepage component
 export default function Home() {
   return (
     <Layout
       title={translate({
         id: 'homepage.title',
-        message: '首页',
+        message: 'Home',
       })}
       description={translate({
         id: 'homepage.description',
-        message: 'Wegent - AI 驱动的多智能体协作平台',
+        message: 'Wegent - AI-Powered Multi-Agent Collaboration Platform',
       })}>
       <HomepageHeader />
       <main>
