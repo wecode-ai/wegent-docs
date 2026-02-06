@@ -74,7 +74,7 @@ const StatsList = [
     }),
   },
   {
-    number: '24/7',
+    number: '7*24',
     label: translate({
       id: 'homepage.stats.availability',
       message: 'Always Available',
