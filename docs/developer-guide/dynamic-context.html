@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Dynamic Context (Injecting Request-Scoped Context) | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Dynamic Context (Injecting Request-Scoped Context) | Wegent"><meta data-rh="true" name="description" content="Background"><meta data-rh="true" property="og:description" content="Background"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Dynamic Context (Injecting Request-Scoped Context)","item":"https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/assets/js/runtime~main.c56651ca.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.363c2e81.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.55298b61.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.76a0c9ae.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -44,6 +44,30 @@
 <li class="">Backend writes it into the unified protocol <a class="" href="/wegent-docs/docs/developer-guide/shared/models/execution.py:46"><code>ExecutionRequest</code></a> as <code>kb_meta_prompt</code>.</li>
 <li class="">Chat Shell injects it into messages as <code>dynamic_context</code>.</li>
 </ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="restricted-mode-safe-kb_meta_prompt">Restricted mode: safe kb_meta_prompt<a href="#restricted-mode-safe-kb_meta_prompt" class="hash-link" aria-label="Direct link to Restricted mode: safe kb_meta_prompt" title="Direct link to Restricted mode: safe kb_meta_prompt" translate="no">​</a></h3>
+<p>When KB access runs under <code>Restricted Analyst</code>, dynamic context is still preserved, but the injected metadata should be a <strong>safe metadata block</strong> rather than directly reusable KB content.</p>
+<p>Why dynamic context still exists in restricted mode:</p>
+<ul>
+<li class="">the main model still needs to know which KBs are currently bound</li>
+<li class="">minimal information such as KB <code>name</code> / <code>id</code> still helps tool calls remain stable</li>
+<li class="">removing KB context entirely makes knowledge tool usage less reliable</li>
+</ul>
+<p>The current restricted <code>kb_meta_prompt</code> keeps only the minimum routing context needed for search:</p>
+<ul>
+<li class="">KB name</li>
+<li class="">KB ID</li>
+<li class="">constrained routing hint</li>
+<li class="">constrained routing keywords</li>
+</ul>
+<p>It should not include:</p>
+<ul>
+<li class="">raw source passages</li>
+<li class="">definitions that can be restated directly</li>
+<li class="">exact targets, KPI values, or document structure</li>
+</ul>
+<p>These routing hints exist only to help the main model draft better
+<code>knowledge_base_search</code> queries. They must not be surfaced as final answer
+content.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="future-weibo_context">Future: weibo_context<a href="#future-weibo_context" class="hash-link" aria-label="Direct link to Future: weibo_context" title="Direct link to Future: weibo_context" translate="no">​</a></h3>
 <p>Internal deployments can extend the same injection point to include:</p>
 <ul>
@@ -77,12 +101,59 @@
 </ul>
 </li>
 </ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="restricted-retrieval-flow">Restricted Retrieval Flow<a href="#restricted-retrieval-flow" class="hash-link" aria-label="Direct link to Restricted Retrieval Flow" title="Direct link to Restricted Retrieval Flow" translate="no">​</a></h2>
+<p>In restricted mode, KB safety no longer depends mainly on a final-answer validator. The control point has been moved into <code>knowledge_base_search</code>.</p>
+<p>The current flow is:</p>
+<ol>
+<li class="">Backend builds a safe <code>kb_meta_prompt</code></li>
+<li class="">Chat Shell injects it as <code>dynamic_context</code></li>
+<li class="">The main model decides whether to call <code>knowledge_base_search</code></li>
+<li class="">In restricted mode, the KB tool retrieves search results or <code>all-chunks</code></li>
+<li class="">A secondary model converts the raw chunks into a safe summary</li>
+<li class="">The main model only sees the safe summary, not the protected raw content</li>
+</ol>
+<p>This keeps two important properties:</p>
+<ul>
+<li class="">the main model can still use KB content for diagnosis and recommendations</li>
+<li class="">the answerability and redaction decision stays inside the KB tool</li>
+</ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="compatibility">Compatibility<a href="#compatibility" class="hash-link" aria-label="Direct link to Compatibility" title="Direct link to Compatibility" translate="no">​</a></h2>
 <p>If <code>dynamic_context</code> is an empty string or <code>None</code>, behavior is identical to pre-change behavior: no extra message is inserted.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="debugging">Debugging<a href="#debugging" class="hash-link" aria-label="Direct link to Debugging" title="Direct link to Debugging" translate="no">​</a></h2>
-<p>Enable <code>CHAT_SHELL_LOG_LLM_REQUESTS=1</code> and inspect the request payload logged by <a class="" href="/wegent-docs/docs/developer-guide/chat_shell/chat_shell/agents/graph_builder.py:239"><code>LangGraphAgentBuilder</code></a>:</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="debugging-and-logs">Debugging And Logs<a href="#debugging-and-logs" class="hash-link" aria-label="Direct link to Debugging And Logs" title="Direct link to Debugging And Logs" translate="no">​</a></h2>
+<p>When debugging dynamic context or restricted KB behavior, focus on the logs below.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-llm-request-and-response-logs">1. LLM request and response logs<a href="#1-llm-request-and-response-logs" class="hash-link" aria-label="Direct link to 1. LLM request and response logs" title="Direct link to 1. LLM request and response logs" translate="no">​</a></h3>
+<p>With <code>CHAT_SHELL_LOG_LLM_REQUESTS=1</code>, the system now logs both <code>LLM_REQUEST</code> and <code>LLM_RESPONSE</code>.</p>
+<p>These logs help you verify:</p>
 <ul>
-<li class="">Confirm there is an extra <code>role=user</code> message inserted <strong>after history</strong> and <strong>before the current user message</strong>.</li>
-</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/developer-guide/dynamic-context.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/developer-guide/architecture"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">🏗️ System Architecture</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/developer-guide/crd-architecture"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">📋 CRD Architecture</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#background" class="table-of-contents__link toc-highlight">Background</a></li><li><a href="#goals" class="table-of-contents__link toc-highlight">Goals</a></li><li><a href="#message-structure" class="table-of-contents__link toc-highlight">Message Structure</a></li><li><a href="#sources-and-aggregation" class="table-of-contents__link toc-highlight">Sources and Aggregation</a><ul><li><a href="#current-kb_meta_prompt" class="table-of-contents__link toc-highlight">Current: kb_meta_prompt</a></li><li><a href="#future-weibo_context" class="table-of-contents__link toc-highlight">Future: weibo_context</a></li></ul></li><li><a href="#responsibilities" class="table-of-contents__link toc-highlight">Responsibilities</a></li><li><a href="#compatibility" class="table-of-contents__link toc-highlight">Compatibility</a></li><li><a href="#debugging" class="table-of-contents__link toc-highlight">Debugging</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/getting-started/quick-start">Quick Start</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/concepts/core-concepts">Core Concepts</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+<li class="">whether <code>dynamic_context</code> is really present in the message list</li>
+<li class="">whether the restricted secondary model was invoked</li>
+<li class="">what the model actually returned</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-restricted-safe-summary-logs">2. Restricted safe-summary logs<a href="#2-restricted-safe-summary-logs" class="hash-link" aria-label="Direct link to 2. Restricted safe-summary logs" title="Direct link to 2. Restricted safe-summary logs" translate="no">​</a></h3>
+<p>Restricted KB flow now adds business-level logs such as:</p>
+<ul>
+<li class=""><code>Starting safe summary</code></li>
+<li class=""><code>Safe summary completed</code></li>
+</ul>
+<p>These are useful for checking:</p>
+<ul>
+<li class="">how many chunks were actually sent to the secondary model</li>
+<li class="">whether the decision was <code>answer</code> or <code>refuse</code></li>
+<li class="">the machine-readable reason</li>
+<li class="">a short preview of the safe summary</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-persistence-logs">3. Persistence logs<a href="#3-persistence-logs" class="hash-link" aria-label="Direct link to 3. Persistence logs" title="Direct link to 3. Persistence logs" translate="no">​</a></h3>
+<p>If the KB tool also persists its result, continue checking:</p>
+<ul>
+<li class=""><code>Persist HTTP request</code></li>
+<li class=""><code>Persist HTTP response</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-suggested-debugging-order">4. Suggested debugging order<a href="#4-suggested-debugging-order" class="hash-link" aria-label="Direct link to 4. Suggested debugging order" title="Direct link to 4. Suggested debugging order" translate="no">​</a></h3>
+<ol>
+<li class="">Confirm <code>dynamic_context</code> is present in the request</li>
+<li class="">Confirm <code>knowledge_base_search</code> was triggered</li>
+<li class="">Confirm restricted safe summary started</li>
+<li class="">Inspect <code>LLM_RESPONSE</code> and <code>Safe summary completed</code> to see whether the result was <code>answer</code> or <code>refuse</code></li>
+</ol></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/developer-guide/dynamic-context.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/developer-guide/architecture"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">🏗️ System Architecture</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/developer-guide/crd-architecture"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">📋 CRD Architecture</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#background" class="table-of-contents__link toc-highlight">Background</a></li><li><a href="#goals" class="table-of-contents__link toc-highlight">Goals</a></li><li><a href="#message-structure" class="table-of-contents__link toc-highlight">Message Structure</a></li><li><a href="#sources-and-aggregation" class="table-of-contents__link toc-highlight">Sources and Aggregation</a><ul><li><a href="#current-kb_meta_prompt" class="table-of-contents__link toc-highlight">Current: kb_meta_prompt</a></li><li><a href="#restricted-mode-safe-kb_meta_prompt" class="table-of-contents__link toc-highlight">Restricted mode: safe kb_meta_prompt</a></li><li><a href="#future-weibo_context" class="table-of-contents__link toc-highlight">Future: weibo_context</a></li></ul></li><li><a href="#responsibilities" class="table-of-contents__link toc-highlight">Responsibilities</a></li><li><a href="#restricted-retrieval-flow" class="table-of-contents__link toc-highlight">Restricted Retrieval Flow</a></li><li><a href="#compatibility" class="table-of-contents__link toc-highlight">Compatibility</a></li><li><a href="#debugging-and-logs" class="table-of-contents__link toc-highlight">Debugging And Logs</a><ul><li><a href="#1-llm-request-and-response-logs" class="table-of-contents__link toc-highlight">1. LLM request and response logs</a></li><li><a href="#2-restricted-safe-summary-logs" class="table-of-contents__link toc-highlight">2. Restricted safe-summary logs</a></li><li><a href="#3-persistence-logs" class="table-of-contents__link toc-highlight">3. Persistence logs</a></li><li><a href="#4-suggested-debugging-order" class="table-of-contents__link toc-highlight">4. Suggested debugging order</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/getting-started/quick-start">Quick Start</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/concepts/core-concepts">Core Concepts</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
 </body>
 </html>
