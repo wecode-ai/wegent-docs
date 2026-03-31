@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Dynamic Context (Injecting Request-Scoped Context) | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Dynamic Context (Injecting Request-Scoped Context) | Wegent"><meta data-rh="true" name="description" content="Background"><meta data-rh="true" property="og:description" content="Background"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Dynamic Context (Injecting Request-Scoped Context)","item":"https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/assets/js/runtime~main.b00a7c6b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.7fdd8f3c.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.1df5d622.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -20,6 +20,7 @@
 <li class="">Keep the <strong>system prompt fully static</strong> whenever possible so it can be cached.</li>
 <li class="">Inject all request-scoped metadata as a separate <strong>human/user message</strong>.</li>
 <li class="">Make the mechanism extensible: internal deployments can append <code>weibo_context</code> or other dynamic blocks in the same place.</li>
+<li class="">Keep <strong>tool-routing rules and policy</strong> inside static prompt templates rather than dynamic context.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="message-structure">Message Structure<a href="#message-structure" class="hash-link" aria-label="Direct link to Message Structure" title="Direct link to Message Structure" translate="no">​</a></h2>
 <p>Before:</p>
@@ -43,6 +44,7 @@
 <li class="">Backend builds <code>kb_meta_prompt</code> from historical contexts (KB name/ID/summary/topics, etc.).</li>
 <li class="">Backend writes it into the unified protocol <a class="" href="/wegent-docs/docs/developer-guide/shared/models/execution.py:46"><code>ExecutionRequest</code></a> as <code>kb_meta_prompt</code>.</li>
 <li class="">Chat Shell injects it into messages as <code>dynamic_context</code>.</li>
+<li class=""><code>kb_meta_prompt</code> should carry <strong>request-scoped facts only</strong>. It should not duplicate KB workflow rules, tool policy, or response policy that already belongs in static prompt templates.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="restricted-mode-safe-kb_meta_prompt">Restricted mode: safe kb_meta_prompt<a href="#restricted-mode-safe-kb_meta_prompt" class="hash-link" aria-label="Direct link to Restricted mode: safe kb_meta_prompt" title="Direct link to Restricted mode: safe kb_meta_prompt" translate="no">​</a></h3>
 <p>When KB access runs under <code>Restricted Analyst</code>, dynamic context is still preserved, but the injected metadata should be a <strong>safe metadata block</strong> rather than directly reusable KB content.</p>

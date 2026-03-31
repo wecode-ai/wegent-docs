@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Dynamic Context（动态上下文注入） | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Dynamic Context（动态上下文注入） | Wegent"><meta data-rh="true" name="description" content="背景"><meta data-rh="true" property="og:description" content="背景"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/dynamic-context" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"开发者指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Dynamic Context（动态上下文注入）","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/dynamic-context"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.c9c4744b.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.c69ca1f2.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.1076d2bb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -20,6 +20,7 @@
 <li class=""><strong>System prompt 保持静态</strong>，尽可能可被缓存。</li>
 <li class="">所有“动态元信息”通过一条独立的 <strong>human/user message</strong> 注入。</li>
 <li class="">机制通用：内网可在同一位置追加 <code>weibo_context</code> 等其他动态内容。</li>
+<li class=""><strong>工具路由规则和策略</strong> 应保留在静态 prompt 模板中，不应混入 dynamic context。</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="消息结构">消息结构<a href="#消息结构" class="hash-link" aria-label="消息结构的直接链接" title="消息结构的直接链接" translate="no">​</a></h2>
 <p>变更前：</p>
@@ -43,6 +44,7 @@
 <li class="">Backend 负责根据历史上下文构建 <code>kb_meta_prompt</code>（知识库名称/ID/摘要/主题等）。</li>
 <li class="">Backend 将 <code>kb_meta_prompt</code> 写入统一协议 <a class="" href="/wegent-docs/zh/docs/developer-guide/shared/models/execution.py:46"><code>ExecutionRequest</code></a> 的同名字段。</li>
 <li class="">Chat Shell 在构建 messages 时，将其注入为 dynamic_context。</li>
+<li class=""><code>kb_meta_prompt</code> 应只承载<strong>请求级事实信息</strong>，不应重复承载已经属于静态 prompt 模板的 KB 工作流规则、工具策略或回答策略。</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="restricted-模式安全版-kb_meta_prompt">Restricted 模式：安全版 kb_meta_prompt<a href="#restricted-模式安全版-kb_meta_prompt" class="hash-link" aria-label="Restricted 模式：安全版 kb_meta_prompt的直接链接" title="Restricted 模式：安全版 kb_meta_prompt的直接链接" translate="no">​</a></h3>
 <p>当知识库访问模式是 <code>Restricted Analyst</code> 时，dynamic context 仍然保留，但注入内容应是<strong>安全版元信息</strong>，而不是可被直接复述的原始知识库内容。</p>
