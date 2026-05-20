@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Knowledge Indexing Protection | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/knowledge-indexing-protection"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Knowledge Indexing Protection | Wegent"><meta data-rh="true" name="description" content="Background"><meta data-rh="true" property="og:description" content="Background"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/knowledge-indexing-protection"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/knowledge-indexing-protection" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/knowledge-indexing-protection" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/knowledge-indexing-protection" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Knowledge Indexing Protection","item":"https://wecode-ai.github.io/wegent-docs/docs/developer-guide/knowledge-indexing-protection"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/assets/js/runtime~main.064d6eac.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.684f03f2.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.74b69861.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.771a6378.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -32,7 +32,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-document-indexing-state-machine">1. Document indexing state machine<a href="#1-document-indexing-state-machine" class="hash-link" aria-label="Direct link to 1. Document indexing state machine" title="Direct link to 1. Document indexing state machine" translate="no">​</a></h3>
 <p>The <code>knowledge_documents</code> table now stores:</p>
 <ul>
-<li class=""><code>index_status</code>: <code>not_indexed | queued | indexing | success | failed</code></li>
+<li class=""><code>index_status</code>: <code>not_indexed | queued | pending_conversion | converting | indexing | success | failed</code></li>
 <li class=""><code>index_generation</code></li>
 </ul>
 <p><code>index_generation</code> is the key field. Every valid new indexing attempt gets a new generation. Any older task becomes stale automatically.</p>
@@ -40,8 +40,8 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-business-dedupe-before-enqueue">2. Business dedupe before enqueue<a href="#2-business-dedupe-before-enqueue" class="hash-link" aria-label="Direct link to 2. Business dedupe before enqueue" title="Direct link to 2. Business dedupe before enqueue" translate="no">​</a></h3>
 <p>Before sending a Celery task, the orchestrator updates database state first:</p>
 <ul>
-<li class="">if the document is already <code>queued / indexing</code>, duplicate enqueue is skipped</li>
-<li class="">if <code>queued / indexing</code> has been stuck too long, a new request can take over with a new generation</li>
+<li class="">if the document is already <code>queued / pending_conversion / converting / indexing</code>, duplicate enqueue is skipped</li>
+<li class="">if <code>queued / pending_conversion / converting / indexing</code> has been stuck too long, a new request can take over with a new generation</li>
 <li class="">if the document is already <code>success</code>, normal retry requests are skipped</li>
 <li class="">only flows that explicitly need a new attempt create a new generation</li>
 </ul>
@@ -50,11 +50,12 @@
 <li class="">new document: create a new generation</li>
 <li class="">retry for failed document: create a new generation</li>
 <li class="">content update / web refresh: replace the active generation so old tasks become stale</li>
-<li class="">long-lived <code>queued / indexing</code>: allow takeover after stale detection based on <code>updated_at</code></li>
+<li class="">long-lived <code>queued / pending_conversion / converting / indexing</code>: allow takeover after stale detection based on <code>updated_at</code></li>
 </ul>
 <p>Current default thresholds:</p>
 <ul>
 <li class=""><code>queued</code> older than 10 minutes can be replaced by a new generation</li>
+<li class=""><code>pending_conversion</code> older than 20 minutes can be replaced by a new generation</li>
 <li class=""><code>indexing</code> older than 45 minutes can be replaced by a new generation</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-final-guard-before-worker-execution">3. Final guard before worker execution<a href="#3-final-guard-before-worker-execution" class="hash-link" aria-label="Direct link to 3. Final guard before worker execution" title="Direct link to 3. Final guard before worker execution" translate="no">​</a></h3>
@@ -66,7 +67,7 @@
 <p>The task only executes when:</p>
 <ul>
 <li class="">the task generation matches the current database generation</li>
-<li class="">the current status is still <code>queued</code> or <code>indexing</code></li>
+<li class="">the current status is still <code>queued</code>, <code>pending_conversion</code>, or <code>indexing</code></li>
 </ul>
 <p>Otherwise it returns <code>skipped</code> and does not call the embedding model again.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-generation-solves-redelivery">Why generation solves redelivery<a href="#why-generation-solves-redelivery" class="hash-link" aria-label="Direct link to Why generation solves redelivery" title="Direct link to Why generation solves redelivery" translate="no">​</a></h2>
