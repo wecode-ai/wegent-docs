@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Git 项目 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/coding/git-workspace-projects"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Git 项目 | Wegent"><meta data-rh="true" name="description" content="Git 项目用于把一个远程仓库克隆为 Wework 左侧项目列表中的项目工作区。创建后，同一个项目下的新对话会复用同一份本地代码目录，适合围绕同一仓库连续开发、排查和验证。"><meta data-rh="true" property="og:description" content="Git 项目用于把一个远程仓库克隆为 Wework 左侧项目列表中的项目工作区。创建后，同一个项目下的新对话会复用同一份本地代码目录，适合围绕同一仓库连续开发、排查和验证。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/coding/git-workspace-projects"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/coding/git-workspace-projects" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/coding/git-workspace-projects" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/coding/git-workspace-projects" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"用户指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"编码","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/coding/"},{"@type":"ListItem","position":3,"name":"Git 项目","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/coding/git-workspace-projects"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.d37a25d1.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.432b0bf3.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.6e614733.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -51,6 +51,7 @@
 <p>“新工作树”只对绑定本地执行设备、本地目录且当前目录是 Git 仓库的项目新对话可选。已有任务会锁定执行目录，避免同一个任务在中途切换工作区。如果目录当前不是 Git 仓库，输入区仍显示“本地模式”，但不会显示“新工作树”和启动分支选择；后续用户手工把该目录变成 Git 仓库后，不需要修改项目配置即可重新选择新工作树。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="浏览工作区文件并添加代码评论">浏览工作区文件并添加代码评论<a href="#浏览工作区文件并添加代码评论" class="hash-link" aria-label="浏览工作区文件并添加代码评论的直接链接" title="浏览工作区文件并添加代码评论的直接链接" translate="no">​</a></h2>
 <p>在桌面版 Wework 中，打开右侧工作区面板后，可以只读浏览当前任务或项目的文件。文件树会从当前绑定的执行设备读取工作区目录；已有任务优先使用任务工作区，新对话优先使用当前项目工作区。</p>
+<p>对于绑定本机 macOS 设备的项目，项目行的更多菜单会显示“在 Finder 中显示”。点击后会在 Finder 中打开该项目目录，不会改变当前 Wework 任务。</p>
 <p>文件预览区不会保存或修改文件。你可以在预览区选中一段代码并添加本地评论，评论会作为上下文附件显示在左侧输入框上方，例如“1 个评论”。发送下一条消息时，Wework 会把文件路径、行号范围、选中的代码和评论内容一起加入请求上下文，帮助智能体理解你指向的代码位置。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用右侧浏览器">使用右侧浏览器<a href="#使用右侧浏览器" class="hash-link" aria-label="使用右侧浏览器的直接链接" title="使用右侧浏览器的直接链接" translate="no">​</a></h2>
 <p>在 macOS 桌面版 Wework 中，右侧工作区面板也可以打开浏览器标签页。点击右侧面板中的新标签页按钮后选择“浏览器”，在地址栏输入 <code>http</code> 或 <code>https</code> 地址即可在应用内打开网页。右侧面板最多保留一个浏览器标签页；浏览器已打开时，新标签页菜单不会再显示第二个浏览器入口。</p>
@@ -59,6 +60,7 @@
 <p>用户在任务中打开的底部终端会在切换到其他任务后继续保留，回到该任务时会恢复原来的终端会话。归档或删除该任务后，Wework 会关闭并卸载该任务对应的终端会话，避免继续占用本地或远程执行资源。</p>
 <p>代码评论上下文不会上传为普通文件，也不会占用 <code>attachment_ids</code>。如果只添加了代码评论但没有输入正文，Wework 会使用简短默认提示发送；如果只是上传普通文件附件且没有输入正文，消息正文仍保持为空，并使用默认会话标题。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用现有目录">使用现有目录<a href="#使用现有目录" class="hash-link" aria-label="使用现有目录的直接链接" title="使用现有目录的直接链接" translate="no">​</a></h2>
+<p>在 macOS 桌面版中，为本机设备选择“使用现有目录”会打开系统 Finder 目录选择器。如果目标是远程或云端设备，Wework 仍使用应用内的远程目录选择器，确保选中的路径属于对应执行设备。</p>
 <p>通过“使用现有目录”创建 Wework 项目时，Wegent 会按当前用户、Wework 来源、执行设备和规范化后的本地目录路径查找已有项目：</p>
 <ul>
 <li class="">如果同一目录对应的项目仍然有效，Wegent 会直接选中并复用该项目，不会创建重复项目。</li>
