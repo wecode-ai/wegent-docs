@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Codex 插件运行时 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/wework-codex-plugins"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Codex 插件运行时 | Wegent"><meta data-rh="true" name="description" content="Wework 的插件能力兼容 Codex plugin、skill 和 app 机制。插件页负责发现、安装、创建和管理插件；对话运行时负责把用户选中的 skill/app 以结构化 mention 传给 Codex app-server，而不是把展示用文本当成普通 prompt。"><meta data-rh="true" property="og:description" content="Wework 的插件能力兼容 Codex plugin、skill 和 app 机制。插件页负责发现、安装、创建和管理插件；对话运行时负责把用户选中的 skill/app 以结构化 mention 传给 Codex app-server，而不是把展示用文本当成普通 prompt。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/wework-codex-plugins"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/wework-codex-plugins" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/wework-codex-plugins" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/wework-codex-plugins" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"开发者指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Codex 插件运行时","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/wework-codex-plugins"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.652d8604.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.83e21fd1.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.752f98b5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -43,13 +43,13 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="模型列表">模型列表<a href="#模型列表" class="hash-link" aria-label="模型列表的直接链接" title="模型列表的直接链接" translate="no">​</a></h2>
 <p>Wework 通过本机 executor 请求 Codex app-server 的 <code>model/list</code> 获取模型目录，并将返回的 provider 和模型数组顺序原样用于模型选择器。前端不会重排官方模型、默认模型或自定义 provider，也不会补充未由 Codex 返回的模型。请求使用 <code>includeHidden: false</code>，因此 Codex 标记为隐藏的模型不会显示。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="对话运行时">对话运行时<a href="#对话运行时" class="hash-link" aria-label="对话运行时的直接链接" title="对话运行时的直接链接" translate="no">​</a></h2>
-<p>用户在输入框中选择 skill、app 或插件时，编辑器插入结构化 badge，并在提交时序列化为 Codex app-server 支持的 mention 输入：</p>
+<p>用户在输入框中选择 skill、app 或插件时，编辑器插入不可拆分的行内 mention。光标只能停在 mention 前后；复制或提交时，编辑器会把 mention 序列化为 Codex app-server 支持的 markdown 输入：</p>
 <ul>
-<li class="">skill 使用 <code>[$name](skill://path)</code>。</li>
+<li class="">skill 使用 <code>[$name](/absolute/path/to/SKILL.md)</code>。</li>
 <li class="">app 使用 <code>[$name](app://connector_id)</code>。</li>
 <li class="">plugin 使用 <code>[$name](plugin://plugin_name@marketplace_name)</code>。</li>
 </ul>
-<p>executor 在发送 <code>turn/input</code> 前解析这些 markdown mention，并构造成 Responses API 风格的 <code>input</code> text element。这样 Codex 可以识别真实的 skill/app/plugin，而不是只看到展示文本。</p>
+<p>点击 skill mention 会在右侧工作区打开对应的本机 <code>SKILL.md</code>。executor 在发送 <code>turn/input</code> 前解析这些 markdown mention，并构造成 Responses API 风格的 <code>input</code> text element；为兼容已保存的历史消息，旧的 <code>skill:///absolute/path/to/SKILL.md</code> 格式仍可解析。这样 Codex 可以识别真实的 skill/app/plugin，而不是只看到展示文本。</p>
 <p>未被用户选择的插件不会自动注入普通对话。已安装插件只是让 Codex app-server 能发现其 skill/app；是否启用仍由 Codex app-server 的插件状态和用户在对话中的选择共同决定。</p>
 <p>从插件详情或市场列表点击“在对话中试用”时，Wework 会按 Codex 协议写入单条 plugin mention，而不是同时写入 plugin 和 skill 两条 mention。试用内容会进入新对话草稿，相关模板会显示在输入框上方；用户发送后，消息气泡继续把 <code>plugin://</code> mention 渲染成 badge，避免把协议字符串作为普通文本展示。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="backend-上传">Backend 上传<a href="#backend-上传" class="hash-link" aria-label="Backend 上传的直接链接" title="Backend 上传的直接链接" translate="no">​</a></h2>
