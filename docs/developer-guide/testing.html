@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/assets/js/runtime~main.ede1121d.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.54e07911.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.277d6010.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -137,56 +137,25 @@
 <li class="">Pull requests to these branches</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="workflow-jobs">Workflow Jobs<a href="#workflow-jobs" class="hash-link" aria-label="Direct link to Workflow Jobs" title="Direct link to Workflow Jobs" translate="no">​</a></h3>
+<p>Regular PR checks must cover module tests; E2E jobs do not replace them:</p>
 <ol>
-<li class="">
-<p><strong>test-backend</strong>: Python backend tests</p>
-<ul>
-<li class="">Matrix strategy: Python 3.10 and 3.11</li>
-<li class="">Coverage reports uploaded to Codecov</li>
-<li class="">Dependency caching for faster builds</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-executor</strong>: Executor engine tests</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">Coverage for agents module</li>
-<li class="">Tests AI agent factory and base classes</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-executor-manager</strong>: Task manager tests</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">Coverage for executors module</li>
-<li class="">Tests Docker executor and dispatcher</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-shared</strong>: Shared utilities tests</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">Coverage for utils module</li>
-<li class="">Tests cryptography and data masking</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-frontend</strong>: Frontend tests (Node.js 20.x)</p>
-<ul>
-<li class="">Jest with React Testing Library</li>
-<li class="">Runs with <code>--passWithNoTests</code> flag</li>
-<li class="">Coverage uploaded to Codecov</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-summary</strong>: Aggregate results</p>
-<ul>
-<li class="">Depends on all test jobs</li>
-<li class="">Fails if any test job fails</li>
-<li class="">Always runs regardless of individual job status</li>
-</ul>
-</li>
+<li class=""><strong>test-backend</strong> runs the Backend suite with Python 3.11 and <code>uv run pytest</code>.</li>
+<li class=""><strong>test-executor</strong> runs <code>cargo fmt --check</code>, <code>cargo test --all-features</code>, and
+Clippy for the Rust Executor. It places <code>CARGO_TARGET_DIR</code> under the runner&#x27;s
+temporary directory to avoid shared build contamination and workspace disk pressure.</li>
+<li class=""><strong>test-executor-manager</strong>, <strong>test-shared</strong>, and <strong>test-knowledge-engine</strong> run
+their Python suites with <code>uv run pytest</code>.</li>
+<li class=""><strong>test-frontend</strong> runs the Chat Core and Frontend unit tests.</li>
+<li class=""><strong>test-wework</strong> runs the Wework unit suite with Vitest and generates coverage.</li>
+<li class=""><strong>test-wegent-cli</strong> and <strong>test-wegent-cli-integration</strong> run CLI unit tests and
+integration tests backed by MySQL, Redis, and a real Backend, respectively.</li>
+<li class=""><strong>test-summary</strong> always runs and depends on every job above. It must fail when
+any module test job fails.</li>
 </ol>
+<p>E2E coverage lives in dedicated workflows: <code>.github/workflows/e2e-tests.yml</code>
+covers product end-to-end flows, while <code>.github/workflows/wework-e2e.yml</code> covers
+Wework flows. They add cross-module verification and do not replace the module
+tests in <code>.github/workflows/test.yml</code>.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="coverage-reports">Coverage Reports<a href="#coverage-reports" class="hash-link" aria-label="Direct link to Coverage Reports" title="Direct link to Coverage Reports" translate="no">​</a></h3>
 <p>Coverage reports are automatically uploaded to Codecov (if configured).</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="mocking-strategy">Mocking Strategy<a href="#mocking-strategy" class="hash-link" aria-label="Direct link to Mocking Strategy" title="Direct link to Mocking Strategy" translate="no">​</a></h2>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"开发者指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.437acea6.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.6986f2f7.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.b9784cd8.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.7050bb6f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -137,56 +137,23 @@
 <li class="">向这些分支提交的拉取请求</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="工作流任务">工作流任务<a href="#工作流任务" class="hash-link" aria-label="工作流任务的直接链接" title="工作流任务的直接链接" translate="no">​</a></h3>
+<p>常规 PR 测试必须覆盖各模块测试，不能用 E2E 任务代替：</p>
 <ol>
-<li class="">
-<p><strong>test-backend</strong>：Python 后端测试</p>
-<ul>
-<li class="">矩阵策略：Python 3.10 和 3.11</li>
-<li class="">覆盖率报告上传至 Codecov</li>
-<li class="">依赖缓存以加快构建速度</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-executor</strong>：执行器引擎测试</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">agents 模块的覆盖率</li>
-<li class="">测试 AI agent 工厂和基础类</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-executor-manager</strong>：任务管理器测试</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">executors 模块的覆盖率</li>
-<li class="">测试 Docker 执行器和调度器</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-shared</strong>：共享工具库测试</p>
-<ul>
-<li class="">Python 3.10</li>
-<li class="">utils 模块的覆盖率</li>
-<li class="">测试加密和数据脱敏</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-frontend</strong>：前端测试（Node.js 20.x）</p>
-<ul>
-<li class="">使用 React Testing Library 的 Jest</li>
-<li class="">使用 <code>--passWithNoTests</code> 标志运行</li>
-<li class="">覆盖率上传至 Codecov</li>
-</ul>
-</li>
-<li class="">
-<p><strong>test-summary</strong>：汇总结果</p>
-<ul>
-<li class="">依赖于所有测试任务</li>
-<li class="">如果任何测试任务失败则失败</li>
-<li class="">始终运行，无论单个任务的状态如何</li>
-</ul>
-</li>
+<li class=""><strong>test-backend</strong>：使用 Python 3.11 和 <code>uv run pytest</code> 运行 Backend 测试。</li>
+<li class=""><strong>test-executor</strong>：运行 Rust Executor 的 <code>cargo fmt --check</code>、
+<code>cargo test --all-features</code> 和 Clippy。该任务把 <code>CARGO_TARGET_DIR</code> 设置到 runner
+临时目录，避免共享构建目录污染或占满工作区。</li>
+<li class=""><strong>test-executor-manager</strong>、<strong>test-shared</strong> 和 <strong>test-knowledge-engine</strong>：使用
+<code>uv run pytest</code> 运行对应 Python 模块测试。</li>
+<li class=""><strong>test-frontend</strong>：运行 Chat Core 与 Frontend 单元测试。</li>
+<li class=""><strong>test-wework</strong>：使用 Vitest 运行 Wework 单元测试并生成覆盖率。</li>
+<li class=""><strong>test-wegent-cli</strong> 与 <strong>test-wegent-cli-integration</strong>：分别运行 CLI 单元测试，
+以及依赖 MySQL、Redis 和真实 Backend 的集成测试。</li>
+<li class=""><strong>test-summary</strong>：始终运行并依赖以上所有任务；任何模块测试失败时，汇总任务必须失败。</li>
 </ol>
+<p>E2E 使用独立 workflow：<code>.github/workflows/e2e-tests.yml</code> 覆盖产品端到端流程，
+<code>.github/workflows/wework-e2e.yml</code> 覆盖 Wework 流程。它们提供额外的跨模块验证，
+不会替代 <code>.github/workflows/test.yml</code> 中的模块测试。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="覆盖率报告">覆盖率报告<a href="#覆盖率报告" class="hash-link" aria-label="覆盖率报告的直接链接" title="覆盖率报告的直接链接" translate="no">​</a></h3>
 <p>覆盖率报告会自动上传到 Codecov（如果已配置）。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="mock模拟策略">Mock（模拟）策略<a href="#mock模拟策略" class="hash-link" aria-label="Mock（模拟）策略的直接链接" title="Mock（模拟）策略的直接链接" translate="no">​</a></h2>
