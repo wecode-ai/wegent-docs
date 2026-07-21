@@ -30,8 +30,8 @@ jobs:
 
       - name: Sync English documentation
         run: |
-          # Remove existing docs (except category files we want to preserve)
-          find docs-repo/docs -name "*.md" -type f -delete 2>/dev/null || true
+          # Mirror the source tree so removed pages and category files do not linger.
+          find docs-repo/docs -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
           # Copy English docs
           if [ -d "main-repo/docs/en" ]; then
@@ -40,8 +40,8 @@ jobs:
 
       - name: Sync Chinese documentation
         run: |
-          # Remove existing Chinese docs
-          find docs-repo/i18n/zh/docusaurus-plugin-content-docs/current -name "*.md" -type f -delete 2>/dev/null || true
+          # Mirror the source tree so removed pages and category files do not linger.
+          find docs-repo/i18n/zh/docusaurus-plugin-content-docs/current -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
           # Copy Chinese docs
           if [ -d "main-repo/docs/zh" ]; then

@@ -104,9 +104,15 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'docsSidebar',
+            sidebarId: 'wegentSidebar',
             position: 'left',
-            label: 'Docs',
+            label: 'Wegent',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'weworkSidebar',
+            position: 'left',
+            label: 'Wework',
           },
           {
             href: 'https://github.com/wecode-ai/Wegent',
@@ -127,11 +133,11 @@ const config = {
             items: [
               {
                 label: 'Quick Start',
-                to: '/docs/getting-started/quick-start',
+                to: '/wegent/getting-started/quick-start',
               },
               {
                 label: 'Core Concepts',
-                to: '/docs/concepts/core-concepts',
+                to: '/wegent/concepts/core-concepts',
               },
             ],
           },
