@@ -60,7 +60,7 @@ Detailed technical references:
 
 ### 📝 Configuration Examples
 
-- [Team Configuration Example](../examples/team-example.yaml) - Complete Team YAML configuration example
+- [Team Configuration Example](/examples/team-example.yaml) - Complete Team YAML configuration example
 
 ### 🤝 Contributing
 

@@ -60,7 +60,7 @@ Wegent 是用于定义、组织和运行智能体团队的 AI 原生平台。本
 
 ### 📝 配置示例
 
-- [Team 配置示例](../examples/team-example.yaml) - 完整的 Team YAML 配置示例
+- [Team 配置示例](/examples/team-example.yaml) - 完整的 Team YAML 配置示例
 
 ### 🤝 贡献指南
 
