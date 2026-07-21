@@ -1,81 +1,126 @@
 {
-  "homepage.tagline": {
-    "message": "构建、编排、部署智能体团队，让 AI 协作变得简单而强大"
-  },
-  "homepage.taglineBadge": {
-    "message": "新一代 AI 多智能体协作平台"
-  },
-  "homepage.getStarted": {
-    "message": "🚀 快速开始"
-  },
-  "homepage.learnMore": {
-    "message": "📖 了解更多"
-  },
   "homepage.title": {
-    "message": "首页"
+    "message": "文档"
   },
   "homepage.description": {
-    "message": "Wegent - AI 驱动的多智能体协作平台"
+    "message": "Wegent 智能体团队平台与 Wework 桌面 AI 工作台文档。"
   },
-  "homepage.feature.quickStart.title": {
+  "homepage.eyebrow": {
+    "message": "用你的方式与 AI 协作"
+  },
+  "homepage.hero.title": {
+    "message": "用 AI 构建、创作，完成工作。"
+  },
+  "homepage.hero.description": {
+    "message": "通过 Wegent 运行智能体团队和平台工作流，或使用 Wework 直接处理本地项目；只有需要云端资源时，才需要将 Wework 连接到云端。"
+  },
+  "homepage.hero.wegentCta": {
+    "message": "查看 Wegent 文档"
+  },
+  "homepage.hero.weworkCta": {
+    "message": "查看 Wework 文档"
+  },
+  "homepage.cloud.title": {
+    "message": "可选云端连接"
+  },
+  "homepage.cloud.models": {
+    "message": "服务端模型"
+  },
+  "homepage.cloud.devices": {
+    "message": "云设备"
+  },
+  "homepage.cloud.remoteDevices": {
+    "message": "远程设备"
+  },
+  "homepage.relationship.wegent": {
+    "message": "智能体团队与平台工作流"
+  },
+  "homepage.relationship.wework": {
+    "message": "本地优先的桌面 AI 工作台"
+  },
+  "homepage.relationship.localNote": {
+    "message": "不连接云端，Wework 的本地功能也可完整使用。"
+  },
+  "homepage.choice.title": {
+    "message": "根据工作内容选择产品"
+  },
+  "homepage.choice.wegent.title": {
+    "message": "构建和运行智能体团队"
+  },
+  "homepage.choice.wegent.description": {
+    "message": "定义角色和工具，管理任务、知识、集成与执行环境。"
+  },
+  "homepage.choice.wework.title": {
+    "message": "直接处理项目"
+  },
+  "homepage.choice.wework.description": {
+    "message": "打开项目目录，与 Codex 协作，并使用文件、终端、浏览器、插件和 Skills。"
+  },
+  "homepage.choice.cloud.title": {
+    "message": "需要在 Wework 中使用云端资源？"
+  },
+  "homepage.choice.cloud.description": {
+    "message": "需要时连接 Wegent Backend。"
+  },
+  "homepage.docs.wegent.description": {
+    "message": "在网页端构建和运行智能体团队。"
+  },
+  "homepage.docs.wework.description": {
+    "message": "在桌面端使用 AI 处理本地项目。"
+  },
+  "homepage.docs.quickStart": {
     "message": "快速开始"
   },
-  "homepage.feature.quickStart.description": {
-    "message": "几分钟内即可启动 Wegent。学习基础知识并创建您的第一个 AI 智能体。"
+  "homepage.docs.wegent.quickStart.description": {
+    "message": "安装 Wegent 并运行第一个智能体团队。"
   },
-  "homepage.feature.coreConcepts.title": {
-    "message": "核心概念"
+  "homepage.docs.wework.quickStart.description": {
+    "message": "完成 Wework 设置并打开第一个项目。"
   },
-  "homepage.feature.coreConcepts.description": {
-    "message": "深入理解 Ghost、Bot、Team、Skill 等核心概念，掌握多智能体协作的精髓。"
+  "homepage.docs.agents": {
+    "message": "智能体与团队"
   },
-  "homepage.feature.guides.title": {
-    "message": "使用指南"
+  "homepage.docs.agents.description": {
+    "message": "定义智能体、角色、工具与协作方式。"
   },
-  "homepage.feature.guides.description": {
-    "message": "全面的指南帮助您创建和管理智能体、团队和任务，释放 AI 协作的无限可能。"
+  "homepage.docs.tasks": {
+    "message": "任务"
   },
-  "homepage.features.title": {
-    "message": "为什么选择 Wegent？"
+  "homepage.docs.tasks.description": {
+    "message": "创建、分配并跟踪团队工作。"
   },
-  "homepage.features.subtitle": {
-    "message": "强大的功能，简洁的设计，无限的可能"
+  "homepage.docs.knowledge": {
+    "message": "知识与集成"
   },
-  "homepage.exploreMore": {
-    "message": "探索更多"
+  "homepage.docs.knowledge.description": {
+    "message": "连接知识来源和智能体使用的工具。"
   },
-  "homepage.stats.skills": {
-    "message": "内置技能"
+  "homepage.docs.projects": {
+    "message": "项目"
   },
-  "homepage.stats.models": {
-    "message": "支持模型"
+  "homepage.docs.projects.description": {
+    "message": "管理本地目录、Git 项目和工作区。"
   },
-  "homepage.stats.agents": {
-    "message": "智能体组合"
+  "homepage.docs.workbench": {
+    "message": "代码工作台"
   },
-  "homepage.stats.availability": {
-    "message": "全天候服务"
+  "homepage.docs.workbench.description": {
+    "message": "查看文件、终端、命令和代码变更。"
   },
-  "homepage.resources.title": {
-    "message": "📦 资源与链接"
+  "homepage.docs.browserDevices": {
+    "message": "浏览器与设备"
   },
-  "homepage.resources.apiReference": {
-    "message": "API 参考文档"
+  "homepage.docs.browserDevices.description": {
+    "message": "浏览网页，并选择任务的运行位置。"
   },
-  "homepage.resources.architecture": {
-    "message": "系统架构"
+  "homepage.openSource.title": {
+    "message": "GitHub 开源"
   },
-  "homepage.resources.faq": {
-    "message": "常见问题"
+  "homepage.openSource.description": {
+    "message": "查看源码、参与贡献，共同改进 Wegent 与 Wework。"
   },
-  "homepage.cta.title": {
-    "message": "准备好开始了吗？"
-  },
-  "homepage.cta.description": {
-    "message": "加入 Wegent 社区，探索 AI 多智能体协作的无限可能。从今天开始构建您的智能体团队！"
-  },
-  "homepage.cta.button": {
-    "message": "立即安装 Wegent"
+  "homepage.openSource.cta": {
+    "message": "查看组织"
   },
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",

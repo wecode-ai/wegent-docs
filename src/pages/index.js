@@ -1,298 +1,331 @@
-import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {translate} from '@docusaurus/Translate';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-import Translate, {translate} from '@docusaurus/Translate';
+import {
+  ArrowRight,
+  Books,
+  Browser,
+  Cloud,
+  Code,
+  Desktop,
+  Devices,
+  FolderOpen,
+  GithubLogo,
+  HardDrives,
+  ListChecks,
+  Monitor,
+  PuzzlePiece,
+  Robot,
+  TerminalWindow,
+  UsersThree,
+} from '@phosphor-icons/react';
 
 import styles from './index.module.css';
 
-// Feature data
-const FeatureList = [
+const t = (id, message) => translate({id, message});
+
+const cloudResources = [
   {
-    icon: '🚀',
-    iconClass: 'featureIconRocket',
-    title: translate({
-      id: 'homepage.feature.quickStart.title',
-      message: 'Quick Start',
-    }),
-    description: translate({
-      id: 'homepage.feature.quickStart.description',
-      message: 'Get started with Wegent in minutes. Learn the basics and create your first AI agent.',
-    }),
-    link: '/docs/getting-started/quick-start',
+    icon: HardDrives,
+    label: t('homepage.cloud.models', 'Server models'),
   },
   {
-    icon: '🧠',
-    iconClass: 'featureIconBrain',
-    title: translate({
-      id: 'homepage.feature.coreConcepts.title',
-      message: 'Core Concepts',
-    }),
-    description: translate({
-      id: 'homepage.feature.coreConcepts.description',
-      message: 'Understand Ghost, Bot, Team, Skill and other core concepts to master multi-agent collaboration.',
-    }),
-    link: '/docs/concepts/core-concepts',
+    icon: Cloud,
+    label: t('homepage.cloud.devices', 'Cloud devices'),
   },
   {
-    icon: '📚',
-    iconClass: 'featureIconBook',
-    title: translate({
-      id: 'homepage.feature.guides.title',
-      message: 'User Guides',
-    }),
-    description: translate({
-      id: 'homepage.feature.guides.description',
-      message: 'Comprehensive guides to help you create and manage agents, teams, and tasks for unlimited AI collaboration.',
-    }),
-    link: '/docs/guides/user/creating-ghosts',
+    icon: Devices,
+    label: t('homepage.cloud.remoteDevices', 'Remote devices'),
   },
 ];
 
-// Statistics data
-const StatsList = [
+const productChoices = [
   {
-    number: '10+',
-    label: translate({
-      id: 'homepage.stats.skills',
-      message: 'Built-in Skills',
-    }),
+    name: 'Wegent',
+    icon: Robot,
+    title: t('homepage.choice.wegent.title', 'Build and operate agent teams'),
+    description: t(
+      'homepage.choice.wegent.description',
+      'Define roles and tools, manage tasks, knowledge, integrations, and execution.',
+    ),
   },
   {
-    number: '5+',
-    label: translate({
-      id: 'homepage.stats.models',
-      message: 'Supported Models',
-    }),
-  },
-  {
-    number: '∞',
-    label: translate({
-      id: 'homepage.stats.agents',
-      message: 'Agent Combinations',
-    }),
-  },
-  {
-    number: '7*24',
-    label: translate({
-      id: 'homepage.stats.availability',
-      message: 'Always Available',
-    }),
+    name: 'Wework',
+    icon: Desktop,
+    title: t('homepage.choice.wework.title', 'Work directly on projects'),
+    description: t(
+      'homepage.choice.wework.description',
+      'Open a folder, collaborate with Codex, and use files, terminals, browser, plugins, and Skills.',
+    ),
   },
 ];
 
-// Hero section component
-function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
-  return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      {/* Decorative background elements */}
-      <div className={clsx(styles.heroDecoration, styles.heroOrb1)} />
-      <div className={clsx(styles.heroDecoration, styles.heroOrb2)} />
-      <div className={clsx(styles.heroDecoration, styles.heroOrb3)} />
-      
-      <div className={clsx('container', styles.heroContent)}>
-        {/* Tagline badge */}
-        <div className={styles.heroTagline}>
-          <span className={styles.heroTaglineIcon}>✨</span>
-          <Translate id="homepage.taglineBadge">
-            Next-Generation AI Multi-Agent Collaboration Platform
-          </Translate>
-        </div>
-        
-        {/* Main title */}
-        <Heading as="h1" className={clsx('hero__title', styles.heroTitle)}>
-          <span className={styles.heroTitleGradient}>{siteConfig.title}</span>
-        </Heading>
-        
-        {/* Subtitle */}
-        <p className={clsx('hero__subtitle', styles.heroSubtitle)}>
-          <Translate id="homepage.tagline">
-            Build, orchestrate, and deploy agent teams - making AI collaboration simple and powerful
-          </Translate>
-        </p>
-        
-        {/* Button group */}
-        <div className={styles.buttons}>
-          <Link
-            className={clsx('button button--lg', styles.heroButton, styles.heroButtonPrimary)}
-            to="/docs/getting-started/quick-start">
-            <Translate id="homepage.getStarted">
-              🚀 Get Started
-            </Translate>
-          </Link>
-          <Link
-            className={clsx('button button--lg', styles.heroButton, styles.heroButtonSecondary)}
-            to="/docs/concepts/core-concepts">
-            <Translate id="homepage.learnMore">
-              📖 Learn More
-            </Translate>
-          </Link>
-        </div>
-      </div>
-    </header>
-  );
-}
+const docProducts = [
+  {
+    name: 'Wegent',
+    icon: Robot,
+    href: '/docs/wegent',
+    description: t(
+      'homepage.docs.wegent.description',
+      'Build and operate agent teams on the web.',
+    ),
+    items: [
+      {
+        icon: Code,
+        title: t('homepage.docs.quickStart', 'Quick start'),
+        description: t(
+          'homepage.docs.wegent.quickStart.description',
+          'Install Wegent and run your first agent team.',
+        ),
+        href: '/docs/wegent/getting-started/quick-start',
+      },
+      {
+        icon: UsersThree,
+        title: t('homepage.docs.agents', 'Agents and teams'),
+        description: t(
+          'homepage.docs.agents.description',
+          'Define agents, roles, tools, and collaboration.',
+        ),
+        href: '/docs/wegent/user-guide/settings/agent-settings',
+      },
+      {
+        icon: ListChecks,
+        title: t('homepage.docs.tasks', 'Tasks'),
+        description: t(
+          'homepage.docs.tasks.description',
+          'Create, assign, and follow work across your teams.',
+        ),
+        href: '/docs/wegent/user-guide/chat/managing-tasks',
+      },
+      {
+        icon: Books,
+        title: t('homepage.docs.knowledge', 'Knowledge and integrations'),
+        description: t(
+          'homepage.docs.knowledge.description',
+          'Connect knowledge sources and the tools your agents use.',
+        ),
+        href: '/docs/wegent/user-guide/knowledge/knowledge-base-guide',
+      },
+    ],
+  },
+  {
+    name: 'Wework',
+    icon: Desktop,
+    href: '/docs/wework',
+    description: t(
+      'homepage.docs.wework.description',
+      'Work on local projects with AI on your desktop.',
+    ),
+    items: [
+      {
+        icon: Monitor,
+        title: t('homepage.docs.quickStart', 'Quick start'),
+        description: t(
+          'homepage.docs.wework.quickStart.description',
+          'Set up Wework and open your first project.',
+        ),
+        href: '/docs/wework/getting-started',
+      },
+      {
+        icon: FolderOpen,
+        title: t('homepage.docs.projects', 'Projects'),
+        description: t(
+          'homepage.docs.projects.description',
+          'Organize local folders, Git projects, and workspaces.',
+        ),
+        href: '/docs/wework/projects',
+      },
+      {
+        icon: TerminalWindow,
+        title: t('homepage.docs.workbench', 'Coding workbench'),
+        description: t(
+          'homepage.docs.workbench.description',
+          'Review files, terminals, commands, and code changes.',
+        ),
+        href: '/docs/wework/workbench',
+      },
+      {
+        icon: Browser,
+        title: t('homepage.docs.browserDevices', 'Browser and devices'),
+        description: t(
+          'homepage.docs.browserDevices.description',
+          'Browse the web and choose where your work runs.',
+        ),
+        href: '/docs/wework/browser',
+      },
+    ],
+  },
+];
 
-// Feature card component
-function FeatureCard({icon, iconClass, title, description, link}) {
+function ProductMark({product, icon: Icon}) {
+  const wegentLogo = useBaseUrl('/img/wegent.png');
   return (
-    <div className={styles.featureCard}>
-      <div className={clsx(styles.featureIcon, styles[iconClass])}>
-        {icon}
-      </div>
-      <Heading as="h3" className={styles.featureTitle}>
-        {title}
-      </Heading>
-      <p className={styles.featureDescription}>{description}</p>
-      <Link className={styles.featureLink} to={link}>
-        <Translate id="homepage.exploreMore">Explore More</Translate>
-        <span className={styles.featureLinkArrow}>→</span>
-      </Link>
+    <div className={styles.productMark} aria-hidden="true">
+      {product === 'Wegent' ? (
+        <img src={wegentLogo} alt="" />
+      ) : (
+        <Icon size={30} weight="duotone" />
+      )}
     </div>
   );
 }
 
-// Features section
-function HomepageFeatures() {
+function Hero() {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        {/* Section title */}
-        <div className={styles.featuresTitle}>
-          <Heading as="h2" className={styles.featuresTitleText}>
-            <Translate id="homepage.features.title">
-              Why Choose Wegent?
-            </Translate>
-          </Heading>
-          <p className={styles.featuresSubtitle}>
-            <Translate id="homepage.features.subtitle">
-              Powerful features, elegant design, unlimited possibilities
-            </Translate>
-          </p>
+    <section className={styles.hero}>
+      <div className={styles.heroCopy}>
+        <span className={styles.eyebrow}>
+          {t('homepage.eyebrow', 'AI work, your way.')}
+        </span>
+        <Heading as="h1" className={styles.heroTitle}>
+          {t('homepage.hero.title', 'Build, create, and get work done with AI.')}
+        </Heading>
+        <p className={styles.heroDescription}>
+          {t(
+            'homepage.hero.description',
+            'Run agent teams and platform workflows with Wegent, or work directly on local projects with Wework. Connect Wework to cloud resources only when you need them.',
+          )}
+        </p>
+        <div className={styles.heroActions}>
+          <Link className={styles.outlineButton} to="/docs/wegent">
+            <Robot size={20} weight="duotone" aria-hidden="true" />
+            {t('homepage.hero.wegentCta', 'Explore Wegent docs')}
+            <ArrowRight size={17} aria-hidden="true" />
+          </Link>
+          <Link className={styles.outlineButton} to="/docs/wework">
+            <Desktop size={20} weight="duotone" aria-hidden="true" />
+            {t('homepage.hero.weworkCta', 'Explore Wework docs')}
+            <ArrowRight size={17} aria-hidden="true" />
+          </Link>
         </div>
-        
-        {/* Feature cards grid */}
-        <div className={styles.featuresGrid}>
-          {FeatureList.map((props, idx) => (
-            <FeatureCard key={idx} {...props} />
+      </div>
+
+      <div className={styles.relationship} aria-label={t('homepage.cloud.title', 'Optional cloud connection')}>
+        <div className={styles.productNode}>
+          <ProductMark product="Wegent" icon={Robot} />
+          <strong>Wegent</strong>
+          <span>{t('homepage.relationship.wegent', 'Agent teams and platform workflows')}</span>
+        </div>
+        <div className={styles.resourceColumn}>
+          <span className={styles.resourceTitle}>
+            {t('homepage.cloud.title', 'Optional cloud connection')}
+          </span>
+          {cloudResources.map(({icon: Icon, label}) => (
+            <div className={styles.resourceRow} key={label}>
+              <Icon size={21} weight="duotone" aria-hidden="true" />
+              <span>{label}</span>
+              <ArrowRight size={17} aria-hidden="true" />
+            </div>
           ))}
+        </div>
+        <div className={styles.productNode}>
+          <ProductMark product="Wework" icon={Desktop} />
+          <strong>Wework</strong>
+          <span>{t('homepage.relationship.wework', 'Local-first desktop AI workbench')}</span>
+        </div>
+        <p className={styles.localNote}>
+          {t('homepage.relationship.localNote', 'Wework remains fully usable locally.')}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function ProductChooser() {
+  return (
+    <section className={styles.chooser}>
+      <Heading as="h2" className={styles.sectionTitle}>
+        {t('homepage.choice.title', 'Choose the product that fits the work')}
+      </Heading>
+      <div className={styles.choiceGrid}>
+        {productChoices.map(({name, icon: Icon, title, description}) => (
+          <div className={styles.choice} key={name}>
+            <ProductMark product={name} icon={Icon} />
+            <div>
+              <span className={styles.choiceProduct}>{name}</span>
+              <Heading as="h3">{title}</Heading>
+              <p>{description}</p>
+            </div>
+          </div>
+        ))}
+        <div className={styles.cloudChoice}>
+          <Cloud size={42} weight="duotone" aria-hidden="true" />
+          <div>
+            <strong>{t('homepage.choice.cloud.title', 'Need cloud resources in Wework?')}</strong>
+            <p>{t('homepage.choice.cloud.description', 'Connect a Wegent Backend when needed.')}</p>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-// Statistics section
-function HomepageStats() {
+function DocumentationPanel({product}) {
+  const {name, icon, href, description, items} = product;
   return (
-    <section className={styles.stats}>
-      <div className={styles.statsGrid}>
-        {StatsList.map((stat, idx) => (
-          <div key={idx} className={styles.statItem}>
-            <div className={styles.statNumber}>{stat.number}</div>
-            <div className={styles.statLabel}>{stat.label}</div>
-          </div>
+    <section className={styles.docsPanel}>
+      <Link className={styles.docsHeader} to={href}>
+        <ProductMark product={name} icon={icon} />
+        <div>
+          <Heading as="h2">{name} Documentation</Heading>
+          <p>{description}</p>
+        </div>
+        <ArrowRight size={20} aria-hidden="true" />
+      </Link>
+      <div className={styles.docsLinks}>
+        {items.map(({icon: Icon, title, description: itemDescription, href: itemHref}) => (
+          <Link className={styles.docLink} to={itemHref} key={`${name}-${title}`}>
+            <Icon size={25} weight="duotone" aria-hidden="true" />
+            <strong>{title}</strong>
+            <span>{itemDescription}</span>
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         ))}
       </div>
     </section>
   );
 }
 
-// Resources links section
-function HomepageLinks() {
+function OpenSource() {
   return (
-    <section className={styles.links}>
-      <div className="container">
-        <Heading as="h2" className={styles.linksTitle}>
-          <Translate id="homepage.resources.title">
-            📦 Resources & Links
-          </Translate>
-        </Heading>
-        <div className={styles.linkButtons}>
-          <Link
-            className={styles.linkButton}
-            href="https://github.com/wecode-ai/Wegent">
-            <span className={styles.linkButtonIcon}>⭐</span>
-            GitHub Repository
-          </Link>
-          <Link
-            className={styles.linkButton}
-            to="/docs/reference/yaml-specification">
-            <span className={styles.linkButtonIcon}>📋</span>
-            <Translate id="homepage.resources.apiReference">
-              API Reference
-            </Translate>
-          </Link>
-          <Link
-            className={styles.linkButton}
-            to="/docs/concepts/architecture">
-            <span className={styles.linkButtonIcon}>🏗️</span>
-            <Translate id="homepage.resources.architecture">
-              Architecture
-            </Translate>
-          </Link>
-          <Link
-            className={styles.linkButton}
-            to="/docs/faq">
-            <span className={styles.linkButtonIcon}>❓</span>
-            <Translate id="homepage.resources.faq">
-              FAQ
-            </Translate>
-          </Link>
-        </div>
+    <Link className={styles.openSource} href="https://github.com/wecode-ai/Wegent">
+      <GithubLogo size={34} weight="fill" aria-hidden="true" />
+      <div>
+        <strong>{t('homepage.openSource.title', 'Open source on GitHub')}</strong>
+        <span>
+          {t(
+            'homepage.openSource.description',
+            'Explore the source, contribute, and help improve Wegent and Wework.',
+          )}
+        </span>
       </div>
-    </section>
+      <span className={styles.openSourceAction}>
+        {t('homepage.openSource.cta', 'View organization')}
+        <ArrowRight size={17} aria-hidden="true" />
+      </span>
+    </Link>
   );
 }
 
-// CTA section
-function HomepageCTA() {
-  return (
-    <section className={styles.cta}>
-      <div className={styles.ctaContent}>
-        <Heading as="h2" className={styles.ctaTitle}>
-          <Translate id="homepage.cta.title">
-            Ready to Get Started?
-          </Translate>
-        </Heading>
-        <p className={styles.ctaDescription}>
-          <Translate id="homepage.cta.description">
-            Join the Wegent community and explore the unlimited possibilities of AI multi-agent collaboration. Start building your agent team today!
-          </Translate>
-        </p>
-        <Link
-          className={styles.ctaButton}
-          to="/docs/getting-started/installation">
-          <Translate id="homepage.cta.button">
-            Install Wegent Now
-          </Translate>
-          <span>→</span>
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-// Homepage component
 export default function Home() {
   return (
     <Layout
-      title={translate({
-        id: 'homepage.title',
-        message: 'Home',
-      })}
-      description={translate({
-        id: 'homepage.description',
-        message: 'Wegent - AI-Powered Multi-Agent Collaboration Platform',
-      })}>
-      <HomepageHeader />
-      <main>
-        <HomepageFeatures />
-        <HomepageStats />
-        <HomepageLinks />
-        <HomepageCTA />
+      title={t('homepage.title', 'Documentation')}
+      description={t(
+        'homepage.description',
+        'Documentation for Wegent agent teams and the Wework desktop AI workbench.',
+      )}>
+      <main className={styles.homepage}>
+        <Hero />
+        <ProductChooser />
+        <div className={styles.docsGrid}>
+          {docProducts.map((product) => (
+            <DocumentationPanel product={product} key={product.name} />
+          ))}
+        </div>
+        <OpenSource />
       </main>
     </Layout>
   );

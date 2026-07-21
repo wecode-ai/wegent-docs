@@ -126,18 +126,18 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
+        style: 'light',
         links: [
           {
             title: 'Docs',
             items: [
               {
-                label: 'Quick Start',
-                to: '/wegent/getting-started/quick-start',
+                label: 'Wegent',
+                to: '/docs/wegent',
               },
               {
-                label: 'Core Concepts',
-                to: '/wegent/concepts/core-concepts',
+                label: 'Wework',
+                to: '/docs/wework',
               },
             ],
           },
