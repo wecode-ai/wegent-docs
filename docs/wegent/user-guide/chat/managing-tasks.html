@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en-US" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-wegent/user-guide/chat/managing-tasks" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Creating Conversations | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/managing-tasks"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Creating Conversations | Wegent"><meta data-rh="true" name="description" content="This guide explains how to create conversation-type tasks in the Wegent frontend to interact with AI agents."><meta data-rh="true" property="og:description" content="This guide explains how to create conversation-type tasks in the Wegent frontend to interact with AI agents."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/managing-tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/managing-tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/chat/managing-tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/managing-tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Chat","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/"},{"@type":"ListItem","position":3,"name":"Creating Conversations","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat/managing-tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.437acea6.css">
+<script src="/wegent-docs/assets/js/runtime~main.44c91954.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.e6c9fe8f.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/img/wegent.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/"><div class="navbar__logo"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/docs/wegent">Wegent</a><a class="navbar__item navbar__link" href="/wegent-docs/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/wegent/user-guide/chat/managing-tasks" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/wegent/user-guide/chat/managing-tasks" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent"><span title="Wegent documentation" class="linkLabel_WmDU">Wegent documentation</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/getting-started"><span title="Getting Started" class="categoryLinkLabel_W154">Getting Started</span></a><button aria-label="Expand sidebar category &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/concepts"><span title="Concepts" class="categoryLinkLabel_W154">Concepts</span></a><button aria-label="Expand sidebar category &#x27;Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/docs/category/user-guide"><span title="User Guide" class="categoryLinkLabel_W154">User Guide</span></a><button aria-label="Collapse sidebar category &#x27;User Guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/chat"><span title="Chat" class="categoryLinkLabel_W154">Chat</span></a><button aria-label="Collapse sidebar category &#x27;Chat&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/chat/managing-tasks"><span title="Creating Conversations" class="linkLabel_WmDU">Creating Conversations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/chat/clarification-mode-guide"><span title="Smart Follow-up Mode" class="linkLabel_WmDU">Smart Follow-up Mode</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/chat/correction-mode-guide"><span title="AI Cross-Validation" class="linkLabel_WmDU">AI Cross-Validation</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/coding"><span title="Coding" class="categoryLinkLabel_W154">Coding</span></a><button aria-label="Expand sidebar category &#x27;Coding&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/feed"><span title="Feed" class="categoryLinkLabel_W154">Feed</span></a><button aria-label="Expand sidebar category &#x27;Feed&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge"><span title="Knowledge" class="categoryLinkLabel_W154">Knowledge</span></a><button aria-label="Expand sidebar category &#x27;Knowledge&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/category/ai-devices"><span title="AI Devices" class="categoryLinkLabel_W154">AI Devices</span></a><button aria-label="Expand sidebar category &#x27;AI Devices&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/integrations"><span title="Integrations" class="categoryLinkLabel_W154">Integrations</span></a><button aria-label="Expand sidebar category &#x27;Integrations&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/inbox"><span title="Todo" class="categoryLinkLabel_W154">Todo</span></a><button aria-label="Expand sidebar category &#x27;Todo&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/settings"><span title="Settings" class="categoryLinkLabel_W154">Settings</span></a><button aria-label="Expand sidebar category &#x27;Settings&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide"><span title="📚 User Guide" class="linkLabel_WmDU">📚 User Guide</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/ai-coding/local-codex-thread-binding"><span title="ai-coding" class="categoryLinkLabel_W154">ai-coding</span></a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/developer-guide"><span title="Developer Guide" class="categoryLinkLabel_W154">Developer Guide</span></a><button aria-label="Expand sidebar category &#x27;Developer Guide&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/reference"><span title="Reference" class="categoryLinkLabel_W154">Reference</span></a><button aria-label="Expand sidebar category &#x27;Reference&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/deployment"><span title="Deployment" class="categoryLinkLabel_W154">Deployment</span></a><button aria-label="Expand sidebar category &#x27;Deployment&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent/troubleshooting"><span title="🔧 Troubleshooting Guide" class="linkLabel_WmDU">🔧 Troubleshooting Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent/faq"><span title="❓ Frequently Asked Questions (FAQ)" class="linkLabel_WmDU">❓ Frequently Asked Questions (FAQ)</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/wegent-docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/category/user-guide"><span>User Guide</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/wegent/user-guide/chat"><span>Chat</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Creating Conversations</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Creating Conversations</h1></header>
+<p>This guide explains how to create conversation-type tasks in the Wegent frontend to interact with AI agents.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-table-of-contents">📋 Table of Contents<a href="#-table-of-contents" class="hash-link" aria-label="Direct link to 📋 Table of Contents" title="Direct link to 📋 Table of Contents" translate="no">​</a></h2>
+<ul>
+<li class=""><a href="#-what-is-a-conversation" class="">What is a Conversation</a></li>
+<li class=""><a href="#-creating-a-conversation" class="">Creating a Conversation</a></li>
+<li class=""><a href="#-conversation-interface" class="">Conversation Interface</a></li>
+<li class=""><a href="#-advanced-features" class="">Advanced Features</a></li>
+<li class=""><a href="#-managing-task-knowledge" class="">Managing Task Knowledge</a></li>
+<li class=""><a href="#-best-practices" class="">Best Practices</a></li>
+<li class=""><a href="#-common-issues" class="">Common Issues</a></li>
+<li class=""><a href="#-related-resources" class="">Related Resources</a></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-what-is-a-conversation">💬 What is a Conversation<a href="#-what-is-a-conversation" class="hash-link" aria-label="Direct link to 💬 What is a Conversation" title="Direct link to 💬 What is a Conversation" translate="no">​</a></h2>
+<p>In Wegent, a conversation is the primary way users interact with AI agents. Each conversation creates a Task that records the complete conversation history.</p>
+<p><strong>Core Concept</strong>:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Conversation = User Message + Agent + Context + Status</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="conversation-components">Conversation Components<a href="#conversation-components" class="hash-link" aria-label="Direct link to Conversation Components" title="Direct link to Conversation Components" translate="no">​</a></h3>
+<table><thead><tr><th>Component</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><strong>Message</strong></td><td>User&#x27;s question or instruction</td><td>&quot;Help me analyze this report&quot;</td></tr><tr><td><strong>Agent</strong></td><td>AI team executing the task</td><td>Data Analysis Agent</td></tr><tr><td><strong>Context</strong></td><td>Attached knowledge bases, files, etc.</td><td>Project docs, data files</td></tr><tr><td><strong>Status</strong></td><td>Conversation execution status</td><td>PENDING → RUNNING → COMPLETED</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-creating-a-conversation">🚀 Creating a Conversation<a href="#-creating-a-conversation" class="hash-link" aria-label="Direct link to 🚀 Creating a Conversation" title="Direct link to 🚀 Creating a Conversation" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-1-navigate-to-chat-page">Step 1: Navigate to Chat Page<a href="#step-1-navigate-to-chat-page" class="hash-link" aria-label="Direct link to Step 1: Navigate to Chat Page" title="Direct link to Step 1: Navigate to Chat Page" translate="no">​</a></h3>
+<ol>
+<li class="">Click <strong>&quot;Chat&quot;</strong> in the left navigation bar</li>
+<li class="">The system displays the conversation list and input area</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-2-select-an-agent">Step 2: Select an Agent<a href="#step-2-select-an-agent" class="hash-link" aria-label="Direct link to Step 2: Select an Agent" title="Direct link to Step 2: Select an Agent" translate="no">​</a></h3>
+<p>Above the input area, click the agent selector:</p>
+<ol>
+<li class=""><strong>Click the agent dropdown</strong> - Shows available agents</li>
+<li class=""><strong>Select an appropriate agent</strong></li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-3-configure-conversation-options-optional">Step 3: Configure Conversation Options (Optional)<a href="#step-3-configure-conversation-options-optional" class="hash-link" aria-label="Direct link to Step 3: Configure Conversation Options (Optional)" title="Direct link to Step 3: Configure Conversation Options (Optional)" translate="no">​</a></h3>
+<p>Configure the following options as needed:</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="model-selection">Model Selection<a href="#model-selection" class="hash-link" aria-label="Direct link to Model Selection" title="Direct link to Model Selection" translate="no">​</a></h4>
+<p>Click the model selector to override the agent&#x27;s default model:</p>
+<ul>
+<li class=""><strong>Select model</strong>: Choose from the dropdown list</li>
+<li class=""><strong>Force override</strong>: When enabled, uses your selected model even if the agent has a configured model</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="code-repository-code-type">Code Repository (Code Type)<a href="#code-repository-code-type" class="hash-link" aria-label="Direct link to Code Repository (Code Type)" title="Direct link to Code Repository (Code Type)" translate="no">​</a></h4>
+<p>If you selected a Code type agent:</p>
+<ol>
+<li class=""><strong>Select repository</strong>: Click the repository selector, choose the target repository</li>
+<li class=""><strong>Select branch</strong>: Choose the branch to work on</li>
+</ol>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="knowledge-base-context">Knowledge Base Context<a href="#knowledge-base-context" class="hash-link" aria-label="Direct link to Knowledge Base Context" title="Direct link to Knowledge Base Context" translate="no">​</a></h4>
+<p>Click the context button to add knowledge bases:</p>
+<ol>
+<li class=""><strong>Click the &quot;#&quot; button</strong> - Opens the context selector</li>
+<li class=""><strong>Select knowledge bases</strong> - Check the ones to add</li>
+<li class=""><strong>Confirm selection</strong> - Knowledge bases appear as tags</li>
+</ol>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="file-attachments">File Attachments<a href="#file-attachments" class="hash-link" aria-label="Direct link to File Attachments" title="Direct link to File Attachments" translate="no">​</a></h4>
+<p>Click the attachment button to upload files:</p>
+<ol>
+<li class=""><strong>Click the attachment icon</strong> - Opens file selector</li>
+<li class=""><strong>Select files</strong> - Supports images, documents, code files</li>
+<li class=""><strong>Wait for upload</strong> - Files show previews after upload; images use a local preview first, so the sent message does not need to download the image again</li>
+</ol>
+<p>Some system recommendation presets can add attachments automatically. Preset attachments are shown in the input attachment area and can be removed before sending. If you upload your own attachment, Wegent removes the attachments added by the current preset and sends only the files you uploaded.</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="skill-selection">Skill Selection<a href="#skill-selection" class="hash-link" aria-label="Direct link to Skill Selection" title="Direct link to Skill Selection" translate="no">​</a></h4>
+<p>If the agent supports skills:</p>
+<ol>
+<li class=""><strong>Click the skill button</strong> - Opens skill selector</li>
+<li class=""><strong>Select skills</strong> - Check the needed skills</li>
+<li class=""><strong>Or use &quot;/&quot; command</strong> - Type <code>/</code> in the input box to trigger skill selection</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-4-enter-message-and-send">Step 4: Enter Message and Send<a href="#step-4-enter-message-and-send" class="hash-link" aria-label="Direct link to Step 4: Enter Message and Send" title="Direct link to Step 4: Enter Message and Send" translate="no">​</a></h3>
+<ol>
+<li class=""><strong>Type your message in the input box</strong> - Describe your needs</li>
+<li class=""><strong>Press Enter to send</strong> - Or click the send button</li>
+<li class=""><strong>Wait for response</strong> - Agent starts processing and streams results</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="️-conversation-interface">🖥️ Conversation Interface<a href="#️-conversation-interface" class="hash-link" aria-label="Direct link to 🖥️ Conversation Interface" title="Direct link to 🖥️ Conversation Interface" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="input-area">Input Area<a href="#input-area" class="hash-link" aria-label="Direct link to Input Area" title="Direct link to Input Area" translate="no">​</a></h3>
+<p>The input area contains the following controls:</p>
+<table><thead><tr><th>Control</th><th>Function</th><th>Location</th></tr></thead><tbody><tr><td><strong>Agent Selector</strong></td><td>Select the agent for the task</td><td>Above input box</td></tr><tr><td><strong>Model Selector</strong></td><td>Override default model</td><td>Control bar</td></tr><tr><td><strong>Context Button</strong></td><td>Add knowledge bases</td><td>Control bar</td></tr><tr><td><strong>Attachment Button</strong></td><td>Upload files</td><td>Control bar</td></tr><tr><td><strong>Skill Button</strong></td><td>Select skills</td><td>Control bar</td></tr><tr><td><strong>Follow-up Button</strong></td><td>Enable smart follow-up mode</td><td>Control bar</td></tr><tr><td><strong>Cross-Validation Button</strong></td><td>Enable AI cross-validation</td><td>Control bar</td></tr><tr><td><strong>Send Button</strong></td><td>Send message</td><td>Right side of input box</td></tr></tbody></table>
+<p>When a task is running and the composer is empty, the right-side control shows a stop icon that can stop the current response. As soon as you enter a new message, add an attachment, or add a code comment, it switches to a send icon so you can submit follow-up instructions. The message is queued or sent as guidance according to the task&#x27;s current runtime state.</p>
+<p>The composer accepts pasted multiline text and preserves clipboard line breaks. Windows-style line endings are normalized automatically. Even when the clipboard contains both plain text and rich text, each paste inserts the content only once.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="message-area">Message Area<a href="#message-area" class="hash-link" aria-label="Direct link to Message Area" title="Direct link to Message Area" translate="no">​</a></h3>
+<p>The message area displays conversation history:</p>
+<ul>
+<li class=""><strong>User Messages</strong>: Your sent messages, displayed on the right</li>
+<li class=""><strong>AI Responses</strong>: Agent&#x27;s replies, displayed on the left<!-- -->
+<ul>
+<li class="">Text content</li>
+<li class="">Code blocks (with syntax highlighting)</li>
+<li class="">Thinking process (if enabled)</li>
+<li class="">Tool call indicators</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sidebar">Sidebar<a href="#sidebar" class="hash-link" aria-label="Direct link to Sidebar" title="Direct link to Sidebar" translate="no">​</a></h3>
+<p>The left sidebar displays:</p>
+<ul>
+<li class=""><strong>Conversation List</strong>: All historical conversations</li>
+<li class=""><strong>Search Box</strong>: Search conversation content</li>
+<li class=""><strong>New Chat Button</strong>: Start a new conversation</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-advanced-features">⚡ Advanced Features<a href="#-advanced-features" class="hash-link" aria-label="Direct link to ⚡ Advanced Features" title="Direct link to ⚡ Advanced Features" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="per-conversation-model-selection">Per-Conversation Model Selection<a href="#per-conversation-model-selection" class="hash-link" aria-label="Direct link to Per-Conversation Model Selection" title="Direct link to Per-Conversation Model Selection" translate="no">​</a></h3>
+<p>Select a different model for a single conversation without modifying agent configuration:</p>
+<ol>
+<li class=""><strong>Click the model selector</strong> - In the input control bar</li>
+<li class=""><strong>Select a model</strong> - From the available model list</li>
+<li class=""><strong>Enable force override</strong> - Ensures the selected model is used</li>
+</ol>
+<p><strong>Use Cases</strong>:</p>
+<ul>
+<li class="">Use a more powerful model for complex tasks</li>
+<li class="">Use a faster/cheaper model for simple queries</li>
+<li class="">Test different models&#x27; effectiveness</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="smart-follow-up-mode">Smart Follow-up Mode<a href="#smart-follow-up-mode" class="hash-link" aria-label="Direct link to Smart Follow-up Mode" title="Direct link to Smart Follow-up Mode" translate="no">​</a></h3>
+<p>Enable smart follow-up mode for the agent to confirm requirements before execution:</p>
+<ol>
+<li class=""><strong>Click the follow-up icon</strong> (💬) - In the input control bar</li>
+<li class=""><strong>Agent asks questions first</strong> - Confirms your requirement details</li>
+<li class=""><strong>After answering questions</strong> - Agent starts executing the task</li>
+</ol>
+<blockquote>
+<p>📖 For detailed information, see <a class="" href="/wegent-docs/docs/wegent/user-guide/chat/clarification-mode-guide">Smart Follow-up Mode Guide</a></p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="ai-cross-validation">AI Cross-Validation<a href="#ai-cross-validation" class="hash-link" aria-label="Direct link to AI Cross-Validation" title="Direct link to AI Cross-Validation" translate="no">​</a></h3>
+<p>Enable AI cross-validation to have another AI model verify and improve responses:</p>
+<ol>
+<li class=""><strong>Click the cross-validation icon</strong> (✓) - In the input control bar</li>
+<li class=""><strong>Select validation model</strong> - Choose from the popup dialog</li>
+<li class=""><strong>View evaluation results</strong> - Scores and improvement suggestions appear after agent responds</li>
+<li class=""><strong>Apply improvements</strong> (optional) - Click &quot;Apply&quot; button to adopt the improved version</li>
+</ol>
+<blockquote>
+<p>📖 For detailed information, see <a class="" href="/wegent-docs/docs/wegent/user-guide/chat/correction-mode-guide">AI Cross-Validation Guide</a></p>
+</blockquote>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="file-attachments-1">File Attachments<a href="#file-attachments-1" class="hash-link" aria-label="Direct link to File Attachments" title="Direct link to File Attachments" translate="no">​</a></h3>
+<p>Upload files to provide context:</p>
+<ol>
+<li class=""><strong>Click the attachment button</strong> (📎)</li>
+<li class=""><strong>Select files</strong> - Supports multiple formats</li>
+<li class=""><strong>Supported formats</strong>: Images, PDF, Word, code files</li>
+<li class=""><strong>Paste upload</strong>: Directly paste images from clipboard; the sent message shows the image preview immediately</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="knowledge-base-context-1">Knowledge Base Context<a href="#knowledge-base-context-1" class="hash-link" aria-label="Direct link to Knowledge Base Context" title="Direct link to Knowledge Base Context" translate="no">​</a></h3>
+<p>Add knowledge bases to enhance agent capabilities:</p>
+<ol>
+<li class=""><strong>Click the context selector</strong></li>
+<li class=""><strong>Select knowledge bases</strong> - Multiple selection supported</li>
+<li class=""><strong>Agent searches knowledge bases</strong> - Provides more accurate answers</li>
+</ol>
+<p>After you select knowledge bases and send a message, they become knowledge bindings on the current Task. Follow-up messages may continue to use those bindings even if you do not select them again. External knowledge sources, when enabled by your deployment, follow the same rule.</p>
+<p>To stop future messages from using a knowledge base, open the task/group management panel from the top-right corner and remove the entry from the <strong>Knowledge</strong> tab. Removal only affects future messages. It does not delete context badges or citations already shown on historical messages.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="skill-selection-1">Skill Selection<a href="#skill-selection-1" class="hash-link" aria-label="Direct link to Skill Selection" title="Direct link to Skill Selection" translate="no">​</a></h3>
+<p>Add additional capabilities to the agent:</p>
+<ol>
+<li class=""><strong>Click the skill button</strong> - Opens skill selector</li>
+<li class=""><strong>Select skills</strong> - Check the needed skills</li>
+<li class=""><strong>Or type &quot;/&quot; command</strong> - Quick skill selection</li>
+<li class=""><strong>Skills load on-demand</strong> - Dynamically loaded during execution</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-managing-task-knowledge">📚 Managing Task Knowledge<a href="#-managing-task-knowledge" class="hash-link" aria-label="Direct link to 📚 Managing Task Knowledge" title="Direct link to 📚 Managing Task Knowledge" translate="no">​</a></h2>
+<p>Regular conversations and group chats both use the top-right task/group management entry to manage knowledge bound to the current Task.</p>
+<p>In the <strong>Knowledge</strong> tab:</p>
+<ul>
+<li class="">Built-in knowledge bases and external knowledge sources appear in one list.</li>
+<li class="">External knowledge sources show a short provider badge, such as <code>AP</code>.</li>
+<li class="">Click <strong>Remove</strong> to unbind a knowledge base or external knowledge source from the Task.</li>
+<li class="">Unbinding only affects future messages; historical message context remains unchanged.</li>
+<li class="">If external knowledge sources fail to load temporarily, built-in knowledge bases remain visible and removable.</li>
+</ul>
+<p>The composer context selector adds knowledge to the current message. The task/group management panel is where you view and remove Task-level bindings that can be inherited by follow-up messages.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-best-practices">✨ Best Practices<a href="#-best-practices" class="hash-link" aria-label="Direct link to ✨ Best Practices" title="Direct link to ✨ Best Practices" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-writing-effective-prompts">1. Writing Effective Prompts<a href="#1-writing-effective-prompts" class="hash-link" aria-label="Direct link to 1. Writing Effective Prompts" title="Direct link to 1. Writing Effective Prompts" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="-be-specific-and-clear">✅ Be Specific and Clear<a href="#-be-specific-and-clear" class="hash-link" aria-label="Direct link to ✅ Be Specific and Clear" title="Direct link to ✅ Be Specific and Clear" translate="no">​</a></h4>
+<ul>
+<li class="">Clearly describe your needs</li>
+<li class="">Provide necessary background information</li>
+<li class="">Specify expected output format</li>
+<li class="">Include acceptance criteria</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="-avoid-vague-requests">❌ Avoid Vague Requests<a href="#-avoid-vague-requests" class="hash-link" aria-label="Direct link to ❌ Avoid Vague Requests" title="Direct link to ❌ Avoid Vague Requests" translate="no">​</a></h4>
+<ul>
+<li class="">Avoid overly brief descriptions</li>
+<li class="">Avoid requests lacking context</li>
+<li class="">Avoid asking too many things at once</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-choosing-the-right-agent">2. Choosing the Right Agent<a href="#2-choosing-the-right-agent" class="hash-link" aria-label="Direct link to 2. Choosing the Right Agent" title="Direct link to 2. Choosing the Right Agent" translate="no">​</a></h3>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-task-granularity">3. Task Granularity<a href="#3-task-granularity" class="hash-link" aria-label="Direct link to 3. Task Granularity" title="Direct link to 3. Task Granularity" translate="no">​</a></h3>
+<p><strong>Recommended granularity</strong>:</p>
+<ul>
+<li class="">Small task: Single clear objective</li>
+<li class="">Medium task: Contains a few related steps</li>
+<li class="">Large task: Split into multiple smaller tasks</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-providing-sufficient-context">4. Providing Sufficient Context<a href="#4-providing-sufficient-context" class="hash-link" aria-label="Direct link to 4. Providing Sufficient Context" title="Direct link to 4. Providing Sufficient Context" translate="no">​</a></h3>
+<ul>
+<li class="">Upload relevant files</li>
+<li class="">Add knowledge bases</li>
+<li class="">Reference previous conversation content</li>
+<li class="">Specify technical constraints or preferences</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-leveraging-conversation-history">5. Leveraging Conversation History<a href="#5-leveraging-conversation-history" class="hash-link" aria-label="Direct link to 5. Leveraging Conversation History" title="Direct link to 5. Leveraging Conversation History" translate="no">​</a></h3>
+<ul>
+<li class="">Continue conversations for iterative refinement</li>
+<li class="">Reference previous messages for context</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="️-common-issues">⚠️ Common Issues<a href="#️-common-issues" class="hash-link" aria-label="Direct link to ⚠️ Common Issues" title="Direct link to ⚠️ Common Issues" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q1-conversation-stuck-in-pending-status">Q1: Conversation stuck in PENDING status?<a href="#q1-conversation-stuck-in-pending-status" class="hash-link" aria-label="Direct link to Q1: Conversation stuck in PENDING status?" title="Direct link to Q1: Conversation stuck in PENDING status?" translate="no">​</a></h3>
+<p><strong>Possible reasons</strong>:</p>
+<ol>
+<li class="">Agent is unavailable</li>
+<li class="">System resources are limited</li>
+<li class="">Repository configuration error</li>
+</ol>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li class="">Check agent status in Settings → Agents</li>
+<li class="">Verify repository access permissions</li>
+<li class="">Try selecting a different agent</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q2-agent-response-is-incomplete">Q2: Agent response is incomplete?<a href="#q2-agent-response-is-incomplete" class="hash-link" aria-label="Direct link to Q2: Agent response is incomplete?" title="Direct link to Q2: Agent response is incomplete?" translate="no">​</a></h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li class="">Click &quot;Continue&quot; to resume generation</li>
+<li class="">Select a model with larger context window</li>
+<li class="">Split complex tasks into smaller parts</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q3-how-to-stop-a-running-conversation">Q3: How to stop a running conversation?<a href="#q3-how-to-stop-a-running-conversation" class="hash-link" aria-label="Direct link to Q3: How to stop a running conversation?" title="Direct link to Q3: How to stop a running conversation?" translate="no">​</a></h3>
+<p><strong>Method</strong>:</p>
+<ol>
+<li class="">Click the &quot;Stop&quot; button in the input area</li>
+<li class="">Agent stops processing</li>
+<li class="">You can continue the conversation or start a new task</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q4-how-to-retry-a-failed-conversation">Q4: How to retry a failed conversation?<a href="#q4-how-to-retry-a-failed-conversation" class="hash-link" aria-label="Direct link to Q4: How to retry a failed conversation?" title="Direct link to Q4: How to retry a failed conversation?" translate="no">​</a></h3>
+<p><strong>Method</strong>:</p>
+<ol>
+<li class="">Click the &quot;Retry&quot; button on the failed message</li>
+<li class="">Optionally modify the message before retrying</li>
+<li class="">Agent will attempt the task again</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q5-how-to-share-a-conversation">Q5: How to share a conversation?<a href="#q5-how-to-share-a-conversation" class="hash-link" aria-label="Direct link to Q5: How to share a conversation?" title="Direct link to Q5: How to share a conversation?" translate="no">​</a></h3>
+<p><strong>Method</strong>:</p>
+<ol>
+<li class="">Click the share button in the message area</li>
+<li class="">Copy the generated link</li>
+<li class="">Share with team members (requires access permissions)</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="q6-how-to-export-conversation-history">Q6: How to export conversation history?<a href="#q6-how-to-export-conversation-history" class="hash-link" aria-label="Direct link to Q6: How to export conversation history?" title="Direct link to Q6: How to export conversation history?" translate="no">​</a></h3>
+<p><strong>Method</strong>:</p>
+<ol>
+<li class="">Click the export button in the task menu</li>
+<li class="">Choose export format (Markdown, JSON)</li>
+<li class="">Download the conversation history</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-related-resources">🔗 Related Resources<a href="#-related-resources" class="hash-link" aria-label="Direct link to 🔗 Related Resources" title="Direct link to 🔗 Related Resources" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="prerequisites">Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" title="Direct link to Prerequisites" translate="no">​</a></h3>
+<ul>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/settings/agent-settings">Agent Settings</a> - Configure agents and bots</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/settings/configuring-models">Configuring Models</a> - Set up AI models</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/settings/configuring-shells">Configuring Shells</a> - Configure execution environments</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="reference-documentation">Reference Documentation<a href="#reference-documentation" class="hash-link" aria-label="Direct link to Reference Documentation" title="Direct link to Reference Documentation" translate="no">​</a></h3>
+<ul>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/concepts/core-concepts">Core Concepts</a> - Understand Wegent concepts</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/concepts/collaboration-models">Collaboration Models</a> - Multi-agent collaboration</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="detailed-feature-documentation">Detailed Feature Documentation<a href="#detailed-feature-documentation" class="hash-link" aria-label="Direct link to Detailed Feature Documentation" title="Direct link to Detailed Feature Documentation" translate="no">​</a></h3>
+<p>For more details on advanced features, see:</p>
+<ul>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/chat/clarification-mode-guide">Smart Follow-up Mode Guide</a> - Let agent confirm requirements before execution</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/chat/correction-mode-guide">AI Cross-Validation Guide</a> - Use another model to verify and improve responses</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/chat/im-channel-integration.md">IM Channel Integration</a> - Integrate enterprise IM</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-get-help">💬 Get Help<a href="#-get-help" class="hash-link" aria-label="Direct link to 💬 Get Help" title="Direct link to 💬 Get Help" translate="no">​</a></h2>
+<p>Need assistance?</p>
+<ul>
+<li class="">📖 Check <a class="" href="/wegent-docs/docs/wegent/faq">FAQ</a></li>
+<li class="">🐛 Submit <a href="https://github.com/AntGroup/Wegent/issues" target="_blank" rel="noopener noreferrer" class="">GitHub Issue</a></li>
+<li class="">💬 Join community discussions</li>
+</ul>
+<hr>
+<p align="center">Start your first conversation and let AI agents work for you! 🚀</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wegent/user-guide/chat/managing-tasks.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/wegent/user-guide/chat"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Overview</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/wegent/user-guide/chat/clarification-mode-guide"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Smart Follow-up Mode</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#-table-of-contents" class="table-of-contents__link toc-highlight">📋 Table of Contents</a></li><li><a href="#-what-is-a-conversation" class="table-of-contents__link toc-highlight">💬 What is a Conversation</a><ul><li><a href="#conversation-components" class="table-of-contents__link toc-highlight">Conversation Components</a></li></ul></li><li><a href="#-creating-a-conversation" class="table-of-contents__link toc-highlight">🚀 Creating a Conversation</a><ul><li><a href="#step-1-navigate-to-chat-page" class="table-of-contents__link toc-highlight">Step 1: Navigate to Chat Page</a></li><li><a href="#step-2-select-an-agent" class="table-of-contents__link toc-highlight">Step 2: Select an Agent</a></li><li><a href="#step-3-configure-conversation-options-optional" class="table-of-contents__link toc-highlight">Step 3: Configure Conversation Options (Optional)</a></li><li><a href="#step-4-enter-message-and-send" class="table-of-contents__link toc-highlight">Step 4: Enter Message and Send</a></li></ul></li><li><a href="#️-conversation-interface" class="table-of-contents__link toc-highlight">🖥️ Conversation Interface</a><ul><li><a href="#input-area" class="table-of-contents__link toc-highlight">Input Area</a></li><li><a href="#message-area" class="table-of-contents__link toc-highlight">Message Area</a></li><li><a href="#sidebar" class="table-of-contents__link toc-highlight">Sidebar</a></li></ul></li><li><a href="#-advanced-features" class="table-of-contents__link toc-highlight">⚡ Advanced Features</a><ul><li><a href="#per-conversation-model-selection" class="table-of-contents__link toc-highlight">Per-Conversation Model Selection</a></li><li><a href="#smart-follow-up-mode" class="table-of-contents__link toc-highlight">Smart Follow-up Mode</a></li><li><a href="#ai-cross-validation" class="table-of-contents__link toc-highlight">AI Cross-Validation</a></li><li><a href="#file-attachments-1" class="table-of-contents__link toc-highlight">File Attachments</a></li><li><a href="#knowledge-base-context-1" class="table-of-contents__link toc-highlight">Knowledge Base Context</a></li><li><a href="#skill-selection-1" class="table-of-contents__link toc-highlight">Skill Selection</a></li></ul></li><li><a href="#-managing-task-knowledge" class="table-of-contents__link toc-highlight">📚 Managing Task Knowledge</a></li><li><a href="#-best-practices" class="table-of-contents__link toc-highlight">✨ Best Practices</a><ul><li><a href="#1-writing-effective-prompts" class="table-of-contents__link toc-highlight">1. Writing Effective Prompts</a></li><li><a href="#2-choosing-the-right-agent" class="table-of-contents__link toc-highlight">2. Choosing the Right Agent</a></li><li><a href="#3-task-granularity" class="table-of-contents__link toc-highlight">3. Task Granularity</a></li><li><a href="#4-providing-sufficient-context" class="table-of-contents__link toc-highlight">4. Providing Sufficient Context</a></li><li><a href="#5-leveraging-conversation-history" class="table-of-contents__link toc-highlight">5. Leveraging Conversation History</a></li></ul></li><li><a href="#️-common-issues" class="table-of-contents__link toc-highlight">⚠️ Common Issues</a><ul><li><a href="#q1-conversation-stuck-in-pending-status" class="table-of-contents__link toc-highlight">Q1: Conversation stuck in PENDING status?</a></li><li><a href="#q2-agent-response-is-incomplete" class="table-of-contents__link toc-highlight">Q2: Agent response is incomplete?</a></li><li><a href="#q3-how-to-stop-a-running-conversation" class="table-of-contents__link toc-highlight">Q3: How to stop a running conversation?</a></li><li><a href="#q4-how-to-retry-a-failed-conversation" class="table-of-contents__link toc-highlight">Q4: How to retry a failed conversation?</a></li><li><a href="#q5-how-to-share-a-conversation" class="table-of-contents__link toc-highlight">Q5: How to share a conversation?</a></li><li><a href="#q6-how-to-export-conversation-history" class="table-of-contents__link toc-highlight">Q6: How to export conversation history?</a></li></ul></li><li><a href="#-related-resources" class="table-of-contents__link toc-highlight">🔗 Related Resources</a><ul><li><a href="#prerequisites" class="table-of-contents__link toc-highlight">Prerequisites</a></li><li><a href="#reference-documentation" class="table-of-contents__link toc-highlight">Reference Documentation</a></li><li><a href="#detailed-feature-documentation" class="table-of-contents__link toc-highlight">Detailed Feature Documentation</a></li></ul></li><li><a href="#-get-help" class="table-of-contents__link toc-highlight">💬 Get Help</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/wegent/getting-started/quick-start">Quick Start</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/wegent/concepts/core-concepts">Core Concepts</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
