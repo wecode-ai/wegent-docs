@@ -12,7 +12,7 @@
     "message": "用 AI 构建、创作，完成工作。"
   },
   "homepage.hero.description": {
-    "message": "通过 Wegent 运行智能体团队和平台工作流，或使用 Wework 直接处理本地项目；只有需要云端资源时，才需要将 Wework 连接到云端。"
+    "message": "Wegent 用于运行智能体团队和平台工作流；Wework 用于在本地项目中与 AI 协作，并可按需使用由 Wegent 管理的模型和设备。"
   },
   "homepage.hero.wegentCta": {
     "message": "查看 Wegent 文档"
