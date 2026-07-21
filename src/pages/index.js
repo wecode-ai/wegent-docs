@@ -185,7 +185,7 @@ function Hero() {
         <p className={styles.heroDescription}>
           {t(
             'homepage.hero.description',
-            'Run agent teams and platform workflows with Wegent, or work directly on local projects with Wework. Connect Wework to cloud resources only when you need them.',
+            'Wegent runs agent teams and platform workflows. Wework brings AI into local projects, with optional access to models and devices managed by Wegent.',
           )}
         </p>
         <div className={styles.heroActions}>
