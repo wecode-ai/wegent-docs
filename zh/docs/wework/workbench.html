@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">代码工作台 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="代码工作台 | Wegent"><meta data-rh="true" name="description" content="文件与终端"><meta data-rh="true" property="og:description" content="文件与终端"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"代码工作台","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.4792273b.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.e878a049.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.ff182c00.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.467a3463.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -21,7 +21,8 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="浏览长对话">浏览长对话<a href="#浏览长对话" class="hash-link" aria-label="浏览长对话的直接链接" title="浏览长对话的直接链接" translate="no">​</a></h2>
 <p>当对话内容超过当前视口时，消息区左侧会显示历史发言导航。导航固定在对话视口中央，不会随消息内容滚动；点击标记可跳转到对应发言，将指针悬停在标记上可预览用户请求和助手回复摘要。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="切换对话与恢复位置">切换对话与恢复位置<a href="#切换对话与恢复位置" class="hash-link" aria-label="切换对话与恢复位置的直接链接" title="切换对话与恢复位置的直接链接" translate="no">​</a></h2>
-<p>桌面工作台一次只渲染当前对话。切换对话时，运行状态和最近消息保存在共享运行时缓存中，后台任务继续接收实时事件；切回后会立即显示最新状态，不需要保留隐藏的完整对话页面。</p>
+<p>切换对话时，桌面工作台会保存运行状态、最近消息、右侧工作区标签和面板状态；切回后会立即恢复离开时的工作区。普通对话不会保留隐藏的完整页面 DOM，以限制长对话带来的 WebView 内存增长。</p>
+<p>包含运行中 Terminal 或 Wework 内置浏览器的对话页面会保持挂载。Terminal 进程、标签和输出缓冲会继续保留，内置浏览器的页面、地址和标签状态也会保持；关闭对应资源后，页面即可释放，仅保留可恢复的面板状态。隐藏对话不会响应当前对话的快捷键或浏览器打开事件。</p>
 <p>首次打开的对话会定位到最新消息。已经停留在底部的对话切回后仍保持底部；如果之前浏览到历史消息，则恢复与底部的相对距离。长对话只挂载视口附近的消息，并复用已测量的消息高度，减少滚动时的 WebView 内存增长。</p>
 <p>消息、滚动位置和虚拟测量缓存都有数量上限。归档任务时会立即移除该任务的缓存；再次打开已被缓存淘汰的任务时，Wework 会从本地运行时重新读取完整记录。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用回复中的选中文本">使用回复中的选中文本<a href="#使用回复中的选中文本" class="hash-link" aria-label="使用回复中的选中文本的直接链接" title="使用回复中的选中文本的直接链接" translate="no">​</a></h2>
