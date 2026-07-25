@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Chat State Sources | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Chat State Sources | Wegent"><meta data-rh="true" name="description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><meta data-rh="true" property="og:description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Chat State Sources","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.3adf1ce2.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.9a2ef11f.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.5847e8c0.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.715c8f29.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -34,6 +34,28 @@
 <li class=""><code>chat:done</code>, <code>chat:error</code>, and cancellation events settle the assistant message through the reducer and refresh the work list.</li>
 <li class="">If runtime work and message state disagree, do not settle it with fallback logic; fix the missing stream event, transcript data, or reducer action.</li>
 </ol>
+<p>During send startup, Wework may first receive an empty transcript with
+<code>source: pending_local_task</code> and <code>running: false</code> before the real runtime task
+appears in the task list. While the turn remains <code>submitting</code> or
+<code>awaiting_assistant</code> and no assistant has settled, that transcript must not
+settle the executor or turn. The later task-list <code>running: true</code> snapshot is
+authoritative once the executor has started. An explicit <code>running: false</code>
+received while an assistant is already streaming remains terminal and must
+settle normally; false snapshots must not be ignored indiscriminately.</p>
+<p>A Codex provider may send only an <code>item/completed</code> snapshot containing the
+complete assistant text, without any <code>item/agentMessage/delta</code>. If the current
+final response has not received a delta, the executor must convert that text
+into one <code>response.output_text.delta</code>. If deltas were already received, it
+must ignore the completed snapshot to avoid duplicate text. Temporary chats
+use ephemeral threads and cannot depend on <code>thread/read(includeTurns)</code> to
+recover live text that was dropped.</p>
+<p>When the first message carries a pending Goal seed, both the send entry point
+and pane initialization must write the seed status into
+<code>RuntimeTaskLifecycleStore</code> immediately. An asynchronous <code>runtime.goal.get</code>
+may return no Goal before persistence completes; while the seed still belongs
+to the current task, that empty result must not clear the lifecycle Goal
+status. This lets an active Goal continue to constrain task lifecycle even
+when stream settlement races ahead of Goal persistence.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="local-multi-root-projects-and-task-ownership">Local Multi-Root Projects and Task Ownership<a href="#local-multi-root-projects-and-task-ownership" class="hash-link" aria-label="Direct link to Local Multi-Root Projects and Task Ownership" title="Direct link to Local Multi-Root Projects and Task Ownership" translate="no">​</a></h2>
 <p>A local Codex project may contain an ordered list of workspace roots. The first
 entry is the primary root used by the composer&#x27;s default workspace and the
