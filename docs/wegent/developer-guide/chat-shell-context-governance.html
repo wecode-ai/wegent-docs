@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Chat Shell Context Governance | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/chat-shell-context-governance"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Chat Shell Context Governance | Wegent"><meta data-rh="true" name="description" content="Overview"><meta data-rh="true" property="og:description" content="Overview"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/chat-shell-context-governance"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/chat-shell-context-governance" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/chat-shell-context-governance" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/chat-shell-context-governance" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Chat Shell Context Governance","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/chat-shell-context-governance"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.6daba5cb.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.11dab51d.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.9a2ef11f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -71,6 +71,23 @@ covers both:</p>
 <p>This is more reliable than spreading budget logic across <code>build_messages</code>, tool
 events, history serialization, and other side paths. In the final shape,
 budgeting converges on <code>UnifiedContextGuard</code>.</p>
+<p><strong>Coverage boundary (important — do not be misled by &quot;non-streaming&quot;).</strong>
+<code>UnifiedContextGuard</code> is attached via <code>pre_model_hook</code> only when the <strong>chat
+execution engine</strong> builds its agent, so distinguish two kinds of &quot;non-streaming&quot;:</p>
+<ul>
+<li class=""><strong>Transport-level non-streaming</strong> (HTTP <code>stream=false</code> follow-ups): only buffers
+the SSE events and returns once — the <strong>execution engine is still
+<code>stream_tokens</code></strong>, so the guard, compaction recovery, and persistence all apply.
+It <strong>is</strong> governed.</li>
+<li class=""><strong>Engine-level non-streaming</strong> (<code>agent.execute</code> → <code>_collect_final_state_from_events</code>):
+whether the guard attaches depends on whether the caller passes a
+<code>pre_model_hook</code>. The only current user is the answer-audit <code>correction_service</code>,
+which does <strong>not</strong> pass one — a <strong>guard-bypassing short path</strong>: no compaction
+governance, the history under review is embedded into the prompt, the result is
+written only to <code>subtask.result.correction</code> (<strong>no <code>messages_chain</code></strong>), with its
+own try/except fallback. It is a one-shot auditor, not a conversation/follow-up
+path, and is decoupled from this context governance.</li>
+</ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="separate-ui-visible-raw-data-from-model-visible-compact-data">Separate UI-visible raw data from model-visible compact data<a href="#separate-ui-visible-raw-data-from-model-visible-compact-data" class="hash-link" aria-label="Direct link to Separate UI-visible raw data from model-visible compact data" title="Direct link to Separate UI-visible raw data from model-visible compact data" translate="no">​</a></h3>
 <p>This is one of the most important boundaries in the design.</p>
 <ul>
@@ -109,8 +126,14 @@ consuming long payloads inline</li>
 </ul>
 <p>But Wegent keeps its own trade-offs:</p>
 <ul>
-<li class=""><strong>No persisted Codex-style <code>replacement_history</code></strong>
-Compaction rewrites only the current live state.</li>
+<li class=""><strong>Checkpoint persisted in <code>messages_chain</code>, not a separate blob</strong> (Phase 1)
+The compacted turn becomes a self-contained checkpoint (retained recent user
+messages + summary) inside its own <code>messages_chain</code>, and reload starts from the
+latest checkpoint. This is functionally close to Codex&#x27;s <code>replacement_history</code>,
+but reuses existing persistence instead of a new field. Phase 2a then makes that
+persistence independent of how the turn terminates by reading the authoritative
+LangGraph state through a request-local checkpointer. See the Phase 1 and Phase
+2a sections.</li>
 <li class=""><strong>Summary compact is not a long-term memory layer</strong>
 It is a request-time governance tool.</li>
 <li class=""><strong>Fallback is not the main feature path</strong>
@@ -159,9 +182,130 @@ protection-trace shape</li>
 </ul>
 <p>This turns attachments from an implicit history burden into an explicit,
 governed context source.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="phase-1-checkpoint-reload-and-hang-hardening">Phase 1: checkpoint reload and hang hardening<a href="#phase-1-checkpoint-reload-and-hang-hardening" class="hash-link" aria-label="Direct link to Phase 1: checkpoint reload and hang hardening" title="Direct link to Phase 1: checkpoint reload and hang hardening" translate="no">​</a></h2>
+<p>Phase 1 closes two gaps left by Stage 2.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="checkpoint-reload-no-more-full-history-re-inflation">Checkpoint reload (no more full-history re-inflation)<a href="#checkpoint-reload-no-more-full-history-re-inflation" class="hash-link" aria-label="Direct link to Checkpoint reload (no more full-history re-inflation)" title="Direct link to Checkpoint reload (no more full-history re-inflation)" translate="no">​</a></h3>
+<p>Previously every new subtask reloaded the full raw transcript and re-ran a full
+compaction — for multi-day sessions this meant compacting ~1.7M tokens on each
+new turn. Phase 1 makes the compacted turn a <strong>self-contained checkpoint</strong>:</p>
+<ul>
+<li class=""><code>_select_recent_user_messages</code> clones the retained recent user messages with a
+fresh id and a <code>checkpoint_retained</code> marker so the turn serializer keeps them
+in <code>messages_chain</code> (alongside the <code>summary_compacted</code> summary and the in-turn
+suffix generated after it).</li>
+<li class="">The backend history endpoint accepts <code>from_latest_compaction=true</code>: it locates
+the latest checkpoint by the in-chain <code>summary_compacted</code> marker and returns
+<code>[checkpoint chain] + [subsequent complete turns]</code>. <code>limit</code> never truncates the
+checkpoint chain itself.</li>
+<li class="">The HTTP endpoint and the package-mode loader share one pipeline
+(<code>resolve_history_subtasks</code>) so fork, <code>before_message_id</code>, <code>limit</code>, and
+checkpoint scoping stay identical.</li>
+<li class="">Because the HTTP transport drops <code>additional_kwargs</code>, a reloaded summary is
+re-recognized by its content marker so it is not re-retained as a user message.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hang-hardening">Hang hardening<a href="#hang-hardening" class="hash-link" aria-label="Direct link to Hang hardening" title="Direct link to Hang hardening" translate="no">​</a></h3>
+<p>The summary compaction path was hardened against a production hang where an
+O(n²) trim pegged CPU for minutes and the backend read-timeout then cancelled the
+turn:</p>
+<ul>
+<li class="">the trim is a single O(n) budget pass over the sanitized prompt (no per-removal
+re-count, no per-message reply-priming inflation)</li>
+<li class="">a heartbeat ticker emits <code>summary_compact</code> in_progress status during compaction
+so the SSE stream stays alive instead of racing the backend read-timeout</li>
+<li class="">the summary LLM call has a provider timeout plus an <code>asyncio.wait_for</code> backstop</li>
+<li class="">context-length classification recognizes HTTP 413 and non-English markers; a
+bare 400 is not treated as overflow (avoids a retry storm)</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="phase-2a-authoritative-state-persistence-across-terminal-paths">Phase 2a: authoritative-state persistence across terminal paths<a href="#phase-2a-authoritative-state-persistence-across-terminal-paths" class="hash-link" aria-label="Direct link to Phase 2a: authoritative-state persistence across terminal paths" title="Direct link to Phase 2a: authoritative-state persistence across terminal paths" translate="no">​</a></h2>
+<p>Phase 1 made a compacted turn a self-contained checkpoint, but persistence still
+depended on the happy path. The turn&#x27;s <code>messages_chain</code> was serialized from
+<code>_collected_state_messages</code>, captured from top-level <code>on_chain_end</code> events under a
+&quot;keep the longest snapshot&quot; gate. Two consequences:</p>
+<ul>
+<li class="">On a <code>GraphRecursionError</code> (tool-call limit) the top-level end may never fire,
+and the recovery rebuilt the chain from the pre-run <code>lc_messages</code> — so a turn
+that both compacted <strong>and</strong> hit the tool limit persisted only the recovery
+reply and silently dropped the checkpoint. The next continuation then fell back
+to an older checkpoint.</li>
+<li class="">Compaction <em>shrinks</em> the live state, so the &quot;longest snapshot&quot; gate could reject
+the real post-compaction state.</li>
+</ul>
+<p>Phase 2a makes the <strong>last authoritative LangGraph state</strong> the single source for a
+single finalizer, on every terminal path.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="request-local-checkpointer-read-via-aget_state">Request-local checkpointer read via <code>aget_state</code><a href="#request-local-checkpointer-read-via-aget_state" class="hash-link" aria-label="Direct link to request-local-checkpointer-read-via-aget_state" title="Direct link to request-local-checkpointer-read-via-aget_state" translate="no">​</a></h3>
+<ul>
+<li class="">Every agent build attaches a <strong>request-local <code>InMemorySaver</code></strong>, and each turn
+(and each truncation-retry level) runs on a unique <code>thread_id</code> with
+<strong><code>durability=&quot;exit&quot;</code></strong>. Exit durability commits exactly one checkpoint at graph
+exit — including on exception exit — so <code>aget_state(config)</code> returns the
+authoritative post-compaction state (summary + completed post-compaction tool
+pairs) at ~1× memory instead of one snapshot per super-step. The dormant
+<code>ENABLE_CHECKPOINTING</code> toggle was removed; the checkpointer is not optional.</li>
+<li class=""><code>_finalize_turn_history</code> is the single atomic choke point: it sanitizes tool
+pairs, filters to this turn&#x27;s new messages by a turn-invariant
+<code>original_input_ids</code> (see <code>TurnExecutionContext</code>), serializes/validates, and
+sets <code>_last_messages_chain</code>, <code>_last_live_state_messages</code>, and
+<code>_last_termination_reason</code> together so they cannot drift.</li>
+<li class="">Every <strong>streaming</strong> terminal path funnels through it: normal completion,
+<code>completed_with_unexecuted_tool_calls</code>, tool-limit recovery, truncation retry
+and retry-exhausted, and silent/deferred exit. The old
+<code>_collected_state_messages</code> / length-gate authority is gone.</li>
+<li class=""><strong>Finalizer execution ≠ durable persistence.</strong> The finalizer only sets the
+in-memory <code>_last_messages_chain</code> on the builder; whether that becomes durable in
+<code>subtask.result.messages_chain</code> depends on the terminal status. Supported
+(COMPLETED-style) terminals persist it; carrying and persisting it for <code>FAILED</code>
+/ <code>CANCELLED</code> is deferred to Phase 2b (see &quot;Not in Phase 2a&quot; below). So the
+finalizer may run on a path whose chain is not ultimately stored.</li>
+<li class="">The <strong>engine-level non-streaming</strong> path (<code>agent.execute</code> →
+<code>_collect_final_state_from_events</code>) does <strong>not</strong> build a <code>messages_chain</code>: it
+returns the LangGraph final state (its callers consume only content/tool-results,
+and <code>messages_chain</code> is persisted on the streaming path alone). It still shares
+the request-local checkpointer, exit durability, recovery-from-current-state, and
+per-turn thread teardown; it just has no finalizer because it produces no
+persisted history. <strong>Note:</strong> HTTP <code>stream=false</code> follow-ups are <strong>not</strong> this
+case — they still run on <code>stream_tokens</code> and go through the finalizer and
+persistence (see the coverage boundary under &quot;single control point&quot;).</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="recovery-and-retry-read-the-current-state-not-lc_messages">Recovery and retry read the current state, not <code>lc_messages</code><a href="#recovery-and-retry-read-the-current-state-not-lc_messages" class="hash-link" aria-label="Direct link to recovery-and-retry-read-the-current-state-not-lc_messages" title="Direct link to recovery-and-retry-read-the-current-state-not-lc_messages" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Tool-limit recovery</strong> feeds the recovery LLM the current authoritative state
+(sanitized), so it sees the tool results it already produced; the final state is
+<code>safe_state + [recovery reply]</code>, and the internal tool-limit instruction is
+excluded from what persists.</li>
+<li class=""><strong>Truncation retry</strong> seeds a <strong>fresh thread</strong> with the sanitized authoritative
+state (re-submitting to the same thread would not delete the truncated tool call
+— <code>add_messages</code> merges by id) and <strong>inherits the root <code>original_input_ids</code></strong>.
+The truncation instruction rides a separate <strong>attempt control plane</strong>: it lives
+only in <code>_attempt_guidance</code> and is injected into the model input via
+<code>llm_input_messages</code> by the builder&#x27;s own <code>_attempt_guidance_hook</code> (the last link
+in the pre-model chain), <strong>after</strong> compaction. It never enters the <code>messages</code>
+channel, so it stays out of the summary source, the checkpoint, and the persisted
+<code>messages_chain</code>, and never competes with the real user turn for the recent-user
+budget. Because it is appended after compaction, the retry thread&#x27;s own
+compaction cannot trim it away, and it is naturally discarded when the retry
+attempt ends. <code>chain_pre_model_hooks</code> rolls <code>llm_input_messages</code> forward through
+each hook so user guidance and attempt guidance stack instead of clobbering each
+other.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="lifecycle-and-observability">Lifecycle and observability<a href="#lifecycle-and-observability" class="hash-link" aria-label="Direct link to Lifecycle and observability" title="Direct link to Lifecycle and observability" translate="no">​</a></h3>
+<ul>
+<li class="">Each <code>stream_tokens</code> level deletes <strong>its own</strong> thread in a <code>finally</code>
+(<code>adelete_thread</code>); failures are logged, not silently suppressed, and
+<code>checkpoints_in_saver</code> is measured before the delete. A per-turn persistence log
+records <code>path</code>, <code>chain_msgs</code>, <code>has_summary_marker</code>,
+<code>post_compaction_tool_pairs</code>, <code>checkpoints_in_saver</code>, and <code>adelete_thread_ok</code>.</li>
+<li class="">The checkpointer is a per-request scratchpad for reading authoritative state
+within one turn; the durable store remains <code>subtask.result.messages_chain</code>. No
+separate checkpoint blob is introduced, and reconstruction is unchanged — the
+finalizer reuses the same serializer, so recovery-path checkpoints reload
+identically to normal-completion ones.</li>
+</ul>
+<p>Not in Phase 2a (deferred): letting non-<code>COMPLETED</code> terminals (FAILED / CANCELLED)
+carry and persist <code>messages_chain</code>, and relaxing the checkpoint locator to
+recognize them.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="implementation-map">Implementation map<a href="#implementation-map" class="hash-link" aria-label="Direct link to Implementation map" title="Direct link to Implementation map" translate="no">​</a></h2>
 <p>These modules are the best entry points for future maintenance:</p>
-<table><thead><tr><th>Module</th><th>Role</th></tr></thead><tbody><tr><td><code>chat_shell/guard/context_guard.py</code></td><td>Unified governance entry point: source pass, summary compact, emergency pass</td></tr><tr><td><code>chat_shell/guard/tool_output.py</code></td><td>Compact tool-output rendering and emergency re-truncation</td></tr><tr><td><code>chat_shell/compression/summary_compactor.py</code></td><td>Summary compact core logic</td></tr><tr><td><code>chat_shell/compression/config.py</code></td><td>Context window, reserved output, trigger / target limit calculation</td></tr><tr><td><code>chat_shell/compression/context_metrics.py</code></td><td>Context metrics snapshots</td></tr><tr><td><code>chat_shell/messages/attachment_preview.py</code></td><td>Attachment preview budgeting and truncation</td></tr><tr><td><code>chat_shell/tools/builtin/read_attachment.py</code></td><td>On-demand attachment reads</td></tr><tr><td><code>chat_shell/services/chat_service.py</code></td><td>Guard, tracker, and summary-LLM assembly</td></tr></tbody></table>
+<table><thead><tr><th>Module</th><th>Role</th></tr></thead><tbody><tr><td><code>chat_shell/guard/context_guard.py</code></td><td>Unified governance entry point: source pass, summary compact, emergency pass</td></tr><tr><td><code>chat_shell/guard/tool_output.py</code></td><td>Compact tool-output rendering and emergency re-truncation</td></tr><tr><td><code>chat_shell/compression/summary_compactor.py</code></td><td>Summary compact core logic, O(n) trim, checkpoint-retain markers</td></tr><tr><td><code>chat_shell/compression/tool_sanitizer.py</code></td><td>Shared <code>sanitize_tool_pairs</code> used by compaction, recovery, and the finalizer (Phase 2a)</td></tr><tr><td><code>chat_shell/guard/composition.py</code></td><td><code>chain_pre_model_hooks</code>: composes pre-model hooks, rolling <code>llm_input_messages</code> forward so producers stack</td></tr><tr><td><code>chat_shell/agents/graph_builder.py</code></td><td>Request-local exit-durability checkpointer, <code>_finalize_turn_history</code>, attempt control plane (<code>_attempt_guidance_hook</code>), per-path terminal handling (Phase 2a)</td></tr><tr><td><code>chat_shell/agents/turn_context.py</code></td><td><code>TurnExecutionContext</code>: turn-invariant <code>original_input_ids</code> + per-level thread ownership (Phase 2a)</td></tr><tr><td><code>chat_shell/history/loader.py</code></td><td>History reload; forwards <code>from_latest_compaction</code></td></tr><tr><td><code>backend/app/services/chat/compaction_checkpoint.py</code></td><td>Locate latest checkpoint + shared resolve→scope→limit pipeline (Phase 1)</td></tr><tr><td><code>chat_shell/compression/config.py</code></td><td>Context window, reserved output, trigger / target limit calculation</td></tr><tr><td><code>chat_shell/compression/context_metrics.py</code></td><td>Context metrics snapshots</td></tr><tr><td><code>chat_shell/messages/attachment_preview.py</code></td><td>Attachment preview budgeting and truncation</td></tr><tr><td><code>chat_shell/tools/builtin/read_attachment.py</code></td><td>On-demand attachment reads</td></tr><tr><td><code>chat_shell/services/chat_service.py</code></td><td>Guard, tracker, and summary-LLM assembly</td></tr></tbody></table>
 <p>For Stage 3 specifics, continue with
 <a class="" href="/wegent-docs/docs/wegent/developer-guide/chat-shell-attachment-context">Chat Shell Attachment Context</a>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="observability">Observability<a href="#observability" class="hash-link" aria-label="Direct link to Observability" title="Direct link to Observability" translate="no">​</a></h2>
@@ -188,10 +332,13 @@ is a no-op when telemetry is disabled.</p>
 <p>This is why Stage 1 added status and metrics before Stage 2 and Stage 3:
 without observability, governance is hard to tune safely.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="notes">Notes<a href="#notes" class="hash-link" aria-label="Direct link to Notes" title="Direct link to Notes" translate="no">​</a></h2>
-<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="summary-compact-only-rewrites-live-state">Summary compact only rewrites live state<a href="#summary-compact-only-rewrites-live-state" class="hash-link" aria-label="Direct link to Summary compact only rewrites live state" title="Direct link to Summary compact only rewrites live state" translate="no">​</a></h3>
-<p>The compacted replacement history is not persisted as the new canonical session
-history. Later turns rebuild from the full stored history and re-evaluate
-compaction when needed. This is an intentional simplification.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="reload-starts-from-the-latest-compaction-checkpoint-phase-1">Reload starts from the latest compaction checkpoint (Phase 1)<a href="#reload-starts-from-the-latest-compaction-checkpoint-phase-1" class="hash-link" aria-label="Direct link to Reload starts from the latest compaction checkpoint (Phase 1)" title="Direct link to Reload starts from the latest compaction checkpoint (Phase 1)" translate="no">​</a></h3>
+<p>Earlier, later turns rebuilt from the full stored history and re-evaluated
+compaction every time, which re-inflated long sessions. Phase 1 persists a
+self-contained checkpoint in the compacted turn&#x27;s <code>messages_chain</code> (retained
+recent user messages tagged <code>checkpoint_retained</code> plus the summary tagged
+<code>summary_compacted</code>) and reloads from the latest checkpoint via the backend
+<code>from_latest_compaction</code> path. See the Phase 1 section below.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="max_output_tokens-is-budget-input-not-a-history-rewrite-result"><code>max_output_tokens</code> is budget input, not a history-rewrite result<a href="#max_output_tokens-is-budget-input-not-a-history-rewrite-result" class="hash-link" aria-label="Direct link to max_output_tokens-is-budget-input-not-a-history-rewrite-result" title="Direct link to max_output_tokens-is-budget-input-not-a-history-rewrite-result" translate="no">​</a></h3>
 <p>Context governance uses <code>context_window</code> and <code>max_output_tokens</code> during
 reserved-output budgeting, but live-history rewriting does not mutate provider
@@ -218,6 +365,6 @@ those two views.</p>
 <ul>
 <li class=""><a class="" href="/wegent-docs/docs/wegent/developer-guide/chat-shell-attachment-context">Chat Shell Attachment Context</a></li>
 <li class=""><a class="" href="/wegent-docs/docs/wegent/developer-guide/dynamic-context">Dynamic Context</a></li>
-</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wegent/developer-guide/chat-shell-context-governance.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/wegent/developer-guide/quick-launch-input-presets"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">QuickCard Input Presets</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/wegent/developer-guide/shared-skill-directory"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Shared Skill Directory</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#overview" class="table-of-contents__link toc-highlight">Overview</a></li><li><a href="#what-was-missing-before" class="table-of-contents__link toc-highlight">What Was Missing Before</a></li><li><a href="#design-approach" class="table-of-contents__link toc-highlight">Design approach</a><ul><li><a href="#one-control-point-instead-of-scattered-patches" class="table-of-contents__link toc-highlight">One control point instead of scattered patches</a></li><li><a href="#separate-ui-visible-raw-data-from-model-visible-compact-data" class="table-of-contents__link toc-highlight">Separate UI-visible raw data from model-visible compact data</a></li><li><a href="#layered-governance-instead-of-one-generic-compression-step" class="table-of-contents__link toc-highlight">Layered governance instead of one generic compression step</a></li></ul></li><li><a href="#borrowed-ideas-and-deliberate-trade-offs" class="table-of-contents__link toc-highlight">Borrowed ideas and deliberate trade-offs</a></li><li><a href="#what-each-stage-solved" class="table-of-contents__link toc-highlight">What each stage solved</a></li><li><a href="#stage-1-tool-output-governance-and-status-visibility" class="table-of-contents__link toc-highlight">Stage 1: tool-output governance and status visibility</a></li><li><a href="#stage-2-summary-compact-and-budget-closure" class="table-of-contents__link toc-highlight">Stage 2: summary compact and budget closure</a></li><li><a href="#stage-3-attachment-preview-and-on-demand-read" class="table-of-contents__link toc-highlight">Stage 3: attachment preview and on-demand read</a></li><li><a href="#implementation-map" class="table-of-contents__link toc-highlight">Implementation map</a></li><li><a href="#observability" class="table-of-contents__link toc-highlight">Observability</a></li><li><a href="#notes" class="table-of-contents__link toc-highlight">Notes</a><ul><li><a href="#summary-compact-only-rewrites-live-state" class="table-of-contents__link toc-highlight">Summary compact only rewrites live state</a></li><li><a href="#max_output_tokens-is-budget-input-not-a-history-rewrite-result" class="table-of-contents__link toc-highlight"><code>max_output_tokens</code> is budget input, not a history-rewrite result</a></li><li><a href="#attachment-preview-is-tokenized-only-inside-chat-shell" class="table-of-contents__link toc-highlight">Attachment preview is tokenized only inside chat shell</a></li><li><a href="#do-not-mix-raw-transcript-and-model-visible-transcript" class="table-of-contents__link toc-highlight">Do not mix raw transcript and model-visible transcript</a></li></ul></li><li><a href="#related-documents" class="table-of-contents__link toc-highlight">Related documents</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wegent/developer-guide/chat-shell-context-governance.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/wegent/developer-guide/quick-launch-input-presets"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">QuickCard Input Presets</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/wegent/developer-guide/shared-skill-directory"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Shared Skill Directory</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#overview" class="table-of-contents__link toc-highlight">Overview</a></li><li><a href="#what-was-missing-before" class="table-of-contents__link toc-highlight">What Was Missing Before</a></li><li><a href="#design-approach" class="table-of-contents__link toc-highlight">Design approach</a><ul><li><a href="#one-control-point-instead-of-scattered-patches" class="table-of-contents__link toc-highlight">One control point instead of scattered patches</a></li><li><a href="#separate-ui-visible-raw-data-from-model-visible-compact-data" class="table-of-contents__link toc-highlight">Separate UI-visible raw data from model-visible compact data</a></li><li><a href="#layered-governance-instead-of-one-generic-compression-step" class="table-of-contents__link toc-highlight">Layered governance instead of one generic compression step</a></li></ul></li><li><a href="#borrowed-ideas-and-deliberate-trade-offs" class="table-of-contents__link toc-highlight">Borrowed ideas and deliberate trade-offs</a></li><li><a href="#what-each-stage-solved" class="table-of-contents__link toc-highlight">What each stage solved</a></li><li><a href="#stage-1-tool-output-governance-and-status-visibility" class="table-of-contents__link toc-highlight">Stage 1: tool-output governance and status visibility</a></li><li><a href="#stage-2-summary-compact-and-budget-closure" class="table-of-contents__link toc-highlight">Stage 2: summary compact and budget closure</a></li><li><a href="#stage-3-attachment-preview-and-on-demand-read" class="table-of-contents__link toc-highlight">Stage 3: attachment preview and on-demand read</a></li><li><a href="#phase-1-checkpoint-reload-and-hang-hardening" class="table-of-contents__link toc-highlight">Phase 1: checkpoint reload and hang hardening</a><ul><li><a href="#checkpoint-reload-no-more-full-history-re-inflation" class="table-of-contents__link toc-highlight">Checkpoint reload (no more full-history re-inflation)</a></li><li><a href="#hang-hardening" class="table-of-contents__link toc-highlight">Hang hardening</a></li></ul></li><li><a href="#phase-2a-authoritative-state-persistence-across-terminal-paths" class="table-of-contents__link toc-highlight">Phase 2a: authoritative-state persistence across terminal paths</a><ul><li><a href="#request-local-checkpointer-read-via-aget_state" class="table-of-contents__link toc-highlight">Request-local checkpointer read via <code>aget_state</code></a></li><li><a href="#recovery-and-retry-read-the-current-state-not-lc_messages" class="table-of-contents__link toc-highlight">Recovery and retry read the current state, not <code>lc_messages</code></a></li><li><a href="#lifecycle-and-observability" class="table-of-contents__link toc-highlight">Lifecycle and observability</a></li></ul></li><li><a href="#implementation-map" class="table-of-contents__link toc-highlight">Implementation map</a></li><li><a href="#observability" class="table-of-contents__link toc-highlight">Observability</a></li><li><a href="#notes" class="table-of-contents__link toc-highlight">Notes</a><ul><li><a href="#reload-starts-from-the-latest-compaction-checkpoint-phase-1" class="table-of-contents__link toc-highlight">Reload starts from the latest compaction checkpoint (Phase 1)</a></li><li><a href="#max_output_tokens-is-budget-input-not-a-history-rewrite-result" class="table-of-contents__link toc-highlight"><code>max_output_tokens</code> is budget input, not a history-rewrite result</a></li><li><a href="#attachment-preview-is-tokenized-only-inside-chat-shell" class="table-of-contents__link toc-highlight">Attachment preview is tokenized only inside chat shell</a></li><li><a href="#do-not-mix-raw-transcript-and-model-visible-transcript" class="table-of-contents__link toc-highlight">Do not mix raw transcript and model-visible transcript</a></li></ul></li><li><a href="#related-documents" class="table-of-contents__link toc-highlight">Related documents</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
 </body>
 </html>
