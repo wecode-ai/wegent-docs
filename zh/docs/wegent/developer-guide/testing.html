@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.1041c7d5.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.aa0fedd6.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.467a3463.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -133,9 +133,18 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="github-actions-工作流">GitHub Actions 工作流<a href="#github-actions-工作流" class="hash-link" aria-label="GitHub Actions 工作流的直接链接" title="GitHub Actions 工作流的直接链接" translate="no">​</a></h3>
 <p><code>.github/workflows/test.yml</code> 工作流在以下情况下自动运行：</p>
 <ul>
-<li class="">推送到 <code>main</code>、<code>master</code> 或 <code>develop</code> 分支</li>
-<li class="">向这些分支提交的拉取请求</li>
+<li class="">推送到 <code>main</code> 分支</li>
+<li class="">向 <code>main</code> 分支提交的拉取请求</li>
 </ul>
+<p>CI 会先运行 <code>.github/scripts/classify-ci-changes.sh</code>，根据改动路径决定需要执行的
+模块任务。模块依赖也会纳入判断，例如修改 <code>shared/</code> 时会同时运行 Backend、
+Executor Manager、Knowledge Engine、Shared 和 CLI 测试；修改
+<code>packages/chat-core/</code> 时会同时运行 Frontend 与 Wework 检查。修改测试 workflow
+或分类脚本本身时会运行全部模块，确保 CI 编排变更经过完整验证。</p>
+<p>功能分支不在普通 <code>push</code> 事件中运行重复 CI；创建 PR 后由 <code>pull_request</code> 事件验证。
+同一 PR 或 <code>main</code> 上有更新提交时，旧的未完成运行会被取消。<code>test-summary</code> 和
+<code>lint-summary</code> 始终存在，并验证所有被分类为必需的任务确实成功，未执行的无关模块
+不会导致汇总任务误报失败。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="工作流任务">工作流任务<a href="#工作流任务" class="hash-link" aria-label="工作流任务的直接链接" title="工作流任务的直接链接" translate="no">​</a></h3>
 <p>常规 PR 测试必须覆盖各模块测试，不能用 E2E 任务代替：</p>
 <ol>
@@ -153,7 +162,12 @@
 </ol>
 <p>E2E 使用独立 workflow：<code>.github/workflows/e2e-tests.yml</code> 覆盖产品端到端流程，
 <code>.github/workflows/wework-e2e.yml</code> 覆盖 Wework 流程。它们提供额外的跨模块验证，
-不会替代 <code>.github/workflows/test.yml</code> 中的模块测试。</p>
+不会替代 <code>.github/workflows/test.yml</code> 中的模块测试。平台 E2E 只在 Backend、
+Frontend、Executor、Executor Manager、Shared、Chat Shell、Chat Core、Docker
+或相关构建配置变化时运行，因此 Wework-only PR 不会再启动无关的平台 E2E。
+Draft PR 跳过昂贵的 E2E，转为 Ready for review 后再运行。</p>
+<p>完整的平台 E2E 每天 UTC 02:00 定时运行；完整 Wework E2E 每天 UTC 04:00 定时
+运行。定时任务与 <code>main</code> push 使用不同的 concurrency group，互相不会取消。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="覆盖率报告">覆盖率报告<a href="#覆盖率报告" class="hash-link" aria-label="覆盖率报告的直接链接" title="覆盖率报告的直接链接" translate="no">​</a></h3>
 <p>覆盖率报告会自动上传到 Codecov（如果已配置）。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="mock模拟策略">Mock（模拟）策略<a href="#mock模拟策略" class="hash-link" aria-label="Mock（模拟）策略的直接链接" title="Mock（模拟）策略的直接链接" translate="no">​</a></h2>

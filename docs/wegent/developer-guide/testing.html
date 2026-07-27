@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.228dea4d.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.6daba5cb.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.9a2ef11f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -133,9 +133,20 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="github-actions-workflow">GitHub Actions Workflow<a href="#github-actions-workflow" class="hash-link" aria-label="Direct link to GitHub Actions Workflow" title="Direct link to GitHub Actions Workflow" translate="no">​</a></h3>
 <p>The <code>.github/workflows/test.yml</code> workflow runs automatically on:</p>
 <ul>
-<li class="">Push to <code>main</code>, <code>master</code>, or <code>develop</code> branches</li>
-<li class="">Pull requests to these branches</li>
+<li class="">Pushes to <code>main</code></li>
+<li class="">Pull requests targeting <code>main</code></li>
 </ul>
+<p>CI first runs <code>.github/scripts/classify-ci-changes.sh</code> to select module jobs from
+the changed paths. Dependency relationships are included. For example, a
+<code>shared/</code> change runs the Backend, Executor Manager, Knowledge Engine, Shared,
+and CLI suites, while a <code>packages/chat-core/</code> change runs both Frontend and
+Wework checks. Changes to the test workflows or the classifier itself select
+every module so CI orchestration changes receive full validation.</p>
+<p>Feature-branch pushes do not run a duplicate CI suite; the <code>pull_request</code> event
+validates the branch after a PR is opened. A newer commit to the same PR or to
+<code>main</code> cancels the older in-progress run. <code>test-summary</code> and <code>lint-summary</code>
+always appear and verify that every selected job actually succeeded. Skipped,
+unrelated modules do not make the summary fail.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="workflow-jobs">Workflow Jobs<a href="#workflow-jobs" class="hash-link" aria-label="Direct link to Workflow Jobs" title="Direct link to Workflow Jobs" translate="no">​</a></h3>
 <p>Regular PR checks must cover module tests; E2E jobs do not replace them:</p>
 <ol>
@@ -155,7 +166,14 @@ any module test job fails.</li>
 <p>E2E coverage lives in dedicated workflows: <code>.github/workflows/e2e-tests.yml</code>
 covers product end-to-end flows, while <code>.github/workflows/wework-e2e.yml</code> covers
 Wework flows. They add cross-module verification and do not replace the module
-tests in <code>.github/workflows/test.yml</code>.</p>
+tests in <code>.github/workflows/test.yml</code>. Platform E2E runs only when Backend,
+Frontend, Executor, Executor Manager, Shared, Chat Shell, Chat Core, Docker, or
+related build configuration changes, so a Wework-only PR no longer starts an
+unrelated platform E2E suite. Draft PRs skip expensive E2E and run it after they
+become ready for review.</p>
+<p>The full platform E2E suite runs daily at 02:00 UTC, and the full Wework E2E
+suite runs daily at 04:00 UTC. Scheduled runs use a different concurrency group
+from <code>main</code> pushes, so they do not cancel each other.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="coverage-reports">Coverage Reports<a href="#coverage-reports" class="hash-link" aria-label="Direct link to Coverage Reports" title="Direct link to Coverage Reports" translate="no">​</a></h3>
 <p>Coverage reports are automatically uploaded to Codecov (if configured).</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="mocking-strategy">Mocking Strategy<a href="#mocking-strategy" class="hash-link" aria-label="Direct link to Mocking Strategy" title="Direct link to Mocking Strategy" translate="no">​</a></h2>
