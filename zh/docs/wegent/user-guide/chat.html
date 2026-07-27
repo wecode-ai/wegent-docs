@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">概述 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/chat"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="概述 | Wegent"><meta data-rh="true" name="description" content="Chat（对话）是 Wegent 的核心交互功能，让您可以与 AI 智能体进行实时对话，完成各种任务。"><meta data-rh="true" property="og:description" content="Chat（对话）是 Wegent 的核心交互功能，让您可以与 AI 智能体进行实时对话，完成各种任务。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/chat"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/chat" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/chat" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Chat","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/chat/"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.1cf2899a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.b4af3e7c.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.467a3463.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -61,14 +61,14 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-运行中切换模型">5. 运行中切换模型<a href="#5-运行中切换模型" class="hash-link" aria-label="5. 运行中切换模型的直接链接" title="5. 运行中切换模型的直接链接" translate="no">​</a></h3>
 <p>任务开启后，可以在当前任务中调整后续回复使用的模型。模型切换只影响当前任务，不会修改智能体、机器人或模型的默认配置，也不会影响其他任务和后续新建会话。</p>
-<p>为保证运行时协议一致性，WeWork 会在模型选择器中限制运行中任务只能切换到相同的模型运行 family。系统会从模型 CRD 的 <code>modelConfig.env.model</code> 与 <code>spec.protocol</code> 组合推导 API 响应字段 <code>runtime.family</code>：</p>
+<p>为保证 Codex thread 的 provider 身份一致，Wework 不允许已启动会话在官方 Codex 模型与第三方模型之间切换：</p>
 <ul>
-<li class="">当前任务模型与目标模型的 <code>runtime.family</code> 值必须相同</li>
-<li class="">例如 <code>runtime.family</code> 同为 <code>claude.claude</code> 的 Claude、Kimi 或 DeepSeek 兼容模型可以互相切换</li>
-<li class=""><code>env.model</code> 相同但 <code>spec.protocol</code> 不同的模型会被视为不同运行 family</li>
-<li class="">缺少 <code>runtime.family</code> 的模型在已运行任务中仍会展示，但会置灰不可选</li>
+<li class="">官方 Codex 会话中的第三方模型会置灰不可选</li>
+<li class="">第三方模型会话中的官方 Codex 模型会置灰不可选</li>
+<li class="">官方 Codex 模型之间、第三方模型之间仍可按正常流程切换</li>
+<li class="">新建会话不受该限制，可以选择任意可用模型</li>
 </ul>
-<p>不同 <code>runtime.family</code> 的模型会继续展示，但会置灰不可选。</p>
+<p>如果需要跨类别延续工作，可以新建会话，并通过 <code>@</code> 引用当前对话，让新模型获得原会话上下文。</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-文档导航">📖 文档导航<a href="#-文档导航" class="hash-link" aria-label="📖 文档导航的直接链接" title="📖 文档导航的直接链接" translate="no">​</a></h2>
 <table><thead><tr><th>文档</th><th>说明</th></tr></thead><tbody><tr><td><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/chat/managing-tasks">管理任务</a></td><td>创建和管理对话任务</td></tr><tr><td><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/chat/clarification-mode-guide">智能追问模式</a></td><td>使用智能追问模式明确需求</td></tr><tr><td><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/chat/correction-mode-guide">AI 交叉验证</a></td><td>使用 AI 交叉验证优化结果</td></tr></tbody></table>
