@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.8a42d99f.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.24f7a6b5.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.9a2ef11f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -142,6 +142,12 @@ the changed paths. Dependency relationships are included. For example, a
 and CLI suites, while a <code>packages/chat-core/</code> change runs both Frontend and
 Wework checks. Changes to the test workflows or the classifier itself select
 every module so CI orchestration changes receive full validation.</p>
+<p>Apply the <code>ci:all</code> label to a PR to bypass path classification and force every
+module test, the platform E2E suite, Wework browser and desktop E2E, and the
+Wework macOS memory gate. This is useful when changed paths might not capture
+the full blast radius of a change. All three test workflows respond to label
+events; without <code>ci:all</code>, test selection still follows the changed paths.
+<code>ci:memory</code> continues to trigger only the Wework macOS memory gate.</p>
 <p>Feature-branch pushes do not run a duplicate CI suite; the <code>pull_request</code> event
 validates the branch after a PR is opened. A newer commit to the same PR or to
 <code>main</code> cancels the older in-progress run. <code>test-summary</code> and <code>lint-summary</code>
