@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.b84fde1f.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.d9dbe785.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.467a3463.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -45,6 +45,16 @@ executor 的权威快照。流式 assistant 已明确存在时返回的 <code>ru
 正文转换为一次 <code>response.output_text.delta</code>；已接收 delta 时则忽略完成快照，避免
 重复正文。临时聊天是 ephemeral thread，不能依赖 <code>thread/read(includeTurns)</code> 补回
 丢失的实时文本。</p>
+<p>任务结算后，work list 刷新可能立即触发一次已完成 transcript 重载。该 transcript
+负责最终文本、消息状态和文件变更，但 Codex 的 <code>thread/read</code> 可能暂时缺少实时流中
+已经完成的工具条目。实时消息在 <code>assistant_done</code> 入口用规范 <code>turnId</code> 标准化
+<code>subtaskId</code>，<code>useWorkbenchPaneSession</code> 只按相同的标准化 <code>subtaskId</code> 归并两份消息：
+保留 transcript 的权威字段，同时补回实时消息中状态为 <code>done</code> 或 <code>error</code> 且 transcript
+尚未包含的 tool block。不得补回 <code>pending</code> 或 <code>streaming</code> block，否则已完成任务会
+重新显示为执行中。</p>
+<p>同一个 Codex turn 可能因为工具调用或中途引导被拆成多条 assistant 消息。每条消息
+必须使用不同的消息 <code>id</code>，但都保留相同的规范 <code>turnId</code>。fork、回滚等 turn 级操作
+只能使用 Codex 持久化的规范 turn ID，不能使用为了界面分段生成的消息 ID。</p>
 <p>首条消息携带 pending Goal seed 时，发送入口和 pane 初始化都必须先把 seed 的状态
 写入 <code>RuntimeTaskLifecycleStore</code>。异步 <code>runtime.goal.get</code> 在 Goal 尚未持久化时可能返回
 空值；在 seed 仍属于当前任务时，空结果不能清除 lifecycle 中的 Goal 状态。这样即使
