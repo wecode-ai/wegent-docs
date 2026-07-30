@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework automations | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/user-guide/wework-automations"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework automations | Wegent"><meta data-rh="true" name="description" content="Wework automations start Codex Runtime tasks on a fixed schedule, at a recurring"><meta data-rh="true" property="og:description" content="Wework automations start Codex Runtime tasks on a fixed schedule, at a recurring"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/wework-automations"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/wework-automations" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/user-guide/wework-automations" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/user-guide/wework-automations" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.3c74cf3d.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.eb2ebbdf.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.596321e9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,22 +28,14 @@ selecting <strong>None</strong> uses the selected device&#x27;s default director
 <li class="">Configuration and run history are not synchronized to the cloud.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="cloud-mode">Cloud mode<a href="#cloud-mode" class="hash-link" aria-label="Direct link to Cloud mode" title="Direct link to Cloud mode" translate="no">​</a></h2>
-<p>After connecting Wegent, you can create an automation for a cloud device. The
-Wegent Backend stores and schedules the automation, then dispatches it to the
-selected Codex Runtime device.</p>
-<ul>
-<li class="">Cloud automations do not require the current Wework window to remain open.</li>
-<li class="">Only connected cloud devices owned by the current user can be selected.</li>
-<li class="">Local and cloud configurations are independent. Recreate an automation to change its source.</li>
-<li class="">A run is marked as <strong>Needs attention</strong> when the task requests user input.</li>
-<li class="">Local automations remain available when the cloud connection is unavailable.</li>
-</ul>
+<p>Cloud automations are not currently available. The <strong>Cloud</strong> option remains
+visible in Wework but cannot be selected. Automations are stored, scheduled,
+and executed by the current device&#x27;s local Executor.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="schedule-types">Schedule types<a href="#schedule-types" class="hash-link" aria-label="Direct link to Schedule types" title="Direct link to Schedule types" translate="no">​</a></h2>
 <ul>
 <li class=""><strong>Fixed time</strong> uses a Cron expression and IANA time zone. For example,
 <code>0 9 * * 1-5</code> runs at 9:00 AM on weekdays.</li>
-<li class=""><strong>Interval</strong> repeats in minutes, hours, or days. Cloud minute intervals have a
-minimum of 15 minutes.</li>
+<li class=""><strong>Interval</strong> repeats in minutes, hours, or days.</li>
 <li class=""><strong>One time</strong> runs at a specific time and disables itself after scheduling.</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conversation-modes">Conversation modes<a href="#conversation-modes" class="hash-link" aria-label="Direct link to Conversation modes" title="Direct link to Conversation modes" translate="no">​</a></h2>
