@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><meta data-rh="true" property="og:description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.bf906b12.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.de39db4e.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.596321e9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -78,9 +78,11 @@ project initialization, then runs only the selected checkpoint.
 checkpoint. When upstream checkpoints are skipped, each checkpoint establishes
 its own minimal fixtures instead of depending on tasks or UI state created only
 by the complete flow. PR CI builds the smallest segment matrix for the changed
-feature paths. Shared desktop infrastructure, main, merge queue, scheduled
-runs, and <code>ci:all</code> still run the complete desktop suites. The mapping lives in
-<code>.github/scripts/classify-wework-desktop-e2e.sh</code> and must be updated when new
+feature paths. Shared desktop infrastructure, merge queue, scheduled runs, and
+<code>ci:all</code> still run the complete desktop suites. Merge queue validates the final
+commit that enters <code>main</code>, so Tests, Lint, Platform E2E, and Wework E2E do not
+repeat the same validation after the merge through a <code>push main</code> trigger. The
+mapping lives in <code>.github/scripts/classify-wework-desktop-e2e.sh</code> and must be updated when new
 feature coverage is registered. Segment commands are also useful for focused
 local iteration:</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop -- </span><span class="token parameter variable" style="color:#36acaa">--segment</span><span class="token plain"> window-lifecycle</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop -- --from-segment window-lifecycle</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop -- </span><span class="token parameter variable" style="color:#36acaa">--segment</span><span class="token plain"> workspace-attachments</span><br></span></code></pre></div></div>
@@ -184,7 +186,12 @@ parallel matrix. Each scenario receives an isolated runner, HOME, Executor
 Home, ports, and diagnostic artifact. This preserves the existing real Tauri,
 Executor, and Codex verification semantics while removing the serial wait
 between the three scenarios. Matrix fail-fast is disabled so the remaining
-scenarios can finish and upload diagnostics when one scenario fails.</p>
+scenarios can finish and upload diagnostics when one scenario fails.
+The three scenarios inject different build-time Vite environment variables, so
+their Tauri/Cargo build caches must be isolated by E2E command. The plugins
+scenario must not restore an application binary built by the core or cloud
+scenario, because that binary may contain a different Codex Home initialization
+setting.</p>
 <p>The Linux desktop scenarios cache the downloaded <code>.deb</code> files for Tauri system
 dependencies in the runner user&#x27;s home directory. Cache keys rotate weekly and
 are scoped by operating system and CPU architecture. Every run still executes
@@ -195,9 +202,11 @@ whole-job timeouts caused by transient hosted-runner mirror degradation.</p>
 <p>The memory gate depends on macOS WebKit process association and physical-footprint sampling, so run it separately on a macOS runner:</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework prepare:codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop:memory</span><br></span></code></pre></div></div>
 <p>The repository includes a basic workflow at <code>.github/workflows/wework-e2e.yml</code>. It runs when Wework, <code>packages/chat-core</code>, the pnpm lockfile, or the workflow itself changes.
-Regular draft PRs do not run browser or Linux desktop E2E. The macOS memory gate
-runs by default only on <code>main</code>, scheduled runs, and manual runs. Add the
-<code>ci:memory</code> label when a PR must validate the memory boundary. Applying that
+Regular draft PRs do not run browser or Linux desktop E2E. Merge queue runs the
+complete browser and Linux desktop suites before a commit enters <code>main</code>; <code>main</code>
+does not repeat checks that already passed for the merge group. The macOS memory
+gate runs by default only on scheduled and manual runs. Add the <code>ci:memory</code>
+label when a PR must validate the memory boundary. Applying that
 label starts only the memory gate and does not repeat browser or Linux desktop
 E2E. Applying <code>ci:all</code> runs browser, Linux desktop, and macOS memory E2E even
 when the PR&#x27;s changed paths would not normally select Wework E2E. The workflow
