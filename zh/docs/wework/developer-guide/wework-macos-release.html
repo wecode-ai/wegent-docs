@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework macOS 发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework macOS 发布 | Wegent"><meta data-rh="true" name="description" content="English | 简体中文"><meta data-rh="true" property="og:description" content="English | 简体中文"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework macOS 发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.e83d72fe.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.5526e686.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.b9a8184a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.60a3033d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -50,10 +50,25 @@
 <p>如果要验证 local updater，启动一个静态文件服务指向脚本输出目录：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">python3 </span><span class="token parameter variable" style="color:#36acaa">-m</span><span class="token plain"> http.server </span><span class="token number" style="color:#36acaa">8787</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--directory</span><span class="token plain"> src-tauri/target/release/local-update-server</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="github-release-自动更新">GitHub Release 自动更新<a href="#github-release-自动更新" class="hash-link" aria-label="GitHub Release 自动更新的直接链接" title="GitHub Release 自动更新的直接链接" translate="no">​</a></h2>
-<p>仓库提供 <code>.github/workflows/wework-app.yml</code>，用于在 GitHub Actions 上生成 macOS DMG、Tauri updater archive、签名文件和 <code>latest.json</code>。客户端内置的 updater endpoint 指向 GitHub Release latest asset：</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">https://github.com/&lt;owner&gt;/&lt;repo&gt;/releases/latest/download/latest.json</span><br></span></code></pre></div></div>
+<p>仓库提供 <code>.github/workflows/wework-app.yml</code>，用于在 GitHub Actions 上生成 macOS DMG、Windows installer、Tauri updater archive、签名文件和 updater manifest。客户端内置的 updater endpoint 指向固定的 <code>wework-updater</code> Release，并通过 Tauri 的 <code>target</code> 和 <code>arch</code> 占位符选择更新渠道与平台：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">https://github.com/&lt;owner&gt;/&lt;repo&gt;/releases/download/wework-updater/{{target}}-{{arch}}.json</span><br></span></code></pre></div></div>
 <p>macOS CI job 不调用 <code>release-mac-app.sh</code>，但两条发布路径共享 <code>wework/scripts/generate-release-config.mjs</code>。该生成器从 <code>src-tauri/tauri.conf.json</code> 复制完整的 <code>bundle.resources</code>，确保 Codex、hooks、bundled plugins 及隐藏的 marketplace manifests 都进入正式发布包。修改桌面资源清单时应更新基础 Tauri 配置，不要在 workflow 中重新复制资源列表。</p>
-<p>workflow 只能通过 GitHub Actions 手动触发，不会响应 tag push。正式发布会创建或更新 <code>wework-v&lt;version&gt;</code> draft release；两个架构构建完成后，workflow 生成 <code>latest.json</code>，上传到同一个 Release，最后把 Release 发布为 GitHub latest。客户端启动后的自动检查或标题栏手动更新都会读取这个 manifest。禁止 tag push 自动触发可以避免 workflow 发布 Release 时创建的 tag 再次启动同版本构建并覆盖已签名产物。</p>
+<p>workflow 只能通过 GitHub Actions 手动触发，不会响应 tag push。启动 workflow 时选择发布渠道：</p>
+<ul>
+<li class=""><code>stable</code>：发布正式版。<code>version</code> 可以留空并自动增加最新正式版的 patch，也可以填写 <code>X.Y.Z</code> 覆盖。</li>
+<li class=""><code>beta</code>：发布 Beta 版。不要填写版本；workflow 总是根据现有正式版和 Beta tag 自动生成下一个 <code>X.Y.Z-beta.N</code>。</li>
+<li class=""><code>publish_release=false</code>：只生成测试 artifacts，不提交版本文件或发布 Release。</li>
+<li class=""><code>publish_release=true</code>：同步版本文件、构建签名产物并发布 GitHub Release。</li>
+</ul>
+<p>例如最新正式版是 <code>1.2.3</code> 时，第一次 Beta 发布得到 <code>1.2.4-beta.1</code>，后续依次得到 <code>1.2.4-beta.2</code>、<code>1.2.4-beta.3</code>。正式发布 <code>1.2.4</code> 后，下一个自动 Beta 是 <code>1.2.5-beta.1</code>。</p>
+<p>正式发布会创建或更新 <code>wework-v&lt;version&gt;</code> draft release。构建完成后，workflow 生成该版本自己的 <code>latest.json</code> 并上传到同一个 Release，再发布 Release。正式版设置为 GitHub latest；Beta 设置为 prerelease，不改变 GitHub latest。禁止 tag push 自动触发可以避免 workflow 创建 tag 时再次启动同版本构建并覆盖已签名产物。</p>
+<p>发布完成后，workflow 更新固定 <code>wework-updater</code> Release 中的滚动 manifest：</p>
+<ul>
+<li class=""><code>stable-*</code> 只指向最新正式版。</li>
+<li class=""><code>beta-*</code> 指向 Beta 和正式版中 SemVer 更高的版本，因此选择 Beta 的用户也会收到更新的正式版。</li>
+<li class="">新版本只有在 SemVer 高于当前渠道版本时才覆盖滚动 manifest，历史发布或较低版本不会让用户降级。</li>
+</ul>
+<p>用户可以在 Wework 的“设置 → 关于”中打开“接收 Beta 版本更新”。默认关闭时客户端使用 <code>stable</code> target；打开后使用 <code>beta</code> target。切换后立即检查更新，并把选择保存在本机。</p>
 <p>GitHub Actions 需要配置这些 repository secrets：</p>
 <ul>
 <li class=""><code>TAURI_SIGNING_PRIVATE_KEY</code>：Tauri updater 私钥。</li>
@@ -71,9 +86,9 @@
 <li class=""><code>WeWork_&lt;version&gt;_macos_x64.app.tar.gz.sig</code></li>
 <li class=""><code>latest.json</code></li>
 </ul>
-<p>从 GitHub Release assets 下载时，下载链接本身就是 <code>.dmg</code> 文件，不会被 Actions artifact 额外套一层 <code>.zip</code>。手动触发 workflow 且未填写版本号时，release tag 会自动基于最新的 <code>wework-vX.Y.Z</code> tag 增加 patch 版本。</p>
+<p>从 GitHub Release assets 下载时，下载链接本身就是 <code>.dmg</code> 文件，不会被 Actions artifact 额外套一层 <code>.zip</code>。正式渠道未填写版本时，会基于最新正式版 <code>wework-vX.Y.Z</code> tag 增加 patch；Beta 渠道始终自动生成版本，不读取 <code>version</code> 输入。</p>
 <p>正式发布时，workflow 会在构建前把 <code>wework/package.json</code>、<code>wework/src-tauri/tauri.conf.json</code>、<code>wework/src-tauri/Cargo.toml</code> 和 <code>wework/src-tauri/Cargo.lock</code> 同步到本次 release version，并直接提交回触发 workflow 的 <code>main</code> 分支。后续 macOS 构建和 GitHub Release 都会使用这个版本提交，确保关于页版本、Tauri 包版本和源码版本一致。</p>
-<p>手动触发但未勾选正式发布时只生成测试 artifacts，不会提交版本文件。也可以在 GitHub Actions 中选择已有的 <code>wework-vX.Y.Z</code> tag 后手动运行 workflow；此时 tag 已经指向固定提交，workflow 不会改写源码。如果 tag 指向的版本文件和 tag 版本不一致，发布会失败，需要先更新版本文件并重新打 tag。仅推送 tag 不会启动发布。</p>
+<p>手动触发但未勾选正式发布时只生成测试 artifacts，不会提交版本文件。也可以在 GitHub Actions 中选择已有的正式版或 Beta <code>wework-v&lt;version&gt;</code> tag 后手动运行 workflow；workflow 会从 tag 自动识别版本和渠道，此时不会改写源码。如果 tag 指向的版本文件和 tag 版本不一致，发布会失败，需要先更新版本文件并重新打 tag。仅推送 tag 不会启动发布。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="无-apple-developer-账号的-ci-dmg">无 Apple Developer 账号的 CI DMG<a href="#无-apple-developer-账号的-ci-dmg" class="hash-link" aria-label="无 Apple Developer 账号的 CI DMG的直接链接" title="无 Apple Developer 账号的 CI DMG的直接链接" translate="no">​</a></h2>
 <p>GitHub workflow 会对 <code>.app</code> 执行 ad-hoc codesign，但不会做 Apple notarization，因此首次打开仍会触发 Gatekeeper。这个模式适合内部测试和开发者分发，不应标记为正式已公证发布包。</p>
 <p>首次打开被拦截时，可以强制打开。macOS 15 之后的提示可能仍会出现 <strong>Move to Trash / 移到废纸篓</strong> 按钮；只要 CI 中 <code>codesign --verify --deep --strict</code> 通过，这通常仍属于未公证 app 的 Gatekeeper 拦截，不是包损坏：</p>
