@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">故障排查 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="故障排查 | Wegent"><meta data-rh="true" name="description" content="模型不可用"><meta data-rh="true" property="og:description" content="模型不可用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"故障排查","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.d4ba6a32.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.94d3ba15.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.60a3033d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -47,6 +47,14 @@
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="云端连接失效">云端连接失效<a href="#云端连接失效" class="hash-link" aria-label="云端连接失效的直接链接" title="云端连接失效的直接链接" translate="no">​</a></h2>
 <p>点击侧边栏的云端状态重新授权。确认 Backend 地址来自团队管理员，并且浏览器能够访问登录页面。</p>
+<p>如果网络正常但云端状态偶尔显示不可用，先查看 Wework 前端日志中的以下记录：</p>
+<ul>
+<li class=""><code>[Wework] HTTP ... is still pending after 5000ms.</code>：请求超过 5 秒仍未收到响应，说明问题发生在等待响应阶段。</li>
+<li class=""><code>[Wework] HTTP ... completed slowly ...</code>：请求最终返回，记录总耗时、HTTP 状态码和传输方式。</li>
+<li class=""><code>[Wework] HTTP ... failed.</code>：请求没有收到 HTTP 响应，查看 <code>phase: &quot;transport&quot;</code> 下的错误。</li>
+<li class=""><code>[Wework] HTTP ... returned ...</code>：服务端已返回 HTTP 错误，查看 <code>phase: &quot;http_error&quot;</code> 下的状态码和错误信息。</li>
+</ul>
+<p>每条请求都有 <code>requestId</code>。在桌面客户端中，该值会通过 <code>X-Request-ID</code> 传给 Backend；只有慢响应或 HTTP 错误诊断事件包含后端返回的请求 ID 时，日志才会记录 <code>backendRequestId</code>。用这两个 ID 可以把客户端日志与 Backend 日志关联起来。日志不会记录 Authorization、token 或请求正文。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="获取帮助">获取帮助<a href="#获取帮助" class="hash-link" aria-label="获取帮助的直接链接" title="获取帮助的直接链接" translate="no">​</a></h2>
 <p>在发生问题的任务右上角（或新对话状态的工具栏）点击 <strong>反馈问题</strong>。先填写问题描述（必填），可以在输入框中直接粘贴截图或文件，也可以点击 <strong>添加附件</strong> 通过文件选择器上传。确认问题描述后点击 <strong>预览问题</strong>，检查将要提交或导出的内容。</p>
 <p>补充信息的默认行为如下：</p>
