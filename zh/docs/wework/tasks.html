@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">与 AI 协作 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="与 AI 协作 | Wegent"><meta data-rh="true" name="description" content="描述任务"><meta data-rh="true" property="og:description" content="描述任务"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"与 AI 协作","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.7129988a.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.5526e686.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.de21edd8.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.60a3033d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -42,6 +42,7 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="查看处理过程">查看处理过程<a href="#查看处理过程" class="hash-link" aria-label="查看处理过程的直接链接" title="查看处理过程的直接链接" translate="no">​</a></h2>
 <p>AI 回复中的“已处理”区域会按实际创建时间从上到下展示工具调用。即使执行器的事件到达顺序发生变化，较早创建的命令、文件操作或其他工具仍会显示在较早位置，便于按照真实执行过程阅读和排查任务。</p>
 <p>已完成的处理活动会按类型汇总：终端命令和 Node.js REPL JavaScript 调用计入“命令”，MCP 等其他能力计入“工具”，文件读取和编辑则使用各自的分类。展开处理区域后，点击某一行或右侧箭头可以查看详情。折叠行使用便于阅读的短名称；详情中会显示完整工具名称、调用输入和返回输出。没有输入或输出的状态型活动不会显示无意义的展开按钮。</p>
+<p>计划模式生成的计划属于回复主体，不会收进已完成回复的“已处理”折叠区域；恢复后台任务或重新打开会话后，计划也会保持直接可见。普通命令、文件操作和工具调用仍按上述规则汇总和折叠。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="管理会话">管理会话<a href="#管理会话" class="hash-link" aria-label="管理会话的直接链接" title="管理会话的直接链接" translate="no">​</a></h2>
 <p>任务可以继续对话、重命名、复制到其他设备或归档。项目会话显示在所属项目下；没有项目的会话显示在独立对话列表中。已归档会话可以在设置中恢复或删除。</p>
 <p>在一条已完成的 AI 回复下，将指针移到消息操作区并选择“在新任务中继续”，可以从该轮创建独立任务。新任务保留截至所选回复的对话上下文并使用同一工作区；原任务及该轮之后的消息不会被修改。正在生成、已取消或无法映射到 Codex 轮次的回复不显示此操作。</p>
