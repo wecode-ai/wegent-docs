@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">与 AI 协作 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="与 AI 协作 | Wegent"><meta data-rh="true" name="description" content="描述任务"><meta data-rh="true" property="og:description" content="描述任务"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"与 AI 协作","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.dc0d87f8.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.60a3033d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.7129988a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.5526e686.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -26,8 +26,8 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="选择模型和设备">选择模型和设备<a href="#选择模型和设备" class="hash-link" aria-label="选择模型和设备的直接链接" title="选择模型和设备的直接链接" translate="no">​</a></h2>
 <p>模型决定任务使用的 AI 能力，设备决定代码和命令在哪里执行。本地模型只能用于本机设备；云端模型和设备需要先连接 Wegent。</p>
 <p>打开输入区的模型选择器后，如果当前只有一个模型分组，Wework 会直接展示该分组中的全部模型；如果存在多个分组，请先选择分组，再从展开的二级菜单中选择模型。</p>
-<p>新建会话时可以选择任意可用模型。会话启动后，官方 Codex 模型与第三方模型之间不能互相切换；不可切换的模型仍会显示在选择器中，但会置灰。桌面端将原因放在悬停提示中，不会在每个模型名称下重复显示。同一类别内的模型仍可按正常流程切换。</p>
-<p>如果需要在另一类别的模型中延续当前工作，可以新建会话，并在输入区通过 <code>@</code> 引用当前对话，让新模型获得原会话上下文。</p>
+<p>会话启动后仍可在官方 GPT/Codex 模型和第三方模型之间切换。选择不同模型时，Wework 会先显示确认提示；确认后，新模型从下一条消息开始生效。</p>
+<p>如果已有上下文包含原 provider 生成的加密推理或压缩状态，executor 会在切换请求中自动移除这些不可移植字段，避免目标模型报 <code>invalid_encrypted_content</code>。普通消息、工具结果和其他可移植上下文会继续保留。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="任务运行中的控制">任务运行中的控制<a href="#任务运行中的控制" class="hash-link" aria-label="任务运行中的控制的直接链接" title="任务运行中的控制的直接链接" translate="no">​</a></h2>
 <p>任务运行时有三种发送方式：</p>
 <table><thead><tr><th>操作</th><th>快捷键</th><th>适用场景</th></tr></thead><tbody><tr><td>当前回复结束后发送</td><td><code>Enter</code></td><td>补充下一步要求</td></tr><tr><td>引导当前回复</td><td><code>Command/Ctrl + Enter</code></td><td>调整正在进行的工作方向</td></tr><tr><td>打断并立即发送</td><td><code>Command/Ctrl + Shift + Enter</code></td><td>当前方向错误，需要马上停止</td></tr></tbody></table>
