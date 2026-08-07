@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.97510e91.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.d2e2f7fb.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.177be27d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -162,7 +162,8 @@ Wework 浏览器和桌面 E2E，以及 Wework macOS 内存门禁，适合路径�
 采用显式 restore/save；只有 <code>refs/heads/main</code> 可以 save。Claude Code CLI
 通过仓库内的 <code>package-lock.json</code> 锁定完整依赖图和包完整性。</li>
 <li class="">Rust 单测、Windows check、发布、快照和 macOS 内存门禁通过 sccache 复用编译器
-输出。非 <code>main</code> 任务以只读模式访问共享 sccache。</li>
+输出。<code>main</code> 预热会在 <code>macos-14</code> 上执行与内存门禁一致的桌面
+<code>--build-only</code>，非 <code>main</code> 任务以只读模式访问共享 sccache。</li>
 <li class="">Wework Desktop Core E2E 继续使用 <code>main</code> 拥有的 Cargo target cache，因为它需要
 在多个桌面 job 之间复用同一套完整二进制产物。</li>
 <li class="">平台 E2E、Release 和 Snapshot 的 Docker BuildKit cache 存放在对应 GHCR 镜像的
@@ -171,8 +172,8 @@ build cache tag，不占用 GitHub Actions dependency cache 配额。</li>
 <code>main</code> 写入，PR 只恢复。</li>
 </ul>
 <p><code>.github/workflows/ci-cache-warmup.yml</code> 在相关源码、依赖锁文件或缓存实现合入
-<code>main</code> 后运行。它只下载依赖或编译缓存，不重复执行已经由 merge queue 验证过的
-测试。不要在 PR/merge-group 上新增大型自动保存缓存；需要增加缓存时，应采用
+<code>main</code> 后运行，并拒绝非 <code>main</code> 的手动预热。它只下载依赖或编译缓存，不重复执行
+已经由 merge queue 验证过的测试。不要在 PR/merge-group 上新增大型自动保存缓存；需要增加缓存时，应采用
 <code>actions/cache/restore</code> 和仅限 <code>main</code> 的 <code>actions/cache/save</code>，或使用已有共享
 action。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="写入-github-actions-输出">写入 GitHub Actions 输出<a href="#写入-github-actions-输出" class="hash-link" aria-label="写入 GitHub Actions 输出的直接链接" title="写入 GitHub Actions 输出的直接链接" translate="no">​</a></h3>
