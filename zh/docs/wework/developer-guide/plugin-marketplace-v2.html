@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 插件市场 V2 技术设计 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 插件市场 V2 技术设计 | Wegent"><meta data-rh="true" name="description" content="面向插件开发、开源迁移和本地联调，请先阅读 插件市场开发指南。本文侧重控制面架构、数据模型和运维约束。"><meta data-rh="true" property="og:description" content="面向插件开发、开源迁移和本地联调，请先阅读 插件市场开发指南。本文侧重控制面架构、数据模型和运维约束。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/plugin-marketplace-v2" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/plugin-marketplace-v2" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 插件市场 V2 技术设计","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.4c5e3859.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.16b9c985.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.177be27d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -39,10 +39,11 @@
 「国内公开」Tab；不要再标成 <code>codex</code>。</p>
 </blockquote>
 <p>“我的已安装”以 <code>pluginId/releaseId</code> 合并云端意图和设备状态；本地创建项以 <code>localId</code> 标识。禁止用展示名关联，因为同名插件和改名都会造成误合并。</p>
+<p>插件运行时身份使用 <code>plugin://&lt;plugin-name&gt;@&lt;marketplace-name&gt;</code>。受管市场名由 visibility 统一推导：<code>personal -&gt; wework-personal</code>、<code>workspace -&gt; wegent</code>、<code>public -&gt; wework</code>。前端生成试用 mention、Composer app metadata 和应用创建插件匹配时必须复用同一套映射，并且只在 <code>providerKey</code> 为 <code>wegent-market</code> 或 <code>wegent-marketplace</code> 的受管安装记录上应用该回退规则。普通 <code>public</code> 插件仍合法；只有系统所有者 <code>user_id=0</code> 的内置应用插件行若仍保存为旧的 <code>public</code>，才会在内置安装路径中规范化为当前注册表定义的 <code>workspace / wegent</code>。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-核心流程">5. 核心流程<a href="#5-核心流程" class="hash-link" aria-label="5. 核心流程的直接链接" title="5. 核心流程的直接链接" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="市场安装与更新">市场安装与更新<a href="#市场安装与更新" class="hash-link" aria-label="市场安装与更新的直接链接" title="市场安装与更新的直接链接" translate="no">​</a></h3>
 <!-- -->
-<p>新安装选择 <code>latest_release_id</code>。更新必须由用户确认，失败保留旧版本。卸载先把设备行置为 <code>uninstalling</code>，只删除已确认设备的物化记录，离线设备上线后补执行。</p>
+<p>新安装选择 <code>latest_release_id</code>。更新必须由用户确认，失败保留旧版本。卸载先把设备行置为 <code>uninstalling</code>，只删除已确认设备的安装记录和物化入口，离线设备上线后补执行。正常卸载不直接清空 Codex 或 Claude <code>plugins/cache</code>，缓存目录只应由运行时复用或由独立垃圾回收删除未被安装记录引用的版本。</p>
 <p>Wework 调用目录、安装、更新和卸载接口时携带本机 Executor 的稳定 <code>device_id</code>。目录中的“已安装”只在该设备 <code>state=installed</code> 且 <code>actual_release_id</code> 等于账号期望 Release 时成立；账号已有安装意图但当前设备为 <code>pending/failed</code> 时仍显示可安装和具体设备错误。一次操作只因当前设备失败而返回 <code>502</code>，其他设备失败记录在 <code>plugin_device_installations</code> 并等待重连补同步。设备 WebSocket 重连完成后会再次回写逐插件结果，清除已完成的卸载或旧失败状态。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="本地创建与发布">本地创建与发布<a href="#本地创建与发布" class="hash-link" aria-label="本地创建与发布的直接链接" title="本地创建与发布的直接链接" translate="no">​</a></h3>
 <!-- -->
@@ -111,7 +112,7 @@
 <ul>
 <li class="">新安装永远取最新 Release，旧安装显示“可更新”且不静默升级。</li>
 <li class="">在线设备成功、离线设备 <code>pending</code>、失败返回逐插件错误，更新失败保留旧版本。</li>
-<li class="">安装和卸载由 Codex App Server 执行；Executor 只负责受管包缓存、校验、事件转发和逐设备结果上报。</li>
+<li class="">安装和卸载由 Codex App Server 执行；Executor 只负责受管包缓存、校验、事件转发和逐设备结果上报；普通卸载不承诺删除 <code>plugins/cache</code>。</li>
 <li class=""><code>InstalledPlugin.status.devices</code> 与 App Server 当前设备结果一致，接口成功不得掩盖本机失败。</li>
 <li class="">ZIP 穿越、重复路径、符号链接、加密成员、敏感文件、超大展开体积、SHA 错误和缺失 Manifest 均被拒绝。</li>
 <li class="">本地创建不触发云端上传；只有显式发布才产生 Submission。</li>
