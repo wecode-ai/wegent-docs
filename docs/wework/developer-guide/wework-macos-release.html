@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework macOS Release | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework macOS Release | Wegent"><meta data-rh="true" name="description" content="English | 简体中文"><meta data-rh="true" property="og:description" content="English | 简体中文"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework macOS Release","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.c8f07911.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.e388a8bb.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.5c0c4feb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -61,6 +61,17 @@ windows that are fully covered by the WebView theme surface. Do not enable
 Transparent window edges are composed differently across macOS versions and
 graphics environments, which can expose the desktop or appear as translucent
 or gray borders.</p>
+<p>The root shell in the main React WebView must fill the current WebView through
+CSS viewport constraints such as <code>fixed inset-0</code>. Do not listen for native
+Tauri resize events and write asynchronously read and converted <code>innerSize</code> and
+<code>scaleFactor</code> values back as inline root-shell dimensions. Native events, scale
+factors, and WebView layout commits can arrive out of order, allowing a stale
+inline size to override the current viewport and leave an unfilled region after
+a resize. Native window dimensions are for window creation, restoration, and
+system-level window management, not as a source for the React root layout.
+On Linux, embedded browser child WebViews must live in an absolute host built
+from <code>GtkOverlay</code> and <code>GtkFixed</code>; adding them directly to the main window&#x27;s
+<code>GtkBox</code> lets them participate in layout and compress the main React WebView.</p>
 <p>The system drag panel and Popout Window are separate lightweight overlays and
 are not covered by this rule. Changes to ordinary window backgrounds, title
 bars, or creation options must verify both the main window and detached

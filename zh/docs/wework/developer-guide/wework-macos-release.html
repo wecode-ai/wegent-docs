@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework macOS 发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework macOS 发布 | Wegent"><meta data-rh="true" name="description" content="English | 简体中文"><meta data-rh="true" property="og:description" content="English | 简体中文"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework macOS 发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.45b1ea1d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.ffac2672.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.177be27d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -57,6 +57,13 @@
 中的主题表面色完整覆盖。不要为这些窗口启用 <code>transparent</code>、<code>windowEffects</code>
 或原生 vibrancy 材质；不同 macOS 版本和图形环境对透明窗口边缘的合成结果不一致，
 可能显示为透出桌面、半透明描边或灰色边框。</p>
+<p>主 React WebView 的根壳必须直接使用 CSS viewport 约束（例如 <code>fixed inset-0</code>）
+填满当前 WebView。不要监听 Tauri 原生 resize 事件，再把异步读取和换算后的
+<code>innerSize</code>、<code>scaleFactor</code> 写成根壳的内联宽高；原生事件、缩放因子和 WebView
+布局提交可能乱序，旧的内联尺寸会覆盖当前 viewport，并在窗口调整后留下未填充区域。
+原生窗口尺寸只用于窗口创建、恢复和系统级窗口管理，不作为 React 根布局的尺寸来源。
+Linux 上的内置浏览器子 WebView 必须放在 <code>GtkOverlay</code> 和 <code>GtkFixed</code> 组成的绝对定位
+宿主中，不能直接加入主窗口的 <code>GtkBox</code> 参与布局，否则会挤压主 React WebView。</p>
 <p>系统拖拽面板和 Popout Window 是独立的轻量浮层，不受该约束。修改普通窗口的背景、
 标题栏或创建参数时，需要同时验证主窗口和独立工作区窗口，并保留自动化断言，确保
 两者不会重新启用原生透明效果。</p>
