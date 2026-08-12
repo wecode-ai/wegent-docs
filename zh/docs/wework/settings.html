@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">设置与数据 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/settings"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="设置与数据 | Wegent"><meta data-rh="true" name="description" content="常用设置"><meta data-rh="true" property="og:description" content="常用设置"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/settings"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/settings" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/settings" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/settings" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"设置与数据","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/settings"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.670041c0.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.a31d5020.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.518193d2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.5bc0dff7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -58,6 +58,9 @@
 重启 Wework 后，会话仍保留在所属项目下；重新打开时，OpenCode、Claude Code 和 Kimi Code
 分别使用其原生继续/恢复能力接回历史上下文，并恢复有限的终端回滚内容。显式关闭会话会终止进程
 并删除该会话记录，已经显式关闭的会话不会在下次启动时恢复。</p>
+<p>恢复会话时，Wework 严格使用创建会话时记录的原工作区。如果该目录或临时工作树已被清理，
+Wework 不会改用其他目录启动会话，而会明确提示原工作区不存在。请先恢复原工作区，或在当前
+工作区中新建运行工具会话。</p>
 <p>选择 OpenCode、Claude Code 或 Kimi Code 后，普通 Codex 模型选择器会切换为运行工具模型选择器。
 默认项是“不指定模型”：Wework 不传入 <code>--model</code>、模型代理地址或模型凭证，由工具读取
 自己的原生配置。也可以显式选择“设置 → 模型”中的本地模型接口，或当前已连接 Wegent 账号可访问的
