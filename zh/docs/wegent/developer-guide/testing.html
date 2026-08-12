@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.caeec702.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.2ece6dbf.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a31d5020.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -177,7 +177,11 @@ Wework 浏览器和桌面 E2E，以及 Wework macOS 内存门禁，适合路径�
 保存新的副本：</p>
 <ul>
 <li class="">Linux workspace <code>node_modules</code> 按 Node 版本和 <code>pnpm-lock.yaml</code> 建立一份共享缓存，
-供 Tests、Lint、平台 E2E 和 Wework E2E 使用。</li>
+供 Tests、Lint 和平台 E2E 使用。</li>
+<li class="">Wework 浏览器和桌面 E2E 使用发布到 GHCR 的依赖镜像。镜像标签由对应
+Dockerfile 的内容哈希决定；工作流只在该标签不存在时构建并发布镜像，后续任务
+直接在镜像容器中运行，不再逐任务安装 Node、pnpm、uv、Rust、Playwright 浏览器
+或桌面系统包。本地调试命令不会构建这些 CI 镜像。</li>
 <li class="">uv 只缓存下载和构建结果，不缓存项目 <code>.venv</code>。缓存 key 包含对应 <code>uv.lock</code>，
 按 Python 3.10、3.11、3.12 各维护一份共享缓存，保存前执行 CI prune。</li>
 <li class="">Playwright browser、Next.js build cache、Claude Code CLI 和桌面 Cargo target
@@ -190,8 +194,8 @@ Wework 浏览器和桌面 E2E，以及 Wework macOS 内存门禁，适合路径�
 在多个桌面 job 之间复用同一套完整二进制产物。</li>
 <li class="">平台 E2E、Release 和 Snapshot 的 Docker BuildKit cache 存放在对应 GHCR 镜像的
 build cache tag，不占用 GitHub Actions dependency cache 配额。</li>
-<li class="">Executor 和 Tauri 系统依赖安装前先检查 runner 已安装的软件包；APT 下载缓存只有
-<code>main</code> 写入，PR 只恢复。</li>
+<li class="">非 Wework E2E 的 Executor 和 Tauri 系统依赖安装前先检查 runner 已安装的软件包；
+APT 下载缓存只有 <code>main</code> 写入，PR 只恢复。</li>
 </ul>
 <p><code>.github/workflows/ci-cache-warmup.yml</code> 在相关源码、依赖锁文件或缓存实现合入
 <code>main</code> 后运行，并拒绝非 <code>main</code> 的手动预热。它只下载依赖或编译缓存，不重复执行
