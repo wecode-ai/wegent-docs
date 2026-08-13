@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">与 AI 协作 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="与 AI 协作 | Wegent"><meta data-rh="true" name="description" content="描述任务"><meta data-rh="true" property="og:description" content="描述任务"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"与 AI 协作","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.87070b41.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.98ed3a2c.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a31d5020.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -49,12 +49,13 @@ executor home 与 Codex home（不读取个人 Codex 凭据）。</li>
 <table><thead><tr><th>操作</th><th>快捷键</th><th>适用场景</th></tr></thead><tbody><tr><td>当前回复结束后发送</td><td><code>Enter</code></td><td>补充下一步要求</td></tr><tr><td>引导当前回复</td><td><code>Command/Ctrl + Enter</code></td><td>调整正在进行的工作方向</td></tr><tr><td>打断并立即发送</td><td><code>Command/Ctrl + Shift + Enter</code></td><td>当前方向错误，需要马上停止</td></tr></tbody></table>
 <p>打断会停止当前回复，但已经完成的文件修改和命令不会自动回滚。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用分身监督">使用分身监督<a href="#使用分身监督" class="hash-link" aria-label="使用分身监督的直接链接" title="使用分身监督的直接链接" translate="no">​</a></h2>
-<p>先在“设置 → 通用”中开启“实验性功能”，然后在 Codex 任务的输入框上方开启“分身监督”。主 AI 工作期间，执行器会在后台定时读取最近的 AI 进展，并使用独立的只读轻量调用检查目标偏移、遗漏约束、破坏性操作和明显的阻塞循环。巡检不会 fork 原任务，也不依赖任务界面保持打开。</p>
+<p>在新的 Codex 对话或已有 Codex 任务输入区的 <strong>+</strong> 菜单中开启 <strong>监督</strong>。主 AI 工作期间，执行器会在后台定时读取最近的 AI 进展，并使用独立的只读轻量调用检查目标偏移、遗漏约束、破坏性操作和明显的阻塞循环。监督是正式功能，无需开启“实验性功能”；巡检不会 fork 原任务，也不依赖任务界面保持打开。</p>
 <ul>
 <li class=""><strong>先建议</strong>：在输入框上方显示纠正建议，由你决定是否发送。</li>
 <li class=""><strong>自动纠正</strong>：发现明确偏差时，运行中直接引导当前回复，空闲时像你在输入框发送要求一样开启后续回复。</li>
 </ul>
-<p>监督配置属于当前任务。你可以让巡检模型跟随当前任务，也可以单独指定模型；巡检频率可选 10 秒、30 秒、1 分钟或 5 分钟。你还可以在“设置 → 上下文”中设置全局监督原则；首次开启任务监督时会自动带入，并允许针对该任务修改。</p>
+<p>监督配置属于当前任务。你可以单独指定巡检模型；巡检频率可选 10 秒、30 秒、1 分钟或 5 分钟。Wework 会在当前设备记住最近一次保存成功的巡检模型和频率，并在配置新任务监督时自动恢复。你还可以在“设置 → 上下文”中设置全局监督原则；首次开启任务监督时会自动带入，并允许针对该任务修改。</p>
+<p>监督启动后，右侧 <strong>环境</strong> 面板会显示监督状态和下次巡检时间。选择 <strong>立即巡检</strong> 可以跳过等待时间并马上检查当前进展；正在巡检时该按钮会暂时禁用，避免同一任务并发执行多个监督检查。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="查看处理过程">查看处理过程<a href="#查看处理过程" class="hash-link" aria-label="查看处理过程的直接链接" title="查看处理过程的直接链接" translate="no">​</a></h2>
 <p>AI 回复中的“已处理”区域会按实际创建时间从上到下展示工具调用。即使执行器的事件到达顺序发生变化，较早创建的命令、文件操作或其他工具仍会显示在较早位置，便于按照真实执行过程阅读和排查任务。</p>
 <p>已完成的处理活动会按类型汇总：终端命令和 Node.js REPL JavaScript 调用计入“命令”，MCP 等其他能力计入“工具”，文件读取和编辑则使用各自的分类。展开处理区域后，点击某一行或右侧箭头可以查看详情。折叠行使用便于阅读的短名称；详情中会显示完整工具名称、调用输入和返回输出。没有输入或输出的状态型活动不会显示无意义的展开按钮。</p>
