@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">云端 Git Worktree 目标模式与并行开发计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="云端 Git Worktree 目标模式与并行开发计划 | Wegent"><meta data-rh="true" name="description" content="1. 文档状态"><meta data-rh="true" property="og:description" content="1. 文档状态"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"云端 Git Worktree 目标模式与并行开发计划","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/zh/assets/js/runtime~main.d2431e31.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.492317c8.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/zh/img/wegent.png"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/zh/"><div class="navbar__logo"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a class="navbar__item navbar__link" href="/wegent-docs/zh/docs/wegent">Wegent</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/zh/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="搜索" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework"><span title="Wework 文档" class="linkLabel_WmDU">Wework 文档</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/getting-started"><span title="快速开始" class="linkLabel_WmDU">快速开始</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/projects"><span title="项目与工作区" class="linkLabel_WmDU">项目与工作区</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/tasks"><span title="与 AI 协作" class="linkLabel_WmDU">与 AI 协作</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/workbench"><span title="代码工作台" class="linkLabel_WmDU">代码工作台</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/browser"><span title="内置浏览器" class="linkLabel_WmDU">内置浏览器</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/devices"><span title="设备与云端工作" class="linkLabel_WmDU">设备与云端工作</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/plugins-and-skills"><span title="插件与 Skills" class="linkLabel_WmDU">插件与 Skills</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/settings"><span title="设置与数据" class="linkLabel_WmDU">设置与数据</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/troubleshooting"><span title="故障排查" class="linkLabel_WmDU">故障排查</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/zh/docs/category/developer-guide-1"><span title="Developer guide" class="categoryLinkLabel_W154">Developer guide</span></a><button aria-label="折叠侧边栏分类 &#x27;Developer guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><span title="Wework 聊天状态信源" class="linkLabel_WmDU">Wework 聊天状态信源</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-project-execution-state-truth-refactoring"><span title="项目执行状态真实性重构" class="linkLabel_WmDU">项目执行状态真实性重构</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"><span title="Wework 插件市场 V2 技术设计" class="linkLabel_WmDU">Wework 插件市场 V2 技术设计</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><span title="云端 Git Worktree 目标模式与并行开发计划" class="linkLabel_WmDU">云端 Git Worktree 目标模式与并行开发计划</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-marketplace-dev"><span title="Wework 插件市场开发指南" class="linkLabel_WmDU">Wework 插件市场开发指南</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-local-data-directory"><span title="本地数据目录" class="linkLabel_WmDU">本地数据目录</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-icons"><span title="Wework 插件图标指南（wework-plugins）" class="linkLabel_WmDU">Wework 插件图标指南（wework-plugins）</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-codex-sidebar"><span title="Codex 左侧栏状态一致性" class="linkLabel_WmDU">Codex 左侧栏状态一致性</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><span title="Wework macOS 发布" class="linkLabel_WmDU">Wework macOS 发布</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-connection"><span title="本地优先云端连接" class="linkLabel_WmDU">本地优先云端连接</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-codex-plugins"><span title="Codex 插件运行时" class="linkLabel_WmDU">Codex 插件运行时</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-performance-diagnostics"><span title="性能诊断" class="linkLabel_WmDU">性能诊断</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><span title="E2E 自动化" class="linkLabel_WmDU">E2E 自动化</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-file-preview"><span title="工作区文件预览" class="linkLabel_WmDU">工作区文件预览</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context"><span title="调试实例标识" class="linkLabel_WmDU">调试实例标识</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-interactive-forms"><span title="插件交互式表单" class="linkLabel_WmDU">插件交互式表单</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser"><span title="内置浏览器" class="linkLabel_WmDU">内置浏览器</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-ai-verification"><span title="AI 自验证会话" class="linkLabel_WmDU">AI 自验证会话</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-browser-annotation-reliability"><span title="浏览器批注可靠性" class="linkLabel_WmDU">浏览器批注可靠性</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-model-proxy"><span title="Wework 云端模型代理网关" class="linkLabel_WmDU">Wework 云端模型代理网关</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><span title="Wework Windows 桌面端构建指南" class="linkLabel_WmDU">Wework Windows 桌面端构建指南</span></a></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/wegent-docs/zh/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/category/developer-guide-1"><span>Developer guide</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">云端 Git Worktree 目标模式与并行开发计划</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>云端 Git Worktree 目标模式与并行开发计划</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-文档状态">1. 文档状态<a href="#1-文档状态" class="hash-link" aria-label="1. 文档状态的直接链接" title="1. 文档状态的直接链接" translate="no">​</a></h2>
+<ul>
+<li class="">制定日期：2026-08-17</li>
+<li class="">状态：核心代码、真实 Tauri 云端闭环和 Remote Docker 容器生命周期验收完成；仅托管生产持久卷与实例重建待目标环境验收</li>
+<li class="">目标：让 Wework 的本地设备、托管云设备和 Remote Docker 设备共用同一套托管 Git Worktree 能力</li>
+<li class="">开发方式：一个主 Agent 负责目标、架构真值、公共契约和集成；多个子 Agent 在互斥写入范围内并行实现</li>
+</ul>
+<p>本文记录实施计划、并行分工和验收状态，不替代架构真值。对应架构真值已经建立：</p>
+<ul>
+<li class=""><code>docs/zh/architecture/git-worktree-execution.md</code></li>
+<li class=""><code>docs/en/architecture/git-worktree-execution.md</code></li>
+<li class="">两个架构目录的索引行</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-目标模式">2. 目标模式<a href="#2-目标模式" class="hash-link" aria-label="2. 目标模式的直接链接" title="2. 目标模式的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="21-最终目标">2.1 最终目标<a href="#21-最终目标" class="hash-link" aria-label="2.1 最终目标的直接链接" title="2.1 最终目标的直接链接" translate="no">​</a></h3>
+<p>用户在任意支持 Worktree 的在线设备工作区中选择“新工作树”后，Wework 将任务发送到该工作区所属 Executor，由目标 Executor 在自己的持久化文件系统中完成 Worktree 的计划、创建、运行、归档、快照、恢复和清理。</p>
+<!-- -->
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="22-权威边界">2.2 权威边界<a href="#22-权威边界" class="hash-link" aria-label="2.2 权威边界的直接链接" title="2.2 权威边界的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>领域</th><th>权威</th></tr></thead><tbody><tr><td>项目和设备工作区映射</td><td>Backend <code>DeviceWorkspace</code></td></tr><tr><td>设备在线状态与能力</td><td>Backend 中的设备在线信息，来源于 Executor</td></tr><tr><td>Worktree 创建和文件状态</td><td>创建它的目标 Executor</td></tr><tr><td>Worktree 元数据和快照</td><td>目标 Executor 的 <code>worktrees.json</code> 与 Git refs</td></tr><tr><td>Runtime Task 到 Worktree 路径的绑定</td><td>目标 Executor Runtime Task Store</td></tr><tr><td>启动模式和分支偏好</td><td>按 <code>DeviceWorkspace</code> 隔离的用户偏好</td></tr><tr><td>UI 展示</td><td>Runtime 列表、事件和短期缓存的投影，不是文件系统真值</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="23-必要不变量">2.3 必要不变量<a href="#23-必要不变量" class="hash-link" aria-label="2.3 必要不变量的直接链接" title="2.3 必要不变量的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">Worktree 只能由持有源仓库的目标 Executor 创建、删除和恢复。</li>
+<li class=""><code>deviceId</code> 是 Worktree 身份的一部分，不能跨设备回退或迁移。</li>
+<li class="">Backend 不执行 Git 命令，不持有 Worktree 文件状态真值。</li>
+<li class="">一个 Runtime Task 最多绑定一个托管 Worktree。</li>
+<li class="">Worktree ID 必须由稳定、唯一的任务 ID 派生。</li>
+<li class="">排队任务只计算计划路径，获得物理执行槽位前不能创建目录。</li>
+<li class="">Worktree 创建失败时不能回退到项目主目录继续运行。</li>
+<li class="">Terminal、IDE、文件树和 Git 操作必须使用任务最终工作区路径。</li>
+<li class="">删除 Worktree 前必须处理所有关联任务；默认删除保留可恢复快照。</li>
+<li class="">自动清理只能处理已归档、非运行且不影响运行中同仓库任务的 Worktree。</li>
+<li class="">设备离线不能触发跨设备恢复、删除或重新创建。</li>
+<li class="">云端设备的 Executor Home、主仓库、Worktree 根目录和绝对挂载路径必须稳定持久化。</li>
+<li class="">对外统一使用逻辑设备 ID；Backend 负责解析当前 Runtime Socket ID，并验证用户所有权。</li>
+<li class="">Worktree 能力不能复用现有 Skills、Plugins、MCP <code>capabilities</code> 字段。</li>
+<li class="">已存在的目标目录必须验证为同一源仓库、同一 Worktree ID 的合法 Git Worktree。</li>
+<li class="">Executor 崩溃恢复不得自动续跑 Agent；有效 Worktree 可以恢复为可管理状态，关联任务标记为中断或失败。</li>
+<li class="">删除 Worktree 必须先收到关联 Runtime 停止确认，再归档任务、创建快照并移除目录。</li>
+<li class="">同一 Executor Home 第一阶段只允许一个 Executor 进程写入。</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-范围">3. 范围<a href="#3-范围" class="hash-link" aria-label="3. 范围的直接链接" title="3. 范围的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="31-本次范围">3.1 本次范围<a href="#31-本次范围" class="hash-link" aria-label="3.1 本次范围的直接链接" title="3.1 本次范围的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">补齐 Wework 的 <code>remote</code>、<code>cloud</code> 和 <code>device_path</code> 类型语义。</li>
+<li class="">将 Worktree 可用性从“是否本机”改为“项目、工作区、设备能力和在线状态”的联合判断。</li>
+<li class="">增加 Executor Worktree capability 和目标工作区 preflight。</li>
+<li class="">复用 <code>runtime.tasks.create</code> 支持云端和 Remote Docker 的延迟 Worktree 创建。</li>
+<li class="">复用现有 Runtime WebSocket Relay，不新增 Backend Git 数据面。</li>
+<li class="">补齐云端归档、快照、恢复、自动清理和设置。</li>
+<li class="">确保 Terminal、code-server、文件树和 Git 操作使用任务 Worktree 路径。</li>
+<li class="">明确并验证托管云设备持久卷要求。</li>
+<li class="">增加单元、契约、Backend、桌面 E2E 和真实 Tauri 验证。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="32-非目标">3.2 非目标<a href="#32-非目标" class="hash-link" aria-label="3.2 非目标的直接链接" title="3.2 非目标的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">不在 Backend 创建 Git 仓库或 Worktree。</li>
+<li class="">不把 Worktree 文件同步到 Backend 数据库。</li>
+<li class="">不实现跨设备 Worktree 迁移。</li>
+<li class="">不在设备离线时回退到其他设备或 Wework 本机。</li>
+<li class="">不为旧 Executor 增加静默兼容或能力猜测。</li>
+<li class="">不将临时任务 Worktree 建模成新的 Backend <code>DeviceWorkspace</code>。</li>
+<li class="">不通过重试掩盖 Worktree 创建、Runtime 启动或远程 RPC 的确定性失败。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-实施前基线与差距">4. 实施前基线与差距<a href="#4-实施前基线与差距" class="hash-link" aria-label="4. 实施前基线与差距的直接链接" title="4. 实施前基线与差距的直接链接" translate="no">​</a></h2>
+<p>当前 Executor 已具备：</p>
+<ul>
+<li class=""><code>runtime.worktrees.settings.get/update</code></li>
+<li class=""><code>runtime.worktrees.prepare/list/delete/restore/prune</code></li>
+<li class=""><code>runtime.tasks.create</code> 的 <code>git_worktree</code> 工作区源</li>
+<li class="">根据任务 ID 计算稳定计划路径</li>
+<li class="">获得调度槽位后再创建 Worktree</li>
+<li class=""><code>git worktree add --detach</code></li>
+<li class="">Worktree 快照、恢复和自动清理</li>
+<li class="">Worktree 和 Runtime Task 的路径绑定</li>
+</ul>
+<p>当前云端传输已具备：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Wework</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; /wework-runtime runtime:request</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Backend WeworkRuntimeNamespace</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; RuntimeRpcService</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; /local-executor runtime:rpc</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Executor RuntimeWorkRpcHandler</span><br></span></code></pre></div></div>
+<p>实施开始时的主要缺口如下；代码路径现已按本文方案补齐，托管云底层持久卷仍需在实际部署环境中完成验收：</p>
+<ul>
+<li class="">Wework <code>supportsGitWorktreeExecution()</code> 只接受本地 target。</li>
+<li class="">选择远程 DeviceWorkspace 后，启动模式菜单被硬禁用。</li>
+<li class="">Wework TypeScript 类型没有完整表达 Backend 的 <code>remote</code> 和 <code>device_path</code>。</li>
+<li class="">设备能力没有明确声明 Worktree 协议版本。</li>
+<li class="">目标工作区没有统一的远程 Git preflight。</li>
+<li class="">Worktree 模式和分支偏好目前按 Project 保存，可能在多个 DeviceWorkspace 间串值。</li>
+<li class="">“远程”同时被用作执行位置和启动模式文案，产品语义混在一起。</li>
+<li class="">乐观任务可能在 Executor 返回计划路径前，把主工作区路径误标为 Worktree。</li>
+<li class="">云设备逻辑 ID 与 Runtime Socket ID 的解析部分落在客户端。</li>
+<li class="">Runtime Relay 将离线、超时、断开和 Executor 错误折叠为同一类错误。</li>
+<li class="">托管云设备的稳定持久卷还需要成为上线门槛。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-工作流与依赖">5. 工作流与依赖<a href="#5-工作流与依赖" class="hash-link" aria-label="5. 工作流与依赖的直接链接" title="5. 工作流与依赖的直接链接" translate="no">​</a></h2>
+<!-- -->
+<p><code>A0</code> 是唯一不可并行跳过的基础工作。<code>A1</code>、<code>A2</code>、<code>A3</code> 完成公共契约冻结后可以并行；后续按依赖波次推进。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-agent-拓扑">6. Agent 拓扑<a href="#6-agent-拓扑" class="hash-link" aria-label="6. Agent 拓扑的直接链接" title="6. Agent 拓扑的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="61-主-agent目标与集成负责人">6.1 主 Agent：目标与集成负责人<a href="#61-主-agent目标与集成负责人" class="hash-link" aria-label="6.1 主 Agent：目标与集成负责人的直接链接" title="6.1 主 Agent：目标与集成负责人的直接链接" translate="no">​</a></h3>
+<p>职责：</p>
+<ul>
+<li class="">创建并维护目标状态。</li>
+<li class="">先完成架构真值和公共协议决策。</li>
+<li class="">管理任务依赖、Agent 写入范围和合并顺序。</li>
+<li class="">处理跨模块公共类型、协议命名和冲突。</li>
+<li class="">审查所有子 Agent 变更。</li>
+<li class="">运行跨模块测试、真实 Tauri 验证和最终验收。</li>
+<li class="">在目标真正完成后才将目标标记为完成。</li>
+</ul>
+<p>主 Agent 独占写入范围：</p>
+<ul>
+<li class=""><code>docs/zh/architecture/git-worktree-execution.md</code></li>
+<li class=""><code>docs/en/architecture/git-worktree-execution.md</code></li>
+<li class=""><code>docs/zh/architecture/README.md</code></li>
+<li class=""><code>docs/en/architecture/README.md</code></li>
+<li class="">跨模块共享协议和最终集成文件</li>
+<li class="">任何需要同时修改 Wework、Backend 和 Executor 语义的决策</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="62-子-agent-awework-类型和可用性模型">6.2 子 Agent A：Wework 类型和可用性模型<a href="#62-子-agent-awework-类型和可用性模型" class="hash-link" aria-label="6.2 子 Agent A：Wework 类型和可用性模型的直接链接" title="6.2 子 Agent A：Wework 类型和可用性模型的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>wework/src/types/**</code></li>
+<li class=""><code>wework/src/lib/projectClassification.ts</code></li>
+<li class="">新的 Worktree availability 纯函数</li>
+<li class="">对应前端单元测试</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">补齐 <code>remote</code>、<code>cloud</code>、<code>device_path</code> 类型。</li>
+<li class="">引入结构化 Worktree availability。</li>
+<li class="">统一 Local、Cloud、Remote 的能力、在线状态、Git 和 preflight 判断。</li>
+<li class="">为离线、非 Git、版本过旧和工作区不可用提供稳定 reason。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">不修改 Hybrid Services 路由。</li>
+<li class="">不修改 WorkbenchProvider 或 Composer UI。</li>
+<li class="">不设计或修改 Executor RPC payload。</li>
+<li class="">不修改 Backend 设备能力。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="63-子-agent-bexecutor-worktree-能力">6.3 子 Agent B：Executor Worktree 能力<a href="#63-子-agent-bexecutor-worktree-能力" class="hash-link" aria-label="6.3 子 Agent B：Executor Worktree 能力的直接链接" title="6.3 子 Agent B：Executor Worktree 能力的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>executor/src/runtime_work/worktrees.rs</code></li>
+<li class=""><code>executor/src/runtime_work/handler/system.rs</code></li>
+<li class=""><code>executor/src/runtime_work/handler/tasks.rs</code></li>
+<li class="">Executor capability 生成模块</li>
+<li class=""><code>executor/tests/*worktree*</code></li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">增加 Worktree capability 版本。</li>
+<li class="">增加 <code>runtime.worktrees.preflight</code>。</li>
+<li class="">在任务创建时再次校验源仓库、可写目录和 fingerprint。</li>
+<li class="">保证创建失败不启动 Runtime。</li>
+<li class="">保持排队任务延迟创建。</li>
+<li class="">完善错误码、快照、恢复和重启加载测试。</li>
+<li class="">将阻塞 Git 和文件系统操作移出异步 RPC 主线程。</li>
+<li class="">引入 <code>preparing</code> 等明确生命周期状态和启动时对账。</li>
+<li class="">验证已有目标目录身份，拒绝复用未知或错误仓库目录。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">不修改 Wework UI。</li>
+<li class="">不修改 Backend WebSocket Namespace。</li>
+<li class="">不改变任务调度容量语义。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="64-子-agent-cbackend-路由在线能力和云存储">6.4 子 Agent C：Backend 路由、在线能力和云存储<a href="#64-子-agent-cbackend-路由在线能力和云存储" class="hash-link" aria-label="6.4 子 Agent C：Backend 路由、在线能力和云存储的直接链接" title="6.4 子 Agent C：Backend 路由、在线能力和云存储的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>backend/app/api/ws/wework_runtime_namespace.py</code></li>
+<li class=""><code>backend/app/services/device/**</code></li>
+<li class=""><code>backend/app/schemas/**device**</code></li>
+<li class="">云设备 provider、部署配置和对应测试</li>
+<li class="">设备用户指南中的持久卷说明</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">建立逻辑设备 ID 到当前 Runtime Socket ID 的统一解析器。</li>
+<li class="">透传 Worktree capability/preflight；如需要列表页优化，仅投影独立 <code>runtime_features</code>，不污染现有 <code>capabilities</code>。</li>
+<li class="">确保 Runtime Relay 保留 Worktree preflight/create 请求语义。</li>
+<li class="">验证用户只能调用自己的目标设备。</li>
+<li class="">区分离线、路由缺失、超时、断开、不支持和无效响应。</li>
+<li class="">明确云设备稳定 <code>deviceId</code>、Executor Home 和工作区持久卷。</li>
+<li class="">增加离线、旧版本、RPC timeout 和设备重启测试。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">不在 Backend 实现 Git 命令。</li>
+<li class="">不新增 Worktree 数据库表。</li>
+<li class="">不修改 Wework 交互组件。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="65-子-agent-dhybrid-路由和任务投影">6.5 子 Agent D：Hybrid 路由和任务投影<a href="#65-子-agent-dhybrid-路由和任务投影" class="hash-link" aria-label="6.5 子 Agent D：Hybrid 路由和任务投影的直接链接" title="6.5 子 Agent D：Hybrid 路由和任务投影的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>wework/src/api/hybrid/hybridServices.ts</code></li>
+<li class=""><code>wework/src/api/local/localServices.ts</code></li>
+<li class=""><code>wework/src/api/backend/runtimeIpc.ts</code></li>
+<li class=""><code>wework/src/features/workbench/useWorkbenchRuntimeMessaging.ts</code></li>
+<li class=""><code>wework/src/features/workbench/remoteRuntimeWorkCache.ts</code></li>
+<li class="">对应单元和契约测试</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">保证 Worktree 请求按目标 <code>deviceId</code> 路由。</li>
+<li class="">将主工作区路径作为创建源路径传给目标 Executor。</li>
+<li class="">正确处理计划路径和最终 Worktree 路径。</li>
+<li class="">确保未知设备不默认回退到云端或本地。</li>
+<li class="">确保远程列表、事件和缓存投影不丢失 <code>workspaceKind=worktree</code>。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">必须等公共协议冻结后开始写入。</li>
+<li class="">不修改 ProjectWorkBar。</li>
+<li class="">不修改 Executor Git 实现。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="66-子-agent-e工具链归档与设置">6.6 子 Agent E：工具链、归档与设置<a href="#66-子-agent-e工具链归档与设置" class="hash-link" aria-label="6.6 子 Agent E：工具链、归档与设置的直接链接" title="6.6 子 Agent E：工具链、归档与设置的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>wework/src/features/workbench/useWorkbenchRuntimeTasks.ts</code></li>
+<li class=""><code>wework/src/components/settings/WorktreesSettingsPage.tsx</code></li>
+<li class="">Terminal、code-server、文件树相关 workspace action</li>
+<li class="">对应单元测试</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">归档后在原设备调用 <code>deleteWorktree(preserveSnapshot=true)</code>。</li>
+<li class="">恢复和设置请求按设备路由。</li>
+<li class="">Terminal、IDE、文件树和 Git 操作使用任务最终路径。</li>
+<li class="">设备离线时保留真实失败状态，不显示假成功。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">必须等云端创建路径可稳定返回最终地址后开始。</li>
+<li class="">不修改公共 Worktree RPC schema。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="67-子-agent-fe2e-与验收">6.7 子 Agent F：E2E 与验收<a href="#67-子-agent-fe2e-与验收" class="hash-link" aria-label="6.7 子 Agent F：E2E 与验收的直接链接" title="6.7 子 Agent F：E2E 与验收的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>wework/e2e/desktop/**</code></li>
+<li class="">共享桌面 E2E runner/checkpoint 注册</li>
+<li class="">与测试直接相关的 fixture 和诊断日志</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">增加本地、云端和 Remote Docker 的完整场景。</li>
+<li class="">增加排队取消、归档恢复、设备离线和重启场景。</li>
+<li class="">保证所有新增 E2E 由 GitHub CI 调用。</li>
+<li class="">输出真实 Tauri 验收步骤和证据要求。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">不修改生产行为来迎合测试。</li>
+<li class="">不增加只在本地运行、CI 不调用的独立 E2E 入口。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="68-子-agent-gworkbench-状态偏好和-composer">6.8 子 Agent G：Workbench 状态、偏好和 Composer<a href="#68-子-agent-gworkbench-状态偏好和-composer" class="hash-link" aria-label="6.8 子 Agent G：Workbench 状态、偏好和 Composer的直接链接" title="6.8 子 Agent G：Workbench 状态、偏好和 Composer的直接链接" translate="no">​</a></h3>
+<p>建议写入范围：</p>
+<ul>
+<li class=""><code>wework/src/features/workbench/WorkbenchProvider.tsx</code></li>
+<li class="">Workbench context、偏好 helper 和对应测试</li>
+<li class=""><code>wework/src/components/chat/composer/ProjectWorkBar.tsx</code></li>
+<li class=""><code>wework/src/components/chat/composer/project-work-bar-utils.ts</code></li>
+<li class=""><code>PopoutWorkspaceMenu</code>、对应组件测试和中英文 i18n</li>
+</ul>
+<p>任务：</p>
+<ul>
+<li class="">将启动模式和分支偏好从 Project 级迁移为 DeviceWorkspace 级。</li>
+<li class="">切换工作区时加载并校验对应偏好，防止旧异步结果覆盖新工作区。</li>
+<li class="">将“运行位置”和“启动模式”拆开：设备状态单独展示，模式统一为“当前工作区 / 新工作树”。</li>
+<li class="">用统一 availability 驱动 UI 和发送门禁，不能在不可用时静默丢弃 <code>execution</code> 后继续发送。</li>
+<li class="">保持已有任务的启动模式锁定语义。</li>
+</ul>
+<p>限制：</p>
+<ul>
+<li class="">不修改 Hybrid Services。</li>
+<li class="">不修改 Executor 或 Backend 协议。</li>
+<li class="">偏好迁移规则由主 Agent 在 Wave 0 冻结。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="69-executor-内部二级并行">6.9 Executor 内部二级并行<a href="#69-executor-内部二级并行" class="hash-link" aria-label="6.9 Executor 内部二级并行的直接链接" title="6.9 Executor 内部二级并行的直接链接" translate="no">​</a></h3>
+<p><code>runtime_work</code> 核心文件冲突高。Agent B 可以在公共状态模型冻结后拆成互斥子流：</p>
+<table><thead><tr><th>子流</th><th>独占职责</th></tr></thead><tbody><tr><td>B1</td><td>Worktree 生命周期状态、目标目录身份校验和对账</td></tr><tr><td>B2</td><td><code>capabilities</code>、<code>preflight</code> 和错误模型</td></tr><tr><td>B3</td><td>调度、延迟创建、任务失败原子性</td></tr><tr><td>B4</td><td>停止确认、归档、快照、恢复和清理</td></tr><tr><td>B5</td><td>测试夹具、崩溃窗口和重启测试</td></tr></tbody></table>
+<p>主 Agent 或 Agent B 负责人独占 handler 注册和公共模块 wiring，避免多个子流同时修改同一入口文件。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="7-并行波次">7. 并行波次<a href="#7-并行波次" class="hash-link" aria-label="7. 并行波次的直接链接" title="7. 并行波次的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wave-0主-agent-串行冻结架构">Wave 0：主 Agent 串行冻结架构<a href="#wave-0主-agent-串行冻结架构" class="hash-link" aria-label="Wave 0：主 Agent 串行冻结架构的直接链接" title="Wave 0：主 Agent 串行冻结架构的直接链接" translate="no">​</a></h3>
+<p>交付：</p>
+<ul>
+<li class="">架构连接图。</li>
+<li class="">创建、排队、归档、恢复时序图。</li>
+<li class="">公共请求/响应 schema。</li>
+<li class="">capability schema。</li>
+<li class="">错误码。</li>
+<li class="">逻辑设备 ID 到 Runtime Socket ID 的路由规则。</li>
+<li class="">DeviceWorkspace 级偏好键和旧偏好迁移规则。</li>
+<li class="">持久化要求。</li>
+<li class="">代码所有权和必要不变量。</li>
+</ul>
+<p>退出条件：</p>
+<ul>
+<li class="">本地、云端和 Remote Docker 共用同一 Executor 数据面。</li>
+<li class="">所有 Agent 的写入范围无重叠。</li>
+<li class="">明确哪些公共文件只能由主 Agent 修改。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wave-1三个基础-agent-并行">Wave 1：三个基础 Agent 并行<a href="#wave-1三个基础-agent-并行" class="hash-link" aria-label="Wave 1：三个基础 Agent 并行的直接链接" title="Wave 1：三个基础 Agent 并行的直接链接" translate="no">​</a></h3>
+<p>并行启动：</p>
+<ul>
+<li class="">Agent A：Wework 类型和 Worktree availability。</li>
+<li class="">Agent B：Executor capability 和 preflight。</li>
+<li class="">Agent C：Backend capability、Relay 验证和云持久化。</li>
+<li class="">Agent G：偏好 helper 和 Composer 可用性 UI，可先基于 mock availability 开发。</li>
+</ul>
+<p>主 Agent同时：</p>
+<ul>
+<li class="">审核公共契约。</li>
+<li class="">准备 Hybrid 集成测试骨架。</li>
+<li class="">跟踪云设备持久卷是否满足上线条件。</li>
+</ul>
+<p>合并顺序：</p>
+<ol>
+<li class="">Executor capability/preflight。</li>
+<li class="">Backend 能力透传。</li>
+<li class="">Wework 类型和可用性 UI。</li>
+</ol>
+<p>Wave 1 门禁：</p>
+<ul>
+<li class="">旧 Executor 明确显示不支持。</li>
+<li class="">新 Executor 能返回 preflight。</li>
+<li class="">非 Git 或不可写目录不能开放 Worktree。</li>
+<li class="">没有解除任务创建主路径的远程门禁。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wave-2创建路径并行">Wave 2：创建路径并行<a href="#wave-2创建路径并行" class="hash-link" aria-label="Wave 2：创建路径并行的直接链接" title="Wave 2：创建路径并行的直接链接" translate="no">​</a></h3>
+<p>并行启动：</p>
+<ul>
+<li class="">Agent D：Hybrid 路由、请求构造和任务投影。</li>
+<li class="">Agent B：Executor 创建原子性和错误码补强。</li>
+<li class="">Agent G：开放云端/Remote Worktree 交互并完成偏好隔离。</li>
+</ul>
+<p>主 Agent负责公共集成：</p>
+<ul>
+<li class="">协调 <code>workspacePath</code> 在请求阶段表示源路径、响应阶段表示任务最终路径的语义。</li>
+<li class="">检查 optimistic workspace 和最终 workspace address 的重命名流程。</li>
+<li class="">审查是否存在本机或其他设备 fallback。</li>
+</ul>
+<p>Wave 2 门禁：</p>
+<ul>
+<li class="">云端任务能够创建 Worktree 并以该路径启动。</li>
+<li class="">排队任务不提前创建目录。</li>
+<li class="">创建失败不启动 Runtime。</li>
+<li class="">两个任务使用不同 Worktree。</li>
+<li class="">本地现有流程无回归。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wave-3生命周期和工具链并行">Wave 3：生命周期和工具链并行<a href="#wave-3生命周期和工具链并行" class="hash-link" aria-label="Wave 3：生命周期和工具链并行的直接链接" title="Wave 3：生命周期和工具链并行的直接链接" translate="no">​</a></h3>
+<p>并行启动：</p>
+<ul>
+<li class="">Agent E：归档、恢复、设置和工具路径。</li>
+<li class="">Agent C：设备离线、重启、持久卷和能力对账。</li>
+<li class="">Agent B：快照、恢复、自动清理和重启加载。</li>
+</ul>
+<p>Wave 3 门禁：</p>
+<ul>
+<li class="">归档和恢复固定在原设备。</li>
+<li class="">Terminal、IDE 和文件树使用任务路径。</li>
+<li class="">设备离线不会显示假成功。</li>
+<li class="">云设备重启后任务和 Worktree 元数据恢复。</li>
+<li class="">持久卷丢失显示不可恢复，而不是创建同名空目录。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wave-4验证-agent-与主-agent集成">Wave 4：验证 Agent 与主 Agent集成<a href="#wave-4验证-agent-与主-agent集成" class="hash-link" aria-label="Wave 4：验证 Agent 与主 Agent集成的直接链接" title="Wave 4：验证 Agent 与主 Agent集成的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">Agent F 编写和运行 CI 覆盖的桌面 E2E。</li>
+<li class="">主 Agent运行跨模块测试、真实 Tauri 和实际云/Remote 设备验收。</li>
+<li class="">主 Agent修复集成缺陷；不得通过跳过、重跑或放宽断言获得通过。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="8-公共协议冻结建议">8. 公共协议冻结建议<a href="#8-公共协议冻结建议" class="hash-link" aria-label="8. 公共协议冻结建议的直接链接" title="8. 公共协议冻结建议的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="81-capability">8.1 Capability<a href="#81-capability" class="hash-link" aria-label="8.1 Capability的直接链接" title="8.1 Capability的直接链接" translate="no">​</a></h3>
+<p>首期能力真值建议由目标 Executor 的独立 RPC 提供：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">runtime.worktrees.capabilities</span><br></span></code></pre></div></div>
+<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;runtimeWorktrees&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;version&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token number" style="color:#36acaa">1</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;managed&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;deferredPrepare&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;snapshots&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;restore&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;persistentStorageVerified&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>Backend 可以在注册或心跳中投影同一结构为 <code>runtime_features.worktrees</code>，供设备列表快速展示，但不得复用现有 Skills、Plugins、MCP <code>capabilities</code>。在线投影只能作为当前 Runtime 的缓存；写操作仍由 preflight 和创建时校验决定。<code>persistentStorageVerified</code> 不是文件系统当前可写性的推断结果，只能由完成稳定卷、稳定绝对路径和单写验证的 Cloud/Remote 部署显式注入；缺失或为 <code>false</code> 时，Wework 必须关闭该设备的 Worktree 并显示基础设施原因。Local/App 不依赖远程部署证明。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="82-preflight">8.2 Preflight<a href="#82-preflight" class="hash-link" aria-label="8.2 Preflight的直接链接" title="8.2 Preflight的直接链接" translate="no">​</a></h3>
+<p>请求：</p>
+<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;deviceId&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;device-id&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;sourcePath&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;/persistent/workspaces/project-a&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>响应：</p>
+<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;supported&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;gitRepository&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;writable&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token boolean" style="color:#36acaa">true</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;repoRoot&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;/persistent/workspaces/project-a&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;repoRootFingerprint&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;sha256:...&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;resolvedWorktreeRoot&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;/persistent/executor/workspace/worktrees&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>建议错误码：</p>
+<ul>
+<li class=""><code>device_not_found</code></li>
+<li class=""><code>device_offline</code></li>
+<li class=""><code>runtime_route_missing</code></li>
+<li class=""><code>runtime_rpc_timeout</code></li>
+<li class=""><code>device_disconnected</code></li>
+<li class=""><code>runtime_feature_unsupported</code></li>
+<li class=""><code>worktree_unsupported</code></li>
+<li class=""><code>worktree_source_missing</code></li>
+<li class=""><code>worktree_source_not_git</code></li>
+<li class=""><code>worktree_source_changed</code></li>
+<li class=""><code>worktree_root_unwritable</code></li>
+<li class=""><code>worktree_persistent_storage_unverified</code></li>
+<li class=""><code>worktree_ref_not_found</code></li>
+<li class=""><code>worktree_prepare_failed</code></li>
+<li class=""><code>worktree_device_offline</code></li>
+</ul>
+<p>Backend 不自动重试有副作用的 Runtime RPC。超时表示结果未知，客户端用稳定 task ID 和任务列表对账。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="83-任务创建">8.3 任务创建<a href="#83-任务创建" class="hash-link" aria-label="8.3 任务创建的直接链接" title="8.3 任务创建的直接链接" translate="no">​</a></h3>
+<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;deviceId&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;cloud-device-id&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;taskId&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;runtime-codex-...&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;workspacePath&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;/persistent/workspaces/project-a&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token property" style="color:#36acaa">&quot;execution&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token property" style="color:#36acaa">&quot;workspace&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token property" style="color:#36acaa">&quot;source&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;git_worktree&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token property" style="color:#36acaa">&quot;branch&quot;</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;main&quot;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre></div></div>
+<p>约定：</p>
+<ul>
+<li class="">请求中的 <code>workspacePath</code> 是源工作区。</li>
+<li class="">Executor 返回的 <code>workspacePath</code> 是计划或最终任务工作区。</li>
+<li class="">计划路径必须与最终路径相同。</li>
+<li class=""><code>git_worktree</code> 响应缺少独立路径或返回源工作区路径时必须失败，Backend 和 UI 不得回退源路径。</li>
+<li class=""><code>queued</code> 响应可以返回尚不存在的计划路径。</li>
+<li class=""><code>running</code> 前 Worktree 必须真实存在。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-写入冲突规则">9. 写入冲突规则<a href="#9-写入冲突规则" class="hash-link" aria-label="9. 写入冲突规则的直接链接" title="9. 写入冲突规则的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">一个文件在同一 Wave 只能归一个 Agent。</li>
+<li class="">公共类型、协议和架构真值只能由主 Agent 修改。</li>
+<li class="">子 Agent 不得顺手修改其他工作流的文件。</li>
+<li class="">如果实现需要修改不在写入范围内的文件，子 Agent只报告所需改动，由主 Agent处理。</li>
+<li class="">子 Agent完成后必须列出修改文件、测试命令、已知限制和未完成依赖。</li>
+<li class="">主 Agent审查上传变更后再合并下一波，不在子 Agent运行期间重复实现相同任务。</li>
+<li class="">发现工作树中已有用户修改时必须保留；无法安全避让时停止对应写入并报告。</li>
+<li class=""><code>WorkbenchProvider.tsx</code>、<code>useWorkbenchRuntimeMessaging.ts</code>、<code>hybridServices.ts</code> 和 Executor handler 入口属于高冲突文件，每个 Wave 必须单 Agent 独占。</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="10-分支与提交建议">10. 分支与提交建议<a href="#10-分支与提交建议" class="hash-link" aria-label="10. 分支与提交建议的直接链接" title="10. 分支与提交建议的直接链接" translate="no">​</a></h2>
+<p>如每个 Agent 使用独立 Git worktree，建议分支：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">docs/cloud-worktree-architecture</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feature/cloud-worktree-ui</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feature/cloud-worktree-executor</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feature/cloud-worktree-device-capabilities</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feature/cloud-worktree-runtime-routing</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feature/cloud-worktree-lifecycle</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">test/cloud-worktree-e2e</span><br></span></code></pre></div></div>
+<p>建议提交：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">docs[wework]: define cloud worktree execution architecture</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feat[wework]: expose device worktree availability</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feat[executor]: add managed worktree preflight</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feat[backend]: relay cloud worktree capabilities</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feat[wework]: route cloud worktree task creation</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">feat[wework]: manage remote worktree lifecycle</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">test[wework]: cover cloud worktree desktop flows</span><br></span></code></pre></div></div>
+<p>主 Agent合并前必须拉取最新主分支并处理冲突。不得使用 <code>--no-verify</code>。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="11-验证矩阵">11. 验证矩阵<a href="#11-验证矩阵" class="hash-link" aria-label="11. 验证矩阵的直接链接" title="11. 验证矩阵的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>场景</th><th>Local</th><th>Cloud</th><th>Remote Docker</th></tr></thead><tbody><tr><td>capability 可见</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>Git preflight</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>创建 Worktree</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>指定起始 ref</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>排队不创建目录</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>两任务路径隔离</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>Runtime cwd 为 Worktree</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>Terminal cwd 为 Worktree</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>IDE 打开 Worktree</td><td>按设备能力</td><td>必测</td><td>必测</td></tr><tr><td>归档与快照</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>恢复</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>自动清理</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>设备离线</td><td>不适用</td><td>必测</td><td>必测</td></tr><tr><td>Executor 重启</td><td>必测</td><td>必测</td><td>必测</td></tr><tr><td>容器/实例重建后持久化</td><td>不适用</td><td>必测</td><td>必测</td></tr><tr><td>旧 Executor</td><td>必测</td><td>必测</td><td>必测</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="12-测试命令">12. 测试命令<a href="#12-测试命令" class="hash-link" aria-label="12. 测试命令的直接链接" title="12. 测试命令的直接链接" translate="no">​</a></h2>
+<p>按修改范围运行聚焦测试，再运行风险对应的广泛测试：</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework </span><span class="token builtin class-name">test</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">focused-test-file</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework </span><span class="token builtin class-name">exec</span><span class="token plain"> prettier </span><span class="token parameter variable" style="color:#36acaa">--check</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">changed-files</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework </span><span class="token builtin class-name">exec</span><span class="token plain"> eslint </span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">changed-files</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token builtin class-name">cd</span><span class="token plain"> backend </span><span class="token operator" style="color:#393A34">&amp;&amp;</span><span class="token plain"> uv run pytest </span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">focused-test-file</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token builtin class-name">cd</span><span class="token plain"> executor </span><span class="token operator" style="color:#393A34">&amp;&amp;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">cargo</span><span class="token plain"> </span><span class="token builtin class-name">test</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">focused-test-name</span><span class="token operator" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p>核心流修改完成后还需要：</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework </span><span class="token builtin class-name">test</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token builtin class-name">cd</span><span class="token plain"> backend </span><span class="token operator" style="color:#393A34">&amp;&amp;</span><span class="token plain"> uv run pytest</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token builtin class-name">cd</span><span class="token plain"> executor </span><span class="token operator" style="color:#393A34">&amp;&amp;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">cargo</span><span class="token plain"> </span><span class="token builtin class-name">test</span><br></span></code></pre></div></div>
+<p>Wework UI、Runtime IPC、Tauri 或本地运行时行为发生变化时，必须使用隔离的真实 Tauri 会话执行完整 QA 计划，并在结束后停止会话。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="13-e2e-checkpoint">13. E2E Checkpoint<a href="#13-e2e-checkpoint" class="hash-link" aria-label="13. E2E Checkpoint的直接链接" title="13. E2E Checkpoint的直接链接" translate="no">​</a></h2>
+<p>在共享桌面 runner 中注册：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-capability</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-create</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-queued-cancel</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-tools</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-archive-restore</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cloud-worktree-device-restart</span><br></span></code></pre></div></div>
+<p>兼容聚合入口 <code>cloud-git-worktree</code> 会展开为上述六个原子 checkpoint；GitHub Desktop E2E 分类器把六个检查点分配到既有云端分片，避免只有本地入口、CI 不执行的死覆盖。</p>
+<p>每个 checkpoint 必须自己建立最小前置条件，保证：</p>
+<ul>
+<li class="">单 checkpoint 可以独立运行。</li>
+<li class=""><code>--from-segment</code> 从任意 checkpoint 开始仍然有效。</li>
+<li class="">不依赖被跳过的前置 checkpoint 创建的任务或 UI 状态。</li>
+<li class="">所有 checkpoint 都被 GitHub CI 的既有 desktop E2E 任务调用。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="14-风险和阻断条件">14. 风险和阻断条件<a href="#14-风险和阻断条件" class="hash-link" aria-label="14. 风险和阻断条件的直接链接" title="14. 风险和阻断条件的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="141-云端存储不持久">14.1 云端存储不持久<a href="#141-云端存储不持久" class="hash-link" aria-label="14.1 云端存储不持久的直接链接" title="14.1 云端存储不持久的直接链接" translate="no">​</a></h3>
+<p>如果托管云设备不能保证 Executor Home、主仓库、Worktree 根目录和稳定绝对路径，则云端 Worktree 不得正式开放。UI 可以继续保持禁用并展示基础设施原因。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="142-公共协议漂移">14.2 公共协议漂移<a href="#142-公共协议漂移" class="hash-link" aria-label="14.2 公共协议漂移的直接链接" title="14.2 公共协议漂移的直接链接" translate="no">​</a></h3>
+<p>如果 Wework、Backend 和 Executor 分别独立修改字段名或错误码，主 Agent应暂停后续 Wave，先恢复公共契约一致性。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="143-创建成功但-runtime-未启动">14.3 创建成功但 Runtime 未启动<a href="#143-创建成功但-runtime-未启动" class="hash-link" aria-label="14.3 创建成功但 Runtime 未启动的直接链接" title="14.3 创建成功但 Runtime 未启动的直接链接" translate="no">​</a></h3>
+<p>这是可恢复失败，不应删除诊断信息。任务应保留失败状态，Worktree 应可归档或手动清理。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="144-backend-relay-超时">14.4 Backend Relay 超时<a href="#144-backend-relay-超时" class="hash-link" aria-label="14.4 Backend Relay 超时的直接链接" title="14.4 Backend Relay 超时的直接链接" translate="no">​</a></h3>
+<p>超时不等于 Executor 未执行。必须通过任务列表和稳定 task ID 对账，不能自动用新 task ID 重试并创建第二个 Worktree。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="145-设备重建">14.5 设备重建<a href="#145-设备重建" class="hash-link" aria-label="14.5 设备重建的直接链接" title="14.5 设备重建的直接链接" translate="no">​</a></h3>
+<p>相同逻辑设备如果获得新的 <code>deviceId</code>，旧 Worktree 不能自动归属新设备。需要明确的设备恢复或数据丢失状态。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="146-executor-崩溃窗口">14.6 Executor 崩溃窗口<a href="#146-executor-崩溃窗口" class="hash-link" aria-label="14.6 Executor 崩溃窗口的直接链接" title="14.6 Executor 崩溃窗口的直接链接" translate="no">​</a></h3>
+<p><code>git worktree add</code> 成功后、状态落盘或 Runtime 启动前可能崩溃。实现必须用 <code>preparing</code> 状态和启动对账识别合法孤儿 Worktree；保留诊断和清理能力，但不自动恢复执行 Agent。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="147-删除时-runtime-仍在运行">14.7 删除时 Runtime 仍在运行<a href="#147-删除时-runtime-仍在运行" class="hash-link" aria-label="14.7 删除时 Runtime 仍在运行的直接链接" title="14.7 删除时 Runtime 仍在运行的直接链接" translate="no">​</a></h3>
+<p>删除流程不能只更新任务归档状态。必须确认关联 Runtime 已停止，再归档、快照和删除；停止超时应保留 Worktree 并返回明确失败。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="15-完成定义">15. 完成定义<a href="#15-完成定义" class="hash-link" aria-label="15. 完成定义的直接链接" title="15. 完成定义的直接链接" translate="no">​</a></h2>
+<p>只有同时满足以下条件，目标才能标记为完成：</p>
+<ul>
+<li class="">中英文架构真值和索引已更新。</li>
+<li class="">本地、云端和 Remote Docker 共用相同 Worktree 数据面。</li>
+<li class="">Wework 不再以设备类型硬编码 Worktree 能力。</li>
+<li class="">旧 Executor、离线设备和非 Git 工作区有明确不可用原因。</li>
+<li class="">云端任务创建、排队、执行、归档、恢复和自动清理全部通过。</li>
+<li class="">Terminal、IDE、文件树和 Git 操作使用任务最终工作区路径。</li>
+<li class="">云设备持久卷和稳定路径要求已实现并验证。</li>
+<li class="">新增 E2E 被 GitHub CI 调用。</li>
+<li class="">聚焦测试、完整回归和真实 Tauri 验证通过。</li>
+<li class="">没有跳过、重试或 fallback 用于掩盖失败。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="16-启动执行时的主-agent-prompt">16. 启动执行时的主 Agent Prompt<a href="#16-启动执行时的主-agent-prompt" class="hash-link" aria-label="16. 启动执行时的主 Agent Prompt的直接链接" title="16. 启动执行时的主 Agent Prompt的直接链接" translate="no">​</a></h2>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">目标：完成 Wework 云端 Git Worktree 支持。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">先读取仓库与 wework/AGENTS.md，再读取：</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- docs/zh/architecture/git-worktree-execution.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- docs/en/architecture/git-worktree-execution.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- 本开发计划</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">主 Agent负责目标状态、公共契约、架构真值、Agent 写入范围、合并和最终验证。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">按 Wave 启动子 Agent；每个 Agent 必须有互斥写入范围、明确依赖和验收标准。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得让两个 Agent 同时修改同一文件。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得由 Backend 执行 Git。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得在设备离线或创建失败时回退到其他设备或主工作区。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">每个 Wave 完成后先审查变更并运行门禁测试，再启动下一 Wave。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">只有全部完成定义满足后才能结束目标。</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="17-实施记录与验收结果">17. 实施记录与验收结果<a href="#17-实施记录与验收结果" class="hash-link" aria-label="17. 实施记录与验收结果的直接链接" title="17. 实施记录与验收结果的直接链接" translate="no">​</a></h2>
+<p>截至 2026-08-18，本文规划的核心代码工作已经按目标模式和子 Agent 并行方式完成；Remote Docker 真实容器生命周期已经通过，目标环境验收仅保留托管生产持久卷门槛：</p>
+<table><thead><tr><th>Wave</th><th>结果</th></tr></thead><tbody><tr><td>A0</td><td>中英文架构真值、索引、协议边界和必要不变量已冻结</td></tr><tr><td>A1</td><td>Wework 已补齐 Local、Cloud、Remote 和 <code>device_path</code> 类型及统一 Worktree availability</td></tr><tr><td>A2</td><td>Executor 已实现版本化 capability、preflight、延迟创建、身份校验、快照、恢复、清理和重启对账</td></tr><tr><td>A3</td><td>Backend 已实现逻辑设备路由、所有权校验、结构化 RPC 错误和 <code>runtime_features</code> 投影</td></tr><tr><td>B</td><td>Hybrid 创建路径、计划/最终路径对账、工具路径跟随和 DeviceWorkspace 偏好已完成</td></tr><tr><td>C</td><td>归档停止确认、快照删除、反归档恢复、设置和自动清理链路已完成</td></tr><tr><td>D</td><td>跨层契约、CI 分类、六个原子 checkpoint 和真实 Tauri 云端闭环已完成；目标环境验收见下文</td></tr></tbody></table>
+<p>真实 Tauri 的 <code>cloud-git-worktree</code> 聚合入口已并行展开并验证六个可独立运行的 checkpoint：</p>
+<ol>
+<li class=""><code>cloud-worktree-capability</code>：在线能力、协议版本、目标工作区 preflight 和不可用原因。</li>
+<li class=""><code>cloud-worktree-create</code>：选择“新工作树”，由目标 Executor 创建隔离 Worktree，并以最终路径运行任务。</li>
+<li class=""><code>cloud-worktree-queued-cancel</code>：排队阶段只暴露计划路径，取消前不创建 Worktree 目录。</li>
+<li class=""><code>cloud-worktree-tools</code>：Terminal、IDE、文件树和 Git 面板使用任务最终 Worktree 路径。</li>
+<li class=""><code>cloud-worktree-archive-restore</code>：停止确认、归档、快照、删除、反归档恢复、设置回链和最终清理。</li>
+<li class=""><code>cloud-worktree-device-restart</code>：Executor 重启后恢复可管理状态，中断任务保持失败隔离且不自动续跑，也不会被过期 Provider 元数据重新投影为运行中。</li>
+</ol>
+<p>验证证据：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Backend full suite: 5246 passed, 1 skipped</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Persistent Runtime identity and acceptance contracts: 20 passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Wework full suite: 398 files, 4028 tests passed; TypeScript typecheck passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Executor: cargo fmt --check and cargo test passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  unit layer: 869 passed, 1 ignored</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  app_runtime_work_send_contract: 37 passed in 3.54s</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">CI desktop classifier contract: passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Real Tauri aggregate:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  node e2e/desktop/run-checkpoints.mjs --parallel-segments cloud-git-worktree</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  all six atomic checkpoints passed with three isolated workers</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Evidence:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  capability: wework/test-results/desktop-e2e/2026-08-17T19-23-55-812Z-291225</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  create: wework/test-results/desktop-e2e/2026-08-17T19-23-55-826Z-291233</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  queued-cancel: wework/test-results/desktop-e2e/2026-08-17T19-23-55-845Z-291239</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  tools: wework/test-results/desktop-e2e/2026-08-17T19-24-54-569Z-294076</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  archive-restore: wework/test-results/desktop-e2e/2026-08-17T19-25-16-480Z-294503</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  device-restart: wework/test-results/desktop-e2e/2026-08-17T19-25-17-780Z-294565</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Runtime Instance 固定规则合入后的 device-restart 复验:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  wework/test-results/desktop-e2e/2026-08-17T19-59-48-919Z-324677</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">逻辑设备 IDE endpoint 断言合入后的 tools 复验:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  wework/test-results/desktop-e2e/2026-08-17T20-43-04-527Z-379134</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">真实 Executor App IPC 本地持久化探针:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  seed(instance-a) -&gt; verify(instance-b) -&gt; verify(instance-c) -&gt; cleanup: passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Remote Docker 真实容器生命周期:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  image: wegent-device:worktree-acceptance (linux/amd64)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  seed(instance-a) -&gt; verify(instance-b) -&gt; verify(instance-c) -&gt; cleanup: passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  single-writer conflict and wrong logical-device identity rejection: passed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  probe: git-worktree-20260818102917-529947</span><br></span></code></pre></div></div>
+<p>真实链路和最终回归期间发现并修复了以下跨层问题：</p>
+<ul>
+<li class="">远程运行时项目只存在于 Runtime 当前项目中时，Workbench availability 错误返回 <code>no_project</code>。</li>
+<li class="">Executor 归档列表返回毫秒时间戳，而 Backend DTO 只接受字符串。</li>
+<li class="">Backend 归档投影将既有 <code>taskId</code> 改名，并丢弃 <code>threadId</code>、<code>runtimeHandle</code>，导致 UI 无法寻址反归档任务。</li>
+<li class="">Backend 远程工作区根目录解析只识别旧字段，未优先读取 Executor 的规范 <code>tasks</code> 字段；云端文件和 Git 命令路由也缺少完整 allowlist。</li>
+<li class="">Executor 重启后，任务列表会被过期 Provider 线程元数据重新投影为 <code>active</code>，掩盖本地中断失败状态。</li>
+<li class="">聚合 checkpoint 只有单一别名，无法证明六个长流程检查点都能独立运行并被 CI 分片调用。</li>
+<li class="">相同 Cloud/Remote 逻辑设备误挂全新空卷时，Executor 会生成新的 Runtime Instance ID，而 Backend 原先会覆盖已登记值，导致存储丢失被静默接纳；现在首次登记后固定该 ID，不同或空的新值都会拒绝注册。</li>
+<li class="">Runtime Turn Queue 原子写临时文件只使用 PID 和毫秒时间戳，并发写入会碰撞；现在同进程串行化密钥与队列落盘，并给临时文件增加单调序号。</li>
+<li class="">Runtime Work 测试的通用假 Codex App Server 在预期 Turn 数后主动退出，随后列表或 transcript RPC 可能撞上进程重启并等待启动保护超时；通用夹具现在保持存活，进程退出行为只由专用故障夹具覆盖。</li>
+<li class=""><code>preserveSnapshot=false</code> 删除目录后仍在 <code>worktrees.json</code> 留下 <code>deleted</code> 墓碑，真实清理探针因此失败；终态清理现在同时删除已有快照 ref 和持久化记录，取消任务的诊断继续由 Runtime Task Store 保留。</li>
+</ul>
+<p>2026-08-18 已使用当前工作区构建 <code>wegent-device:worktree-acceptance</code> Linux/AMD64 镜像，并通过 <code>scripts/acceptance/remote-device-worktree-persistence.sh</code> 的真实 Remote Docker 容器门禁。验收覆盖容器启动、真实 Git Worktree 和 Runtime 状态、单写锁冲突拒绝、容器 A 销毁后容器 B/C 使用同一 Docker Volume 恢复、二进制刷新、错误逻辑设备身份拒绝，以及最终无墓碑清理。Docker daemon 需要通过 <code>sudo</code> 访问，但不影响验收结果。</p>
+<p>托管生产门禁已固化为 <code>scripts/acceptance/executor-home-persistence-probe.sh</code> 的 <code>seed</code>、<code>verify</code> 和 <code>cleanup</code> 三阶段。使用真实 debug Executor App IPC 和同一临时 Executor Home 的本地实例替换模拟已经通过：实例 A 写入 Git Worktree 和 Runtime 状态，实例 B、C 分别验证逻辑设备身份、Runtime Instance ID、Git common dir、内容和索引，实例 C 最终完成无墓碑清理。</p>
+<p>云端设备第一次启用 Worktree 时，如果挂载的是新建空卷，本来就没有历史 Worktree 数据；该次启动负责生成并登记首个 Runtime Instance ID，建立后续持久化基线。只有该逻辑设备已经登记过 Runtime Instance ID 后再次挂载空卷，才属于异常的数据丢失或错卷场景，Backend 会拒绝新的空值或不同 ID，避免静默接受历史数据消失。</p>
+<p>部署环境仍必须提供真实 Pod UID 或实例 ID，以及 PVC/PV UID 或平台等价卷身份，并在实例替换后把同一持久卷挂回同一绝对路径完成同样门禁。当前机器的本地模拟和 Remote Docker Volume 验收都不等同于实际 PVC/PV 验收；在托管生产持久卷验收通过前，不应把托管云设备的 Worktree 能力标记为全面开放。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Wework 插件市场 V2 技术设计</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-marketplace-dev"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">Wework 插件市场开发指南</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#1-文档状态" class="table-of-contents__link toc-highlight">1. 文档状态</a></li><li><a href="#2-目标模式" class="table-of-contents__link toc-highlight">2. 目标模式</a><ul><li><a href="#21-最终目标" class="table-of-contents__link toc-highlight">2.1 最终目标</a></li><li><a href="#22-权威边界" class="table-of-contents__link toc-highlight">2.2 权威边界</a></li><li><a href="#23-必要不变量" class="table-of-contents__link toc-highlight">2.3 必要不变量</a></li></ul></li><li><a href="#3-范围" class="table-of-contents__link toc-highlight">3. 范围</a><ul><li><a href="#31-本次范围" class="table-of-contents__link toc-highlight">3.1 本次范围</a></li><li><a href="#32-非目标" class="table-of-contents__link toc-highlight">3.2 非目标</a></li></ul></li><li><a href="#4-实施前基线与差距" class="table-of-contents__link toc-highlight">4. 实施前基线与差距</a></li><li><a href="#5-工作流与依赖" class="table-of-contents__link toc-highlight">5. 工作流与依赖</a></li><li><a href="#6-agent-拓扑" class="table-of-contents__link toc-highlight">6. Agent 拓扑</a><ul><li><a href="#61-主-agent目标与集成负责人" class="table-of-contents__link toc-highlight">6.1 主 Agent：目标与集成负责人</a></li><li><a href="#62-子-agent-awework-类型和可用性模型" class="table-of-contents__link toc-highlight">6.2 子 Agent A：Wework 类型和可用性模型</a></li><li><a href="#63-子-agent-bexecutor-worktree-能力" class="table-of-contents__link toc-highlight">6.3 子 Agent B：Executor Worktree 能力</a></li><li><a href="#64-子-agent-cbackend-路由在线能力和云存储" class="table-of-contents__link toc-highlight">6.4 子 Agent C：Backend 路由、在线能力和云存储</a></li><li><a href="#65-子-agent-dhybrid-路由和任务投影" class="table-of-contents__link toc-highlight">6.5 子 Agent D：Hybrid 路由和任务投影</a></li><li><a href="#66-子-agent-e工具链归档与设置" class="table-of-contents__link toc-highlight">6.6 子 Agent E：工具链、归档与设置</a></li><li><a href="#67-子-agent-fe2e-与验收" class="table-of-contents__link toc-highlight">6.7 子 Agent F：E2E 与验收</a></li><li><a href="#68-子-agent-gworkbench-状态偏好和-composer" class="table-of-contents__link toc-highlight">6.8 子 Agent G：Workbench 状态、偏好和 Composer</a></li><li><a href="#69-executor-内部二级并行" class="table-of-contents__link toc-highlight">6.9 Executor 内部二级并行</a></li></ul></li><li><a href="#7-并行波次" class="table-of-contents__link toc-highlight">7. 并行波次</a><ul><li><a href="#wave-0主-agent-串行冻结架构" class="table-of-contents__link toc-highlight">Wave 0：主 Agent 串行冻结架构</a></li><li><a href="#wave-1三个基础-agent-并行" class="table-of-contents__link toc-highlight">Wave 1：三个基础 Agent 并行</a></li><li><a href="#wave-2创建路径并行" class="table-of-contents__link toc-highlight">Wave 2：创建路径并行</a></li><li><a href="#wave-3生命周期和工具链并行" class="table-of-contents__link toc-highlight">Wave 3：生命周期和工具链并行</a></li><li><a href="#wave-4验证-agent-与主-agent集成" class="table-of-contents__link toc-highlight">Wave 4：验证 Agent 与主 Agent集成</a></li></ul></li><li><a href="#8-公共协议冻结建议" class="table-of-contents__link toc-highlight">8. 公共协议冻结建议</a><ul><li><a href="#81-capability" class="table-of-contents__link toc-highlight">8.1 Capability</a></li><li><a href="#82-preflight" class="table-of-contents__link toc-highlight">8.2 Preflight</a></li><li><a href="#83-任务创建" class="table-of-contents__link toc-highlight">8.3 任务创建</a></li></ul></li><li><a href="#9-写入冲突规则" class="table-of-contents__link toc-highlight">9. 写入冲突规则</a></li><li><a href="#10-分支与提交建议" class="table-of-contents__link toc-highlight">10. 分支与提交建议</a></li><li><a href="#11-验证矩阵" class="table-of-contents__link toc-highlight">11. 验证矩阵</a></li><li><a href="#12-测试命令" class="table-of-contents__link toc-highlight">12. 测试命令</a></li><li><a href="#13-e2e-checkpoint" class="table-of-contents__link toc-highlight">13. E2E Checkpoint</a></li><li><a href="#14-风险和阻断条件" class="table-of-contents__link toc-highlight">14. 风险和阻断条件</a><ul><li><a href="#141-云端存储不持久" class="table-of-contents__link toc-highlight">14.1 云端存储不持久</a></li><li><a href="#142-公共协议漂移" class="table-of-contents__link toc-highlight">14.2 公共协议漂移</a></li><li><a href="#143-创建成功但-runtime-未启动" class="table-of-contents__link toc-highlight">14.3 创建成功但 Runtime 未启动</a></li><li><a href="#144-backend-relay-超时" class="table-of-contents__link toc-highlight">14.4 Backend Relay 超时</a></li><li><a href="#145-设备重建" class="table-of-contents__link toc-highlight">14.5 设备重建</a></li><li><a href="#146-executor-崩溃窗口" class="table-of-contents__link toc-highlight">14.6 Executor 崩溃窗口</a></li><li><a href="#147-删除时-runtime-仍在运行" class="table-of-contents__link toc-highlight">14.7 删除时 Runtime 仍在运行</a></li></ul></li><li><a href="#15-完成定义" class="table-of-contents__link toc-highlight">15. 完成定义</a></li><li><a href="#16-启动执行时的主-agent-prompt" class="table-of-contents__link toc-highlight">16. 启动执行时的主 Agent Prompt</a></li><li><a href="#17-实施记录与验收结果" class="table-of-contents__link toc-highlight">17. 实施记录与验收结果</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
