@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><meta data-rh="true" property="og:description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.234f9bac.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.4362732d.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.02517334.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -85,15 +85,28 @@ checkpoint. When upstream checkpoints are skipped, each checkpoint establishes
 its own minimal fixtures instead of depending on tasks or UI state created only
 by the complete flow. PR CI builds the smallest segment matrix for the changed
 feature paths. Shared desktop infrastructure, merge queue, scheduled runs, and
-<code>ci:all</code> still run the complete desktop suites. The complete Core suite expands
-every checkpoint into an independent GitHub Actions matrix job so the
-checkpoints run in parallel instead of serially inside one
-<code>Wework Desktop E2E (Core)</code> job. CI first builds one Core Tauri application,
-Executor, and Codex artifact with fixed test ports. Each checkpoint installs
-only desktop runtime dependencies and reuses that artifact instead of
-reinstalling pnpm, Rust, Python, or uv and rebuilding Vite, Tauri, and Executor.
-The plugin and cloud suites require different build-time configuration, so they
-remain independent jobs that run alongside the Core build. Merge queue validates
+<code>ci:all</code> still run the complete desktop suites. The complete Core and Cloud
+suites each use five fixed GitHub Actions matrix jobs. Every job runs two
+checkpoints concurrently with isolated Xvfb displays, ports, application data,
+and Executor Homes. Shards are balanced from observed CI durations; a new or
+materially slower checkpoint requires rebalancing instead of adding runners,
+removing coverage, or rerunning failures. CI first builds one Core Tauri
+application, Executor, and Codex artifact. In <code>--build-only</code> mode, the
+independent Tauri and Executor builds run concurrently on the same runner. Every
+Core and Cloud shard downloads and reuses that artifact instead of rebuilding
+Vite, Tauri, and Executor. Rust builds reuse both the <code>main</code>-owned Cargo target
+cache and sccache compiler units: the target cache bounds PR and first-run
+latency, while sccache reduces incremental compilation after dependency or
+source changes. Archiving strips Linux debug symbols only from the copied
+artifact binaries, leaving the original build outputs unchanged while reducing
+upload and download time across the ten shards. Desktop E2E builds skip the
+duplicate TypeScript typecheck that the parallel Lint workflow runs in full,
+while retaining the real Vite and Tauri artifact build; test coverage and the
+type gate remain unchanged. The plugin suite requires an independent build
+configuration and continues to run in parallel with the shared Core build.
+Both successful and failed runs retain complete diagnostics; uploads disable
+redundant compression for PNG and other already-compressed evidence so artifact
+archiving does not extend the pipeline tail. Merge queue validates
 the final commit that enters <code>main</code>, so Tests, Lint, Platform E2E, and Wework E2E
 do not repeat the same validation after the merge through a <code>push main</code> trigger. The
 mapping lives in <code>.github/scripts/classify-wework-desktop-e2e.sh</code> and must be updated when new
