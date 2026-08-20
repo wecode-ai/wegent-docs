@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><meta data-rh="true" property="og:description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.e3bb8411.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.a4a1dcd5.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.91509de2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -70,18 +70,20 @@
 <p><code>e2e:desktop:embedded-browser</code> 通过场景模块运行内置浏览器 Agent 操作回归。它使用真实 Tauri WebView、Executor、Codex app-server 和 browser MCP server，打开本地 fixture 页面并通过当前 WKWebView bridge 验证浏览器控制链路。场景覆盖 bridge identity 读取、认证 bridge 请求、打开页面、结构化 <code>inspect</code>、<code>fill</code>、<code>click</code>、<code>wait</code>、<code>scroll</code>、<code>screenshot</code>、<code>capabilities</code>、高风险动作确认，以及 MCP 组合工具 <code>open_and_inspect</code> 和 <code>wait_and_inspect</code>。它还会启动一个长时间 <code>waitFor</code>，再验证独立 <code>click</code> 不会被阻塞，用于防止 bridge 并发退化。新增本地文件能力时，该场景还会通过 bridge 打开 <code>file://</code> HTML fixture、Markdown/无扩展名文本 fixture 和本机目录 fixture，并验证无法预览的本地文件会弹出 toast 而不是进入下载列表。测试结果会写入 <code>embedded-browser-agent-result.json</code>。</p>
 <p>主桌面流程的短对话布局回归会保存 <code>short-conversation-00-ready.png</code>、<code>short-conversation-01-prompt-filled.png</code>、<code>short-conversation-02-completed-top-aligned.png</code> 和 <code>short-conversation-layout-metrics.json</code>。最后一个截图和 metrics 均在切走并重新打开对话后生成；门禁要求首条消息距离消息视口顶部不超过 <code>160px</code>。本地排查该回归时可直接运行 <code>node wework/e2e/desktop/task-flow.e2e.mjs --short-conversation-only</code>，但该检查同时属于常规 <code>e2e:desktop</code> 主流程，不是独立 CI 入口。</p>
 <p>主桌面 runner 也支持按有序 checkpoint 分段执行。当前 checkpoint 依次为
-<code>remote-device-onboarding</code>、<code>workspace-tabs</code>、<code>priority-filter</code>、<code>telemetry-consent</code>、
-<code>automation-lifecycle</code>、<code>project-automation</code>、<code>project-assignment-notification</code>、
+<code>remote-device-onboarding</code>、<code>workspace-tabs</code>、<code>cloud-project-creation</code>、
+<code>priority-filter</code>、<code>telemetry-consent</code>、<code>automation-lifecycle</code>、
+<code>project-automation</code>、<code>project-assignment-notification</code>、
 <code>offline-local-project-space</code>、<code>plugin-auto-update</code>、<code>project-ai-settings</code>、
 <code>model-routing</code>、<code>permission-modes</code>、<code>core-task-flow</code>、<code>task-attachments</code>、
 <code>cloud-git-worktree</code>、<code>cloud-worktree-capability</code>、<code>cloud-worktree-create</code>、
-<code>cloud-worktree-queued-cancel</code>、<code>cloud-worktree-tools</code>、<code>cloud-worktree-archive-restore</code>、
-<code>cloud-worktree-device-restart</code>、<code>context-compaction</code>、<code>runtime-task-queue</code>、
-<code>codex-notification-isolation</code>、<code>split-workbench</code>、<code>window-lifecycle</code>、<code>goal-lifecycle</code>、
+<code>cloud-worktree-queued-cancel</code>、<code>cloud-worktree-tools</code>、
+<code>cloud-worktree-archive-restore</code>、<code>cloud-worktree-device-restart</code>、
+<code>context-compaction</code>、<code>runtime-task-queue</code>、<code>codex-notification-isolation</code>、
+<code>split-workbench</code>、<code>window-lifecycle</code>、<code>goal-lifecycle</code>、
 <code>supervisor-lifecycle</code>、<code>resilience</code>、<code>conversation-state</code>、<code>temporary-chat</code>、
 <code>workspace-attachments</code>、<code>rendering-extensions</code>、<code>change-request-status</code>、
-<code>claude-runtime</code>、<code>local-file-preview</code>、<code>local-harness</code>、<code>browser-multi-tabs</code>、
-<code>embedded-browser</code> 和 <code>browser-toolbar-actions</code>。
+<code>claude-runtime</code>、<code>local-file-preview</code>、<code>local-harness</code>、<code>harness-apps</code>、
+<code>browser-multi-tabs</code>、<code>embedded-browser</code> 和 <code>browser-toolbar-actions</code>。
 <code>--segment &lt;checkpoint&gt;</code> 在公共启动和项目初始化后只运行指定 checkpoint；
 <code>--from-segment &lt;checkpoint&gt;</code> 从指定 checkpoint 开始并继续执行所有后续
 checkpoint。跳过上游时，每个 checkpoint 会自行建立最小前置 fixture，不依赖只有
