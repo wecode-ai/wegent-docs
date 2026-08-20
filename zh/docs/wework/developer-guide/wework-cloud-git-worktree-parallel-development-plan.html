@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">云端 Git Worktree 目标模式与并行开发计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="云端 Git Worktree 目标模式与并行开发计划 | Wegent"><meta data-rh="true" name="description" content="1. 文档状态"><meta data-rh="true" property="og:description" content="1. 文档状态"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"云端 Git Worktree 目标模式与并行开发计划","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.852563b0.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.5f11fb7d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.9b1e1fa2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.bf2eb2bc.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -17,14 +17,9 @@
 <li class="">制定日期：2026-08-17</li>
 <li class="">状态：核心代码、真实 Tauri 云端闭环和 Remote Docker 容器生命周期验收完成；仅托管生产持久卷与实例重建待目标环境验收</li>
 <li class="">目标：让 Wework 的本地设备、托管云设备和 Remote Docker 设备共用同一套托管 Git Worktree 能力</li>
-<li class="">开发方式：一个主 Agent 负责目标、架构真值、公共契约和集成；多个子 Agent 在互斥写入范围内并行实现</li>
+<li class="">开发方式：一个主 Agent 负责目标、公共契约和集成；多个子 Agent 在互斥写入范围内并行实现</li>
 </ul>
-<p>本文记录实施计划、并行分工和验收状态，不替代架构真值。对应架构真值已经建立：</p>
-<ul>
-<li class=""><code>docs/zh/architecture/git-worktree-execution.md</code></li>
-<li class=""><code>docs/en/architecture/git-worktree-execution.md</code></li>
-<li class="">两个架构目录的索引行</li>
-</ul>
+<p>本文记录实施计划、并行分工和验收状态。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-目标模式">2. 目标模式<a href="#2-目标模式" class="hash-link" aria-label="2. 目标模式的直接链接" title="2. 目标模式的直接链接" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="21-最终目标">2.1 最终目标<a href="#21-最终目标" class="hash-link" aria-label="2.1 最终目标的直接链接" title="2.1 最终目标的直接链接" translate="no">​</a></h3>
 <p>用户在任意支持 Worktree 的在线设备工作区中选择“新工作树”后，Wework 将任务发送到该工作区所属 Executor，由目标 Executor 在自己的持久化文件系统中完成 Worktree 的计划、创建、运行、归档、快照、恢复和清理。</p>
@@ -111,7 +106,7 @@
 <p>职责：</p>
 <ul>
 <li class="">创建并维护目标状态。</li>
-<li class="">先完成架构真值和公共协议决策。</li>
+<li class="">先完成公共协议决策。</li>
 <li class="">管理任务依赖、Agent 写入范围和合并顺序。</li>
 <li class="">处理跨模块公共类型、协议命名和冲突。</li>
 <li class="">审查所有子 Agent 变更。</li>
@@ -120,10 +115,6 @@
 </ul>
 <p>主 Agent 独占写入范围：</p>
 <ul>
-<li class=""><code>docs/zh/architecture/git-worktree-execution.md</code></li>
-<li class=""><code>docs/en/architecture/git-worktree-execution.md</code></li>
-<li class=""><code>docs/zh/architecture/README.md</code></li>
-<li class=""><code>docs/en/architecture/README.md</code></li>
 <li class="">跨模块共享协议和最终集成文件</li>
 <li class="">任何需要同时修改 Wework、Backend 和 Executor 语义的决策</li>
 </ul>
@@ -424,7 +415,7 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-写入冲突规则">9. 写入冲突规则<a href="#9-写入冲突规则" class="hash-link" aria-label="9. 写入冲突规则的直接链接" title="9. 写入冲突规则的直接链接" translate="no">​</a></h2>
 <ol>
 <li class="">一个文件在同一 Wave 只能归一个 Agent。</li>
-<li class="">公共类型、协议和架构真值只能由主 Agent 修改。</li>
+<li class="">公共类型和协议只能由主 Agent 修改。</li>
 <li class="">子 Agent 不得顺手修改其他工作流的文件。</li>
 <li class="">如果实现需要修改不在写入范围内的文件，子 Agent只报告所需改动，由主 Agent处理。</li>
 <li class="">子 Agent完成后必须列出修改文件、测试命令、已知限制和未完成依赖。</li>
@@ -475,7 +466,7 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="15-完成定义">15. 完成定义<a href="#15-完成定义" class="hash-link" aria-label="15. 完成定义的直接链接" title="15. 完成定义的直接链接" translate="no">​</a></h2>
 <p>只有同时满足以下条件，目标才能标记为完成：</p>
 <ul>
-<li class="">中英文架构真值和索引已更新。</li>
+<li class="">跨模块公共契约已确认。</li>
 <li class="">本地、云端和 Remote Docker 共用相同 Worktree 数据面。</li>
 <li class="">Wework 不再以设备类型硬编码 Worktree 能力。</li>
 <li class="">旧 Executor、离线设备和非 Git 工作区有明确不可用原因。</li>
@@ -487,10 +478,10 @@
 <li class="">没有跳过、重试或 fallback 用于掩盖失败。</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="16-启动执行时的主-agent-prompt">16. 启动执行时的主 Agent Prompt<a href="#16-启动执行时的主-agent-prompt" class="hash-link" aria-label="16. 启动执行时的主 Agent Prompt的直接链接" title="16. 启动执行时的主 Agent Prompt的直接链接" translate="no">​</a></h2>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">目标：完成 Wework 云端 Git Worktree 支持。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">先读取仓库与 wework/AGENTS.md，再读取：</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- docs/zh/architecture/git-worktree-execution.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- docs/en/architecture/git-worktree-execution.md</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- 本开发计划</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">主 Agent负责目标状态、公共契约、架构真值、Agent 写入范围、合并和最终验证。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">按 Wave 启动子 Agent；每个 Agent 必须有互斥写入范围、明确依赖和验收标准。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得让两个 Agent 同时修改同一文件。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得由 Backend 执行 Git。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得在设备离线或创建失败时回退到其他设备或主工作区。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">每个 Wave 完成后先审查变更并运行门禁测试，再启动下一 Wave。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">只有全部完成定义满足后才能结束目标。</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">目标：完成 Wework 云端 Git Worktree 支持。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">先读取仓库与 wework/AGENTS.md，再读取本开发计划。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">主 Agent负责目标状态、公共契约、Agent 写入范围、合并和最终验证。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">按 Wave 启动子 Agent；每个 Agent 必须有互斥写入范围、明确依赖和验收标准。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得让两个 Agent 同时修改同一文件。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得由 Backend 执行 Git。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">不得在设备离线或创建失败时回退到其他设备或主工作区。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">每个 Wave 完成后先审查变更并运行门禁测试，再启动下一 Wave。</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">只有全部完成定义满足后才能结束目标。</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="17-实施记录与验收结果">17. 实施记录与验收结果<a href="#17-实施记录与验收结果" class="hash-link" aria-label="17. 实施记录与验收结果的直接链接" title="17. 实施记录与验收结果的直接链接" translate="no">​</a></h2>
 <p>截至 2026-08-18，本文规划的核心代码工作已经按目标模式和子 Agent 并行方式完成；Remote Docker 真实容器生命周期已经通过，目标环境验收仅保留托管生产持久卷门槛：</p>
-<table><thead><tr><th>Wave</th><th>结果</th></tr></thead><tbody><tr><td>A0</td><td>中英文架构真值、索引、协议边界和必要不变量已冻结</td></tr><tr><td>A1</td><td>Wework 已补齐 Local、Cloud、Remote 和 <code>device_path</code> 类型及统一 Worktree availability</td></tr><tr><td>A2</td><td>Executor 已实现版本化 capability、preflight、延迟创建、身份校验、快照、恢复、清理和重启对账</td></tr><tr><td>A3</td><td>Backend 已实现逻辑设备路由、所有权校验、结构化 RPC 错误和 <code>runtime_features</code> 投影</td></tr><tr><td>B</td><td>Hybrid 创建路径、计划/最终路径对账、工具路径跟随和 DeviceWorkspace 偏好已完成</td></tr><tr><td>C</td><td>归档停止确认、快照删除、反归档恢复、设置和自动清理链路已完成</td></tr><tr><td>D</td><td>跨层契约、CI 分类、六个原子 checkpoint 和真实 Tauri 云端闭环已完成；目标环境验收见下文</td></tr></tbody></table>
+<table><thead><tr><th>Wave</th><th>结果</th></tr></thead><tbody><tr><td>A0</td><td>跨模块协议边界和必要不变量已冻结</td></tr><tr><td>A1</td><td>Wework 已补齐 Local、Cloud、Remote 和 <code>device_path</code> 类型及统一 Worktree availability</td></tr><tr><td>A2</td><td>Executor 已实现版本化 capability、preflight、延迟创建、身份校验、快照、恢复、清理和重启对账</td></tr><tr><td>A3</td><td>Backend 已实现逻辑设备路由、所有权校验、结构化 RPC 错误和 <code>runtime_features</code> 投影</td></tr><tr><td>B</td><td>Hybrid 创建路径、计划/最终路径对账、工具路径跟随和 DeviceWorkspace 偏好已完成</td></tr><tr><td>C</td><td>归档停止确认、快照删除、反归档恢复、设置和自动清理链路已完成</td></tr><tr><td>D</td><td>跨层契约、CI 分类、六个原子 checkpoint 和真实 Tauri 云端闭环已完成；目标环境验收见下文</td></tr></tbody></table>
 <p>真实 Tauri 的 <code>cloud-git-worktree</code> 聚合入口已并行展开并验证六个可独立运行的 checkpoint：</p>
 <ol>
 <li class=""><code>cloud-worktree-capability</code>：在线能力、协议版本、目标工作区 preflight 和不可用原因。</li>
