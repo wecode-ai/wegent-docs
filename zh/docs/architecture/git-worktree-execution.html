@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Git Worktree 执行 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/architecture/git-worktree-execution"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Git Worktree 执行 | Wegent"><meta data-rh="true" name="description" content="范围：Local、Cloud 和 Remote DeviceWorkspace 的 Worktree 能力发现、任务创建、排队、运行、归档、恢复、清理、设备路由和 UI 投影。"><meta data-rh="true" property="og:description" content="范围：Local、Cloud 和 Remote DeviceWorkspace 的 Worktree 能力发现、任务创建、排队、运行、归档、恢复、清理、设备路由和 UI 投影。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/architecture/git-worktree-execution"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/architecture/git-worktree-execution" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/architecture/git-worktree-execution" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/architecture/git-worktree-execution" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.b58333a3.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.e3bb8411.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.91509de2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -16,7 +16,8 @@
 <!-- -->
 <!-- -->
 <!-- -->
-<table><thead><tr><th>边</th><th>代码归属</th></tr></thead><tbody><tr><td>DeviceWorkspace 选择、可用性、偏好和 UI</td><td><code>wework/src/features/workbench/</code>、<code>wework/src/components/chat/composer/</code></td></tr><tr><td>Local/Cloud/Remote Runtime 路由和任务投影</td><td><code>wework/src/api/</code>、<code>wework/src/features/workbench/useWorkbenchRuntimeMessaging.ts</code>、<code>wework/src/features/workbench/workbenchReducer.ts</code></td></tr><tr><td>逻辑设备鉴权、持久 Runtime 身份和 Socket 解析</td><td><code>backend/app/services/device/</code>、<code>backend/app/api/ws/</code></td></tr><tr><td>Worktree capability、preflight、Git 生命周期和状态</td><td><code>executor/src/runtime_work/</code></td></tr><tr><td>云设备持久卷、固定挂载路径和单写实例</td><td>云设备 Provider、部署配置、<code>docker/device/</code></td></tr><tr><td>跨层验收</td><td><code>wework/e2e/desktop/</code>、<code>scripts/acceptance/</code>、Backend 和 Executor 契约测试</td></tr></tbody></table>
+<!-- -->
+<table><thead><tr><th>边</th><th>代码归属</th></tr></thead><tbody><tr><td>DeviceWorkspace 选择、可用性、偏好和 UI</td><td><code>wework/src/features/workbench/</code>、<code>wework/src/components/chat/composer/</code></td></tr><tr><td>Local/Cloud/Remote Runtime 路由和任务投影</td><td><code>wework/src/api/</code>、<code>wework/src/features/workbench/useWorkbenchRuntimeMessaging.ts</code>、<code>wework/src/features/workbench/workbenchReducer.ts</code></td></tr><tr><td>逻辑设备鉴权、持久 Runtime 身份和 Socket 解析</td><td><code>backend/app/services/device/</code>、<code>backend/app/api/ws/</code></td></tr><tr><td>Worktree capability、preflight、Git 生命周期、任务元数据和执行证据</td><td><code>executor/src/runtime_work/</code></td></tr><tr><td>云设备持久卷、固定挂载路径和单写实例</td><td>云设备 Provider、部署配置、<code>docker/device/</code></td></tr><tr><td>跨层验收</td><td><code>wework/e2e/desktop/</code>、<code>scripts/acceptance/</code>、Backend 和 Executor 契约测试</td></tr></tbody></table>
 <p>必要不变量：</p>
 <ol>
 <li class="">Backend 不执行 Git；Worktree 文件、Git common dir、快照和生命周期真值只属于目标 Executor。</li>
@@ -29,12 +30,12 @@
 <li class="">已存在目标路径只有在验证为同一源仓库、同一 Worktree ID 的合法 Git Worktree 后才能幂等接管。</li>
 <li class="">阻塞 Git 和目录扫描不得运行在异步 RPC 主线程。</li>
 <li class="">删除前必须获得所有关联 Runtime 的停止确认；Runtime 退出或 panic 都必须由作用域退出守卫发送停止确认。归档、快照和删除按顺序执行，任一步失败都保留可诊断数据；批量归档必须有界并发，不能按故障任务数线性累积停止超时。</li>
-<li class="">Executor 重启对账可以恢复 Worktree 的可管理状态，但不得自动续跑中断的 Agent；持续失败的对账必须按固定间隔限流，同时保留后续重试能力。</li>
+<li class="">Executor 重启对账可以恢复 Worktree 的可管理状态，但不得自动续跑中断的 Agent；Runtime Task Store 持久化耐久任务元数据，但不持久化 <code>status</code>、<code>running</code>、<code>threadStatus</code> 或 <code>turnStatus</code>。持续失败的对账必须按固定间隔限流，同时保留后续重试能力。</li>
 <li class="">一个 Executor Home 同一时刻只能有一个写入 Executor；Cloud 和 Remote 的 Executor Home、主仓库、Worktree、Runtime Store 和绝对挂载路径必须稳定持久化。</li>
 <li class="">启动模式和分支偏好按 DeviceWorkspace 隔离；运行位置不是启动模式。</li>
 <li class="">离线、路由缺失、超时、断开、不支持、非 Git、路径冲突和存储不持久使用稳定可区分错误；超时和断开必须标记为可重试，但有副作用的 RPC 不自动重试。</li>
 <li class="">Terminal、IDE、文件树、Git、归档、恢复和设置始终使用任务所属设备及最终 Worktree 路径。远端文件命令缺少 Backend 认证出的工作区根时必须关闭访问，不能把空根集合解释为无限制。</li>
-<li class="">重启对账已将中断任务标记为失败或取消后，任务列表不得因过期的 Provider 线程元数据把它重新投影为运行中；只有本地完成时间之后出现的新 Provider Turn 才能表示一次新的执行。</li>
+<li class="">重启前是否正在执行只能由独立的持久执行证据判断，不能从 Runtime Task 元数据、Worktree 路径、非归档状态、Provider 历史线程或缺失状态字段推导。Runtime 真正启动前，Executor 必须在 <code>worktrees.json</code> 写入带当前进程 owner 的 execution lease，并在 Runtime 终止确认时清除；启动对账只消费其他进程遗留的 lease，不能把当前进程刚开始的执行误判为中断。未完成的 <code>preparing</code> 记录只能证明 Worktree 准备被中断，持久队列只能证明尚未运行。没有这两类中断证据时，重启对账不得写任务失败、完成时间或活动时间。</li>
 <li class="">Cloud 和 Remote 的 <code>runtimeInstanceId</code> 保存在 Executor Home，并在 Backend 首次登记后固定；容器或实例替换必须复用该值。相同逻辑设备携带新的 Runtime Instance ID 时必须拒绝注册并报告持久存储身份不匹配，不能覆盖既有值或创建旁路设备记录。</li>
 <li class="">延迟创建必须持久化计划阶段的源仓库 fingerprint，并在获得 slot 后与创建前重新计算的 fingerprint 比较；源目录被替换为另一个仓库时必须以 <code>worktree_source_changed</code> 失败。</li>
 <li class="">停止超时是未知结果，不得清除 Runtime 取消控制或把任务当作已停止；重试归档/删除前仍必须获得同一 Runtime 的停止 ACK。</li>
