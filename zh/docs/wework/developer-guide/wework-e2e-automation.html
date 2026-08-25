@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><meta data-rh="true" property="og:description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.f3198fce.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.0518f806.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e79fe288.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -89,19 +89,22 @@
 checkpoint。跳过上游时，每个 checkpoint 会自行建立最小前置 fixture，不依赖只有
 完整流程才创建的任务或 UI 状态。PR CI 会根据改动的功能路径组合最小 segment
 矩阵；共享桌面基础设施、merge queue、定时任务和 <code>ci:all</code> 仍运行完整桌面套件。
-完整 Core 和 Cloud 套件各固定使用 5 个 GitHub Actions matrix job；每个 job
+完整 Core 和 Cloud 套件各固定使用 8 个 GitHub Actions matrix job；每个 job
 串行运行其 checkpoint，避免多个真实 Electron、WebView 和 Executor 栈在同一
 GitHub runner 上争用 CPU 和内存，导致正常异步状态越过统一的 10 秒门槛。
-跨 runner 的 10 个 matrix job 仍提供套件级并行。分片按 CI 实测耗时平衡，
+跨 runner 的 16 个 matrix job 仍提供套件级并行。分片按 CI 实测耗时平衡，
 新增或明显变慢的 checkpoint 必须重新校准分片，不能靠增加 runner、删覆盖或
 重跑失败用例来缩短关键路径。CI 会先构建一次 Core Electron
 应用、Executor 和 Codex artifact，其中 <code>--build-only</code> 会在同一 runner 内并行
 编译相互独立的 Electron 应用和 Executor；各 Core/Cloud 分片下载并复用该 artifact，
-不再重复执行 Vite、 Electron 和 Executor 构建。Rust 构建同时复用由 <code>main</code>
+不再重复执行 Vite、Electron 和 Executor 构建。Rust 构建同时复用由 <code>main</code>
 维护的 Cargo target cache 和 sccache 编译单元：target cache 保障 PR 与首次
 运行的延迟，sccache 降低依赖或源码变化后的增量编译成本。归档时只移除复制到
-artifact 中的 Linux debug symbols，原始构建产物保持不变，以缩短 10 个分片的
-上传和下载时间。桌面 E2E 构建跳过由并行 Lint 工作流完整执行的重复 TypeScript
+artifact 中的 Linux debug symbols，原始构建产物保持不变，以缩短 16 个分片的
+上传和下载时间。桌面 E2E 和对应的 cache warmup 显式设置
+<code>WEWORK_EXECUTOR_PROFILE=debug</code>，避免为测试 artifact 优化 Executor；正式打包
+不设置该变量，继续默认构建 <code>release</code> Executor。桌面 E2E 构建跳过由并行 Lint
+工作流完整执行的重复 TypeScript
 类型检查，只保留 Vite/ Electron 的真实产物构建；测试覆盖与类型门禁均保持不变。
 插件套件需要独立构建配置，仍作为
 单独 job 与共享 Core 构建并行。成功和失败诊断都保留完整证据；PNG 等已压缩文件
