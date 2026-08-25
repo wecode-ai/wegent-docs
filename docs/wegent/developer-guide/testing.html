@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.6134a86e.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.d607346f.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.dbf676f1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -142,7 +142,7 @@ scope so an accidental full-suite run is caught immediately.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework-desktop-cloud-device-tests">Wework Desktop Cloud Device Tests<a href="#wework-desktop-cloud-device-tests" class="hash-link" aria-label="Direct link to Wework Desktop Cloud Device Tests" title="Direct link to Wework Desktop Cloud Device Tests" translate="no">​</a></h2>
 <p>Run the cloud-device feature E2E from the repository root:</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop:cloud-features</span><br></span></code></pre></div></div>
-<p>This scenario starts a real backend, Redis, cloud-device executor, and Tauri
+<p>This scenario starts a real backend, Redis, cloud-device executor, and Electron
 application. It verifies cloud project tasks, Goal auto-continuation and unread
 state, busy-turn Goal handoff, and the local/cloud model protocol matrix. On
 failure, use the reported <code>wework/test-results/desktop-e2e/&lt;run-id&gt;/</code> directory
@@ -221,7 +221,7 @@ several desktop jobs must reuse the same complete binary output.</li>
 <li class="">Platform E2E, Release, and Snapshot Docker BuildKit caches live in
 corresponding GHCR build-cache tags instead of consuming GitHub Actions
 dependency cache storage.</li>
-<li class="">Outside Wework E2E, Executor and Tauri system dependency installers first
+<li class="">Outside Wework E2E, Executor and Electron system dependency installers first
 check packages already present on the runner. Only <code>main</code> writes the APT
 download cache; PRs restore it read-only.</li>
 </ul>
