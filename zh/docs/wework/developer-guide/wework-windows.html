@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Windows 开发与构建 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Windows 开发与构建 | Wegent"><meta data-rh="true" name="description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><meta data-rh="true" property="og:description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Windows 开发与构建","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.99947dc2.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.e79fe288.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.e596ae13.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.9f9a5307.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -19,9 +19,16 @@ Electron 主进程和 Executor sidecar 协议。</p>
 <div class="language-powershell codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-powershell codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pnpm install --frozen-lockfile</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron install --frozen-lockfile</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="开发">开发<a href="#开发" class="hash-link" aria-label="开发的直接链接" title="开发的直接链接" translate="no">​</a></h2>
 <div class="language-powershell codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-powershell codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --filter wework dev:windows</span><br></span></code></pre></div></div>
-<p>该命令使用 <code>wework/electron</code> 主进程加载 Wework renderer。Electron 通过子进程
-stdin/stdout 与 Executor sidecar 交换 JSONL，不依赖 Unix Domain Socket 或固定
-TCP 端口。</p>
+<p>该命令由 <code>wework/scripts/dev-windows-app.ps1</code> 驱动（对应 macOS 的
+<code>dev-mac-app.sh</code>）：自动准备 Electron 资源（图标、内置插件）、Codex/DWS
+二进制、Node 运行时与 Harness 运行时（含核心 DSH），编译 Executor，然后启动
+<code>wework/electron</code> 主进程加载 Wework renderer。Electron 通过子进程 stdin/stdout
+与 Executor sidecar 交换 JSONL，不依赖 Unix Domain Socket 或固定 TCP 端口。</p>
+<p>运行时与 Executor 构建缓存默认放在 <code>%LOCALAPPDATA%\wegent\</code>（可用
+<code>WEWORK_DEV_CACHE_ROOT</code>、<code>WEGENT_CARGO_TARGET_ROOT</code> 覆盖），首次准备较慢，
+之后为增量。可用 <code>-- --executor-isolation</code> 使用临时 Executor Home，或用
+<code>WEWORK_DRY_RUN=1</code> 只打印启动配置。若下载卡住，先设置
+<code>HTTP_PROXY</code>/<code>HTTPS_PROXY</code> 环境变量。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="构建">构建<a href="#构建" class="hash-link" aria-label="构建的直接链接" title="构建的直接链接" translate="no">​</a></h2>
 <div class="language-powershell codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-powershell codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron build:release</span><br></span></code></pre></div></div>
 <p>NSIS 安装器写入
