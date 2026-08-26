@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">云端 Git Worktree 目标模式与并行开发计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="云端 Git Worktree 目标模式与并行开发计划 | Wegent"><meta data-rh="true" name="description" content="1. 文档状态"><meta data-rh="true" property="og:description" content="1. 文档状态"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"云端 Git Worktree 目标模式与并行开发计划","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.f8dbdb00.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.a78f95fe.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e79fe288.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -29,7 +29,9 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="23-必要不变量">2.3 必要不变量<a href="#23-必要不变量" class="hash-link" aria-label="2.3 必要不变量的直接链接" title="2.3 必要不变量的直接链接" translate="no">​</a></h3>
 <ol>
 <li class="">Worktree 只能由持有源仓库的目标 Executor 创建、删除和恢复。</li>
-<li class=""><code>deviceId</code> 是 Worktree 身份的一部分，不能跨设备回退或迁移。</li>
+<li class=""><code>deviceId</code> 记录创建或最近准备 Worktree 的设备，并用于请求路由；它不是 Worktree
+归属或操作权限，Executor 不得仅因持久化记录中的 <code>deviceId</code> 不同而阻止任务执行、
+对账、归档、恢复或清理。</li>
 <li class="">Backend 不执行 Git 命令，不持有 Worktree 文件状态真值。</li>
 <li class="">一个 Runtime Task 最多绑定一个托管 Worktree。</li>
 <li class="">Worktree ID 必须由稳定、唯一的任务 ID 派生。</li>
@@ -458,7 +460,10 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="144-backend-relay-超时">14.4 Backend Relay 超时<a href="#144-backend-relay-超时" class="hash-link" aria-label="14.4 Backend Relay 超时的直接链接" title="14.4 Backend Relay 超时的直接链接" translate="no">​</a></h3>
 <p>超时不等于 Executor 未执行。必须通过任务列表和稳定 task ID 对账，不能自动用新 task ID 重试并创建第二个 Worktree。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="145-设备重建">14.5 设备重建<a href="#145-设备重建" class="hash-link" aria-label="14.5 设备重建的直接链接" title="14.5 设备重建的直接链接" translate="no">​</a></h3>
-<p>相同逻辑设备如果获得新的 <code>deviceId</code>，旧 Worktree 不能自动归属新设备。需要明确的设备恢复或数据丢失状态。</p>
+<p>设备重建或本地设备 ID 变化后，只要 Executor 仍访问同一持久化 Worktree 和 Git 仓库，
+旧记录中的 <code>deviceId</code> 不得阻止后续任务发送和 Worktree 生命周期操作。<code>deviceId</code> 继续
+作为诊断与路由元数据保留；存储是否连续仍由 Runtime Instance ID、稳定挂载路径和
+Git Worktree 身份校验决定。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="146-executor-崩溃窗口">14.6 Executor 崩溃窗口<a href="#146-executor-崩溃窗口" class="hash-link" aria-label="14.6 Executor 崩溃窗口的直接链接" title="14.6 Executor 崩溃窗口的直接链接" translate="no">​</a></h3>
 <p><code>git worktree add</code> 成功后、状态落盘或 Runtime 启动前可能崩溃。实现必须用 <code>preparing</code> 状态和启动对账识别合法孤儿 Worktree；保留诊断和清理能力，但不自动恢复执行 Agent。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="147-删除时-runtime-仍在运行">14.7 删除时 Runtime 仍在运行<a href="#147-删除时-runtime-仍在运行" class="hash-link" aria-label="14.7 删除时 Runtime 仍在运行的直接链接" title="14.7 删除时 Runtime 仍在运行的直接链接" translate="no">​</a></h3>
