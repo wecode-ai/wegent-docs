@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><meta data-rh="true" property="og:description" content="Wework 提供独立的 Playwright E2E 入口和测试专用前端自动化接口，用于在 CI 中稳定操作 Wework 的 Vite/React 前端。默认入口运行在浏览器模式，适合覆盖大多数前端交互；原生窗口与任务执行链路由下文的桌面端全链路 E2E 覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.a78f95fe.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.269cf625.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e79fe288.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -89,26 +89,34 @@
 checkpoint。跳过上游时，每个 checkpoint 会自行建立最小前置 fixture，不依赖只有
 完整流程才创建的任务或 UI 状态。PR CI 会根据改动的功能路径组合最小 segment
 矩阵；共享桌面基础设施、merge queue、定时任务和 <code>ci:all</code> 仍运行完整桌面套件。
-完整 Core 和 Cloud 套件各固定使用 8 个 GitHub Actions matrix job；每个 job
+完整 Core 套件固定使用 17 个 GitHub Actions matrix job，Cloud 套件使用 15 个；每个 job
 串行运行其 checkpoint，避免多个真实 Electron、WebView 和 Executor 栈在同一
 GitHub runner 上争用 CPU 和内存，导致正常异步状态越过统一的 10 秒门槛。
-跨 runner 的 16 个 matrix job 仍提供套件级并行。分片按 CI 实测耗时平衡，
-新增或明显变慢的 checkpoint 必须重新校准分片，不能靠增加 runner、删覆盖或
-重跑失败用例来缩短关键路径。CI 会先构建一次 Core Electron
-应用、Executor 和 Codex artifact，其中 <code>--build-only</code> 会在同一 runner 内并行
-编译相互独立的 Electron 应用和 Executor；各 Core/Cloud 分片下载并复用该 artifact，
-不再重复执行 Vite、Electron 和 Executor 构建。Rust 构建同时复用由 <code>main</code>
+跨 runner 的 32 个 matrix job 仍提供套件级并行。分片按 CI 实测耗时平衡并设定
+上限，以确保完整套件处于 10 分钟关键路径预算内；新增或明显变慢的 checkpoint
+必须重新校准分片，不能靠删覆盖或重跑失败用例来缩短关键路径。包含 2200 个增量的
+Codex 通知隔离压力场景和耗时较长的插件自动更新 checkpoint 各自使用独立分片；
+通知场景使用定向的 30 秒渲染预算，不改变共享的 10 秒 UI 超时。CI 会先构建一次 Core Electron
+应用、Executor 和 Codex artifact。Electron 打包会并行准备 Harness runtime、
+Node execution runtime 和 Executor；Harness 准备流程负责唯一一次 DSH 应用 Vite
+构建，避免重复编译同一前端。各 Core/Cloud 分片下载并复用该 artifact，不再重复
+执行 Vite、Electron 和 Executor 构建。Rust 构建同时复用由 <code>main</code>
 维护的 Cargo target cache 和 sccache 编译单元：target cache 保障 PR 与首次
 运行的延迟，sccache 降低依赖或源码变化后的增量编译成本。归档时只移除复制到
-artifact 中的 Linux debug symbols，原始构建产物保持不变，以缩短 16 个分片的
+artifact 中的 Linux debug symbols，原始构建产物保持不变，以缩短 32 个分片的
 上传和下载时间。桌面 E2E 和对应的 cache warmup 显式设置
 <code>WEWORK_EXECUTOR_PROFILE=debug</code>，避免为测试 artifact 优化 Executor；正式打包
 不设置该变量，继续默认构建 <code>release</code> Executor。桌面 E2E 构建跳过由并行 Lint
 工作流完整执行的重复 TypeScript
 类型检查，只保留 Vite/ Electron 的真实产物构建；测试覆盖与类型门禁均保持不变。
-插件套件需要独立构建配置，仍作为
-单独 job 与共享 Core 构建并行。成功和失败诊断都保留完整证据；PNG 等已压缩文件
-上传时禁用二次压缩，避免诊断归档延长流水线尾部。
+macOS 内存任务会同时使用 workspace 与 Electron lockfile 生成 pnpm store key，
+并离线安装依赖，避免 registry 卡顿耗尽关键路径预算。其大段流式 Markdown 响应使用
+定向的 30 秒完成预算，普通内存测试交互仍保持共享的 10 秒超时。插件套件需要独立构建配置，仍作为
+单独 job 与共享 Core 构建并行。桌面分片只使用不可变 E2E 镜像中已有的运行时工具；
+ZIP fixture 改用 Python 标准库，因此不再恢复完整前端依赖缓存。Harness app 的成功
+路径保留关键里程碑截图，每次运行仍保留日志、状态快照和其他有效诊断；上传前只清理
+无法帮助复现问题的 Chromium 临时缓存。PNG 等已压缩文件上传时禁用二次压缩，避免
+诊断归档延长流水线尾部。
 merge queue 会验证最终进入 <code>main</code> 的合并提交，因此合入后不再通过 <code>push main</code>
 重复运行同一套 Tests、Lint、Platform E2E 和 Wework E2E。映射规则位于
 <code>.github/scripts/classify-wework-desktop-e2e.sh</code>，新增功能覆盖时
@@ -154,7 +162,7 @@ segment 依次为 <code>plugin-lifecycle</code>、<code>skill-mention-rendering<
 <p>GitHub Actions 的 Executor E2E job 会在恢复 Python、Node.js 和 Playwright 缓存后加载预构建 Docker 镜像。该 job 必须先删除不使用的 hosted-runner SDK（.NET、Android、GHC 和 CodeQL）并记录磁盘用量，为镜像解压保留稳定空间；清理逻辑不得删除正在运行的 MySQL 或 Redis service 镜像。</p>
 <p>插件场景会在测试结果目录动态创建隔离的本地 Codex marketplace 和带 Skill 的插件，然后通过真实 Electron renderer、Executor 与 Codex app-server 验证市场展示、安装、安装时本地授权对话框、在对话编辑器中插入插件引用、无匹配 resume 不弹本地授权卡、卸载后 Composer 过滤及卸载。场景不访问个人 Codex home，也不 mock 插件 API；市场、插件缓存和安装状态都随测试结果目录清理。关键阶段会保留截图，失败时同时保留应用、Executor 和 UI 快照诊断。</p>
 <p>内存场景仅支持 macOS。它会通过真实 Codex 工具调用执行一个开发任务，再向真实 Electron renderer 流式发送包含 Markdown、表格和 TypeScript 代码的长回复。测试先等待 Web Content 内存基线稳定，再每 500 毫秒采集 Wework 关联的全部 Electron renderer 进程的聚合 physical footprint，并将采样、DOM 节点数和汇总指标写入 <code>memory-growth.json</code>；门禁不包含 Wework 主进程。默认门禁为峰值增长不超过 384 MiB、完成后的稳定态增长不超过 224 MiB、稳定窗口内最大波动范围不超过 16 MiB。DOM 门禁检查虚拟列表收敛后的稳定窗口，默认不得保留超过 900 个节点；流式渲染期间的瞬时峰值仍会记录在诊断中，但不会把收敛前的短暂渲染误判为泄漏。各阈值可分别通过 <code>WEWORK_E2E_MEMORY_MAX_PEAK_GROWTH_KIB</code>、<code>WEWORK_E2E_MEMORY_MAX_SETTLED_GROWTH_KIB</code> 和 <code>WEWORK_E2E_MEMORY_MAX_SETTLED_DOM_NODES</code> 调整。</p>
-<p>并发内存场景同样仅支持 macOS。它会创建并同时保持 10 个 Responses 流，采集 Wework 主进程、Electron renderer/GPU/network、Executor 和 Codex app-server 的进程组 physical footprint，并将证据写入 <code>concurrent-memory.json</code>。门禁要求整个进程组峰值低于 800 MiB，可通过 <code>WEWORK_E2E_CONCURRENT_MEMORY_MAX_PHYSICAL_FOOTPRINT_KIB</code> 调整；场景还会在首尾任务之间切换，并等待各自的 prompt 内容重新出现。</p>
+<p>并发内存场景同样仅支持 macOS。它会创建并同时保持 10 个 Responses 流，采集 Wework 主进程、Electron renderer/GPU/network、Executor 和 Codex app-server 的进程组 physical footprint，并将证据写入 <code>concurrent-memory.json</code>。相对于稳定基线，峰值和活跃稳定平台的增长都不得超过 320 MiB，稳定采样窗口内的波动不得超过 64 MiB；可分别通过 <code>WEWORK_E2E_CONCURRENT_MEMORY_MAX_PEAK_GROWTH_KIB</code>、<code>WEWORK_E2E_CONCURRENT_MEMORY_MAX_SETTLED_GROWTH_KIB</code> 和 <code>WEWORK_E2E_CONCURRENT_MEMORY_MAX_SETTLED_SAMPLE_RANGE_KIB</code> 调整。场景还会在首尾任务之间切换，并等待各自的 prompt 内容重新出现。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="responses-api-mock">Responses API Mock<a href="#responses-api-mock" class="hash-link" aria-label="Responses API Mock的直接链接" title="Responses API Mock的直接链接" translate="no">​</a></h2>
 <p><code>wework/e2e/utils/mock-response-api-server.mjs</code> 提供真实 HTTP 服务，用于验证本地模型能力探针请求：</p>
 <ul>
@@ -230,9 +238,10 @@ segment 依次为 <code>plugin-lifecycle</code>、<code>skill-mention-rendering<
 每个场景使用独立 runner、HOME、Executor Home、端口和诊断 artifact，保留原有
 真实 Electron、Executor 与 Codex 验证语义，同时避免三个场景在同一个 job 中串行等待。
 矩阵关闭 fail-fast，使一个场景失败时其他场景仍能完成并上传各自诊断。
-三类场景会注入不同的构建期 Vite 环境变量，因此 Electron 应用 artifact必须按
-E2E 命令隔离。plugins 场景不得恢复 core 或 cloud 场景生成的应用二进制，否则
-编译进应用的 Codex Home 初始化开关可能不匹配当前测试。</p>
+三类场景复用同一个预构建 Electron artifact。Codex Home 初始化、云端地址和测试
+凭据等场景差异由 Electron 启动时注入的 desktop E2E runtime config 控制，不再
+编译进应用二进制；因此 plugins、core 和 cloud 可共享应用构建，同时仍保持各自
+独立的运行目录与进程状态。</p>
 <p>Linux 桌面场景会把 Electron 系统依赖下载得到的 <code>.deb</code> 文件缓存在 runner 用户目录，
 并按操作系统、CPU 架构和自然周轮换缓存。每次运行仍执行 <code>apt-get update</code>，旧缓存
 只作为恢复来源，缺失或更新后的软件包会从 Ubuntu 软件源下载。安装使用
