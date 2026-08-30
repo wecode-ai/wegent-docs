@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.794988a8.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.d7e2e269.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.0a1c48f4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -105,10 +105,12 @@ preload、打包资源或发布边界发生变化时，工作流才提升应用�
 下载实际发生变化的组件，无需因为纯 Wework UI 或组件改动重复下载 Electron 和
 Chromium。</p>
 <p>客户端只接受与当前 Electron 应用版本、通道、平台和架构完全匹配的组件清单。
-下载后先校验压缩包大小与 SHA-256，再解压并校验组件内容 SHA-256。组件先写入
-用户数据目录的内容寻址存储并标记为 <code>pending</code>，下次启动时通过一个原子状态文件
-整体切换。工作台和 Core DSH 完成启动后才确认新组件；如果启动失败或进程在确认前
-退出，下次启动自动回滚到上一组组件。打包内资源始终保留为最终兜底。</p>
+清单中的 <code>downloadUrl</code> 可以指向版本 Release、共享依赖 Release 或独立对象存储，
+不要求与滚动清单同源或位于同一路径。下载内容的可信边界由完整性校验确定：客户端
+先校验压缩包大小与 SHA-256，再解压并校验组件内容 SHA-256。组件先写入用户数据
+目录的内容寻址存储并标记为 <code>pending</code>，下次启动时通过一个原子状态文件整体切换。
+工作台和 Core DSH 完成启动后才确认新组件；如果启动失败或进程在确认前退出，下次
+启动自动回滚到上一组组件。打包内资源始终保留为最终兜底。</p>
 <p>Wework 不再打包或下载第二份 Node。启动时会在用户数据目录生成轻量 <code>node</code>
 入口，将 <code>PATH</code>、<code>WEWORK_NODE_PATH</code>、<code>NODE</code> 和 <code>npm_node_execpath</code> 统一指向
 Electron，并设置 <code>ELECTRON_RUN_AS_NODE=1</code>。因此 Core DSH 以及 Codex skill 中
