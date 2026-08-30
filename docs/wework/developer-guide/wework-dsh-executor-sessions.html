@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">DSH Session Extensions for Executor Tasks | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-executor-sessions"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="DSH Session Extensions for Executor Tasks | Wegent"><meta data-rh="true" name="description" content="Wework Core DSH projects Executor-managed running tasks into standard"><meta data-rh="true" property="og:description" content="Wework Core DSH projects Executor-managed running tasks into standard"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-executor-sessions"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-executor-sessions" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-executor-sessions" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-executor-sessions" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"DSH Session Extensions for Executor Tasks","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-executor-sessions"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.65c33d21.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.1f784e3b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.7d7396fb.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.ffb2e33d.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -21,6 +21,17 @@ not need a Wework-private event bus or a direct Executor connection.</p>
 connection and resumes the event stream from the last consumed <code>sequence</code>.
 Each <code>(deviceId, taskId)</code> pair maps to a stable, independent Session, so
 parallel tasks never merge into one event stream.</p>
+<p>The Wework renderer uses the browser SSE stream exposed by the same DSH
+runtime. An initial browser subscription explicitly disables history replay.
+The Executor atomically captures the latest journal <code>sequence</code>, sends an
+internal <code>executor.stream.cursor</code> baseline, and then forwards only new events.
+The browser consumes that baseline without passing it to business listeners.
+Reconnects after the connection is established explicitly enable replay and
+resume from the last consumed <code>sequence</code>. A zero <code>after</code> cursor alone must not
+identify a fresh connection because a reconnect that has not received an
+ordinary business event can also carry zero. Conflating those cases either
+floods the renderer with the full journal or drops events emitted while the
+stream was disconnected.</p>
 <p>The main mappings are:</p>
 <table><thead><tr><th>Executor event</th><th>DSH Session event</th></tr></thead><tbody><tr><td><code>response.created</code>, <code>response.in_progress</code></td><td><code>turn/start</code>, <code>step/start</code></td></tr><tr><td><code>runtimeGeneratedUserMessage</code></td><td><code>user/message</code></td></tr><tr><td>reasoning delta</td><td><code>assistant/chunk</code> reasoning block</td></tr><tr><td>output text delta</td><td><code>assistant/chunk</code> text block</td></tr><tr><td><code>thread/tokenUsage/updated</code></td><td><code>assistant/chunk</code> usage</td></tr><tr><td>completed, incomplete, failed, error</td><td><code>assistant/message</code>, <code>step/end</code>, <code>turn/end</code></td></tr></tbody></table>
 <p>The projection preserves raw user messages and model output. Installing and
