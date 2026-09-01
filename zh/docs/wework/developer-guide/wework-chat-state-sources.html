@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.73fe0a83.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.1775d1c2.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.2b2f8625.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -222,6 +222,11 @@ assistant 之前。canonical <code>turns</code> 是前端 transcript 的唯一�
 <code>cite…</code> 内容引用标记，包括流式阶段尚未闭合的尾部标记。Wework
 不能把这些内部协议字符作为普通正文显示；只有在同时接入引用元数据和对应交互组件后，
 才能把它们转换为可见引用。</p>
+<p>Electron 聊天中的 assistant Markdown 图片可以引用本机绝对路径或 <code>file://</code> URL。
+渲染器必须先通过 Electron 文件桥读取文件，再使用 Blob URL 展示，不能让 HTTP 页面
+直接加载 <code>file://</code> 资源。图片文件必须在消息渲染时仍然存在；读取失败时显示明确的图片
+错误占位。修改这条链路后，运行 CI 覆盖的 desktop <code>rendering-extensions</code> checkpoint，
+其中会从系统临时目录读取真实 PNG，并断言最终图片使用 Blob URL。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="引导消息顺序">引导消息顺序<a href="#引导消息顺序" class="hash-link" aria-label="引导消息顺序的直接链接" title="引导消息顺序的直接链接" translate="no">​</a></h2>
 <p>运行中的 Codex LocalTask 支持把队列消息作为原生引导发送。引导是当前 turn 内的用户输入，不是新的 follow-up turn，所以 UI 必须在发送开始时就把本地用户消息插入到当前 assistant 中间：</p>
 <ol>
