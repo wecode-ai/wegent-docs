@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">内置浏览器 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="内置浏览器 | Wegent"><meta data-rh="true" name="description" content="Wework 的内置浏览器用于在桌面工作台右侧面板中展示可交互网页，并让本地运行时通过 Electron browser view bridge 控制同一个页面。它不是截图预览，也不会新开外部 Chrome 窗口。"><meta data-rh="true" property="og:description" content="Wework 的内置浏览器用于在桌面工作台右侧面板中展示可交互网页，并让本地运行时通过 Electron browser view bridge 控制同一个页面。它不是截图预览，也不会新开外部 Chrome 窗口。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-embedded-browser" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-embedded-browser" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"内置浏览器","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.ba221fdf.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.2b156000.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.2b2f8625.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -102,17 +102,21 @@
 <p>右侧浏览器地址栏旁提供批注图标。批注实现分为三层：</p>
 <ul>
 <li class="">Electron <code>browser-annotation-controller</code> 按浏览器 logical label 持有批注、草稿、原网页预览和运行时 revision，是唯一状态真值。</li>
-<li class="">独立 preload 在页面 ShadowRoot 中处理元素命中、高亮、编号标记、锚点重绑定和设计样式，避免批注节点污染宿主页面观察器。</li>
-<li class="">独立透明 overlay window 渲染紧凑的评论或设计编辑卡。React 浏览器面板只负责批注模式工具栏、数量和提交到主输入框。</li>
+<li class="">独立 preload 在页面 ShadowRoot 中处理元素命中、高亮、编号标记、锚点重绑定、设计样式和紧凑编辑卡，避免批注节点污染宿主页面观察器。</li>
+<li class="">React 浏览器面板只负责批注模式工具栏、数量和提交到主输入框。</li>
 </ul>
 <p>进入批注模式后：</p>
 <ul>
 <li class="">鼠标移动只高亮当前 DOM 元素；点击后创建包含 selector、DOM 路径、文本和几何信息的稳定锚点，并打开编辑卡。</li>
+<li class="">全页交互层必须保持透明，不能用蓝色或其它颜色遮罩改变网页观感；蓝色只用于当前元素高亮、标记和批注光标。</li>
 <li class="">评论卡支持新增、保存、取消和删除。已保存批注在网页上显示编号标记，点击标记可重新编辑。</li>
+<li class=""><code>Esc</code> 采用分层退出：编辑卡打开时先关闭编辑卡并保留批注模式；没有编辑卡时退出批注模式。页面脚本不得抢占这两个快捷键状态。</li>
+<li class="">编辑卡因截图状态、锚点或设计状态同步而重建时，必须恢复原编辑控件的焦点和选区，避免首次聚焦后自动失焦。</li>
 <li class="">设计卡读取目标元素的计算样式，可调整文字、外观和布局属性。设计变更由 preload 应用，页面节点替换后通过锚点重新绑定。</li>
 <li class="">按住“原网页”按钮会用同一条 render/sync 链暂时隐藏全部设计变更并恢复被替换的文本；松开后恢复批注设计。</li>
 <li class="">同 URL 重新加载保留批注并重绑定锚点；真实跨 URL 导航退出批注模式并清除草稿，避免旧页面状态泄漏。</li>
-<li class="">发布后的批注进入 Wework 主输入框附件区。发送给模型的运行时 DTO 只包含元素上下文、评论和设计变更，不包含截图、创建时间等 UI 私有字段。</li>
+<li class="">同一文档内的 SPA 导航必须用 preload 事件携带的最新地址更新批注 scope，保证保存和发布使用同一个 URL key。</li>
+<li class="">发布后的批注进入 Wework 主输入框附件区。截图只用于本地预览和定位；发送给模型的运行时 DTO 只包含元素上下文、评论和设计变更，不包含截图、创建时间等 UI 私有字段。</li>
 </ul>
 <p>批注用于网页可视区域评论，不等同于代码选择评论。<code>browser_annotation</code> 项应被模型理解为对当前可见网页元素的评论。</p>
 <p>批注回归拆成三个可独立运行的 checkpoint：</p>
