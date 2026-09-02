@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Debug Instance Labels | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Debug Instance Labels | Wegent"><meta data-rh="true" name="description" content="Wework can launch a debug Wework instance from the built-in Terminal of another running Wework window. To keep multiple worktrees and dev apps distinguishable, Wework passes the parent window context into the Terminal, and wework/scripts/dev-mac-app.sh forwards it to the debug instance."><meta data-rh="true" property="og:description" content="Wework can launch a debug Wework instance from the built-in Terminal of another running Wework window. To keep multiple worktrees and dev apps distinguishable, Wework passes the parent window context into the Terminal, and wework/scripts/dev-mac-app.sh forwards it to the debug instance."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Debug Instance Labels","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.ba7b740d.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.309019d6.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.18cc9cae.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -33,12 +33,24 @@ root to the debug Electron process.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="dev-script-variables">Dev Script Variables<a href="#dev-script-variables" class="hash-link" aria-label="Direct link to Dev Script Variables" title="Direct link to Dev Script Variables" translate="no">​</a></h2>
 <p><code>wework/scripts/dev-mac-app.sh</code> reads the parent variables and generates debug instance variables:</p>
 <ul>
-<li class=""><code>WEWORK_DEV_TITLE</code>: the short debug instance label. It uses <code>WEWORK_PARENT_TITLE</code> first, then the Git branch, then the worktree directory name.</li>
+<li class=""><code>WEWORK_DEV_TITLE</code>: the short debug instance label. Task runtimes automatically use a truncated task title; ordinary local terminals use the project and Git branch; a detached HEAD without task context uses the worktree directory name.</li>
 <li class=""><code>WEWORK_DEV_PORT</code>: the current Vite/ Electron dev server port.</li>
 <li class=""><code>WEWORK_DEV_WORKTREE</code>: the current worktree root path.</li>
 <li class=""><code>WEWORK_DEV_BRANCH</code>: the current Git branch, or empty when running on a detached HEAD.</li>
-<li class=""><code>WEWORK_APP_IDENTIFIER</code>: the current Electron application identity. It defaults to a value derived from the worktree path and isolates the single-instance lock, application data, and macOS menu bar icon position. Override it only when an application identity must intentionally be reused.</li>
+<li class=""><code>WEWORK_DEV_INSTANCE_LABEL</code>: the instance number extracted from the <code>runtime-&lt;id&gt;</code> worktree directory; regular checkouts use a stable hash.</li>
+<li class=""><code>WEWORK_DEV_DOCK_TITLE</code>: the macOS Dock instance name, built from the automatically resolved short title and the first four instance characters.</li>
+<li class=""><code>WEWORK_DEV_EXECUTABLE_NAME</code>: a filesystem-safe Dock title used as the macOS executable name; path separators are replaced.</li>
+<li class=""><code>WEWORK_APP_IDENTIFIER</code>: the generated Electron application identity. It is derived from the current worktree path and isolates the single-instance lock, application data, and macOS menu bar icon position. The launcher intentionally ignores an identity inherited from its parent App; use <code>WEWORK_DEV_APP_IDENTIFIER</code> only when an identity must explicitly be reused.</li>
+<li class=""><code>WEWORK_USER_DATA_DIR</code>: the generated Electron user data directory. The launcher intentionally ignores a directory inherited from its parent App; use <code>WEWORK_DEV_USER_DATA_DIR</code> for an explicit override.</li>
 </ul>
+<p>The macOS development launcher prepares a copy-on-write Electron App Bundle for
+each display name. Task shells use their injected title directly; terminals
+started from an existing runtime worktree can recover the title from the local
+runtime index. The launcher then updates the Bundle metadata and renames the
+main executable to <code>WEWORK_DEV_EXECUTABLE_NAME</code>, the filesystem-safe Dock title. The Dock hover label
+therefore shows a value such as <code>Fix subscriptions · 5275</code>, while the icon badge
+shows <code>5275</code>. The renamed development Bundle remains in source hot-reload mode
+instead of switching to packaged resources.</p>
 <p>The macOS tray derives a stable UUID v5 from <code>WEWORK_APP_IDENTIFIER</code> and passes
 it to Electron as the <code>Tray</code> GUID. Electron writes that GUID to the native
 <code>NSStatusItem.autosaveName</code>, allowing menu bar managers such as iBar to
