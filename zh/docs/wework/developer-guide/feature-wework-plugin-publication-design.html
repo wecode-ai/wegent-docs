@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-wework/developer-guide/feature-wework-plugin-publication-design" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Feature：Wework 插件分享与企业全员发布交互设计 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Feature：Wework 插件分享与企业全员发布交互设计 | Wegent"><meta data-rh="true" name="description" content="0. 文档状态与设计依据"><meta data-rh="true" property="og:description" content="0. 文档状态与设计依据"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/feature-wework-plugin-publication-design" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/feature-wework-plugin-publication-design" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Feature：Wework 插件分享与企业全员发布交互设计","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/zh/assets/js/runtime~main.db0195b0.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.679aa085.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/zh/img/wegent.png"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/zh/"><div class="navbar__logo"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a class="navbar__item navbar__link" href="/wegent-docs/zh/docs/wegent">Wegent</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/zh/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/wework/developer-guide/feature-wework-plugin-publication-design" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="搜索" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework"><span title="Wework 文档" class="linkLabel_WmDU">Wework 文档</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/getting-started"><span title="快速开始" class="linkLabel_WmDU">快速开始</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/projects"><span title="项目与工作区" class="linkLabel_WmDU">项目与工作区</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/tasks"><span title="与 AI 协作" class="linkLabel_WmDU">与 AI 协作</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/workbench"><span title="代码工作台" class="linkLabel_WmDU">代码工作台</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/browser"><span title="内置浏览器" class="linkLabel_WmDU">内置浏览器</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/devices"><span title="设备与云端工作" class="linkLabel_WmDU">设备与云端工作</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/plugins-and-skills"><span title="插件与 Skills" class="linkLabel_WmDU">插件与 Skills</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/settings"><span title="设置与数据" class="linkLabel_WmDU">设置与数据</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wework/troubleshooting"><span title="故障排查" class="linkLabel_WmDU">故障排查</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/zh/docs/category/developer-guide-1"><span title="Developer guide" class="categoryLinkLabel_W154">Developer guide</span></a><button aria-label="折叠侧边栏分类 &#x27;Developer guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><span title="Wework 聊天状态信源" class="linkLabel_WmDU">Wework 聊天状态信源</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-project-execution-state-truth-refactoring"><span title="项目执行状态真实性重构" class="linkLabel_WmDU">项目执行状态真实性重构</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2"><span title="Wework 插件市场 V2 技术设计" class="linkLabel_WmDU">Wework 插件市场 V2 技术设计</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><span title="云端 Git Worktree 目标模式与并行开发计划" class="linkLabel_WmDU">云端 Git Worktree 目标模式与并行开发计划</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/feature-wework-plugin-publication-design"><span title="Feature：Wework 插件分享与企业全员发布交互设计" class="linkLabel_WmDU">Feature：Wework 插件分享与企业全员发布交互设计</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-marketplace-dev"><span title="Wework 插件市场开发指南" class="linkLabel_WmDU">Wework 插件市场开发指南</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-local-data-directory"><span title="本地数据目录" class="linkLabel_WmDU">本地数据目录</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-icons"><span title="Wework 插件图标指南（wework-plugins）" class="linkLabel_WmDU">Wework 插件图标指南（wework-plugins）</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-codex-sidebar"><span title="Codex 左侧栏状态一致性" class="linkLabel_WmDU">Codex 左侧栏状态一致性</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><span title="Wework 桌面版发布" class="linkLabel_WmDU">Wework 桌面版发布</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><span title="Wework Windows 开发与构建" class="linkLabel_WmDU">Wework Windows 开发与构建</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-connection"><span title="本地优先云端连接" class="linkLabel_WmDU">本地优先云端连接</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-codex-plugins"><span title="Codex 插件运行时" class="linkLabel_WmDU">Codex 插件运行时</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-performance-diagnostics"><span title="性能诊断" class="linkLabel_WmDU">性能诊断</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-ui-plugins"><span title="Wework DSH UI 插件" class="linkLabel_WmDU">Wework DSH UI 插件</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><span title="E2E 自动化" class="linkLabel_WmDU">E2E 自动化</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-file-preview"><span title="工作区文件预览" class="linkLabel_WmDU">工作区文件预览</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context"><span title="调试实例标识" class="linkLabel_WmDU">调试实例标识</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-executor-sessions"><span title="Executor 任务的 DSH Session 扩展" class="linkLabel_WmDU">Executor 任务的 DSH Session 扩展</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-interactive-forms"><span title="插件交互式表单" class="linkLabel_WmDU">插件交互式表单</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-applications-mcp-elicitation-e2e"><span title="应用入口与 MCP Elicitation 桌面 E2E" class="linkLabel_WmDU">应用入口与 MCP Elicitation 桌面 E2E</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-embedded-browser"><span title="内置浏览器" class="linkLabel_WmDU">内置浏览器</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-ai-verification"><span title="AI 自验证会话" class="linkLabel_WmDU">AI 自验证会话</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-browser-annotation-reliability"><span title="浏览器批注可靠性" class="linkLabel_WmDU">浏览器批注可靠性</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-model-proxy"><span title="Wework 云端模型代理网关" class="linkLabel_WmDU">Wework 云端模型代理网关</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><span title="电脑操控" class="linkLabel_WmDU">电脑操控</span></a></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/wegent-docs/zh/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/category/developer-guide-1"><span>Developer guide</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Feature：Wework 插件分享与企业全员发布交互设计</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>Feature：Wework 插件分享与企业全员发布交互设计</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="0-文档状态与设计依据">0. 文档状态与设计依据<a href="#0-文档状态与设计依据" class="hash-link" aria-label="0. 文档状态与设计依据的直接链接" title="0. 文档状态与设计依据的直接链接" translate="no">​</a></h2>
+<p>本文是 Wework 插件分享、企业全员投稿、Web 管理员审核和企业市场发布的开发级交互规范。实现时以本文定义的页面顺序、状态、文案、权限和不可变边界为准；技术合同见<a class="" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-marketplace-v2">插件市场 V2 技术设计</a>。</p>
+<ul>
+<li class="">设计基线：用户确认的 <code>1536 × 1024</code> 总体流程图“Wework 插件分享与全员发布 · 完整交互流程”。</li>
+<li class="">视觉基线：现有 Wework 插件详情页和 <a class="" href="/wegent-docs/wework/DESIGN.md"><code>wework/DESIGN.md</code></a> 的 Codex 桌面设计规范。</li>
+<li class="">本期范围：个人插件定向分享、企业全员发布申请、管理员审核、GitLab 状态回传、个人版与企业版共存。</li>
+<li class="">非本期范围：GitHub 上 Wework 官方公开插件的投稿、同步和审核；普通用户不能选择 <code>public</code>。</li>
+<li class="">非回归原则：本文只改造“分享/发布”路径，不重做现有插件详情页的信息架构。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-产品目标与冻结决策">1. 产品目标与冻结决策<a href="#1-产品目标与冻结决策" class="hash-link" aria-label="1. 产品目标与冻结决策的直接链接" title="1. 产品目标与冻结决策的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="11-用户目标">1.1 用户目标<a href="#11-用户目标" class="hash-link" aria-label="1.1 用户目标的直接链接" title="1.1 用户目标的直接链接" translate="no">​</a></h3>
+<p>插件作者在同一个 Wework 详情页完成两种分发意图：</p>
+<ol>
+<li class="">分享给指定成员或部门，扫描通过后立即生效。</li>
+<li class="">申请全员可见，进入企业代码资产与审核发布流程。</li>
+</ol>
+<p>普通用户不需要理解 Git、MR 或 Pipeline；管理员不需要在 Wework 客户端处理审核；技术投稿与非技术投稿从 GitLab MR 起复用同一条质量门禁。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="12-冻结决策">1.2 冻结决策<a href="#12-冻结决策" class="hash-link" aria-label="1.2 冻结决策的直接链接" title="1.2 冻结决策的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">详情页入口按钮名称固定为「分享」，不使用「发布」或「分享与发布」；打开后的范围选择弹窗标题固定为「分享与发布」。</li>
+<li class="">范围只提供「指定成员或部门」和「全员可见」两个选择。“组织”是根部门，不是第三个范围。</li>
+<li class="">任意已登录且拥有个人插件的用户都可提交全员发布申请，不使用投稿白名单。</li>
+<li class="">定向分享无需人工审核；全员发布必须经过自动检查、管理员审核、GitLab 代码审核和受保护分支发布。</li>
+<li class="">管理员“接受”只创建 MR，不直接发布。</li>
+<li class="">提交后锁定 snapshot、revision、版本和 SHA256。个人原件仍可编辑、对话、定向分享和生成新版本。</li>
+<li class="">个人原件和企业版是两个 Plugin 身份，允许个人 <code>v1.3.0</code> 与企业 <code>v1.2.0</code> 同时存在。</li>
+<li class="">企业发布失败不得影响当前在线企业版本；重复发布同一版本/同一 SHA 必须幂等。</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-信息架构与权限">2. 信息架构与权限<a href="#2-信息架构与权限" class="hash-link" aria-label="2. 信息架构与权限的直接链接" title="2. 信息架构与权限的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="21-详情页保留内容">2.1 详情页保留内容<a href="#21-详情页保留内容" class="hash-link" aria-label="2.1 详情页保留内容的直接链接" title="2.1 详情页保留内容的直接链接" translate="no">​</a></h3>
+<p>现有详情页继续保留：</p>
+<ul>
+<li class="">立即对话；</li>
+<li class="">试试这些任务；</li>
+<li class="">可用范围；</li>
+<li class="">自动更新设置；</li>
+<li class="">应用授权与退出登录；</li>
+<li class="">包含能力及能力启停；</li>
+<li class="">插件信息、开发者和版本；</li>
+<li class="">个人所有者的继续编辑、卸载、删除插件。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="22-角色与动作矩阵">2.2 角色与动作矩阵<a href="#22-角色与动作矩阵" class="hash-link" aria-label="2.2 角色与动作矩阵的直接链接" title="2.2 角色与动作矩阵的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>角色</th><th>分享</th><th>查看申请</th><th>撤回申请</th><th>审核</th><th>安装/卸载</th><th>删除个人原件</th></tr></thead><tbody><tr><td>个人插件所有者</td><td>可见</td><td>可见</td><td>合并前可用</td><td>不可用</td><td>可用</td><td>可用，受申请清理约束</td></tr><tr><td>定向分享接收者</td><td>不可见</td><td>不可见</td><td>不可用</td><td>不可用</td><td>可用</td><td>不可用</td></tr><tr><td>企业版普通用户</td><td>不可见</td><td>只看企业版本信息</td><td>不可用</td><td>不可用</td><td>可用</td><td>不可用</td></tr><tr><td>企业管理员</td><td>仅管理自己的个人插件</td><td>可查看全部</td><td>不替作者撤回</td><td>退回或接受</td><td>可用</td><td>仅按原所有权</td></tr><tr><td>GitLab 开发/评审人员</td><td>不经客户端分享</td><td>通过 MR/Pipeline 查看</td><td>按 GitLab 权限</td><td>代码评审</td><td>不适用</td><td>不适用</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-完整交互顺序">3. 完整交互顺序<a href="#3-完整交互顺序" class="hash-link" aria-label="3. 完整交互顺序的直接链接" title="3. 完整交互顺序的直接链接" translate="no">​</a></h2>
+<!-- -->
+<p>用户侧固定展示五个阶段：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">提交申请 → 自动检查 → 管理员审核 → 代码审核 → 发布</span><br></span></code></pre></div></div>
+<p>后台子状态可以更细，但不得把 GitLab 创建 MR、CI 运行或发布失败压缩成一个模糊的“审核中”。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-wework-客户端页面规范">4. Wework 客户端页面规范<a href="#4-wework-客户端页面规范" class="hash-link" aria-label="4. Wework 客户端页面规范的直接链接" title="4. Wework 客户端页面规范的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s0-个人插件详情页现有页面局部改造">S0. 个人插件详情页（现有页面，局部改造）<a href="#s0-个人插件详情页现有页面局部改造" class="hash-link" aria-label="S0. 个人插件详情页（现有页面，局部改造）的直接链接" title="S0. 个人插件详情页（现有页面，局部改造）的直接链接" translate="no">​</a></h3>
+<p><strong>进入方式</strong>：插件列表或「个人创建」进入详情。</p>
+<p>旧 <code>/plugins/manage</code> 页面中的所有者「分享/发布」入口只负责跳转到本页的个人插件详情，不再打开旧投稿对话框，也不得调用旧 <code>/plugins/submissions</code> 投稿接口。所有非技术作者必须进入本文 S1–S8 定义的唯一新流程。</p>
+<p><strong>标题区动作顺序</strong>：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[分享图标 分享]  […]  [立即对话]</span><br></span></code></pre></div></div>
+<ul>
+<li class="">「分享」是带 <code>Share2</code> 图标的紧凑次要按钮，仅个人插件所有者可见。</li>
+<li class="">「…」继续承载「继续编辑」「卸载」「删除插件」；不再放「发布新版本」。</li>
+<li class="">「立即对话」保持唯一黑色主按钮。</li>
+<li class="">审核期间不禁用「立即对话」「继续编辑」「定向分享」或能力开关。</li>
+<li class="">有申请时，在「可用范围」之后新增企业发布进度卡；不覆盖原有信息。</li>
+</ul>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>plugin-detail-share-{pluginId}</code></li>
+<li class=""><code>plugin-detail-actions-{pluginId}</code>（保留）</li>
+<li class=""><code>plugin-detail-toggle-{pluginId}</code>（保留）</li>
+<li class=""><code>plugin-publication-card-{requestId}</code></li>
+<li class=""><code>plugin-publication-view-progress-{requestId}</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s1-分享范围选择对话框">S1. 分享范围选择对话框<a href="#s1-分享范围选择对话框" class="hash-link" aria-label="S1. 分享范围选择对话框的直接链接" title="S1. 分享范围选择对话框的直接链接" translate="no">​</a></h3>
+<p><strong>触发</strong>：点击 S0「分享」。</p>
+<p>打开对话框前必须先加载该个人插件现有的成员/部门 ACL 和最近一次全员申请（包括已发布等终态）。加载期间保持入口的忙碌状态；加载失败时显示可重试错误且不展示可提交的空表单，避免把既有 ACL 误保存为空。只有 ACL 加载完成后才可展示 S1 并允许继续。</p>
+<p><strong>形态</strong>：桌面为 <code>520px</code> 居中 Dialog；移动端为底部 Sheet。关闭后焦点回到「分享」。</p>
+<p><strong>标题</strong>：「分享与发布」；副标题显示插件名和当前个人版本。标题描述弹窗内的两种分发意图，不改变详情页入口按钮「分享」的命名。</p>
+<p><strong>选择项</strong>：纵向两张单选行，每行整行可点击。</p>
+<ol>
+<li class="">「指定成员或部门」<!-- -->
+<ul>
+<li class="">说明：「选择后扫描并立即生效，无需审核」</li>
+<li class="">已有授权时显示「已分享给 2 个部门、5 位成员」摘要。</li>
+</ul>
+</li>
+<li class="">「全员可见」<!-- -->
+<ul>
+<li class="">说明：「提交企业发布申请，通过检查与审核后向全员发布」</li>
+<li class="">有活动申请时显示状态和版本，点击改为「查看申请进度」。</li>
+</ul>
+</li>
+</ol>
+<p><strong>动作</strong>：</p>
+<ul>
+<li class="">次要按钮：「取消」。</li>
+<li class="">主按钮随选择变化：<!-- -->
+<ul>
+<li class="">「选择成员或部门」；</li>
+<li class="">「继续填写发布申请」；</li>
+<li class="">已有活动申请时「查看申请进度」。</li>
+</ul>
+</li>
+</ul>
+<p><strong>规则</strong>：同一个人源插件只能有一个活动中的全员申请 Request；即使个人版本已经变化，也必须先处理现有活动 Request，不能并行创建第二个。已发布版本为终态，更高个人版本再次投稿时创建新的 Request。</p>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>plugin-share-intent-dialog</code></li>
+<li class=""><code>plugin-share-intent-restricted</code></li>
+<li class=""><code>plugin-share-intent-enterprise</code></li>
+<li class=""><code>plugin-share-intent-continue</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s2-指定成员或部门">S2. 指定成员或部门<a href="#s2-指定成员或部门" class="hash-link" aria-label="S2. 指定成员或部门的直接链接" title="S2. 指定成员或部门的直接链接" translate="no">​</a></h3>
+<p><strong>形态</strong>：复用成员/部门选择 Dialog，不再出现“仅自己 / 指定成员 / 组织”三段范围。</p>
+<p><strong>内容</strong>：</p>
+<ul>
+<li class="">搜索框：「搜索成员或部门」；</li>
+<li class="">搜索结果区分「成员」「部门」；</li>
+<li class="">组织根节点以根部门项目展示；</li>
+<li class="">已选对象以可删除标签展示；</li>
+<li class="">可选项「允许复制为个人插件」，默认关闭；</li>
+<li class="">当前授权摘要和清空范围入口。</li>
+</ul>
+<p><strong>动作</strong>：</p>
+<ul>
+<li class="">「取消」返回 S1，不丢失已选内容；</li>
+<li class="">「保存分享范围」开始上传/复用个人 Release、扫描和 ACL 原子更新；</li>
+<li class="">清空全部对象时明确显示将恢复为「仅自己可用」。</li>
+</ul>
+<p><strong>提交状态</strong>：主按钮保留宽度并显示「正在扫描…」；禁止重复提交。扫描失败保留选择和 <code>allowCopy</code>，在表单内显示错误码、原因和重试。</p>
+<p><strong>测试标识</strong>：沿用 <code>plugin-share-*</code>，新增 <code>plugin-share-save-scope</code> 和 <code>plugin-share-scan-status</code>。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s3-定向分享结果">S3. 定向分享结果<a href="#s3-定向分享结果" class="hash-link" aria-label="S3. 定向分享结果的直接链接" title="S3. 定向分享结果的直接链接" translate="no">​</a></h3>
+<p>成功后关闭 Dialog，返回 S0：</p>
+<ul>
+<li class="">可用范围显示「已分享给 X 个部门、Y 位成员」；</li>
+<li class="">提供「管理成员与部门」；</li>
+<li class="">使用非阻塞 Toast：「分享范围已更新」；</li>
+<li class="">不出现审核进度卡。</li>
+</ul>
+<p>若 ACL 写入失败，不能显示扫描成功即分享成功；保留 Dialog 并允许对同一 Release 幂等重试。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s4-企业全员申请-drawer步骤-1确认版本">S4. 企业全员申请 Drawer：步骤 1「确认版本」<a href="#s4-企业全员申请-drawer步骤-1确认版本" class="hash-link" aria-label="S4. 企业全员申请 Drawer：步骤 1「确认版本」的直接链接" title="S4. 企业全员申请 Drawer：步骤 1「确认版本」的直接链接" translate="no">​</a></h3>
+<p><strong>触发</strong>：S1 选择「全员可见」。</p>
+<p><strong>形态</strong>：桌面右侧 <code>480px</code> Drawer，覆盖主内容但不替换详情路由；移动端占满宽度。顶部固定标题、三步 Stepper 和关闭按钮，底部固定动作区，中间独立滚动。</p>
+<p><strong>内容</strong>：</p>
+<ul>
+<li class="">插件图标、名称和「个人创建」标签；</li>
+<li class="">待提交版本；</li>
+<li class="">源码最后更新时间；</li>
+<li class="">版本说明/变更说明，去除首尾空白后必填，最多 <code>2000</code> 字符；</li>
+<li class="">不可变提示：「提交后将生成独立快照，后续编辑不会更新本次申请」。</li>
+</ul>
+<p><strong>版本规则</strong>：默认选当前可打包版本；如果企业目录已有同版本且 SHA 不同，阻断并要求先升级语义版本；不得允许手工覆盖线上版本。</p>
+<p><strong>动作</strong>：「取消」「下一步：权限与风险」。</p>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>plugin-publication-drawer</code></li>
+<li class=""><code>plugin-publication-step-version</code></li>
+<li class=""><code>plugin-publication-release-notes</code></li>
+<li class=""><code>plugin-publication-next-risk</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s5-企业全员申请-drawer步骤-2权限与风险">S5. 企业全员申请 Drawer：步骤 2「权限与风险」<a href="#s5-企业全员申请-drawer步骤-2权限与风险" class="hash-link" aria-label="S5. 企业全员申请 Drawer：步骤 2「权限与风险」的直接链接" title="S5. 企业全员申请 Drawer：步骤 2「权限与风险」的直接链接" translate="no">​</a></h3>
+<p><strong>内容分组</strong>：</p>
+<ol>
+<li class="">外部网络访问：是否访问外部服务、域名列表。</li>
+<li class="">命令与脚本：系统命令、Shell、Node、Python、Hook、bin。</li>
+<li class="">本地文件：读、写范围与用途。</li>
+<li class="">凭据使用：API Key、Token、账号密码；明确禁止凭据进入包或日志。</li>
+<li class="">应用授权：连接器、OAuth、本地二维码等。</li>
+<li class="">MCP 与扩展能力：MCP、Agent、Command、LSP、Monitor 等。</li>
+<li class="">测试说明：已验证平台、场景和结果，去除首尾空白后必填，最多 <code>1000</code> 字符。</li>
+</ol>
+<p>本步骤填写的是作者声明，不在进入表单前上传或扫描源码。最终提交后，服务端再从不可变快照解析 Manifest 与包内容，把自动检查结果与作者声明交叉校验；发现未声明风险时阻断后续审核并在申请进度中给出可操作原因。这样与最新交互中的「提交后先安全扫描，再由管理员初审」保持一致，也避免用户在尚未确认提交时产生远端源码快照。</p>
+<p><strong>动作</strong>：「上一步」「查看并提交」。有阻断项时主按钮禁用，并在顶部给出可操作的错误摘要。</p>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>plugin-publication-step-risk</code></li>
+<li class=""><code>plugin-publication-risk-network</code></li>
+<li class=""><code>plugin-publication-risk-command</code></li>
+<li class=""><code>plugin-publication-risk-files</code></li>
+<li class=""><code>plugin-publication-risk-credentials</code></li>
+<li class=""><code>plugin-publication-test-notes</code></li>
+<li class=""><code>plugin-publication-next-confirm</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s6-企业全员申请-drawer步骤-3确认提交">S6. 企业全员申请 Drawer：步骤 3「确认提交」<a href="#s6-企业全员申请-drawer步骤-3确认提交" class="hash-link" aria-label="S6. 企业全员申请 Drawer：步骤 3「确认提交」的直接链接" title="S6. 企业全员申请 Drawer：步骤 3「确认提交」的直接链接" translate="no">​</a></h3>
+<p><strong>内容</strong>：只读展示插件、版本、变更说明、完整风险声明、应用授权、测试说明、企业全员范围，以及待生成的 revision。点击最终提交后才上传并由服务端生成不可变快照；服务端响应必须返回并持久化 revision、包 SHA256 与源码树 SHA256，后续所有检查、审核与发布都绑定这些服务端计算的值。</p>
+<p><strong>声明</strong>：</p>
+<ul>
+<li class="">我确认声明与插件行为一致；</li>
+<li class="">我理解提交后该 revision 不可修改；</li>
+<li class="">我理解通过管理员审核后仍需 GitLab 代码评审和跨平台检查。</li>
+</ul>
+<p><strong>动作</strong>：「上一步」「提交全员发布申请」。提交中显示「正在创建快照…」，关闭拦截重复点击。</p>
+<p><strong>失败处理</strong>：上传、传输或自动检查基础设施失败时保留表单/当前 revision，并允许使用同一幂等键重试原 revision 或撤回，不能制造“已提交”假状态。若自动检查已确定包内容、Manifest、SHA 或风险声明不合格，则旧 revision 保持不可变，作者修复个人原件后在原 Request 中创建新 revision，不允许把修改后的内容覆盖到旧 revision。</p>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>plugin-publication-step-confirm</code></li>
+<li class=""><code>plugin-publication-declaration</code></li>
+<li class=""><code>plugin-publication-submit</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s7-详情页企业发布进度卡">S7. 详情页企业发布进度卡<a href="#s7-详情页企业发布进度卡" class="hash-link" aria-label="S7. 详情页企业发布进度卡的直接链接" title="S7. 详情页企业发布进度卡的直接链接" translate="no">​</a></h3>
+<p>提交成功后 Drawer 关闭，S0 增加进度卡：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">企业全员发布 · v1.2.0</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">管理员审核中</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">提交申请  ✓  自动检查  ✓  管理员审核  ●  代码审核  ○  发布  ○</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">[查看进度] [撤回]</span><br></span></code></pre></div></div>
+<ul>
+<li class="">卡片永远显示申请版本，避免与继续编辑后的个人版本混淆。</li>
+<li class="">当前阶段使用蓝色窄强调和文字；等待使用中性灰；失败/退回使用红色图标和原因；发布成功使用绿色成功图标。</li>
+<li class="">「撤回」仅在尚未合并时可用；进入合并/发布后解释为什么不可撤回。</li>
+<li class="">管理员退回时主动作改为「修复并重新提交」，它从当前个人版本新建 revision，不覆盖旧证据。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s8-申请进度详情-drawer">S8. 申请进度详情 Drawer<a href="#s8-申请进度详情-drawer" class="hash-link" aria-label="S8. 申请进度详情 Drawer的直接链接" title="S8. 申请进度详情 Drawer的直接链接" translate="no">​</a></h3>
+<p><strong>触发</strong>：S7「查看进度」或 S1 已有活动申请。</p>
+<p><strong>内容</strong>：</p>
+<ul>
+<li class="">request 编号、当前 revision、版本和 SHA256；</li>
+<li class="">五阶段纵向时间线；</li>
+<li class="">每个阶段的时间、操作者、检查项、证据和稳定错误码；</li>
+<li class="">管理员退回原因；</li>
+<li class="">MR、Pipeline、Windows/macOS Job 链接和状态；</li>
+<li class="">发布结果和企业版本链接；</li>
+<li class="">完整申请历史和历史 revision 切换，只读查看；客户端重启后也必须可从服务端恢复已退回、已撤回、失败和已发布记录；</li>
+<li class="">当前个人原件与企业版的双向来源链接；链接使用服务端持久化的来源 Plugin ID，不以名称或本地内存状态猜测。</li>
+</ul>
+<p><strong>动作</strong>按状态出现：「撤回申请」「创建新 revision」「打开 MR」「查看企业版本」。退回修改或确定性自动检查失败时允许在原 Request 创建新 revision；<code>code_changes_requested</code> 由开发者在当前 MR 中修复，不向非技术作者提供新 revision 动作。外链激活前必须明确目标是 GitLab。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-web-管理后台页面规范">5. Web 管理后台页面规范<a href="#5-web-管理后台页面规范" class="hash-link" aria-label="5. Web 管理后台页面规范的直接链接" title="5. Web 管理后台页面规范的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s9-插件发布审核队列">S9. 插件发布审核队列<a href="#s9-插件发布审核队列" class="hash-link" aria-label="S9. 插件发布审核队列的直接链接" title="S9. 插件发布审核队列的直接链接" translate="no">​</a></h3>
+<p><strong>入口</strong>：Web 管理后台新增「插件发布审核」Tab，仅管理员可见。</p>
+<p><strong>列表字段</strong>：插件、版本/revision、提交人、风险等级、当前阶段、提交时间、等待时长、GitLab 状态。</p>
+<p><strong>筛选</strong>：状态、风险、提交人、插件名、时间范围；默认显示待处理并按最早提交排序。筛选写入 URL，刷新可恢复。</p>
+<p><strong>状态</strong>：提供加载骨架、空态、错误和分页；整行进入详情，不把接受/退回放在列表上，避免缺少证据时误操作。</p>
+<p><strong>测试标识</strong>：</p>
+<ul>
+<li class=""><code>admin-plugin-publications-tab</code></li>
+<li class=""><code>plugin-publication-review-list</code></li>
+<li class=""><code>plugin-publication-review-row-{requestId}</code></li>
+<li class=""><code>plugin-publication-review-filter-status</code></li>
+<li class=""><code>plugin-publication-review-filter-risk</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s10-审核详情">S10. 审核详情<a href="#s10-审核详情" class="hash-link" aria-label="S10. 审核详情的直接链接" title="S10. 审核详情的直接链接" translate="no">​</a></h3>
+<p><strong>布局</strong>：桌面双栏。左侧为不可变 revision、Manifest、权限声明、变更说明和历史；右侧为自动检查、风险证据、GitLab 状态和固定审核动作。窄屏改为单栏，动作区置底。</p>
+<p>管理员审核的是明确的 <code>request / revision / version / SHA256</code>。页面必须显示：</p>
+<ul>
+<li class="">自动检查总览及全部阻断/警告；</li>
+<li class="">作者声明与扫描证据的差异；</li>
+<li class="">包目录、Manifest 和关键能力；</li>
+<li class="">Windows/macOS 状态；未运行不得显示通过；</li>
+<li class="">既往退回原因和 revision 历史；</li>
+<li class="">并发状态变化提示，防止审核旧 revision。</li>
+</ul>
+<p><strong>动作</strong>：</p>
+<ul>
+<li class="">「退回修改」为次要危险动作；</li>
+<li class="">「接受并创建 MR」为唯一主动作；</li>
+<li class="">存在阻断项或警告未逐项确认时，主动作禁用并解释原因；</li>
+<li class="">页面没有「发布」按钮。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s11-退回修改">S11. 退回修改<a href="#s11-退回修改" class="hash-link" aria-label="S11. 退回修改的直接链接" title="S11. 退回修改的直接链接" translate="no">​</a></h3>
+<p>打开确认 Dialog：</p>
+<ul>
+<li class="">退回原因必填；</li>
+<li class="">待修改项至少一项，可从检查项勾选并补充；</li>
+<li class="">明确说明旧 revision 保留且不可编辑；</li>
+<li class="">提交后状态更新为「已退回修改」，作者在 Wework 查看并新建 revision。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s12-接受并创建-mr">S12. 接受并创建 MR<a href="#s12-接受并创建-mr" class="hash-link" aria-label="S12. 接受并创建 MR的直接链接" title="S12. 接受并创建 MR的直接链接" translate="no">​</a></h3>
+<p>确认 Dialog 展示插件、revision、SHA256、目标仓库和目标目录。管理员确认后：</p>
+<ol>
+<li class="">后端以 request/revision 幂等键物化受控分支；</li>
+<li class="">创建或复用 MR；</li>
+<li class="">回写 branch、commit SHA、MR IID/URL；</li>
+<li class="">状态进入「代码审核」。</li>
+</ol>
+<p>GitLab 失败时详情页保留管理员已接受事实，显示错误和「重试创建 MR」；重试不能产生第二个 MR。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-gitlab发布与企业使用页面状态">6. GitLab、发布与企业使用页面状态<a href="#6-gitlab发布与企业使用页面状态" class="hash-link" aria-label="6. GitLab、发布与企业使用页面状态的直接链接" title="6. GitLab、发布与企业使用页面状态的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s13-代码审核">S13. 代码审核<a href="#s13-代码审核" class="hash-link" aria-label="S13. 代码审核的直接链接" title="S13. 代码审核的直接链接" translate="no">​</a></h3>
+<p>Wework 与 Web 使用相同状态投影：MR、评审中、需修改、CI 运行、合并就绪、已合并。每个 MR 只允许一个插件的一个版本。</p>
+<ul>
+<li class="">MR Pipeline 必须包含确定性打包、风险检查、测试、原生 Windows、原生 macOS。</li>
+<li class="">缺少 Runner 显示「阻断/未运行」，不能显示通过。</li>
+<li class="">MR 修改后必须更新记录的 commit SHA；发布只接受最终合并 SHA 对应的 artifact。</li>
+<li class=""><code>code_changes_requested</code> 后由开发者在同一个受控分支和 MR 中修复并重新运行 Pipeline，不回到 Wework 创建新 revision；若必须更换已接受的不可变投稿快照，应先结束当前代码审核流程，再按新的 Request/Revision 流程重新投稿。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s14-发布">S14. 发布<a href="#s14-发布" class="hash-link" aria-label="S14. 发布的直接链接" title="S14. 发布的直接链接" translate="no">​</a></h3>
+<p>受保护的 <code>master</code> Pipeline 是唯一自动发布入口。Webhook 只同步状态或触发对账。</p>
+<ul>
+<li class="">成功：进度卡显示「已向企业全员发布」，提供「查看企业版本」。</li>
+<li class="">基础设施失败：自动重试同一 artifact。</li>
+<li class="">业务发布失败：管理员重试同版本/同 SHA；当前企业旧版本继续在线。</li>
+<li class="">同版本不同 SHA：永久冲突，必须由作者提交更高版本。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s15-企业市场与个人企业版本关系">S15. 企业市场与个人/企业版本关系<a href="#s15-企业市场与个人企业版本关系" class="hash-link" aria-label="S15. 企业市场与个人/企业版本关系的直接链接" title="S15. 企业市场与个人/企业版本关系的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">个人原件仍在「个人创建」，显示个人版本、个人授权和个人操作。</li>
+<li class="">企业版出现在「企业内部」，来源标签为「企业内部」。</li>
+<li class="">同一来源插件在个人详情提供「查看企业版本」，企业详情对有权限的作者提供「查看个人原件」；两个方向都由服务端保存的 <code>origin_plugin_id</code>/企业 Plugin ID 建立，不依赖相同 slug 的模糊匹配。</li>
+<li class="">普通员工安装/卸载企业版只改变自己的安装状态，不改变市场可见性。</li>
+<li class="">删除个人原件不自动删除已合并或已发布企业版。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="s16-新版本再次申请">S16. 新版本再次申请<a href="#s16-新版本再次申请" class="hash-link" aria-label="S16. 新版本再次申请的直接链接" title="S16. 新版本再次申请的直接链接" translate="no">​</a></h3>
+<p>当个人插件从 <code>v1.2.0</code> 编辑到 <code>v1.3.0</code>：</p>
+<ul>
+<li class="">已提交/已发布的 <code>v1.2.0</code> revision 和企业版保持不变；</li>
+<li class="">「分享」中的全员入口显示当前企业版与个人版差异；</li>
+<li class="">用户重新走 S4–S6，创建新的 Request，且该 Request 从 revision 1 开始；已发布 Request 及其全部 revision 保持只读；</li>
+<li class="">新版本失败不影响企业 <code>v1.2.0</code>。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="7-删除撤回与失败边界">7. 删除、撤回与失败边界<a href="#7-删除撤回与失败边界" class="hash-link" aria-label="7. 删除、撤回与失败边界的直接链接" title="7. 删除、撤回与失败边界的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>场景</th><th>必须行为</th></tr></thead><tbody><tr><td>上传或快照未完成</td><td>可取消临时 revision，并清理未引用对象</td></tr><tr><td>已提交、未创建 MR</td><td>可撤回申请，保留审计事件；<code>materializing</code> 期间禁止撤回</td></tr><tr><td>MR 未合并</td><td>撤回时先关闭 MR；关闭失败则撤回失败</td></tr><tr><td>删除个人原件且有未合并申请</td><td>同一确认中先撤回/关 MR；任何一步失败均阻止删除</td></tr><tr><td>已合并或已发布</td><td>不允许通过删除个人原件回滚企业版</td></tr><tr><td>管理员退回</td><td>旧 revision 只读；修复后新建 revision</td></tr><tr><td>CI/代码评审失败</td><td>开发者在同一受控分支/MR 修复并生成新 commit，不由非技术作者创建 revision</td></tr><tr><td>发布失败</td><td>重试相同 version/SHA；保留当前企业 latest release</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="8-视觉与响应式规范">8. 视觉与响应式规范<a href="#8-视觉与响应式规范" class="hash-link" aria-label="8. 视觉与响应式规范的直接链接" title="8. 视觉与响应式规范的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="81-视觉层级">8.1 视觉层级<a href="#81-视觉层级" class="hash-link" aria-label="8.1 视觉层级的直接链接" title="8.1 视觉层级的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">页面保持现有中性灰/白工作台，不增加彩色大卡片或营销式头图。</li>
+<li class="">每个动作组最多一个黑色反色主按钮。</li>
+<li class="">蓝色只用于焦点、链接和当前步骤；绿色只用于已完成；橙色用于等待/警告；红色用于失败/退回。</li>
+<li class="">Dialog 使用 <code>20px</code> 圆角、轻量遮罩和语义背景；Drawer 使用主背景、左侧细分隔和克制阴影。</li>
+<li class="">进度卡通过间距、低对比表面和细线建立层级，不使用粗边框。</li>
+<li class="">正文字号、按钮高度、图标和圆角必须复用 Wework 语义组件与 token，不在业务组件散落字面颜色或任意字号。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="82-基准尺寸">8.2 基准尺寸<a href="#82-基准尺寸" class="hash-link" aria-label="8.2 基准尺寸的直接链接" title="8.2 基准尺寸的直接链接" translate="no">​</a></h3>
+<table><thead><tr><th>对象</th><th>桌面规范</th></tr></thead><tbody><tr><td>总体设计校验视口</td><td><code>1536 × 1024</code>，light theme</td></tr><tr><td>详情内容</td><td>保持现有最大宽度和左右留白</td></tr><tr><td>分享范围 Dialog</td><td><code>520px</code>，最大 <code>92vw</code></td></tr><tr><td>申请 Drawer</td><td><code>480px</code>，最大 <code>100vw</code></td></tr><tr><td>普通桌面按钮</td><td>现有共享 Button 尺寸；同组等高</td></tr><tr><td>图标</td><td>普通 <code>16px</code>，状态微图标 <code>12–14px</code></td></tr><tr><td>动效</td><td><code>150–220ms</code>，支持 reduced motion</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="83-响应式">8.3 响应式<a href="#83-响应式" class="hash-link" aria-label="8.3 响应式的直接链接" title="8.3 响应式的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><code>&gt;=1024px</code>：Dialog 居中，申请 Drawer 从右侧进入，Web 审核详情双栏。</li>
+<li class=""><code>768–1023px</code>：Drawer 可增至视口 <code>56%</code>，Web 审核详情单栏。</li>
+<li class=""><code>&lt;=767px</code>：Dialog 变底部 Sheet，申请 Drawer 占满屏；触控目标至少 <code>44 × 44px</code>。</li>
+<li class="">中英文长文案、<code>200%</code> 文本缩放和窄高窗口不得隐藏固定主动作；内容区必须独立滚动。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-可访问性与文案">9. 可访问性与文案<a href="#9-可访问性与文案" class="hash-link" aria-label="9. 可访问性与文案的直接链接" title="9. 可访问性与文案的直接链接" translate="no">​</a></h2>
+<ul>
+<li class="">所有可见文案进入中英文 i18n，不允许用中文显示值作为状态判断。</li>
+<li class="">Dialog/Drawer 打开时移动焦点，关闭后恢复到原触发按钮；Escape 关闭最上层可取消层。</li>
+<li class="">Stepper、检查结果和进度变化具有可读状态文本；颜色不是唯一线索。</li>
+<li class="">校验失败聚焦第一个错误或错误摘要，保留所有有效输入。</li>
+<li class="">图标按钮必须有本地化 <code>aria-label</code> 和 Tooltip。</li>
+<li class="">GitLab 外链、删除、撤回、退回等后果在激活前明确说明。</li>
+<li class="">使用单字符省略号「…」表示还会打开下一层，不用三个句点。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="10-实现安全合同与上线门禁">10. 实现安全合同与上线门禁<a href="#10-实现安全合同与上线门禁" class="hash-link" aria-label="10. 实现安全合同与上线门禁的直接链接" title="10. 实现安全合同与上线门禁的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="101-身份不可变数据与幂等">10.1 身份、不可变数据与幂等<a href="#101-身份不可变数据与幂等" class="hash-link" aria-label="10.1 身份、不可变数据与幂等的直接链接" title="10.1 身份、不可变数据与幂等的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><code>Request / Revision / Check / Event</code> 分层持久化。用户和管理员读取完整 revision 历史；终态记录不得因 <code>activeOnly</code> 查询而从个人详情消失。</li>
+<li class="">服务端必须校验调用方传入的 <code>Idempotency-Key</code> 格式，并重新计算规范化的资源与完整请求载荷指纹；持久化绑定调用主体、操作、资源和载荷指纹。同一主体与操作下，同键同资源/载荷返回原结果，同键不同资源/载荷返回 <code>409</code>，不能只把客户端传入值记录为 provenance。</li>
+<li class="">以下七个状态修改接口必须携带长度为 <code>8–200</code> 字符、且只包含 <code>[A-Za-z0-9._:-]</code> 的 <code>Idempotency-Key</code>：创建 Request、创建 Revision、完成 Revision、撤回、管理员退回、管理员接受、管理员对账。处于 processing 的重复请求返回 <code>409</code>；失败后的同一逻辑操作可复用原键继续执行。<!-- -->
+<ul>
+<li class=""><code>POST /api/plugins/publication-requests</code></li>
+<li class=""><code>POST /api/plugins/publication-requests/{requestId}/revisions</code></li>
+<li class=""><code>POST /api/plugins/publication-requests/{requestId}/revisions/{revision}/complete</code></li>
+<li class=""><code>POST /api/plugins/publication-requests/{requestId}/withdraw</code></li>
+<li class=""><code>POST /api/admin/plugins/publication-requests/{requestId}/return</code></li>
+<li class=""><code>POST /api/admin/plugins/publication-requests/{requestId}/accept</code></li>
+<li class=""><code>POST /api/admin/plugins/publication-requests/{requestId}/reconcile</code></li>
+</ul>
+</li>
+<li class="">客户端为每次“逻辑提交”生成 <code>operationAttemptId</code>：同一次传输失败后的重试复用该 ID，关闭并重新打开申请或重新发起一次显式对账时生成新 ID；键同时包含完整申请载荷指纹。撤回键必须包含当前 revision，避免后续新 revision 被旧撤回响应命中；GitLab 对账每次显式操作使用新的 attempt，避免同 revision 永久重放旧状态。</li>
+<li class="">个人原件和企业版使用不同 namespace/Plugin ID。企业 slug 必须绑定唯一 <code>origin_plugin_id</code>；另一个个人来源不得向已有企业 slug 追加版本。历史 <code>origin_plugin_id = 0</code> 数据必须显式迁移或拒绝认领，不能静默转移所有权。</li>
+<li class="">管理员接受进入 <code>materializing</code> 后暂时禁止撤回，直到受控分支/MR 创建或失败已对账；不得出现“申请已撤回但 MR 仍打开”的状态。</li>
+<li class="">一旦产生个人/企业 namespace 拆分后、会违反旧全局 slug 唯一约束的数据，数据库 downgrade 必须先执行 preflight 并明确阻止不安全回退，不能在恢复旧唯一索引时中途失败或丢数据。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="102-gitlab-受控分支mr-与包检查">10.2 GitLab 受控分支、MR 与包检查<a href="#102-gitlab-受控分支mr-与包检查" class="hash-link" aria-label="10.2 GitLab 受控分支、MR 与包检查的直接链接" title="10.2 GitLab 受控分支、MR 与包检查的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">Web 投稿的受控分支名固定为 <code>wework/publication-&lt;requestId&gt;-r&lt;revisionNumber&gt;</code>。分支内 marker 必须存在并绑定 request、revision、原始快照 SHA256 和规范化 source-tree SHA256；source-tree 同时包含带 version 的 Manifest。不得通过删除或篡改 marker 降级为开发者直提流程。</li>
+<li class="">GitLab 写入必须使用专用 Materializer 身份。<code>WEWORK_PLUGIN_PUBLICATION_GITLAB_TOKEN</code> 只能属于该机器人/服务账号，<code>WEWORK_PLUGIN_PUBLICATION_GITLAB_MATERIALIZER_USER_ID</code> 必须配置为该 token 调用 GitLab <code>GET /user</code> 返回的数值 ID；服务端同时校验项目、MR 作者、源/目标项目和 HMAC 绑定。已存在但不具备同一绑定的同名分支或 MR 一律拒绝复用，不能把开发者账号或通用运维 token 当作 Materializer。</li>
+<li class="">插件发布 MR 只允许修改 <code>plugins/&lt;slug&gt;/**</code> 和市场清单中该插件的一条已验证记录；不得混改 <code>.gitlab-ci.yml</code>、CI/发布脚本或其他插件。基础设施变更必须使用独立 MR。</li>
+<li class="">ZIP 必须对所有 entry 做完整校验，只允许一个预期插件根目录；拒绝根目录外文件、多根包、绝对路径、路径穿越和不安全链接，不能只验证或提取命中的子目录。</li>
+<li class="">Secret scan 必须覆盖 <code>git ls-files</code> 返回的全仓所有 tracked 文件，而非只扫描 <code>plugins/</code>。扫描日志和 artifact 不得泄露凭据内容。</li>
+<li class="">MR Pipeline 必须在原生 Windows 和原生 macOS Runner 上执行兼容性检查；Runner 缺失、Job 未运行或可跳过都属于阻断。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="103-发布授权可信证明与状态同步">10.3 发布授权、可信证明与状态同步<a href="#103-发布授权可信证明与状态同步" class="hash-link" aria-label="10.3 发布授权、可信证明与状态同步的直接链接" title="10.3 发布授权、可信证明与状态同步的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">release job 只允许在受保护 <code>master</code> 上、且变更包含 <code>plugins/**</code> 时运行；普通分支、无插件变更或仅修改 CI/脚本时不得取得 release 凭据或调用发布接口。</li>
+<li class="">release API 只接受 <code>Authorization: Bearer &lt;token&gt;</code>。token 必须是独立的 <code>plugin_release</code> 机器凭据，不接受裸 token、普通用户会话或用户身份模拟。</li>
+<li class=""><code>plugin_release</code> 凭据通过管理员 API <code>POST /api/admin/plugin-release-keys</code> 创建，通过 <code>GET /api/admin/plugin-release-keys</code> 查询，并通过 <code>POST /api/admin/plugin-release-keys/{id}/toggle-status</code> 停用或重新启用。创建时只填写名称、可选描述和过期时间；原始 <code>wg-...</code> 值只返回一次，轮换时先创建并验证新键，再停用旧键。GitLab project 和目标分支是服务端发布通道配置，不存入凭据。</li>
+<li class="">protected master Release 请求还必须携带精确的 <code>Idempotency-Key</code>：<code>wework-plugin-v1:&amp;lt;64hex&gt;</code>，其摘要由 project ID、最终 commit SHA 和 artifact SHA256 共同派生；服务端重新计算并校验该键。</li>
+<li class="">服务端不得信任调用方自报的 project/ref/SHA/Pipeline 字符串。必须校验配置允许的 GitLab project、受保护 <code>master</code> ref、最终合并 SHA 和 Pipeline；再从该 exact commit 读取 <code>plugins/&lt;slug&gt;</code>，对包含 <code>.wework-publication.json</code>、<code>plugin-risk.json</code> 在内的完整规范化文件树与上传 ZIP 做路径、内容和执行位比对。发布幂等记录同时绑定可信证明和已认证 <code>plugin_release</code> key 的数据库 ID；不同调用主体不能复用同一个发布幂等键。</li>
+<li class="">Webhook 只做单调状态同步和对账：Pipeline 事件必须匹配当前 revision 的受控 commit SHA，较小 Pipeline ID 和同一 Pipeline 已到达终态后的迟到状态不得推进；Webhook 丢失不得成为永久发布阻断，也不能把 Webhook 当作发布授权。</li>
+<li class="">企业投稿不使用人员白名单或全局启停开关；Request API 随 Backend 部署即对已登录的个人插件所有者开放，内部 <code>/plugins/releases</code> 始终由专用 Release Key、服务端配置的 GitLab project、受保护 <code>master</code> 和可信制品校验控制。因此必须先完成真实 GitLab、Runner、审批、TLS 和凭据轮换验证，再协调部署 Backend、Wework 与 Web 管理端。</li>
+<li class="">GitLab protected environment、Code Owner/审批规则、受保护变量以及原生 Windows/macOS Runner 是生产启用前的外部 P0。未在真实 GitLab 配置并验证之前，即使本地测试和打包全部通过，也只能称为“实现已验证”，不能称为“生产发布已启用”。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="104-凭据迁移边界">10.4 凭据迁移边界<a href="#104-凭据迁移边界" class="hash-link" aria-label="10.4 凭据迁移边界的直接链接" title="10.4 凭据迁移边界的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">曾进入文件或 Git 历史的旧发布凭据必须由凭据所有方在外部系统吊销并轮换；从当前工作树删除不能视为失效。</li>
+<li class="">新凭据只通过受保护变量/环境注入，不得写入仓库、日志或 artifact。当发布端点仍是未经验证的明文 HTTP 链路时不得注入真实凭据；必须先验证 TLS 或经批准的等价安全传输边界。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="105-客户端与响应-dto-合同">10.5 客户端与响应 DTO 合同<a href="#105-客户端与响应-dto-合同" class="hash-link" aria-label="10.5 客户端与响应 DTO 合同的直接链接" title="10.5 客户端与响应 DTO 合同的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">成员/部门选择器调用 <code>GET /api/groups/search?include_organization=true</code> 才能显式包含组织级 namespace；该参数默认 <code>false</code>。服务端只返回当前用户可访问的组织，管理员也只能获得有效的组织记录。</li>
+<li class="">创建 Request/Revision 时，<code>releaseNotes</code> 去除首尾空白后长度为 <code>1–2000</code>，<code>testNotes</code> 为 <code>1–1000</code>；客户端限制和 Backend Schema 必须一致，空白字符串和超长值返回 <code>422</code>。</li>
+<li class=""><code>PluginPublicationEvent</code> 的对外 DTO 只返回专用安全字段。管理员退回事件通过 <code>requiredChanges: string[]</code> 同时提供给申请人与管理员；不得把任意 <code>payload_json</code> 原样返回客户端。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="11-组件与实现映射">11. 组件与实现映射<a href="#11-组件与实现映射" class="hash-link" aria-label="11. 组件与实现映射的直接链接" title="11. 组件与实现映射的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>现有实现</th><th>目标处理</th></tr></thead><tbody><tr><td><code>PluginDetailView.tsx</code></td><td>保留详情结构；新增分享按钮、申请进度卡和个人/企业互链</td></tr><tr><td><code>PluginPublishDialog.tsx</code></td><td>替换为两意图选择 + 企业三步 Drawer；删除 <code>public/workspace/personal</code> 三段选择语义</td></tr><tr><td><code>PluginShareDialog.tsx</code></td><td>收敛为成员/部门 ACL 编辑器，保留扫描失败恢复和 allowCopy</td></tr><tr><td><code>pluginOwnerActions.ts</code></td><td>收敛为 owner share/publication action；移除白名单与 capability 驱动 UI</td></tr><tr><td><code>PluginManagementWorkspace.tsx</code></td><td>旧 <code>/plugins/manage</code> 分享/发布入口重定向到个人详情唯一新流程</td></tr><tr><td><code>PluginsWorkspace.tsx</code></td><td>ACL 与申请加载完成后再开表单；统一历史查询、对话框编排和个人/企业身份</td></tr><tr><td><code>wework/src/api/plugins.ts</code></td><td>新增 publication request/revision/progress/withdraw API；旧 submission 长期仅用于 <code>restricted_share + personal</code> 制品上传/扫描及历史记录清理</td></tr><tr><td><code>PluginWorkspaceConversationResult.tsx</code> / <code>executor/src/plugin_workspace_cli.rs</code></td><td>Task 工作区入口透传真实版本；定向分享继续走旧 submission，企业全员必须走新 publication request + immutable revision API</td></tr><tr><td><code>frontend/src/app/admin/page.tsx</code></td><td>新增管理员审核 Tab</td></tr><tr><td><code>frontend/src/features/admin/</code></td><td>新增队列、详情、退回与接受组件</td></tr><tr><td>Backend publication domain</td><td>新表、新状态机、自动检查、GitLab 物化、Webhook 对账和专用 release endpoint</td></tr></tbody></table>
+<p>新增交互元素必须有稳定 <code>data-testid</code>；已有详情页选择器保持不变，除非同一变更同步更新单测和桌面 E2E。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="12-验收场景">12. 验收场景<a href="#12-验收场景" class="hash-link" aria-label="12. 验收场景的直接链接" title="12. 验收场景的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="121-必须自动化">12.1 必须自动化<a href="#121-必须自动化" class="hash-link" aria-label="12.1 必须自动化的直接链接" title="12.1 必须自动化的直接链接" translate="no">​</a></h3>
+<ol>
+<li class="">所有者打开个人详情，顺序看到「分享」「…」「立即对话」，原详情内容完整。</li>
+<li class="">选择成员和根部门，扫描成功后 ACL 生效且无管理员审核。</li>
+<li class="">扫描失败保留选择，重试不会创建重复 Release。</li>
+<li class="">三步申请的必填、风险阻断、返回上一步和关闭恢复均正确；版本说明/测试说明的空白与 <code>2000/1000</code> 字符边界在客户端和 API 一致。</li>
+<li class="">提交后个人继续编辑不会改变 revision/SHA。</li>
+<li class="">同一个人源插件只允许一个活动 Request；退回或确定性自动检查失败后在原 Request 创建新 revision；已发布后更高版本创建新 Request 并保留旧 Request。</li>
+<li class="">管理员阻断项不可接受；退回原因必填；接受只创建一个 MR。</li>
+<li class="">Windows/macOS 未运行时流程阻断。</li>
+<li class="">合并前撤回关闭 MR；关闭失败阻止撤回和个人删除。</li>
+<li class="">发布失败保留企业旧版本；幂等重试不创建重复 Release。</li>
+<li class="">个人版与企业版可同时展示、安装和独立删除/卸载。</li>
+<li class="">接收者和企业普通用户看不到分享、投稿、编辑或删除入口。</li>
+<li class=""><code>/plugins/manage</code> 的所有者入口只跳转新详情流程，旧 submission API 不再收到全员投稿。</li>
+<li class="">ACL 加载完成前不展示可提交表单；加载失败不能用空 ACL 覆盖已有授权。</li>
+<li class="">客户端重启后仍能查看终态申请、完整 revision 历史和个人/企业双向链接。</li>
+<li class="">受控分支 marker 缺失/不匹配、插件 MR 混改 CI/脚本、ZIP 多根或全仓 Secret scan 失败均阻断。</li>
+<li class="">release API 拒绝非 Bearer、错误 key type 和不可信 project/ref/SHA/Pipeline 证明；Webhook 乱序不会回退状态。</li>
+<li class=""><code>materializing</code> 撤回、企业 slug 跨来源追加和不安全数据库 downgrade 均被显式阻止。</li>
+<li class="">七个 publication mutation 缺少幂等键时返回 <code>422</code>；同键同资源/载荷精确重放，同键不同资源/载荷返回 <code>409</code>，显式对账使用新 attempt。</li>
+<li class="">根部门仅在 <code>include_organization=true</code> 时返回且遵循访问权限；申请人和管理员都能通过专用 <code>requiredChanges</code> 查看退回修改项，响应不泄露任意事件 payload。</li>
+<li class="">自动检查的传输/基础设施失败可对原 revision 幂等重试；确定性内容失败只能修复后新建 revision；<code>code_changes_requested</code> 在同一 MR 修复。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="122-真实桌面与设计-qa">12.2 真实桌面与设计 QA<a href="#122-真实桌面与设计-qa" class="hash-link" aria-label="12.2 真实桌面与设计 QA的直接链接" title="12.2 真实桌面与设计 QA的直接链接" translate="no">​</a></h3>
+<p>使用 <code>wework/AGENTS.md</code> 的隔离 Electron <code>ai:verify</code> 流程至少捕获：</p>
+<ol>
+<li class="">S0 个人详情正常态；</li>
+<li class="">S1 范围选择；</li>
+<li class="">S2 已选择成员/部门；</li>
+<li class="">S4、S5、S6 三步 Drawer；</li>
+<li class="">S7 管理员审核中与 S8 退回/CI/发布状态；</li>
+<li class="">企业版详情与个人/企业互链。</li>
+</ol>
+<p>实现截图必须与总体流程图和对应页面设计稿在相同视口、主题和状态下合并比对。存在 P0/P1/P2 差异时继续修复并复拍；把本功能的证据和结论作为标题明确的独立章节追加到仓库根目录 <code>design-qa.md</code>，不得另建 QA 文件或路径，不得覆盖其他功能已有的 QA 记录，也不得在章节内写独立总结果。整个文件只能在末尾保留一个最终 <code>final result: passed</code> 或 <code>final result: blocked</code>，并且该结果必须综合文件内全部仍有效的阻断项。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wework/developer-guide/feature-wework-plugin-publication-design.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/wework/developer-guide/wework-cloud-git-worktree-parallel-development-plan"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">云端 Git Worktree 目标模式与并行开发计划</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/wework/developer-guide/wework-plugin-marketplace-dev"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">Wework 插件市场开发指南</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#0-文档状态与设计依据" class="table-of-contents__link toc-highlight">0. 文档状态与设计依据</a></li><li><a href="#1-产品目标与冻结决策" class="table-of-contents__link toc-highlight">1. 产品目标与冻结决策</a><ul><li><a href="#11-用户目标" class="table-of-contents__link toc-highlight">1.1 用户目标</a></li><li><a href="#12-冻结决策" class="table-of-contents__link toc-highlight">1.2 冻结决策</a></li></ul></li><li><a href="#2-信息架构与权限" class="table-of-contents__link toc-highlight">2. 信息架构与权限</a><ul><li><a href="#21-详情页保留内容" class="table-of-contents__link toc-highlight">2.1 详情页保留内容</a></li><li><a href="#22-角色与动作矩阵" class="table-of-contents__link toc-highlight">2.2 角色与动作矩阵</a></li></ul></li><li><a href="#3-完整交互顺序" class="table-of-contents__link toc-highlight">3. 完整交互顺序</a></li><li><a href="#4-wework-客户端页面规范" class="table-of-contents__link toc-highlight">4. Wework 客户端页面规范</a><ul><li><a href="#s0-个人插件详情页现有页面局部改造" class="table-of-contents__link toc-highlight">S0. 个人插件详情页（现有页面，局部改造）</a></li><li><a href="#s1-分享范围选择对话框" class="table-of-contents__link toc-highlight">S1. 分享范围选择对话框</a></li><li><a href="#s2-指定成员或部门" class="table-of-contents__link toc-highlight">S2. 指定成员或部门</a></li><li><a href="#s3-定向分享结果" class="table-of-contents__link toc-highlight">S3. 定向分享结果</a></li><li><a href="#s4-企业全员申请-drawer步骤-1确认版本" class="table-of-contents__link toc-highlight">S4. 企业全员申请 Drawer：步骤 1「确认版本」</a></li><li><a href="#s5-企业全员申请-drawer步骤-2权限与风险" class="table-of-contents__link toc-highlight">S5. 企业全员申请 Drawer：步骤 2「权限与风险」</a></li><li><a href="#s6-企业全员申请-drawer步骤-3确认提交" class="table-of-contents__link toc-highlight">S6. 企业全员申请 Drawer：步骤 3「确认提交」</a></li><li><a href="#s7-详情页企业发布进度卡" class="table-of-contents__link toc-highlight">S7. 详情页企业发布进度卡</a></li><li><a href="#s8-申请进度详情-drawer" class="table-of-contents__link toc-highlight">S8. 申请进度详情 Drawer</a></li></ul></li><li><a href="#5-web-管理后台页面规范" class="table-of-contents__link toc-highlight">5. Web 管理后台页面规范</a><ul><li><a href="#s9-插件发布审核队列" class="table-of-contents__link toc-highlight">S9. 插件发布审核队列</a></li><li><a href="#s10-审核详情" class="table-of-contents__link toc-highlight">S10. 审核详情</a></li><li><a href="#s11-退回修改" class="table-of-contents__link toc-highlight">S11. 退回修改</a></li><li><a href="#s12-接受并创建-mr" class="table-of-contents__link toc-highlight">S12. 接受并创建 MR</a></li></ul></li><li><a href="#6-gitlab发布与企业使用页面状态" class="table-of-contents__link toc-highlight">6. GitLab、发布与企业使用页面状态</a><ul><li><a href="#s13-代码审核" class="table-of-contents__link toc-highlight">S13. 代码审核</a></li><li><a href="#s14-发布" class="table-of-contents__link toc-highlight">S14. 发布</a></li><li><a href="#s15-企业市场与个人企业版本关系" class="table-of-contents__link toc-highlight">S15. 企业市场与个人/企业版本关系</a></li><li><a href="#s16-新版本再次申请" class="table-of-contents__link toc-highlight">S16. 新版本再次申请</a></li></ul></li><li><a href="#7-删除撤回与失败边界" class="table-of-contents__link toc-highlight">7. 删除、撤回与失败边界</a></li><li><a href="#8-视觉与响应式规范" class="table-of-contents__link toc-highlight">8. 视觉与响应式规范</a><ul><li><a href="#81-视觉层级" class="table-of-contents__link toc-highlight">8.1 视觉层级</a></li><li><a href="#82-基准尺寸" class="table-of-contents__link toc-highlight">8.2 基准尺寸</a></li><li><a href="#83-响应式" class="table-of-contents__link toc-highlight">8.3 响应式</a></li></ul></li><li><a href="#9-可访问性与文案" class="table-of-contents__link toc-highlight">9. 可访问性与文案</a></li><li><a href="#10-实现安全合同与上线门禁" class="table-of-contents__link toc-highlight">10. 实现安全合同与上线门禁</a><ul><li><a href="#101-身份不可变数据与幂等" class="table-of-contents__link toc-highlight">10.1 身份、不可变数据与幂等</a></li><li><a href="#102-gitlab-受控分支mr-与包检查" class="table-of-contents__link toc-highlight">10.2 GitLab 受控分支、MR 与包检查</a></li><li><a href="#103-发布授权可信证明与状态同步" class="table-of-contents__link toc-highlight">10.3 发布授权、可信证明与状态同步</a></li><li><a href="#104-凭据迁移边界" class="table-of-contents__link toc-highlight">10.4 凭据迁移边界</a></li><li><a href="#105-客户端与响应-dto-合同" class="table-of-contents__link toc-highlight">10.5 客户端与响应 DTO 合同</a></li></ul></li><li><a href="#11-组件与实现映射" class="table-of-contents__link toc-highlight">11. 组件与实现映射</a></li><li><a href="#12-验收场景" class="table-of-contents__link toc-highlight">12. 验收场景</a><ul><li><a href="#121-必须自动化" class="table-of-contents__link toc-highlight">12.1 必须自动化</a></li><li><a href="#122-真实桌面与设计-qa" class="table-of-contents__link toc-highlight">12.2 真实桌面与设计 QA</a></li></ul></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
