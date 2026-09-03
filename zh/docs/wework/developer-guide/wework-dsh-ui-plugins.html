@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework DSH UI 插件 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-ui-plugins"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework DSH UI 插件 | Wegent"><meta data-rh="true" name="description" content="Wework 的桌面 UI 以 Core DSH 为唯一插件运行时。@wegent/dsh-app-wework"><meta data-rh="true" property="og:description" content="Wework 的桌面 UI 以 Core DSH 为唯一插件运行时。@wegent/dsh-app-wework"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-ui-plugins"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-ui-plugins" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-ui-plugins" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-dsh-ui-plugins" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework DSH UI 插件","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-dsh-ui-plugins"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.db0195b0.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.679aa085.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.4595ecd1.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.e20e9a3c.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -40,7 +40,7 @@ Core DSH 中仍有效的现有默认模型应在目录同步后保留；只有�
 才选择目录中的第一个模型。这样可以避免 <code>settings/document-updated</code> 和
 <code>llm/adapters-updated</code> 事件让所有常驻模型目录重载，并保持 Wework 工作台界面稳定。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="扩展点">扩展点<a href="#扩展点" class="hash-link" aria-label="扩展点的直接链接" title="扩展点的直接链接" translate="no">​</a></h2>
-<table><thead><tr><th>Slot</th><th>用途</th><th>必要元数据</th><th>组件 props</th></tr></thead><tbody><tr><td><code>wework.action</code></td><td>可由宿主入口调用的导航动作</td><td><code>id</code>、<code>path</code></td><td>无组件</td></tr><tr><td><code>wework.app</code></td><td>产品切换器与应用 surface</td><td><code>id</code>、<code>label</code>、<code>mode</code></td><td><code>visible</code>、<code>tab</code></td></tr><tr><td><code>wework.route</code></td><td>顶层辅助页面</td><td><code>id</code>、<code>path</code>、<code>telemetryFeature</code></td><td><code>search</code>、<code>onNavigate</code></td></tr><tr><td><code>wework.sidebar.navigation</code></td><td>左侧边栏导航入口</td><td><code>id</code>、<code>path</code>、<code>label</code></td><td>元数据入口通常无组件</td></tr><tr><td><code>wework.settings.page</code></td><td>设置导航与设置内容</td><td><code>id</code>、<code>path</code>、<code>label</code>、<code>category</code></td><td>设置上下文与 <code>onBack</code></td></tr><tr><td><code>wework.workspace.tab</code></td><td>顶部可关闭工作区 Tab</td><td><code>id</code>、<code>label</code></td><td><code>visible</code>、<code>tab</code></td></tr><tr><td><code>wework.workspace.sidebar.tab</code></td><td>右侧工作区面板 Tab 类型</td><td><code>id</code>、<code>label</code></td><td><code>visible</code>、<code>scope</code>、<code>tab</code></td></tr><tr><td><code>wework.shell.before</code></td><td>工作台根节点之前</td><td><code>id</code></td><td>空对象</td></tr><tr><td><code>wework.shell.after</code></td><td>工作台根节点之后</td><td><code>id</code></td><td>空对象</td></tr><tr><td><code>wework.shell.overlay</code></td><td>全局浮层，容器不接收指针事件</td><td><code>id</code></td><td>空对象</td></tr></tbody></table>
+<table><thead><tr><th>Slot</th><th>用途</th><th>必要元数据</th><th>组件 props</th></tr></thead><tbody><tr><td><code>wework.action</code></td><td>可由宿主入口调用的导航动作</td><td><code>id</code>、<code>path</code></td><td>无组件</td></tr><tr><td><code>wework.app</code></td><td>产品切换器与应用 surface</td><td><code>id</code>、<code>label</code>、<code>mode</code></td><td><code>visible</code>、<code>tab</code></td></tr><tr><td><code>wework.task.status</code></td><td>左侧任务行状态</td><td><code>id</code></td><td><code>task</code>、<code>workspace</code>、布局提示</td></tr><tr><td><code>wework.environment.section</code></td><td>环境面板附加区域</td><td><code>id</code></td><td><code>info</code>、<code>onClose</code></td></tr><tr><td><code>wework.board.card.status</code></td><td>看板任务卡状态</td><td><code>id</code></td><td>看板项、任务绑定与布局提示</td></tr><tr><td><code>wework.workspace.menu.section</code></td><td>工作区弹出菜单附加区域</td><td><code>id</code></td><td>通用工作区上下文、关闭回调</td></tr><tr><td><code>wework.project.work.section</code></td><td>项目工作栏附加区域</td><td><code>id</code></td><td>通用项目上下文</td></tr><tr><td><code>wework.project.create.section</code></td><td>项目创建菜单附加区域</td><td><code>id</code></td><td>通用项目创建上下文、关闭回调</td></tr><tr><td><code>wework.route</code></td><td>顶层辅助页面</td><td><code>id</code>、<code>path</code>、<code>telemetryFeature</code></td><td><code>search</code>、<code>onNavigate</code></td></tr><tr><td><code>wework.sidebar.navigation</code></td><td>左侧边栏导航入口</td><td><code>id</code>、<code>path</code>、<code>label</code></td><td>元数据入口通常无组件</td></tr><tr><td><code>wework.settings.page</code></td><td>设置导航与设置内容</td><td><code>id</code>、<code>path</code>、<code>label</code>、<code>category</code></td><td>设置上下文与 <code>onBack</code></td></tr><tr><td><code>wework.workspace.tab</code></td><td>顶部可关闭工作区 Tab</td><td><code>id</code>、<code>label</code></td><td><code>visible</code>、<code>tab</code></td></tr><tr><td><code>wework.workspace.sidebar.tab</code></td><td>右侧工作区面板 Tab 类型</td><td><code>id</code>、<code>label</code></td><td><code>visible</code>、<code>scope</code>、<code>tab</code></td></tr><tr><td><code>wework.shell.before</code></td><td>工作台根节点之前</td><td><code>id</code></td><td>空对象</td></tr><tr><td><code>wework.shell.after</code></td><td>工作台根节点之后</td><td><code>id</code></td><td>空对象</td></tr><tr><td><code>wework.shell.overlay</code></td><td>全局浮层，容器不接收指针事件</td><td><code>id</code></td><td>空对象</td></tr></tbody></table>
 <p><code>wework.app</code> 的 <code>mode</code> 可以是：</p>
 <ul>
 <li class=""><code>native</code>：导航到 <code>path</code>，由 Wework 原生工作区处理。</li>
@@ -50,6 +50,10 @@ Core DSH 中仍有效的现有默认模型应在目录同步后保留；只有�
 <p><code>wework.action</code> 当前是稳定的路径动作描述，不是任意回调通道。插件注册
 <code>{ id, path }</code> 后，宿主内已有入口可以通过 action id 查找并执行导航；不要把函数、
 token 或不可序列化状态写入 descriptor。</p>
+<p>状态和区域 slot 都是可重复贡献的位置接口，不预设 Git、SVN、分支或版本管理语义。插件可以直接把
+React 组件作为 <code>ctx.wework.ui.register</code> 的第四个参数注册；宿主按 contribution
+顺序渲染，并只传递该位置的通用上下文。同一个 slot 可以由多个插件同时扩展；
+宿主不读取插件 id，也不根据贡献推断任何具体实现能力。</p>
 <p>第三方 <code>wework.settings.page</code> 和 <code>wework.route</code> 不应设置 Wework 内部使用的
 <code>module</code> 或 <code>component</code> 字段。直接把 React 组件作为
 <code>ctx.wework.ui.register</code> 的第四个参数传入即可。<code>telemetryFeature</code> 应使用 Wework
@@ -103,11 +107,17 @@ Core DSH。安装流程会先快照 profile，再运行包管理命令、校验
 <li class=""><code>@wegent/dsh-ui-applications</code></li>
 <li class=""><code>@wegent/dsh-ui-automations</code></li>
 <li class=""><code>@wegent/dsh-ui-cloud-work</code></li>
+<li class=""><code>@wegent/dsh-ui-git</code></li>
 </ul>
 <p>这些包与第三方插件使用相同的 slot 协议。内置插件可以在 contribution 描述中
 声明 Wework 私有的 <code>component</code> id，由 Wework React 树渲染已有页面实现，以继承
 Auth、Cloud、Workbench 等宿主 Context。第三方插件不应使用该字段，应把自己的
 React 组件传给 <code>ctx.wework.ui.register</code> 的第四个参数。</p>
+<p><code>@wegent/dsh-ui-git</code> 是上述通用位置接口的一种实现。它向工作区菜单、项目工作栏、
+项目创建菜单、任务状态、环境面板和看板卡片贡献自己的组件，并贡献“代码托管”和
+“工作树”设置页。分支、提交、推送、克隆、PR / MR 与执行参数均由插件组件解释；
+宿主接口不包含 Git 命令名、Git 插件 id、分支能力判断或 source-control section。
+禁用或不安装插件时，这些贡献位置为空，相关入口、轮询和设置页同时消失。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="插件同步与指纹重载">插件同步与指纹重载<a href="#插件同步与指纹重载" class="hash-link" aria-label="插件同步与指纹重载的直接链接" title="插件同步与指纹重载的直接链接" translate="no">​</a></h2>
 <p>Core DSH 的受管插件（<code>weworkCorePlugins</code> 组件，包含上节列出的内置插件以及
 <code>@wegent/dsh-app-wework</code> 等宿主插件）在 prepare profile 时同步到 profile 的
