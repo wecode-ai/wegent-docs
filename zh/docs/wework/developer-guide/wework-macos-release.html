@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.3beeebb8.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.7df4091b.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e20e9a3c.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -152,6 +152,10 @@ renderer 可能仍在请求上一代哈希资源，提前删除会在新产物�
 <p>每次构建只有在 Vite 完成 bundle、关闭构建结果并规范化文件查看器元数据后，才能
 写入 <code>.wework-build-id</code>。Core DSH 使用这个标记作为已发布构建 ID，页面只在标记
 变化后刷新，不能把 <code>index.html</code> 的中间写入状态当成可加载版本。</p>
+<p>自动刷新只在带有 Wework Electron preload 能力的桌面 renderer 中启用。直接在
+系统默认浏览器访问 Core DSH 地址时不得启动热更新轮询。桌面 renderer 发现新的
+已发布构建后，必须先记录该构建 ID，再尝试刷新；如果新页面加载失败并且旧页面仍然
+存活，同一个构建不得重复触发刷新。后续构建发布新的 ID 后仍应正常刷新。</p>
 <p>开发热更新模式下，<code>/wework/app/</code> 下的静态资源必须返回
 <code>Cache-Control: no-store</code>。除哈希资源外，该目录还包含固定文件名的
 <code>plugins/*.js</code>；如果这些文件使用生产环境的长期 immutable 缓存，刷新后会把旧插件
