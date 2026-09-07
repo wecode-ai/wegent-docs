@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework desktop releases | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework desktop releases | Wegent"><meta data-rh="true" name="description" content="The Wework desktop application uses Electron. Formal builds and releases are"><meta data-rh="true" property="og:description" content="The Wework desktop application uses Electron. Formal builds and releases are"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework desktop releases","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.09810d3b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.bea3a859.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.fe3a7d58.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -32,12 +32,15 @@ version. A channel that has not published an Electron release may omit its YAML
 manifest; the client treats that state as no available update rather than a
 network failure. Other update-check failures remain visible.</p>
 <p>Formal macOS and Windows releases must include the <code>.blockmap</code> matching each ZIP
-and NSIS installer. <code>electron-updater</code> compares the previous cached package with
-the old and new blockmaps and downloads only changed blocks. It falls back to
-the full installer only for a first update, a cleared cache, or a differential
-download failure. The release workflow must fail when any required blockmap is
-missing. Differential plans, transferred sizes, and fallback reasons are
-written to <code>app-update.log</code> in the application log directory.</p>
+and NSIS installer. On macOS, Wework atomically stores every successful full or
+differential download as a verified baseline containing the ZIP, blockmap,
+version, architecture, URL, and SHA-512. Later updates use only this local
+baseline and never guess the previous blockmap URL from the new artifact name.
+A first update or an incomplete or invalid baseline downloads the full package
+and establishes a new baseline. A failed differential verification performs
+only one full-download recovery. The release workflow must fail when any
+required blockmap is missing. Differential plans, cumulative transferred bytes,
+and fallback reasons are written to <code>app-update.log</code>.</p>
 <p>The same release also emits signed manifests and artifacts for the legacy Tauri
 updater so installed Tauri builds can migrate through the existing Update UI:</p>
 <ul>
@@ -78,10 +81,14 @@ component&#x27;s version, resource path, and content SHA-256. The Electron
 application itself continues to update through <code>electron-updater</code>; the other
 seven components use independent
 <code>components-&lt;channel&gt;-&lt;platform&gt;-&lt;arch&gt;.json</code> manifests.</p>
-<p>The content SHA-256 values in a published component manifest must be computed
-from the final application resources after Electron Builder finishes signing.
-macOS code signing can rewrite nested executables, so publication must not
-reuse the pre-package content hashes from <code>components.json</code>.</p>
+<p>For macOS, publication locates immutable signed components by their unsigned
+content, certificate identity, architecture, signing policy, and build-tool
+version. When those inputs are unchanged, the installer and online component
+reuse exactly the same signed bytes. A changed input is signed and verified
+again. Electron Builder skips those already processed managed resources so a
+new signing timestamp alone cannot change their component hashes. Published
+content SHA-256 values are computed from these final resources rather than
+extracting components from a newly re-signed installer.</p>
 <p>The Codex component boundary is the complete <code>codex/</code> runtime directory, not
 the standalone <code>codex</code> executable. The component must contain
 <code>WEGENT_CODEX_BINARY.json</code>, the target architecture&#x27;s <code>codex</code> and
@@ -179,6 +186,15 @@ startup. Wework confirms the new set only after the workbench and Core DSH
 start successfully. A failed startup, or a process exit before confirmation,
 rolls back to the previous set on the next launch. Packaged resources remain
 the final fallback.</p>
+<p>The main process owns one application-update task. Automatic downloads, manual
+downloads, and repeated checks for the same version and channel share that
+task, and a check cannot clear an active download. Missing components download
+with at most three workers; Wework writes the <code>pending</code> set only after every
+archive passes size, archive-hash, and extracted-content verification. Progress
+covers component downloads, host download, verification, and installation
+readiness, and includes bytes transferred before a failed differential attempt.
+The local Squirrel.Mac handoff of the cached ZIP is not counted as network
+traffic.</p>
 <p>Wework no longer packages or downloads a second Node runtime. At startup it
 creates a lightweight <code>node</code> entry under the user data directory, prepends it
 to <code>PATH</code>, points <code>WEWORK_NODE_PATH</code>, <code>NODE</code>, and <code>npm_node_execpath</code> at
