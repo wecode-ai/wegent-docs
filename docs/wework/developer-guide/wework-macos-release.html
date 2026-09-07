@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework desktop releases | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework desktop releases | Wegent"><meta data-rh="true" name="description" content="The Wework desktop application uses Electron. Formal builds and releases are"><meta data-rh="true" property="og:description" content="The Wework desktop application uses Electron. Formal builds and releases are"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework desktop releases","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.fc0dd1bc.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.f3a75411.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.fe3a7d58.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -82,6 +82,14 @@ seven components use independent
 from the final application resources after Electron Builder finishes signing.
 macOS code signing can rewrite nested executables, so publication must not
 reuse the pre-package content hashes from <code>components.json</code>.</p>
+<p>The Codex component boundary is the complete <code>codex/</code> runtime directory, not
+the standalone <code>codex</code> executable. The component must contain
+<code>WEGENT_CODEX_BINARY.json</code>, the target architecture&#x27;s <code>codex</code> and
+<code>codex-code-mode-host</code> binaries, the <code>codex-path</code> tools, and legal resources.
+The client resolves the main executable from the runtime descriptor&#x27;s
+<code>binaryPath</code> and verifies the sibling code-mode host before activation.
+Release scripts must not point the Codex entry in <code>components.json</code> at the main
+executable or archive that executable alone.</p>
 <p>Component archives are named by their archive SHA-256 and stored as immutable
 assets. Repository-built Wework core plugin/UI, application static asset,
 bundled plugin, and Executor archives live in their corresponding version
@@ -200,7 +208,7 @@ with SHA-512. Prepared desktop resources live under <code>wework/resources/</cod
 <code>wework/electron/scripts/prepare-package-assets.mjs</code> copies sidecars, plugins,
 icons, and runtime descriptors into the application resources. Do not maintain
 a second desktop resource tree or manifest.</p>
-<p>The current pin is Codex <code>0.152.1</code>. Codex <code>0.152</code> disables
+<p>The current pin is Codex <code>0.153.3</code>. Codex <code>0.152</code> disables
 <code>tools.update_plan.enabled</code> by default, while Wework consumes the corresponding
 plan events to render plan blocks, so the Executor must enable the tool
 explicitly when launching Codex. Desktop E2E verifies the lockfile binary by
