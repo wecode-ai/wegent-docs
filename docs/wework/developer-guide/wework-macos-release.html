@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework desktop releases | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework desktop releases | Wegent"><meta data-rh="true" name="description" content="The Wework desktop application uses Electron. Formal builds and releases are"><meta data-rh="true" property="og:description" content="The Wework desktop application uses Electron. Formal builds and releases are"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework desktop releases","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.23fd5c91.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.bacb5480.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.8570795f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -89,6 +89,12 @@ again. Electron Builder skips those already processed managed resources so a
 new signing timestamp alone cannot change their component hashes. Published
 content SHA-256 values are computed from these final resources rather than
 extracting components from a newly re-signed installer.</p>
+<p>Re-signing an existing Mach-O file must preserve the entitlements from its
+previous signature. Codex and <code>codex-code-mode-host</code> require <code>allow-jit</code> and
+<code>allow-unsigned-executable-memory</code> to run V8; <code>codesign --verify</code> alone does
+not detect removed entitlements. Any signing-argument change must increment
+the signing-policy version so cached components signed under the previous
+policy are invalidated.</p>
 <p>The Codex component boundary is the complete <code>codex/</code> runtime directory, not
 the standalone <code>codex</code> executable. The component must contain
 <code>WEGENT_CODEX_BINARY.json</code>, the target architecture&#x27;s <code>codex</code> and
