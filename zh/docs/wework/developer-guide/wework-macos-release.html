@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.2bd53e86.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.68728a9c.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.806d88dd.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -15,11 +15,15 @@
 <p>Wework 桌面应用使用 Electron。正式构建和发布由
 <code>.github/workflows/wework-app.yml</code> 负责；该工作流同时生成 macOS、Windows 和
 Linux 的 Electron 安装包。</p>
-<p>macOS x64 发布使用 <code>macos-15-intel</code> runner，arm64 发布使用 <code>macos-14</code>。
-安装依赖前，工作流校验 Node.js 架构与目标架构一致；Harness Runtime 的原生
-依赖按运行中的 Node.js 架构准备，仅指定 Electron Builder 的目标架构不足以
-交叉构建完整运行环境。架构不匹配时应修正 runner 并重新构建，不能复用错误架构
-的产物或仅重跑发布步骤。</p>
+<p>macOS arm64 和 x64 发布都使用 Apple Silicon <code>macos-14</code> runner。x64 构建先
+校验 Rosetta 2，再通过 <code>actions/setup-node</code> 安装 x64 Node.js；安装依赖前，
+工作流校验运行中的 Node.js 架构与目标架构一致。Harness Runtime 的原生依赖按
+运行中的 Node.js 架构准备，仅指定 Electron Builder 的目标架构不足以交叉构建
+完整运行环境。架构不匹配时应修正 Node.js 架构并重新构建，不能复用错误架构的
+产物或仅重跑发布步骤。</p>
+<p>正式 macOS arm64 包验证失败时，工作流会清理体积较大的临时运行时目录，并上传
+保留七天的桌面 E2E 诊断产物。必须先用这些日志定位根因，不能通过重跑或放宽
+E2E 断言隐藏失败。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="版本与产物">版本与产物<a href="#版本与产物" class="hash-link" aria-label="版本与产物的直接链接" title="版本与产物的直接链接" translate="no">​</a></h2>
 <p>发布版本同时写入 <code>wework/package.json</code> 和 <code>wework/electron/package.json</code>。正式
 发布时，工作流会提交这两个版本文件，再从该提交构建所有平台，确保关于页、
