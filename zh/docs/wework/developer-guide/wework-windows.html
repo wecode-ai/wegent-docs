@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Windows 开发与构建 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Windows 开发与构建 | Wegent"><meta data-rh="true" name="description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><meta data-rh="true" property="og:description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Windows 开发与构建","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.80f287bb.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.ea0ce4a0.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.426934ef.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -40,12 +40,8 @@ Vite watch 构建，再通过 <code>WEWORK_APP_WEB_ROOT</code>/<code>WEWORK_APP_
 <code>wework/electron/release-installer/WeWork_&lt;version&gt;_windows_x64-setup.exe</code>。图标、
 插件、运行时描述和 sidecar 统一来自 <code>wework/resources/</code>，由
 <code>wework/electron/scripts/prepare-package-assets.mjs</code> 复制到应用资源目录。</p>
-<p>该安装器同时承担旧 Tauri 版本到 Electron 的迁移：它兼容 Tauri updater 传入的
-<code>/P</code> 参数，读取旧版 <code>Software\you\WeWork</code> 注册表项，并沿用
-<code>%LOCALAPPDATA%\WeWork</code> 安装目录。旧版点击“升级”后会先安装 Electron，再按同一
-<code>WeWork.exe</code> 路径重启，因此不会产生第二套安装目录，且不会删除用户数据。
-Electron 启动的 Executor 继续直接使用用户目录下原有的 <code>.wework</code>，不执行目录
-复制或数据迁移。</p>
+<p>安装器使用 Electron Builder 的标准 NSIS 安装流程，不再处理旧 updater 的 <code>/P</code>
+参数或旧安装注册表迁移。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="验证">验证<a href="#验证" class="hash-link" aria-label="验证的直接链接" title="验证的直接链接" translate="no">​</a></h2>
 <div class="language-powershell codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-powershell codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --filter wework typecheck</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron typecheck</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron test</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron build:release</span><br></span></code></pre></div></div>
 <p>桌面 E2E 使用的原生测试应用可通过统一入口构建：</p>
@@ -59,7 +55,7 @@ Windows Desktop Core E2E 复用 Linux 的同一份 Core 分片矩阵。完整回
 17 个 Core 分片；路径分类只选中部分 checkpoint 时，两个平台仍运行完全相同的已选
 分片。Windows 路径、盘符、UNC 路径、命名管道和 <code>.exe</code> sidecar 行为必须由这个
 Windows job 验证，其他平台的通过结果不能替代它。</p>
-<p>正式安装器、代码签名、Electron YAML 更新清单和旧 Tauri JSON/签名桥接清单由
+<p>正式安装器、代码签名和 Electron YAML 更新清单由
 <code>.github/workflows/wework-app.yml</code> 在 <code>windows-latest</code> 上生成。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="常见问题">常见问题<a href="#常见问题" class="hash-link" aria-label="常见问题的直接链接" title="常见问题的直接链接" translate="no">​</a></h2>
 <ul>
