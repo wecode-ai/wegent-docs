@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">调试实例标识 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="调试实例标识 | Wegent"><meta data-rh="true" name="description" content="Wework 支持从一个正在运行的 Wework 内置 Terminal 中启动另一个调试版 Wework。为了在多个 worktree、多个 dev app 同时打开时分清窗口来源，Wework 会把父窗口上下文传给 Terminal，再由 wework/scripts/dev-mac-app.sh 传给新启动的调试实例。"><meta data-rh="true" property="og:description" content="Wework 支持从一个正在运行的 Wework 内置 Terminal 中启动另一个调试版 Wework。为了在多个 worktree、多个 dev app 同时打开时分清窗口来源，Wework 会把父窗口上下文传给 Terminal，再由 wework/scripts/dev-mac-app.sh 传给新启动的调试实例。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-debug-instance-context" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"调试实例标识","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-debug-instance-context"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.1d277de2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.1e9f120d.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.806d88dd.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -53,9 +53,13 @@ shell 直接使用注入的标题；从已有 runtime worktree 启动的终端�
 菜单栏 item。正式版 UUID 已被回归测试锁定；调试实例则通过不同的
 <code>WEWORK_APP_IDENTIFIER</code> 与正式版和其他 worktree 隔离。不要修改 UUID
 namespace 或改用随机 GUID，否则会再次重置用户的菜单栏显示规则。</p>
-<p>Electron 在 macOS 上创建 <code>NSStatusItem</code> 后才写入 <code>autosaveName</code>。托盘必须先用
-空图片完成构造，再设置真实图标，避免 iBar 在这段窗口期把正式版识别成临时的
-<code>Item-0</code> 并套用错误的隐藏规则。不要把真实图片重新放回 <code>Tray</code> 构造函数。</p>
+<p>托盘的生命周期必须持续到进程退出。不要在退出清理中调用 <code>Tray.destroy()</code>，
+也不要释放持有托盘的管理器：底层 <code>NSStatusBar.removeStatusItem</code> 会删除
+<code>NSStatusItem Preferred Position &lt;GUID&gt;</code>，导致重启后图标回到菜单栏最左侧，
+落入 iBar 的隐藏区域，即使 GUID 和“始终显示”规则都未改变。
+空图片不会使原生状态栏项不可见，也不能保护已保存的位置，因此直接使用真实图标创建托盘。
+macOS <code>tray-lifecycle</code> 回归会在独立应用域中设置位置，验证退出后该值仍存在，
+并验证重启后的 GUID 和位置；只检查 GUID 不足以覆盖这一问题。</p>
 <p>脚本也会把这些值导出为 <code>VITE_WEWORK_*</code>，供前端在运行时显示。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="前端显示">前端显示<a href="#前端显示" class="hash-link" aria-label="前端显示的直接链接" title="前端显示的直接链接" translate="no">​</a></h2>
 <p>调试实例会在右下角显示 <code>Debug Wework</code> 浮标。浮标展示短标题；hover 或聚焦后展开完整信息面板，每一项都可以单独复制。</p>
