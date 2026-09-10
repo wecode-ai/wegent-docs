@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Transcript and Preference Cloud Sync | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Transcript and Preference Cloud Sync | Wegent"><meta data-rh="true" name="description" content="The Wework Core DSH plugin @wegent/dsh-transcript-sync synchronizes native"><meta data-rh="true" property="og:description" content="The Wework Core DSH plugin @wegent/dsh-transcript-sync synchronizes native"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Transcript and Preference Cloud Sync","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.45e81a02.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.f0f5c3f2.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.35959dc5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -19,13 +19,15 @@ user/assistant text or reconstructs history through <code>thread/inject_items</c
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="storage-boundary">Storage boundary<a href="#storage-boundary" class="hash-link" aria-label="Direct link to Storage boundary" title="Direct link to Storage boundary" translate="no">​</a></h2>
 <p>The Backend uses three tables:</p>
 <table><thead><tr><th>Table</th><th>Purpose</th></tr></thead><tbody><tr><td><code>wework_transcripts</code></td><td>Transcript identity, branch relation, sequence, state, and writer lease</td></tr><tr><td><code>wework_transcript_archives</code></td><td>Immutable native segment sequence, object key, SHA-256, size, and format</td></tr><tr><td><code>wework_transcript_turns</code></td><td>One structured finalized-turn summary using the previous data contract</td></tr></tbody></table>
-<p>The Executor encrypts bodies with AES-256-GCM before uploading them directly to
-the private <code>wework-transcripts</code> object bucket. The
-<code>wework_transcript_turns.payload</code> JSON retains the previous protocol&#x27;s user
-messages, final assistant text, reasoning summary, completion state, and task
-ID, but not the complete tool protocol, usage, rollout JSONL, or workspace
-files. Each turn has its own row instead of appending an entire transcript into
-one field; segmented tgz objects carry full-fidelity capacity and exact restore.</p>
+<p>The Executor encrypts bodies with AES-256-GCM before uploading them through the
+authenticated Backend API. The Backend writes ciphertext to the private
+<code>wework-transcripts</code> object bucket; desktop clients never receive object-store
+endpoints, credentials, or presigned URLs. The <code>wework_transcript_turns.payload</code>
+JSON retains the previous protocol&#x27;s user messages, final assistant text,
+reasoning summary, completion state, and task ID, but not the complete tool
+protocol, usage, rollout JSONL, or workspace files. Each turn has its own row
+instead of appending an entire transcript into one field; segmented tgz objects
+carry full-fidelity capacity and exact restore.</p>
 <p>The archive index, turn summary, and transcript head for one sequence commit in
 one MySQL transaction. A retry is idempotent only when both object metadata and
 summary match exactly. A missing or conflicting side is rejected instead of
@@ -42,8 +44,11 @@ produce identical ciphertext for SHA-256 reconciliation without reusing a
 nonce for different plaintext.</p>
 <p>Each cloud sequence maps to exactly one object:</p>
 <ul>
-<li class="">Sequence 1, every tenth sequence, and sequence 1 of a conflict branch are
-full encrypted <code>codex-snapshot.v1.tgz.aes256gcm</code> snapshots.</li>
+<li class="">Sequence 1, every tenth sequence, sequence 1 of a conflict branch, and the
+first continuation after a cross-device restore are full encrypted
+<code>codex-snapshot.v1.tgz.aes256gcm</code> snapshots. Restore rewrites the local thread
+ID and workspace path, so a new snapshot establishes a portable byte
+baseline.</li>
 <li class="">Other sequences are encrypted <code>codex-delta.v1.tgz.aes256gcm</code>
 increments.</li>
 <li class="">Every segment also carries a workspace overlay so recent files are not lost.</li>
@@ -102,12 +107,12 @@ rollout, and workspace output.</li>
 </ol>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="api">API<a href="#api" class="hash-link" aria-label="Direct link to API" title="Direct link to API" translate="no">​</a></h2>
 <p>The authenticated prefix is <code>/api/wework-transcripts</code>:</p>
-<table><thead><tr><th>Method and path</th><th>Purpose</th></tr></thead><tbody><tr><td><code>GET /</code></td><td>List transcripts and native segment metadata</td></tr><tr><td><code>GET /{id}</code></td><td>Read one transcript</td></tr><tr><td><code>GET /{id}/turns</code></td><td>Page through structured finalized-turn summaries</td></tr><tr><td><code>GET /{id}/encryption-key</code></td><td>Obtain the current user&#x27;s transcript cipher key</td></tr><tr><td><code>POST /{id}/lease</code></td><td>Create a transcript or acquire its writer lease</td></tr><tr><td><code>PUT /{id}/lease/{token}</code></td><td>Renew a lease</td></tr><tr><td><code>POST /{id}/lease/release</code></td><td>Release a lease</td></tr><tr><td><code>POST /{id}/segments/prepare</code></td><td>Validate sequence and create a size-bounded POST</td></tr><tr><td><code>POST /{id}/segments</code></td><td>Atomically commit object index, summary, and head</td></tr><tr><td><code>POST /{id}/archive</code></td><td>Mark a transcript archived</td></tr><tr><td><code>GET /{id}/archives/{archiveId}/download</code></td><td>Create a short-lived signed download URL</td></tr></tbody></table>
+<table><thead><tr><th>Method and path</th><th>Purpose</th></tr></thead><tbody><tr><td><code>GET /</code></td><td>List transcripts and native segment metadata</td></tr><tr><td><code>GET /{id}</code></td><td>Read one transcript</td></tr><tr><td><code>GET /{id}/turns</code></td><td>Page through structured finalized-turn summaries</td></tr><tr><td><code>GET /{id}/encryption-key</code></td><td>Obtain the current user&#x27;s transcript cipher key</td></tr><tr><td><code>POST /{id}/lease</code></td><td>Create a transcript or acquire its writer lease</td></tr><tr><td><code>PUT /{id}/lease/{token}</code></td><td>Renew a lease</td></tr><tr><td><code>POST /{id}/lease/release</code></td><td>Release a lease</td></tr><tr><td><code>POST /{id}/segments</code></td><td>Receive ciphertext and commit index, summary, head</td></tr><tr><td><code>POST /{id}/archive</code></td><td>Mark a transcript archived</td></tr><tr><td><code>GET /{id}/archives/{archiveId}/download</code></td><td>Stream ciphertext through the Backend</td></tr></tbody></table>
 <p>Object keys contain a SHA-256 digest of the transcript ID rather than the raw
 identifier.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="deployment-configuration">Deployment configuration<a href="#deployment-configuration" class="hash-link" aria-label="Direct link to Deployment configuration" title="Direct link to Deployment configuration" translate="no">​</a></h2>
 <p>Object storage reuses the <code>ATTACHMENT_S3_*</code> connection settings:</p>
-<table><thead><tr><th>Environment variable</th><th>Default</th><th>Purpose</th></tr></thead><tbody><tr><td><code>WEWORK_TRANSCRIPT_S3_BUCKET</code></td><td><code>wework-transcripts</code></td><td>Private native transcript segment bucket</td></tr><tr><td><code>WEWORK_TRANSCRIPT_DOWNLOAD_URL_EXPIRE_SECONDS</code></td><td><code>900</code></td><td>Upload/download signed URL lifetime</td></tr><tr><td><code>WEWORK_TRANSCRIPT_ENCRYPTION_SECRET</code></td><td>empty</td><td>Stable high-entropy root for per-user keys</td></tr></tbody></table>
+<table><thead><tr><th>Environment variable</th><th>Default</th><th>Purpose</th></tr></thead><tbody><tr><td><code>WEWORK_TRANSCRIPT_S3_BUCKET</code></td><td><code>wework-transcripts</code></td><td>Private native transcript segment bucket</td></tr><tr><td><code>WEWORK_TRANSCRIPT_ENCRYPTION_SECRET</code></td><td>empty</td><td>Stable high-entropy root for per-user keys</td></tr></tbody></table>
 <p>This design reuses the existing three transcript tables. It adds no Alembic
 migration and requires no schema change for existing deployments. If object
 storage is unavailable, segment metadata is not committed and the outbox keeps

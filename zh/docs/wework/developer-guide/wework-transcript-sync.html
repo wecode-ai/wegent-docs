@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 会话与配置云同步 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 会话与配置云同步 | Wegent"><meta data-rh="true" name="description" content="Wework 的 Core DSH 插件 @wegent/dsh-transcript-sync 同步原生 Codex"><meta data-rh="true" property="og:description" content="Wework 的 Core DSH 插件 @wegent/dsh-transcript-sync 同步原生 Codex"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 会话与配置云同步","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.011f9111.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.034a5054.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.806d88dd.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -18,11 +18,12 @@ rollout、任务工作区、旧版本同结构的回合摘要和可移植偏好�
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="存储边界">存储边界<a href="#存储边界" class="hash-link" aria-label="存储边界的直接链接" title="存储边界的直接链接" translate="no">​</a></h2>
 <p>Backend 使用三张表：</p>
 <table><thead><tr><th>表</th><th>用途</th></tr></thead><tbody><tr><td><code>wework_transcripts</code></td><td>transcript 身份、分支关系、全局 sequence、状态和单写租约</td></tr><tr><td><code>wework_transcript_archives</code></td><td>不可变原生 segment 的 sequence、对象 key、SHA-256、大小和格式</td></tr><tr><td><code>wework_transcript_turns</code></td><td>每个已完成回合的结构化摘要，沿用旧版本的数据契约</td></tr></tbody></table>
-<p>正文先在 Executor 中使用 AES-256-GCM 加密，再直接上传到私有
-<code>wework-transcripts</code> 对象存储。MySQL 的 <code>wework_transcript_turns.payload</code> 会按回合
-保存原有协议中的用户消息、助手最终文本、reasoning 摘要、完成状态和任务 ID，但不保存
-完整工具协议、usage、rollout JSONL 或工作区文件。摘要是一回合一行 JSON，不会把整个
-transcript 持续追加进单个字段；完整数据容量和精确恢复均由分段 tgz 对象承担。</p>
+<p>正文先在 Executor 中使用 AES-256-GCM 加密，再通过已认证的 Backend API 上传。Backend
+负责把密文写入私有 <code>wework-transcripts</code> 对象存储；桌面客户端不会获得对象存储地址、
+凭据或预签名 URL。MySQL 的 <code>wework_transcript_turns.payload</code> 会按回合保存原有协议中的
+用户消息、助手最终文本、reasoning 摘要、完成状态和任务 ID，但不保存完整工具协议、
+usage、rollout JSONL 或工作区文件。摘要是一回合一行 JSON，不会把整个 transcript 持续
+追加进单个字段；完整数据容量和精确恢复均由分段 tgz 对象承担。</p>
 <p>同一 sequence 的 archive 索引、turn 摘要和 transcript head 在一个 MySQL 事务中提交。
 仅当对象元数据与摘要都完全一致时，重复提交才视为幂等；任一侧缺失或不一致都会报冲突，
 不会形成“数据库显示已同步但摘要或 tgz 缺一份”的半状态。</p>
@@ -34,8 +35,9 @@ sequence 和格式。相同内容重试会得到相同密文，仍可通过 SHA-
 复用 nonce。</p>
 <p>每个云端 sequence 恰好对应一个对象：</p>
 <ul>
-<li class="">第 1 个 sequence、每第 10 个 sequence 和冲突分支的第 1 个 sequence 是完整加密快照
-<code>codex-snapshot.v1.tgz.aes256gcm</code>。</li>
+<li class="">第 1 个 sequence、每第 10 个 sequence、冲突分支的第 1 个 sequence，以及跨设备恢复
+后首次继续对话的 sequence，是完整加密快照 <code>codex-snapshot.v1.tgz.aes256gcm</code>。恢复
+会重写本机 thread ID 和工作区路径，因此必须用新快照建立新的可移植字节基线。</li>
 <li class="">其他 sequence 是加密增量 <code>codex-delta.v1.tgz.aes256gcm</code>。</li>
 <li class="">每个 segment 同时携带工作区覆盖层，避免只恢复会话却丢失最近文件。</li>
 <li class="">工作区打包会排除 <code>.git</code>、<code>node_modules</code>、构建产物和常见缓存目录，避免重复上传
@@ -78,11 +80,11 @@ GitHub CI 的执行前提。</p>
 </ol>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="api">API<a href="#api" class="hash-link" aria-label="API的直接链接" title="API的直接链接" translate="no">​</a></h2>
 <p>认证前缀为 <code>/api/wework-transcripts</code>：</p>
-<table><thead><tr><th>方法与路径</th><th>用途</th></tr></thead><tbody><tr><td><code>GET /</code></td><td>列出 transcript 和原生 segment 元数据</td></tr><tr><td><code>GET /{id}</code></td><td>读取一个 transcript</td></tr><tr><td><code>GET /{id}/turns</code></td><td>分页读取结构化回合摘要</td></tr><tr><td><code>GET /{id}/encryption-key</code></td><td>获取当前用户的 transcript 加解密密钥</td></tr><tr><td><code>POST /{id}/lease</code></td><td>创建 transcript 或获取写租约</td></tr><tr><td><code>PUT /{id}/lease/{token}</code></td><td>续租</td></tr><tr><td><code>POST /{id}/lease/release</code></td><td>释放租约</td></tr><tr><td><code>POST /{id}/segments/prepare</code></td><td>校验 sequence 并生成限长预签名 POST</td></tr><tr><td><code>POST /{id}/segments</code></td><td>同事务提交对象索引、回合摘要和 head</td></tr><tr><td><code>POST /{id}/archive</code></td><td>标记 transcript 为 archived</td></tr><tr><td><code>GET /{id}/archives/{archiveId}/download</code></td><td>生成短期签名下载地址</td></tr></tbody></table>
+<table><thead><tr><th>方法与路径</th><th>用途</th></tr></thead><tbody><tr><td><code>GET /</code></td><td>列出 transcript 和原生 segment 元数据</td></tr><tr><td><code>GET /{id}</code></td><td>读取一个 transcript</td></tr><tr><td><code>GET /{id}/turns</code></td><td>分页读取结构化回合摘要</td></tr><tr><td><code>GET /{id}/encryption-key</code></td><td>获取当前用户的 transcript 加解密密钥</td></tr><tr><td><code>POST /{id}/lease</code></td><td>创建 transcript 或获取写租约</td></tr><tr><td><code>PUT /{id}/lease/{token}</code></td><td>续租</td></tr><tr><td><code>POST /{id}/lease/release</code></td><td>释放租约</td></tr><tr><td><code>POST /{id}/segments</code></td><td>接收密文并提交对象索引、回合摘要和 head</td></tr><tr><td><code>POST /{id}/archive</code></td><td>标记 transcript 为 archived</td></tr><tr><td><code>GET /{id}/archives/{archiveId}/download</code></td><td>通过 Backend 流式下载密文</td></tr></tbody></table>
 <p>对象 key 使用 transcript ID 的 SHA-256 摘要，不暴露原始 transcript 标识。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="部署配置">部署配置<a href="#部署配置" class="hash-link" aria-label="部署配置的直接链接" title="部署配置的直接链接" translate="no">​</a></h2>
 <p>对象存储复用 <code>ATTACHMENT_S3_*</code> 连接配置：</p>
-<table><thead><tr><th>环境变量</th><th>默认值</th><th>说明</th></tr></thead><tbody><tr><td><code>WEWORK_TRANSCRIPT_S3_BUCKET</code></td><td><code>wework-transcripts</code></td><td>私有原生会话 segment bucket</td></tr><tr><td><code>WEWORK_TRANSCRIPT_DOWNLOAD_URL_EXPIRE_SECONDS</code></td><td><code>900</code></td><td>上传/下载签名地址有效期</td></tr><tr><td><code>WEWORK_TRANSCRIPT_ENCRYPTION_SECRET</code></td><td>空</td><td>派生每用户密钥的稳定高熵根密钥</td></tr></tbody></table>
+<table><thead><tr><th>环境变量</th><th>默认值</th><th>说明</th></tr></thead><tbody><tr><td><code>WEWORK_TRANSCRIPT_S3_BUCKET</code></td><td><code>wework-transcripts</code></td><td>私有原生会话 segment bucket</td></tr><tr><td><code>WEWORK_TRANSCRIPT_ENCRYPTION_SECRET</code></td><td>空</td><td>派生每用户密钥的稳定高熵根密钥</td></tr></tbody></table>
 <p>本方案直接复用已有的三张 transcript 表，不新增 Alembic migration，也不要求已有部署
 调整数据库结构。对象存储不可用时，segment 不会提交到 MySQL，outbox 继续保留定位
 信息，本地任务仍可离线执行。</p>
