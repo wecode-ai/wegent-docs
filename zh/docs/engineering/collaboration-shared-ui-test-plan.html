@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-engineering/collaboration-shared-ui-test-plan" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">协作共享 UI 双端 E2E 与验收计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作共享 UI 双端 E2E 与验收计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-10"><meta data-rh="true" property="og:description" content="审计日期：2026-09-10"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/zh/assets/js/runtime~main.99c7575d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.a9274e12.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/zh/img/wegent.png"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/zh/"><div class="navbar__logo"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a class="navbar__item navbar__link" href="/wegent-docs/zh/docs/wegent">Wegent</a><a class="navbar__item navbar__link" href="/wegent-docs/zh/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="搜索" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><main class="docMainContainer_TBSr docMainContainerEnhanced_lQrH"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>协作共享 UI 双端 E2E 与验收计划</h1></header>
+<p>审计日期：2026-09-10</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="目标">目标<a href="#目标" class="hash-link" aria-label="目标的直接链接" title="目标的直接链接" translate="no">​</a></h2>
+<p>本计划用于证明以下结论，而不只是证明两个宿主“看起来都能用”：</p>
+<ol>
+<li class="">Wegent Web 与 Wework 挂载的是 <code>@wegent/collaboration</code> 导出的同一个协作 UI 根组件。</li>
+<li class="">两端对云端项目空间提供相同的页面结构、交互流程、状态语义和后端能力。</li>
+<li class="">宿主差异只通过显式的 host adapter 或 capability 注入；云端业务逻辑、状态管理和视图不得在宿主目录中重复实现。</li>
+<li class="">Wework 的本地项目、终端、原生文件选择等桌面能力可以作为适配能力存在，但不能改变或替代共享云端主流程。</li>
+<li class="">“我的任务”和默认看板必须保留，并在两端使用同一共享实现。</li>
+</ol>
+<p>本文只规划新增测试与验收门禁。现有 E2E 不修改、不弱化，也不以新用例替代历史回归。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="当前状态审计">当前状态审计<a href="#当前状态审计" class="hash-link" aria-label="当前状态审计的直接链接" title="当前状态审计的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="挂载结构">挂载结构<a href="#挂载结构" class="hash-link" aria-label="挂载结构的直接链接" title="挂载结构的直接链接" translate="no">​</a></h3>
+<p>当前代码不能证明共享 UI：</p>
+<ul>
+<li class="">Web 的 <code>frontend/src/features/collaboration/CollaborationPage.tsx</code> 直接挂载
+<code>@wegent/collaboration</code> 的 <code>CollaborationApp</code>。</li>
+<li class="">Wework 的 <code>wework/src/features/todo/CollaborationWorkspace.tsx</code> 挂载本地
+<code>CloudTodoWorkspace</code>。</li>
+<li class="">因此当前是两个不同的 UI 根组件。即使二者访问同一后端，也不满足“同一共享 UI”。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="web-playwright">Web Playwright<a href="#web-playwright" class="hash-link" aria-label="Web Playwright的直接链接" title="Web Playwright的直接链接" translate="no">​</a></h3>
+<p>当前 <code>frontend/e2e/tests/collaboration/collaboration.spec.ts</code> 有两个串行场景：</p>
+<ul>
+<li class="">从任务侧栏进入协作，并验证 <code>/inbox</code> 旧路由跳转到 <code>/collaboration</code>。</li>
+<li class="">使用真实后端创建项目、创建 Issue、更新标题、添加评论、按钮式移动状态、刷新后验证持久化。</li>
+</ul>
+<p>当前缺口：</p>
+<ul>
+<li class="">没有“我的任务”和默认看板。</li>
+<li class="">没有项目首页的完整状态。</li>
+<li class="">没有真实拖拽。</li>
+<li class="">没有 Issue 删除或归档、附件、负责人、截止日期、标签等完整 CRUD。</li>
+<li class="">没有成员、文件、自动化、设置的端到端操作。</li>
+<li class="">没有角色权限、并发版本冲突和跨端更新。</li>
+<li class="">没有深链、浏览器前进后退、非法路由和刷新恢复矩阵。</li>
+<li class="">没有证明 Web 与 Wework 挂载同一组件的结构断言。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework-desktop-checkpoints">Wework desktop checkpoints<a href="#wework-desktop-checkpoints" class="hash-link" aria-label="Wework desktop checkpoints的直接链接" title="Wework desktop checkpoints的直接链接" translate="no">​</a></h3>
+<p>现有 Wework 场景覆盖较广，但主要绑定 <code>cloud-*</code>、<code>cloud-todo-*</code> 和其他桌面专属
+<code>data-testid</code>：</p>
+<table><thead><tr><th>现有 checkpoint / 流程</th><th>已有证据</th><th>不能证明的内容</th></tr></thead><tbody><tr><td><code>workspace-tabs</code></td><td>固定项目空间 tab、默认关联项目、“我的任务”上下文、避免重复 tab</td><td>Web 路由；共享组件挂载</td></tr><tr><td><code>task-status-sync</code> 中的 My Work 流程</td><td>完成任务进入“我的任务”，陈旧运行态不会复活任务</td><td>Web 的我的任务；完整视图与筛选对等</td></tr><tr><td><code>offline-local-project-space</code></td><td>本地项目创建、空看板引导、Issue 创建/更新/拖拽，并能进入文件、成员和自动化入口</td><td>云端双端对等；文件/成员/自动化的 CRUD</td></tr><tr><td><code>board-focus-view</code></td><td>看板运行态、分组、专注视图、列宽和状态恢复</td><td>Web 对等；共享 DOM 结构</td></tr><tr><td><code>project-automation</code></td><td>大量真实后端自动化、工作流、执行、机器人、设置与冲突相关桌面流程</td><td>Web 使用同一自动化 UI；基础协作模块的完整能力矩阵</td></tr><tr><td><code>task-attachments</code></td><td>云端交付物文件树、面包屑和预览</td><td>普通共享文件的上传、重命名、删除、下载双端对等</td></tr><tr><td><code>project-assignment-notification</code></td><td>分配通知和用户隔离</td><td>协作页面上的角色可见性和操作权限矩阵</td></tr></tbody></table>
+<p>历史 Wework 场景仍有保留价值，但它们不能作为“双端共享 UI”的证据，因为 Web 不运行这些
+场景，且选择器来自 Wework 私有实现。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="首个可执行共享-checkpoint">首个可执行共享 checkpoint<a href="#首个可执行共享-checkpoint" class="hash-link" aria-label="首个可执行共享 checkpoint的直接链接" title="首个可执行共享 checkpoint的直接链接" translate="no">​</a></h3>
+<p><code>.github/scripts/classify-wework-desktop-e2e.sh</code> 和 CI 分片声明了
+<code>collaboration-shared-core</code>。该 checkpoint 现已具备完整的 scenario、catalog 注册和 runner
+映射，可由现有 desktop E2E CI 分片真实执行。</p>
+<p>首批场景使用隔离的真实 Backend，通过 REST API 自包含地创建项目和多状态 Issue，并验收：</p>
+<ul>
+<li class="">从 Wework 工作区标签进入“协作”；</li>
+<li class="">项目首页及真实项目数据；</li>
+<li class="">“我的工作”的默认分组看板；</li>
+<li class="">进入项目后的原有 header、view switcher、board、列和卡片关键 <code>data-testid</code>；</li>
+<li class="">验收后按项目最新 version 归档 fixture。</li>
+</ul>
+<p>该 checkpoint 是 Wework 共享抽取的首批回归骨架，不单独证明 Web 已挂载同一个根组件，也不替代
+后续双端能力对等和跨端并发场景。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-testid-审计"><code>data-testid</code> 审计<a href="#data-testid-审计" class="hash-link" aria-label="data-testid-审计的直接链接" title="data-testid-审计的直接链接" translate="no">​</a></h3>
+<p>共享包既有 <code>collaboration-*</code> 标识，也已承载从 Wework 原界面抽出的 <code>cloud-*</code>、
+<code>cloud-todo-*</code>、项目首页和“我的工作”标识。首个 <code>collaboration-shared-core</code> checkpoint
+有意使用这些现存稳定标识，以证明抽取没有重写或丢失原界面。</p>
+<p>统一的双端 <code>collaboration-*</code> 契约仍不足以覆盖完整验收：</p>
+<ul>
+<li class="">共享根组件身份、宿主身份和路由就绪状态；</li>
+<li class="">项目首页和“我的工作”在 Web 中的同一节点标识；</li>
+<li class="">看板拖拽源、dropzone、快速创建、删除/归档；</li>
+<li class="">成员角色选择器和搜索提交；</li>
+<li class="">文件行、文件夹、预览、下载、重命名和删除；</li>
+<li class="">自动化列表、编辑器、启停、立即运行、运行详情；</li>
+<li class="">设置各字段、保存、归档和冲突提示；</li>
+<li class="">权限禁用原因、只读态和全局错误恢复；</li>
+<li class="">路由恢复完成态；</li>
+<li class="">共享组件身份和 host capability。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="验收原则">验收原则<a href="#验收原则" class="hash-link" aria-label="验收原则的直接链接" title="验收原则的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="真实后端">真实后端<a href="#真实后端" class="hash-link" aria-label="真实后端的直接链接" title="真实后端的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">所有能力场景必须发起真实 REST 请求并验证服务端持久化。</li>
+<li class="">可以通过 API 建立最小前置数据，但被验收的用户动作必须从 UI 发起。</li>
+<li class="">禁止拦截请求后直接伪造成功响应。</li>
+<li class="">禁止在能力缺失时跳过、降级通过或捕获错误后继续。</li>
+<li class="">Playwright 与 desktop runner 均保持零重试；间歇失败按缺陷处理。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="同一语义场景">同一语义场景<a href="#同一语义场景" class="hash-link" aria-label="同一语义场景的直接链接" title="同一语义场景的直接链接" translate="no">​</a></h3>
+<p>Web 与 Wework 使用同一份场景定义、fixture builder 和断言语义。宿主 driver 只负责：</p>
+<ul>
+<li class="">打开协作入口；</li>
+<li class="">获取当前 URL 或 Wework tab location；</li>
+<li class="">执行宿主级刷新、前进、后退或 tab 重开；</li>
+<li class="">调用宿主专属能力。</li>
+</ul>
+<p>创建项目、打开首页、拖拽 Issue、管理成员、文件、自动化和设置等步骤不得复制为两份业务流程。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="自包含与清理">自包含与清理<a href="#自包含与清理" class="hash-link" aria-label="自包含与清理的直接链接" title="自包含与清理的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">每个新增 desktop checkpoint 建立自己的用户、项目、成员、Issue、文件和自动化前置条件。</li>
+<li class="">单 checkpoint 运行和从 checkpoint 开始运行都必须有效。</li>
+<li class="">项目、文件、自动化和成员在 <code>finally</code> 或 runner teardown 中按版本正确清理。</li>
+<li class="">清理失败必须使测试失败，不能只记录日志。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="建议的测试分层">建议的测试分层<a href="#建议的测试分层" class="hash-link" aria-label="建议的测试分层的直接链接" title="建议的测试分层的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="第一层共享组件契约测试">第一层：共享组件契约测试<a href="#第一层共享组件契约测试" class="hash-link" aria-label="第一层：共享组件契约测试的直接链接" title="第一层：共享组件契约测试的直接链接" translate="no">​</a></h3>
+<p>新增共享包测试，建议位置：</p>
+<ul>
+<li class=""><code>packages/collaboration/src/__tests__/shared-ui-structure.test.tsx</code></li>
+<li class=""><code>packages/collaboration/src/__tests__/cloud-capability-contract.test.ts</code></li>
+</ul>
+<p>验证：</p>
+<ol>
+<li class="">共享包只导出一个生产协作根组件，例如 <code>CollaborationWorkspace</code>。</li>
+<li class="">根节点固定包含：<!-- -->
+<ul>
+<li class=""><code>data-testid=&quot;collaboration-root&quot;</code>；</li>
+<li class=""><code>data-collaboration-component=&quot;CollaborationWorkspace&quot;</code>；</li>
+<li class=""><code>data-collaboration-contract-version=&quot;&lt;固定版本&gt;&quot;</code>；</li>
+<li class=""><code>data-collaboration-host=&quot;web|wework&quot;</code>。</li>
+</ul>
+</li>
+<li class="">host 值只能影响适配槽位和 capability，不得改变共享云端视图的组件树。</li>
+<li class="">相同 API fixture、locale、location 和 cloud capability 下，两种 host 渲染得到相同的归一化
+语义树。</li>
+<li class="">归一化树至少比较 element tag、role、<code>data-testid</code>、<code>aria-*</code> 和交互可用状态；忽略宿主外壳、
+自动生成 ID 和平台字体。</li>
+<li class="">云端 capability 在两端完全一致；只有 <code>localProjects</code>、<code>terminal</code>、原生文件选择等明确的
+desktop capability 允许不同。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="第二层静态共享边界门禁">第二层：静态共享边界门禁<a href="#第二层静态共享边界门禁" class="hash-link" aria-label="第二层：静态共享边界门禁的直接链接" title="第二层：静态共享边界门禁的直接链接" translate="no">​</a></h3>
+<p>新增独立架构测试或检查脚本，建议位置：</p>
+<ul>
+<li class=""><code>packages/collaboration/scripts/verify-host-boundaries.mjs</code></li>
+<li class="">或等价的仓库测试文件。</li>
+</ul>
+<p>必须断言：</p>
+<ol>
+<li class="">Web 与 Wework 的协作宿主都从 <code>@wegent/collaboration</code> 导入同一个根组件。</li>
+<li class="">两个宿主文件中只允许创建 API adapter、route adapter、notification adapter 和平台
+capability，不允许定义看板、Issue、成员、文件、自动化、设置或我的任务视图。</li>
+<li class=""><code>frontend/src/features/collaboration/**</code> 与 <code>wework/src/features/todo/**</code> 中不存在第二个云端
+协作根实现。</li>
+<li class="">宿主不得复制共享包的 API path、状态转换、乐观更新、冲突处理或权限判断。</li>
+<li class="">共享云端组件的 <code>data-testid</code> 只能在共享包中定义；宿主只能定义外壳测试标识。</li>
+<li class="">两个 package manifest 都解析到 workspace 中同一个 <code>@wegent/collaboration</code> 包。</li>
+</ol>
+<p>静态检查与运行时 DOM 指纹必须同时通过。单独检查 <code>data-testid</code> 相同不够，因为复制实现也能
+伪造相同标识。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="第三层双端云端能力对等-e2e">第三层：双端云端能力对等 E2E<a href="#第三层双端云端能力对等-e2e" class="hash-link" aria-label="第三层：双端云端能力对等 E2E的直接链接" title="第三层：双端云端能力对等 E2E的直接链接" translate="no">​</a></h3>
+<p>新增一份宿主无关的场景描述，例如：</p>
+<ul>
+<li class=""><code>packages/collaboration/e2e/cloud-parity-scenarios.ts</code></li>
+</ul>
+<p>再由两个很薄的 driver 执行：</p>
+<ul>
+<li class="">Web：<code>frontend/e2e/tests/collaboration/shared-cloud-parity.spec.ts</code></li>
+<li class="">Wework：<code>wework/e2e/desktop/scenarios/collaboration-cloud-parity.scenario.mjs</code></li>
+</ul>
+<p>Wework 新增独立 checkpoint：<code>collaboration-cloud-parity</code>。它必须同时注册到：</p>
+<ul>
+<li class=""><code>wework/e2e/desktop/checkpoints.mjs</code>；</li>
+<li class=""><code>wework/e2e/desktop/run-checkpoints.mjs</code>；</li>
+<li class="">desktop E2E CI 分类和分片；</li>
+<li class="">分类脚本自身测试。</li>
+</ul>
+<p>不要修改现有 <code>workspace-tabs</code>、<code>offline-local-project-space</code>、<code>board-focus-view</code>、
+<code>project-automation</code> 或其他历史 E2E。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="第四层跨端一致性与并发">第四层：跨端一致性与并发<a href="#第四层跨端一致性与并发" class="hash-link" aria-label="第四层：跨端一致性与并发的直接链接" title="第四层：跨端一致性与并发的直接链接" translate="no">​</a></h3>
+<p>新增一个以同一真实后端为真值、同时启动 Web page 与 Wework desktop session 的场景。若当前
+CI 资源不适合在一个 job 中同时启动两个宿主，可用两个阶段共享唯一 fixture：</p>
+<ol>
+<li class="">Web 创建或修改数据并记录服务器版本；</li>
+<li class="">Wework 打开相同项目并验证；</li>
+<li class="">Wework 修改；</li>
+<li class="">Web 刷新或收到事件后验证；</li>
+<li class="">两端制造旧版本提交并验证 <code>409</code> 恢复。</li>
+</ol>
+<p>只分别跑两套同名测试不能证明跨端一致性；至少一个场景必须让两端操作同一个项目和 Issue。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="统一-data-testid-契约">统一 <code>data-testid</code> 契约<a href="#统一-data-testid-契约" class="hash-link" aria-label="统一-data-testid-契约的直接链接" title="统一-data-testid-契约的直接链接" translate="no">​</a></h2>
+<p>共享组件迁移后，双端云端流程统一使用 <code>collaboration-*</code>。建议最小契约如下：</p>
+<table><thead><tr><th>区域</th><th>必需标识</th></tr></thead><tbody><tr><td>根节点</td><td><code>collaboration-root</code>, <code>collaboration-project-home</code>, <code>collaboration-route-ready</code></td></tr><tr><td>我的任务</td><td><code>collaboration-my-work</code>, <code>collaboration-my-work-board</code>, <code>collaboration-my-work-filter</code>, <code>collaboration-my-work-item-{id}</code></td></tr><tr><td>项目首页</td><td><code>collaboration-project-list</code>, <code>collaboration-project-create</code>, <code>collaboration-project-{id}</code>, <code>collaboration-home-my-work</code>, <code>collaboration-home-manage</code></td></tr><tr><td>看板</td><td><code>collaboration-board</code>, <code>collaboration-board-search</code>, <code>collaboration-board-group-by</code>, <code>collaboration-column-{status}</code>, <code>collaboration-column-dropzone-{status}</code>, <code>collaboration-issue-{id}</code></td></tr><tr><td>Issue</td><td><code>collaboration-issue-create</code>, <code>collaboration-issue-detail</code>, <code>collaboration-issue-save</code>, <code>collaboration-issue-archive</code>, <code>collaboration-issue-delete</code>, <code>collaboration-issue-close</code></td></tr><tr><td>成员</td><td><code>collaboration-members</code>, <code>collaboration-member-search</code>, <code>collaboration-member-search-submit</code>, <code>collaboration-member-add-{id}</code>, <code>collaboration-member-role-{id}</code>, <code>collaboration-member-remove-{id}</code></td></tr><tr><td>文件</td><td><code>collaboration-files</code>, <code>collaboration-file-upload</code>, <code>collaboration-folder-create</code>, <code>collaboration-file-{id}</code>, <code>collaboration-file-preview-{id}</code>, <code>collaboration-file-download-{id}</code>, <code>collaboration-file-rename-{id}</code>, <code>collaboration-file-delete-{id}</code></td></tr><tr><td>自动化</td><td><code>collaboration-automation</code>, <code>collaboration-automation-create</code>, <code>collaboration-automation-{id}</code>, <code>collaboration-automation-save</code>, <code>collaboration-automation-toggle-{id}</code>, <code>collaboration-automation-run-{id}</code>, <code>collaboration-automation-run-detail</code></td></tr><tr><td>设置</td><td><code>collaboration-project-settings</code>, <code>collaboration-settings-name</code>, <code>collaboration-settings-visibility</code>, <code>collaboration-settings-statuses</code>, <code>collaboration-settings-save</code>, <code>collaboration-project-archive</code></td></tr><tr><td>权限与冲突</td><td><code>collaboration-readonly-reason</code>, <code>collaboration-forbidden</code>, <code>collaboration-conflict</code>, <code>collaboration-reload-latest</code></td></tr></tbody></table>
+<p>规则：</p>
+<ul>
+<li class="">动态标识必须使用稳定的后端 ID，不能使用数组下标或翻译文本。</li>
+<li class="">同一云端控件在两端必须使用同一标识。</li>
+<li class="">host 外壳标识必须以 <code>web-collaboration-host-*</code> 或 <code>wework-collaboration-host-*</code> 命名，不得
+冒充共享控件。</li>
+<li class="">旧 <code>cloud-*</code> 标识可在历史 E2E 保留期间由同一个共享节点兼容暴露，但不得通过渲染第二个节点
+或第二套视图实现兼容。最终删除应单独进行，并同步迁移历史测试。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="功能场景矩阵">功能场景矩阵<a href="#功能场景矩阵" class="hash-link" aria-label="功能场景矩阵的直接链接" title="功能场景矩阵的直接链接" translate="no">​</a></h2>
+<p>下列每一行必须在 Web 与 Wework 的 shared cloud parity suite 中执行相同业务步骤。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-我的任务与默认看板">1. 我的任务与默认看板<a href="#1-我的任务与默认看板" class="hash-link" aria-label="1. 我的任务与默认看板的直接链接" title="1. 我的任务与默认看板的直接链接" translate="no">​</a></h3>
+<p>前置条件：</p>
+<ul>
+<li class="">用户拥有至少两个项目；</li>
+<li class="">存在分配给当前用户的待处理、进行中、审核中、已完成 Issue；</li>
+<li class="">存在未分配给当前用户和无权访问的 Issue。</li>
+</ul>
+<p>步骤与断言：</p>
+<ol>
+<li class="">从协作首页进入“我的任务”。</li>
+<li class="">默认看板可见，且不是空白项目列表或新建项目引导。</li>
+<li class="">只显示当前用户可访问且与其相关的 Issue。</li>
+<li class="">状态分组、项目筛选、搜索和视图切换在两端一致。</li>
+<li class="">打开 Issue 后返回，保留筛选、滚动位置和所选视图。</li>
+<li class="">完成一个 Issue 后刷新，条目进入完成分组且不会被陈旧运行态恢复为进行中。</li>
+<li class="">直接打开“我的任务”的宿主 location，刷新后仍恢复同一视图。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-项目首页">2. 项目首页<a href="#2-项目首页" class="hash-link" aria-label="2. 项目首页的直接链接" title="2. 项目首页的直接链接" translate="no">​</a></h3>
+<p>步骤与断言：</p>
+<ol>
+<li class="">首页显示项目列表、我的任务入口、新建项目和管理入口。</li>
+<li class="">创建云端项目，校验名称、描述、项目 key、访问角色和后端 store。</li>
+<li class="">新项目立即出现在两端；不得要求重新登录或创建第二份项目。</li>
+<li class="">项目卡打开同一个共享项目首页/看板。</li>
+<li class="">搜索、排序或管理筛选结果在刷新后正确恢复。</li>
+<li class="">空状态与有数据状态均验证，不允许出现 Wework 私有空白侧栏或 Web 私有简化首页。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-看板">3. 看板<a href="#3-看板" class="hash-link" aria-label="3. 看板的直接链接" title="3. 看板的直接链接" translate="no">​</a></h3>
+<p>步骤与断言：</p>
+<ol>
+<li class="">打开项目后默认进入共享看板。</li>
+<li class="">校验状态列、Issue 数量、卡片标题、优先级、负责人、标签、日期和权限态。</li>
+<li class="">搜索 Issue，并在清空搜索后恢复全部卡片。</li>
+<li class="">切换 status、priority、assignee、tag 分组；保存后另一端读取相同分组配置。</li>
+<li class="">使用真实 pointer/drag action 将卡片拖入目标 dropzone。</li>
+<li class="">验证乐观位置、服务端 status/sort order 和刷新后位置一致。</li>
+<li class="">模拟服务端失败时，卡片回滚到原位置并显示错误，不能保留假成功状态。</li>
+<li class="">长列表滚动、空列快速创建和窄窗口布局不遮挡主要操作。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-issue-crud详情与拖拽">4. Issue CRUD、详情与拖拽<a href="#4-issue-crud详情与拖拽" class="hash-link" aria-label="4. Issue CRUD、详情与拖拽的直接链接" title="4. Issue CRUD、详情与拖拽的直接链接" translate="no">​</a></h3>
+<p>步骤与断言：</p>
+<ol>
+<li class="">创建 Issue，填写标题、描述、状态、优先级、负责人、截止日期和标签。</li>
+<li class="">深链自动打开新 Issue 详情。</li>
+<li class="">修改所有可编辑字段并保存，验证版本递增和另一端读取一致。</li>
+<li class="">新增评论和附件，刷新后仍存在。</li>
+<li class="">删除附件，验证服务端和两端都不再显示。</li>
+<li class="">关闭详情并通过卡片重新打开。</li>
+<li class="">使用拖拽变更状态和顺序。</li>
+<li class="">归档或删除 Issue，确认看板、我的任务和直接深链都不再显示有效条目。</li>
+<li class="">取消删除确认时不得发出删除请求。</li>
+<li class="">无编辑权限时所有变更入口不可操作，不能只依赖后端报错。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-成员">5. 成员<a href="#5-成员" class="hash-link" aria-label="5. 成员的直接链接" title="5. 成员的直接链接" translate="no">​</a></h3>
+<p>使用 Owner、Maintainer、Developer、Reporter 和无成员用户。</p>
+<p>步骤与断言：</p>
+<ol>
+<li class="">Owner 搜索用户并添加成员。</li>
+<li class="">修改成员角色，另一端立即或刷新后读取相同角色。</li>
+<li class="">移除成员后，被移除用户失去项目访问。</li>
+<li class="">Owner 不可被普通角色降级或删除。</li>
+<li class="">Maintainer 的可管理范围与后端权限一致。</li>
+<li class="">Developer/Reporter 看不到或不能操作成员管理控件。</li>
+<li class="">后端拒绝时 UI 保留原成员列表并显示明确错误。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-文件">6. 文件<a href="#6-文件" class="hash-link" aria-label="6. 文件的直接链接" title="6. 文件的直接链接" translate="no">​</a></h3>
+<p>仅验收云端共享文件；Wework 的本机路径 reveal 等能力作为额外宿主场景。</p>
+<p>步骤与断言：</p>
+<ol>
+<li class="">新建文件夹并上传文本文件和二进制文件。</li>
+<li class="">校验路径、大小、类型、创建者和更新时间。</li>
+<li class="">进入文件夹、使用面包屑返回。</li>
+<li class="">预览可预览文件；二进制文件显示正确的下载或不可预览状态。</li>
+<li class="">下载内容与上传内容哈希一致。</li>
+<li class="">重命名文件和文件夹，另一端读取新路径。</li>
+<li class="">删除文件；非空文件夹删除规则与后端一致。</li>
+<li class="">同名、非法路径、超限文件和无权限上传显示确定错误。</li>
+<li class="">交付物与普通共享文件不得混淆，且云端语义两端一致。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="7-自动化与运行记录">7. 自动化与运行记录<a href="#7-自动化与运行记录" class="hash-link" aria-label="7. 自动化与运行记录的直接链接" title="7. 自动化与运行记录的直接链接" translate="no">​</a></h3>
+<p>当前共享 <code>CollaborationApp</code> 的 automation 视图只是 capability 占位，这是 P0 能力缺口；完成
+共享前不能以“入口存在”通过。</p>
+<p>步骤与断言：</p>
+<ol>
+<li class="">打开自动化列表并创建规则。</li>
+<li class="">配置触发器、条件、执行节点、机器人/智能体、模型和工作区绑定。</li>
+<li class="">保存后验证真实后端 definition。</li>
+<li class="">编辑、启用、停用和归档规则。</li>
+<li class="">执行“立即运行”，验证生成运行记录和关联 Issue/Task。</li>
+<li class="">打开运行详情，验证状态、开始/结束时间和错误。</li>
+<li class="">刷新并从另一端打开相同规则与运行记录。</li>
+<li class="">未保存草稿、离开确认和版本冲突行为两端一致。</li>
+<li class="">无管理权限时只展示允许的只读信息。</li>
+</ol>
+<p>复杂编辑器细节可继续由现有 <code>project-automation</code> 回归覆盖，但共享 parity suite 至少必须覆盖完整
+生命周期主路径。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="8-项目设置">8. 项目设置<a href="#8-项目设置" class="hash-link" aria-label="8. 项目设置的直接链接" title="8. 项目设置的直接链接" translate="no">​</a></h3>
+<p>步骤与断言：</p>
+<ol>
+<li class="">修改名称、描述、可见性和标签。</li>
+<li class="">新增、重命名、重排和删除状态，并设置 processing status。</li>
+<li class="">修改卡片字段显示配置。</li>
+<li class="">对 GitHub/GitLab/钉钉 AI 表格 provider 配置执行允许的云端更新。</li>
+<li class="">保存后校验后端版本和另一端显示。</li>
+<li class="">归档项目后返回项目首页，两端不再显示活跃项目。</li>
+<li class="">非 Owner/Maintainer 看不到或不能操作受限字段。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-权限和乐观锁冲突">9. 权限和乐观锁冲突<a href="#9-权限和乐观锁冲突" class="hash-link" aria-label="9. 权限和乐观锁冲突的直接链接" title="9. 权限和乐观锁冲突的直接链接" translate="no">​</a></h3>
+<p>权限矩阵至少包括：</p>
+<table><thead><tr><th>角色</th><th>读取项目</th><th>创建/编辑 Issue</th><th>管理成员</th><th>修改设置</th><th>管理自动化</th></tr></thead><tbody><tr><td>Owner</td><td>是</td><td>是</td><td>是</td><td>是</td><td>是</td></tr><tr><td>Maintainer</td><td>是</td><td>是</td><td>按后端契约</td><td>是</td><td>是</td></tr><tr><td>Developer</td><td>是</td><td>是</td><td>否</td><td>否</td><td>否</td></tr><tr><td>Reporter</td><td>是</td><td>按后端契约</td><td>否</td><td>否</td><td>否</td></tr><tr><td>非成员私有项目</td><td>否</td><td>否</td><td>否</td><td>否</td><td>否</td></tr></tbody></table>
+<p>冲突场景：</p>
+<ol>
+<li class="">两端同时读取同一 project/Issue version。</li>
+<li class="">Web 先保存，Wework 使用旧 version 保存。</li>
+<li class="">Wework 收到 <code>409</code>，显示共享冲突提示，并加载服务器最新版本。</li>
+<li class="">未提交的本地字段不得静默覆盖服务器内容；产品约定若要求保留草稿，需明确展示。</li>
+<li class="">对项目设置、Issue 编辑和拖拽 reorder 分别执行一次冲突。</li>
+<li class=""><code>403</code>/不可见项目不得渲染残留敏感字段；<code>404</code> 与无权限响应遵循后端防枚举契约。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="10-路由与状态恢复">10. 路由与状态恢复<a href="#10-路由与状态恢复" class="hash-link" aria-label="10. 路由与状态恢复的直接链接" title="10. 路由与状态恢复的直接链接" translate="no">​</a></h3>
+<p>Web：</p>
+<ul>
+<li class=""><code>/collaboration</code></li>
+<li class=""><code>/collaboration/{projectId}</code></li>
+<li class=""><code>/collaboration/{projectId}?view=files|members|automation|runs|manage</code></li>
+<li class=""><code>/collaboration/{projectId}/issues/{itemId}</code></li>
+<li class="">浏览器刷新、前进、后退；</li>
+<li class="">非法 projectId、非法 itemId、无权限深链；</li>
+<li class=""><code>/inbox</code> 迁移入口。</li>
+</ul>
+<p>Wework：</p>
+<ul>
+<li class="">从顶部“协作”tab 打开；</li>
+<li class="">固定项目空间 tab 和项目选择；</li>
+<li class="">关闭并重新打开协作 tab；</li>
+<li class="">应用重载后恢复 project、view 和 issue detail；</li>
+<li class="">从通知、任务关联或项目上下文打开指定 Issue；</li>
+<li class="">不产生重复项目空间 tab；</li>
+<li class="">“我的任务”默认看板可恢复。</li>
+</ul>
+<p>共同断言：</p>
+<ul>
+<li class="">共享组件读取的 <code>CollaborationLocation</code> 完全一致；</li>
+<li class="">location 未恢复完成前显示明确 loading，不渲染错误首页；</li>
+<li class="">恢复完成后只有一个 <code>collaboration-root</code>；</li>
+<li class="">返回操作回到预期的共享父视图，而不是宿主默认页。</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="结构对等断言">结构对等断言<a href="#结构对等断言" class="hash-link" aria-label="结构对等断言的直接链接" title="结构对等断言的直接链接" translate="no">​</a></h2>
+<p>每次 shared cloud parity E2E 启动后都执行：</p>
+<ol>
+<li class=""><code>collaboration-root</code> 数量严格为 1。</li>
+<li class="">根节点的 component 名和 contract version 相同。</li>
+<li class="">Web 与 Wework 的 cloud capability 序列化值相同。</li>
+<li class="">对首页、我的任务、看板、Issue 详情、成员、文件、自动化、设置分别采集归一化语义快照。</li>
+<li class="">两端快照的共享区域必须完全相等；差异只允许出现在预先登记的 host slot：<!-- -->
+<ul>
+<li class="">Wework 本地项目创建选项；</li>
+<li class="">Wework 终端/本地执行入口；</li>
+<li class="">Wework 原生文件或 reveal 操作；</li>
+<li class="">Web URL 和浏览器外壳；</li>
+<li class="">Wework tab 外壳。</li>
+</ul>
+</li>
+<li class="">若差异清单新增条目，测试失败；不能自动更新 allowlist。</li>
+<li class="">截图只用于失败诊断，不能替代结构和服务端断言。</li>
+</ol>
+<p>建议在共享根节点暴露只读测试元数据：</p>
+<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">section</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-testid</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">collaboration-root</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-component</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">CollaborationWorkspace</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-contract-version</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">1</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-host</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">web</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f"></span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">section</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p><code>data-collaboration-host</code> 可以不同，其余身份字段必须一致。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixture-与数据设计">Fixture 与数据设计<a href="#fixture-与数据设计" class="hash-link" aria-label="Fixture 与数据设计的直接链接" title="Fixture 与数据设计的直接链接" translate="no">​</a></h2>
+<p>每次 suite 创建唯一前缀，例如 <code>collab-parity-{runId}</code>，并建立：</p>
+<ul>
+<li class="">Owner 用户 A；</li>
+<li class="">Maintainer 用户 B；</li>
+<li class="">Developer 用户 C；</li>
+<li class="">Reporter 用户 D；</li>
+<li class="">非成员用户 E；</li>
+<li class="">一个私有云端项目和一个公共云端项目；</li>
+<li class="">至少五个状态；</li>
+<li class="">每种优先级、负责人和标签的 Issue；</li>
+<li class="">一个父 Issue 和子 Issue；</li>
+<li class="">一个文本文件、一个二进制文件、一个文件夹；</li>
+<li class="">一个停用自动化、一个可立即运行自动化；</li>
+<li class="">至少一个成功运行和一个失败运行。</li>
+</ul>
+<p>fixture builder 返回项目、Issue、成员、文件和自动化的 ID 与当前 version。测试不得通过页面文本猜测
+动态 ID。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ci-执行设计">CI 执行设计<a href="#ci-执行设计" class="hash-link" aria-label="CI 执行设计的直接链接" title="CI 执行设计的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="web">Web<a href="#web" class="hash-link" aria-label="Web的直接链接" title="Web的直接链接" translate="no">​</a></h3>
+<p>新增 spec 必须由现有 Chromium CI 项目自动收集，不增加仅供本地运行的死用例。建议将耗时较长的
+跨端场景单独 tag，但仍由 CI job 显式调用。</p>
+<p>本地聚焦命令：</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> frontend </span><span class="token builtin class-name">exec</span><span class="token plain"> playwright </span><span class="token builtin class-name">test</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">\</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  e2e/tests/collaboration/shared-cloud-parity.spec.ts </span><span class="token punctuation" style="color:#393A34">\</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token parameter variable" style="color:#36acaa">--project</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">chromium</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework">Wework<a href="#wework" class="hash-link" aria-label="Wework的直接链接" title="Wework的直接链接" translate="no">​</a></h3>
+<p>新增 checkpoint 后，本地聚焦命令：</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> wework e2e:desktop -- </span><span class="token parameter variable" style="color:#36acaa">--segment</span><span class="token plain"> collaboration-cloud-parity</span><br></span></code></pre></div></div>
+<p>CI 必须验证：</p>
+<ul>
+<li class="">checkpoint catalog、scenario 映射和 CI shard 三者一致；</li>
+<li class="">分类脚本对共享包、Web host、Wework host 和共享场景变更都选择 Web collaboration E2E 与
+Wework parity checkpoint；</li>
+<li class="">单 checkpoint 可独立运行；</li>
+<li class="">失败证据包含 runner 日志、DOM snapshot、请求摘要和失败截图。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="共享包变更分类">共享包变更分类<a href="#共享包变更分类" class="hash-link" aria-label="共享包变更分类的直接链接" title="共享包变更分类的直接链接" translate="no">​</a></h3>
+<p>任何 <code>packages/collaboration/**</code> 变更至少触发：</p>
+<ul>
+<li class="">共享包 unit/typecheck；</li>
+<li class="">Web shared cloud parity；</li>
+<li class="">Wework <code>collaboration-cloud-parity</code>；</li>
+<li class="">静态 host boundary 检查。</li>
+</ul>
+<p>只触发其中一端不能作为合并门禁。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="实施顺序">实施顺序<a href="#实施顺序" class="hash-link" aria-label="实施顺序的直接链接" title="实施顺序的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">新增静态 host boundary 测试，让当前两根组件状态明确失败。</li>
+<li class="">定义统一根组件身份、capability schema 和 <code>data-testid</code> 契约。</li>
+<li class="">新增共享场景 DSL/fixture builder，先覆盖项目首页、我的任务和基础看板。</li>
+<li class="">添加 Web driver 和 Wework 独立 checkpoint，并修复 CI 注册不完整问题。</li>
+<li class="">依次扩展 Issue、成员、文件、设置、自动化。</li>
+<li class="">添加跨端同项目读写和 <code>409</code> 冲突场景。</li>
+<li class="">最后添加归一化语义树对比和宿主差异 allowlist。</li>
+<li class="">保留所有历史 E2E；共享主路径稳定后，另开变更评估旧选择器迁移，不能在本计划实施中顺手
+修改或删除。</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="合并门禁">合并门禁<a href="#合并门禁" class="hash-link" aria-label="合并门禁的直接链接" title="合并门禁的直接链接" translate="no">​</a></h2>
+<p>只有以下证据全部成立，才能声明“完全复用且云端能力对等”：</p>
+<ul>
+<li class="">静态边界检查证明两个宿主导入同一个共享根组件，宿主没有第二套云端业务实现。</li>
+<li class="">两端运行时根节点身份、contract version 和归一化共享语义树一致。</li>
+<li class="">本文十个功能区域在 Web 与 Wework 的同一场景定义下全部通过。</li>
+<li class="">至少一个跨端场景在同一项目上完成双向读写和三类 <code>409</code> 冲突恢复。</li>
+<li class="">Web 与 Wework 都使用真实后端，且服务端持久化断言通过。</li>
+<li class="">“我的任务”默认看板、项目首页、文件和自动化不再缺失。</li>
+<li class="">现有 Wework desktop checkpoints 与现有 Web collaboration spec 保持通过。</li>
+<li class=""><code>collaboration-cloud-parity</code> 在 catalog、runner 和 CI 中完整注册，无幽灵 checkpoint。</li>
+<li class="">不存在静默 skip、fallback、重试取绿或自动扩张的结构差异 allowlist。</li>
+</ul>
+<p>任何一项缺失，都只能称为迁移中，不能称为双端共享完成。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/engineering/collaboration-shared-ui-test-plan.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#目标" class="table-of-contents__link toc-highlight">目标</a></li><li><a href="#当前状态审计" class="table-of-contents__link toc-highlight">当前状态审计</a><ul><li><a href="#挂载结构" class="table-of-contents__link toc-highlight">挂载结构</a></li><li><a href="#web-playwright" class="table-of-contents__link toc-highlight">Web Playwright</a></li><li><a href="#wework-desktop-checkpoints" class="table-of-contents__link toc-highlight">Wework desktop checkpoints</a></li><li><a href="#首个可执行共享-checkpoint" class="table-of-contents__link toc-highlight">首个可执行共享 checkpoint</a></li><li><a href="#data-testid-审计" class="table-of-contents__link toc-highlight"><code>data-testid</code> 审计</a></li></ul></li><li><a href="#验收原则" class="table-of-contents__link toc-highlight">验收原则</a><ul><li><a href="#真实后端" class="table-of-contents__link toc-highlight">真实后端</a></li><li><a href="#同一语义场景" class="table-of-contents__link toc-highlight">同一语义场景</a></li><li><a href="#自包含与清理" class="table-of-contents__link toc-highlight">自包含与清理</a></li></ul></li><li><a href="#建议的测试分层" class="table-of-contents__link toc-highlight">建议的测试分层</a><ul><li><a href="#第一层共享组件契约测试" class="table-of-contents__link toc-highlight">第一层：共享组件契约测试</a></li><li><a href="#第二层静态共享边界门禁" class="table-of-contents__link toc-highlight">第二层：静态共享边界门禁</a></li><li><a href="#第三层双端云端能力对等-e2e" class="table-of-contents__link toc-highlight">第三层：双端云端能力对等 E2E</a></li><li><a href="#第四层跨端一致性与并发" class="table-of-contents__link toc-highlight">第四层：跨端一致性与并发</a></li></ul></li><li><a href="#统一-data-testid-契约" class="table-of-contents__link toc-highlight">统一 <code>data-testid</code> 契约</a></li><li><a href="#功能场景矩阵" class="table-of-contents__link toc-highlight">功能场景矩阵</a><ul><li><a href="#1-我的任务与默认看板" class="table-of-contents__link toc-highlight">1. 我的任务与默认看板</a></li><li><a href="#2-项目首页" class="table-of-contents__link toc-highlight">2. 项目首页</a></li><li><a href="#3-看板" class="table-of-contents__link toc-highlight">3. 看板</a></li><li><a href="#4-issue-crud详情与拖拽" class="table-of-contents__link toc-highlight">4. Issue CRUD、详情与拖拽</a></li><li><a href="#5-成员" class="table-of-contents__link toc-highlight">5. 成员</a></li><li><a href="#6-文件" class="table-of-contents__link toc-highlight">6. 文件</a></li><li><a href="#7-自动化与运行记录" class="table-of-contents__link toc-highlight">7. 自动化与运行记录</a></li><li><a href="#8-项目设置" class="table-of-contents__link toc-highlight">8. 项目设置</a></li><li><a href="#9-权限和乐观锁冲突" class="table-of-contents__link toc-highlight">9. 权限和乐观锁冲突</a></li><li><a href="#10-路由与状态恢复" class="table-of-contents__link toc-highlight">10. 路由与状态恢复</a></li></ul></li><li><a href="#结构对等断言" class="table-of-contents__link toc-highlight">结构对等断言</a></li><li><a href="#fixture-与数据设计" class="table-of-contents__link toc-highlight">Fixture 与数据设计</a></li><li><a href="#ci-执行设计" class="table-of-contents__link toc-highlight">CI 执行设计</a><ul><li><a href="#web" class="table-of-contents__link toc-highlight">Web</a></li><li><a href="#wework" class="table-of-contents__link toc-highlight">Wework</a></li><li><a href="#共享包变更分类" class="table-of-contents__link toc-highlight">共享包变更分类</a></li></ul></li><li><a href="#实施顺序" class="table-of-contents__link toc-highlight">实施顺序</a></li><li><a href="#合并门禁" class="table-of-contents__link toc-highlight">合并门禁</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

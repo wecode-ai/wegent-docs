@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en-US" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-engineering/collaboration-shared-ui-test-plan" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Collaboration shared UI cross-host E2E and acceptance plan | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Collaboration shared UI cross-host E2E and acceptance plan | Wegent"><meta data-rh="true" name="description" content="Audit date: 2026-09-10"><meta data-rh="true" property="og:description" content="Audit date: 2026-09-10"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/assets/js/runtime~main.c7a6a8e3.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.33e6d4cf.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/img/wegent.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/"><div class="navbar__logo"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a class="navbar__item navbar__link" href="/wegent-docs/docs/wegent">Wegent</a><a class="navbar__item navbar__link" href="/wegent-docs/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><main class="docMainContainer_TBSr docMainContainerEnhanced_lQrH"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Collaboration shared UI cross-host E2E and acceptance plan</h1></header>
+<p>Audit date: 2026-09-10</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="objective">Objective<a href="#objective" class="hash-link" aria-label="Direct link to Objective" title="Direct link to Objective" translate="no">​</a></h2>
+<p>This plan must prove more than “both hosts appear to work”:</p>
+<ol>
+<li class="">Wegent Web and Wework mount the same collaboration root component exported by
+<code>@wegent/collaboration</code>.</li>
+<li class="">Both hosts expose the same page structure, interaction flows, state semantics, and backend
+capabilities for cloud project spaces.</li>
+<li class="">Host differences exist only through explicit host adapters or capabilities. Cloud business
+logic, state management, and views must not be reimplemented under host directories.</li>
+<li class="">Wework may retain desktop-only adapters for local projects, terminals, and native file
+selection, but those adapters must not replace or alter the shared cloud primary flow.</li>
+<li class="">My Work and its default board must remain available through the same shared implementation on
+both hosts.</li>
+</ol>
+<p>This document plans additive tests and merge gates only. Existing E2E coverage must not be edited,
+weakened, or replaced.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="current-state-audit">Current-state audit<a href="#current-state-audit" class="hash-link" aria-label="Direct link to Current-state audit" title="Direct link to Current-state audit" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="mount-structure">Mount structure<a href="#mount-structure" class="hash-link" aria-label="Direct link to Mount structure" title="Direct link to Mount structure" translate="no">​</a></h3>
+<p>The current code does not prove shared UI:</p>
+<ul>
+<li class=""><code>frontend/src/features/collaboration/CollaborationPage.tsx</code> mounts <code>CollaborationApp</code> from
+<code>@wegent/collaboration</code>.</li>
+<li class=""><code>wework/src/features/todo/CollaborationWorkspace.tsx</code> mounts the local <code>CloudTodoWorkspace</code>.</li>
+<li class="">The hosts therefore use different UI roots. Sharing a backend does not satisfy the shared UI
+requirement.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="web-playwright">Web Playwright<a href="#web-playwright" class="hash-link" aria-label="Direct link to Web Playwright" title="Direct link to Web Playwright" translate="no">​</a></h3>
+<p><code>frontend/e2e/tests/collaboration/collaboration.spec.ts</code> currently contains two serial scenarios:</p>
+<ul>
+<li class="">Open Collaboration from the task sidebar and verify that the legacy <code>/inbox</code> route redirects to
+<code>/collaboration</code>.</li>
+<li class="">Through the real backend, create a project and Issue, update the title, add a comment, move the
+Issue with a button, and verify persistence after reload.</li>
+</ul>
+<p>Missing coverage:</p>
+<ul>
+<li class="">My Work and its default board.</li>
+<li class="">The complete project home.</li>
+<li class="">Real pointer drag and drop.</li>
+<li class="">Complete Issue CRUD, attachments, assignee, due date, and tags.</li>
+<li class="">End-to-end member, file, automation, and settings operations.</li>
+<li class="">Role permissions, optimistic-lock conflicts, and cross-host updates.</li>
+<li class="">Deep links, back/forward navigation, invalid routes, and the full reload matrix.</li>
+<li class="">Structural proof that Web and Wework mount the same component.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework-desktop-checkpoints">Wework desktop checkpoints<a href="#wework-desktop-checkpoints" class="hash-link" aria-label="Direct link to Wework desktop checkpoints" title="Direct link to Wework desktop checkpoints" translate="no">​</a></h3>
+<p>Existing Wework scenarios provide broad desktop regression coverage, but primarily bind to private
+<code>cloud-*</code>, <code>cloud-todo-*</code>, and other desktop-specific test IDs:</p>
+<table><thead><tr><th>Existing checkpoint or flow</th><th>Existing evidence</th><th>What it does not prove</th></tr></thead><tbody><tr><td><code>workspace-tabs</code></td><td>Fixed project-space tab, default association, My Work context, no duplicate tab</td><td>Web routing or a shared component mount</td></tr><tr><td>My Work flow in <code>task-status-sync</code></td><td>Completed task appears in My Work; stale runtime state does not revive it</td><td>Web My Work or complete view/filter parity</td></tr><tr><td><code>offline-local-project-space</code></td><td>Local project creation, empty-board guide, Issue create/update/drag, and entry points for files, members, automation</td><td>Cloud parity or CRUD in those secondary views</td></tr><tr><td><code>board-focus-view</code></td><td>Running state, grouping, focus view, column width, and state restoration</td><td>Web parity or shared DOM structure</td></tr><tr><td><code>project-automation</code></td><td>Extensive real-backend automation, workflow, execution, agent, settings, and conflict desktop flows</td><td>Web using the same automation UI or full base-module parity</td></tr><tr><td><code>task-attachments</code></td><td>Cloud delivery file tree, breadcrumbs, and preview</td><td>Cross-host shared-file upload, rename, delete, and download</td></tr><tr><td><code>project-assignment-notification</code></td><td>Assignment notifications and user isolation</td><td>Role visibility and action permissions inside Collaboration</td></tr></tbody></table>
+<p>These scenarios remain valuable, but they cannot prove cross-host shared UI because Web does not run
+them and their selectors belong to the Wework implementation.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="first-executable-shared-checkpoint">First executable shared checkpoint<a href="#first-executable-shared-checkpoint" class="hash-link" aria-label="Direct link to First executable shared checkpoint" title="Direct link to First executable shared checkpoint" translate="no">​</a></h3>
+<p><code>.github/scripts/classify-wework-desktop-e2e.sh</code> and the CI shard matrix declare
+<code>collaboration-shared-core</code>. The checkpoint now has a complete scenario, catalog registration, and
+runner mapping, so the existing desktop E2E CI shard can execute it.</p>
+<p>The initial scenario uses an isolated real Backend, creates its own project and multi-status Issues
+through REST APIs, and verifies:</p>
+<ul>
+<li class="">entry into Collaboration from the Wework workspace tabs;</li>
+<li class="">the project home with real project data;</li>
+<li class="">the default grouped board in My Work;</li>
+<li class="">the original project header, view switcher, board, column, and card <code>data-testid</code> contract;</li>
+<li class="">fixture archival with the project&#x27;s latest version after acceptance.</li>
+</ul>
+<p>This checkpoint is the first regression skeleton for the Wework shared extraction. By itself it
+does not prove that Web mounts the same root component and does not replace later cross-host
+capability-parity or concurrency scenarios.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="data-testid-audit"><code>data-testid</code> audit<a href="#data-testid-audit" class="hash-link" aria-label="Direct link to data-testid-audit" title="Direct link to data-testid-audit" translate="no">​</a></h3>
+<p>The shared package contains both the existing <code>collaboration-*</code> IDs and the <code>cloud-*</code>,
+<code>cloud-todo-*</code>, project-home, and My Work IDs extracted from the original Wework interface. The
+first <code>collaboration-shared-core</code> checkpoint intentionally asserts those stable existing IDs to
+prove that extraction did not rewrite or remove the original interface.</p>
+<p>The unified cross-host <code>collaboration-*</code> contract still lacks IDs for:</p>
+<ul>
+<li class="">shared-root identity, host identity, and route readiness;</li>
+<li class="">the same project-home and My Work nodes in Web;</li>
+<li class="">drag sources, drop zones, quick create, delete, and archive;</li>
+<li class="">member role controls and search submission;</li>
+<li class="">file rows, folders, preview, download, rename, and delete;</li>
+<li class="">automation list, editor, toggle, run-now, and run detail;</li>
+<li class="">individual settings fields, save, archive, and conflict messaging;</li>
+<li class="">permission explanations, read-only state, and error recovery;</li>
+<li class="">route restoration readiness;</li>
+<li class="">shared component identity and host capabilities.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="acceptance-principles">Acceptance principles<a href="#acceptance-principles" class="hash-link" aria-label="Direct link to Acceptance principles" title="Direct link to Acceptance principles" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="real-backend">Real backend<a href="#real-backend" class="hash-link" aria-label="Direct link to Real backend" title="Direct link to Real backend" translate="no">​</a></h3>
+<ul>
+<li class="">Every capability scenario must make real REST requests and assert persisted server state.</li>
+<li class="">APIs may establish minimal prerequisites, but the user action under test must originate in the UI.</li>
+<li class="">Tests must not intercept a request and fabricate a successful response.</li>
+<li class="">Missing capabilities must fail instead of being skipped or accepted through graceful degradation.</li>
+<li class="">Playwright and the desktop runner retain zero retries; intermittent failures are defects.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="one-semantic-scenario">One semantic scenario<a href="#one-semantic-scenario" class="hash-link" aria-label="Direct link to One semantic scenario" title="Direct link to One semantic scenario" translate="no">​</a></h3>
+<p>Web and Wework must consume the same scenario definitions, fixture builders, and semantic
+assertions. A host driver may only:</p>
+<ul>
+<li class="">open the Collaboration entry;</li>
+<li class="">read the current URL or Wework tab location;</li>
+<li class="">perform host-level reload, back, forward, or tab reopen;</li>
+<li class="">invoke an explicitly host-only capability.</li>
+</ul>
+<p>Project creation, project home, Issue drag, member management, files, automation, settings, and My
+Work steps must not be copied into two business-flow implementations.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="self-contained-setup-and-cleanup">Self-contained setup and cleanup<a href="#self-contained-setup-and-cleanup" class="hash-link" aria-label="Direct link to Self-contained setup and cleanup" title="Direct link to Self-contained setup and cleanup" translate="no">​</a></h3>
+<ul>
+<li class="">Every new desktop checkpoint creates its own users, projects, members, Issues, files, and
+automation prerequisites.</li>
+<li class="">Single-checkpoint and from-checkpoint execution must both work.</li>
+<li class="">Projects, files, automations, and memberships are cleaned up with current versions in <code>finally</code>
+blocks or runner teardown.</li>
+<li class="">Cleanup failure fails the test.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="proposed-test-layers">Proposed test layers<a href="#proposed-test-layers" class="hash-link" aria-label="Direct link to Proposed test layers" title="Direct link to Proposed test layers" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="layer-1-shared-component-contract">Layer 1: shared component contract<a href="#layer-1-shared-component-contract" class="hash-link" aria-label="Direct link to Layer 1: shared component contract" title="Direct link to Layer 1: shared component contract" translate="no">​</a></h3>
+<p>Add shared-package tests such as:</p>
+<ul>
+<li class=""><code>packages/collaboration/src/__tests__/shared-ui-structure.test.tsx</code></li>
+<li class=""><code>packages/collaboration/src/__tests__/cloud-capability-contract.test.ts</code></li>
+</ul>
+<p>They must verify:</p>
+<ol>
+<li class="">The package exports one production collaboration root, for example <code>CollaborationWorkspace</code>.</li>
+<li class="">Its root contains:<!-- -->
+<ul>
+<li class=""><code>data-testid=&quot;collaboration-root&quot;</code>;</li>
+<li class=""><code>data-collaboration-component=&quot;CollaborationWorkspace&quot;</code>;</li>
+<li class=""><code>data-collaboration-contract-version=&quot;&lt;fixed version&gt;&quot;</code>;</li>
+<li class=""><code>data-collaboration-host=&quot;web|wework&quot;</code>.</li>
+</ul>
+</li>
+<li class="">Host identity only affects adapter slots and capabilities, not the shared cloud view tree.</li>
+<li class="">Given identical API fixtures, locale, location, and cloud capabilities, both hosts render the
+same normalized semantic tree.</li>
+<li class="">Normalization compares element tags, roles, <code>data-testid</code>, <code>aria-*</code>, and enabled state while
+excluding host chrome, generated IDs, and platform fonts.</li>
+<li class="">Cloud capabilities are identical. Only explicit desktop capabilities such as local projects,
+terminals, or native file selection may differ.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="layer-2-static-host-boundary-gate">Layer 2: static host-boundary gate<a href="#layer-2-static-host-boundary-gate" class="hash-link" aria-label="Direct link to Layer 2: static host-boundary gate" title="Direct link to Layer 2: static host-boundary gate" translate="no">​</a></h3>
+<p>Add an architecture test or script, for example:</p>
+<ul>
+<li class=""><code>packages/collaboration/scripts/verify-host-boundaries.mjs</code></li>
+</ul>
+<p>It must assert:</p>
+<ol>
+<li class="">Both host integrations import the same root export from <code>@wegent/collaboration</code>.</li>
+<li class="">Host files may create API, route, notification, and platform-capability adapters only. They may
+not define board, Issue, member, file, automation, settings, or My Work views.</li>
+<li class="">There is no second cloud collaboration root under <code>frontend/src/features/collaboration/**</code> or
+<code>wework/src/features/todo/**</code>.</li>
+<li class="">Hosts do not duplicate shared API paths, state transitions, optimistic updates, conflict
+handling, or permission rules.</li>
+<li class="">Shared cloud <code>data-testid</code> values are defined only by the shared package. Hosts may define shell
+IDs only.</li>
+<li class="">Both manifests resolve the same workspace instance of <code>@wegent/collaboration</code>.</li>
+</ol>
+<p>Static checks and runtime DOM identity must both pass. Matching test IDs alone are insufficient
+because duplicated implementations can forge them.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="layer-3-cross-host-cloud-parity-e2e">Layer 3: cross-host cloud parity E2E<a href="#layer-3-cross-host-cloud-parity-e2e" class="hash-link" aria-label="Direct link to Layer 3: cross-host cloud parity E2E" title="Direct link to Layer 3: cross-host cloud parity E2E" translate="no">​</a></h3>
+<p>Create one host-independent scenario definition, for example:</p>
+<ul>
+<li class=""><code>packages/collaboration/e2e/cloud-parity-scenarios.ts</code></li>
+</ul>
+<p>Execute it through thin drivers:</p>
+<ul>
+<li class="">Web: <code>frontend/e2e/tests/collaboration/shared-cloud-parity.spec.ts</code></li>
+<li class="">Wework: <code>wework/e2e/desktop/scenarios/collaboration-cloud-parity.scenario.mjs</code></li>
+</ul>
+<p>Add a standalone Wework checkpoint named <code>collaboration-cloud-parity</code> and register it in:</p>
+<ul>
+<li class=""><code>wework/e2e/desktop/checkpoints.mjs</code>;</li>
+<li class=""><code>wework/e2e/desktop/run-checkpoints.mjs</code>;</li>
+<li class="">desktop E2E CI classification and sharding;</li>
+<li class="">classification-script tests.</li>
+</ul>
+<p>Do not modify existing <code>workspace-tabs</code>, <code>offline-local-project-space</code>, <code>board-focus-view</code>,
+<code>project-automation</code>, or any other existing E2E.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="layer-4-cross-host-consistency-and-concurrency">Layer 4: cross-host consistency and concurrency<a href="#layer-4-cross-host-consistency-and-concurrency" class="hash-link" aria-label="Direct link to Layer 4: cross-host consistency and concurrency" title="Direct link to Layer 4: cross-host consistency and concurrency" translate="no">​</a></h3>
+<p>Add a scenario that uses one real backend and operates Web and Wework against the same fixture. If
+CI cannot run both hosts concurrently, use two ordered phases with one uniquely identified fixture:</p>
+<ol>
+<li class="">Web creates or edits data and records the server version.</li>
+<li class="">Wework opens the same project and verifies it.</li>
+<li class="">Wework edits the data.</li>
+<li class="">Web reloads or receives an event and verifies the edit.</li>
+<li class="">Both hosts submit a stale version and verify <code>409</code> recovery.</li>
+</ol>
+<p>Two independent suites with the same name do not prove cross-host consistency. At least one
+scenario must operate on the same project and Issue from both hosts.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="unified-data-testid-contract">Unified <code>data-testid</code> contract<a href="#unified-data-testid-contract" class="hash-link" aria-label="Direct link to unified-data-testid-contract" title="Direct link to unified-data-testid-contract" translate="no">​</a></h2>
+<p>After migration, cloud flows use <code>collaboration-*</code> on both hosts. Minimum recommended IDs:</p>
+<table><thead><tr><th>Area</th><th>Required IDs</th></tr></thead><tbody><tr><td>Root</td><td><code>collaboration-root</code>, <code>collaboration-project-home</code>, <code>collaboration-route-ready</code></td></tr><tr><td>My Work</td><td><code>collaboration-my-work</code>, <code>collaboration-my-work-board</code>, <code>collaboration-my-work-filter</code>, <code>collaboration-my-work-item-{id}</code></td></tr><tr><td>Project home</td><td><code>collaboration-project-list</code>, <code>collaboration-project-create</code>, <code>collaboration-project-{id}</code>, <code>collaboration-home-my-work</code>, <code>collaboration-home-manage</code></td></tr><tr><td>Board</td><td><code>collaboration-board</code>, <code>collaboration-board-search</code>, <code>collaboration-board-group-by</code>, <code>collaboration-column-{status}</code>, <code>collaboration-column-dropzone-{status}</code>, <code>collaboration-issue-{id}</code></td></tr><tr><td>Issue</td><td><code>collaboration-issue-create</code>, <code>collaboration-issue-detail</code>, <code>collaboration-issue-save</code>, <code>collaboration-issue-archive</code>, <code>collaboration-issue-delete</code>, <code>collaboration-issue-close</code></td></tr><tr><td>Members</td><td><code>collaboration-members</code>, <code>collaboration-member-search</code>, <code>collaboration-member-search-submit</code>, <code>collaboration-member-add-{id}</code>, <code>collaboration-member-role-{id}</code>, <code>collaboration-member-remove-{id}</code></td></tr><tr><td>Files</td><td><code>collaboration-files</code>, <code>collaboration-file-upload</code>, <code>collaboration-folder-create</code>, <code>collaboration-file-{id}</code>, <code>collaboration-file-preview-{id}</code>, <code>collaboration-file-download-{id}</code>, <code>collaboration-file-rename-{id}</code>, <code>collaboration-file-delete-{id}</code></td></tr><tr><td>Automation</td><td><code>collaboration-automation</code>, <code>collaboration-automation-create</code>, <code>collaboration-automation-{id}</code>, <code>collaboration-automation-save</code>, <code>collaboration-automation-toggle-{id}</code>, <code>collaboration-automation-run-{id}</code>, <code>collaboration-automation-run-detail</code></td></tr><tr><td>Settings</td><td><code>collaboration-project-settings</code>, <code>collaboration-settings-name</code>, <code>collaboration-settings-visibility</code>, <code>collaboration-settings-statuses</code>, <code>collaboration-settings-save</code>, <code>collaboration-project-archive</code></td></tr><tr><td>Permission and conflict</td><td><code>collaboration-readonly-reason</code>, <code>collaboration-forbidden</code>, <code>collaboration-conflict</code>, <code>collaboration-reload-latest</code></td></tr></tbody></table>
+<p>Rules:</p>
+<ul>
+<li class="">Dynamic IDs use stable backend IDs, never array indexes or translated text.</li>
+<li class="">The same cloud control uses the same ID on both hosts.</li>
+<li class="">Host shell IDs use <code>web-collaboration-host-*</code> or <code>wework-collaboration-host-*</code> and cannot impersonate
+shared controls.</li>
+<li class="">Legacy <code>cloud-*</code> IDs may temporarily coexist on the same shared node while historical E2E remains
+intact. Compatibility must not render a second node or view. Their final removal requires a
+separate, evidence-backed migration of historical tests.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-scenario-matrix">Feature scenario matrix<a href="#feature-scenario-matrix" class="hash-link" aria-label="Direct link to Feature scenario matrix" title="Direct link to Feature scenario matrix" translate="no">​</a></h2>
+<p>Every section below runs the same business steps in the Web and Wework shared cloud parity suites.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-my-work-and-the-default-board">1. My Work and the default board<a href="#1-my-work-and-the-default-board" class="hash-link" aria-label="Direct link to 1. My Work and the default board" title="Direct link to 1. My Work and the default board" translate="no">​</a></h3>
+<p>Prerequisites:</p>
+<ul>
+<li class="">The user can access at least two projects.</li>
+<li class="">Assigned Issues exist in pending, in-progress, in-review, and completed states.</li>
+<li class="">Unassigned, unrelated, and inaccessible Issues also exist.</li>
+</ul>
+<p>Steps and assertions:</p>
+<ol>
+<li class="">Open My Work from Collaboration home.</li>
+<li class="">The default board is visible; the UI must not fall back to an empty project list or create
+prompt.</li>
+<li class="">Only accessible Issues relevant to the current user appear.</li>
+<li class="">Status grouping, project filter, search, and view switching behave identically.</li>
+<li class="">Open an Issue and return; preserve filters, scroll position, and selected view.</li>
+<li class="">Complete an Issue and reload; it moves to completed and stale runtime state cannot revive it.</li>
+<li class="">Open the host location for My Work directly and reload into the same view.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-project-home">2. Project home<a href="#2-project-home" class="hash-link" aria-label="Direct link to 2. Project home" title="Direct link to 2. Project home" translate="no">​</a></h3>
+<ol>
+<li class="">Show the project list, My Work shortcut, create-project action, and manage entry.</li>
+<li class="">Create a cloud project and assert name, description, key, access role, and backend store.</li>
+<li class="">The new project appears on both hosts without a second login or duplicate project.</li>
+<li class="">A project card opens the same shared project home or board.</li>
+<li class="">Search, ordering, or management filters restore correctly after reload.</li>
+<li class="">Verify both empty and populated states; neither a Wework-only blank sidebar nor a Web-only
+reduced home is acceptable.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-board">3. Board<a href="#3-board" class="hash-link" aria-label="Direct link to 3. Board" title="Direct link to 3. Board" translate="no">​</a></h3>
+<ol>
+<li class="">A project opens on the shared board by default.</li>
+<li class="">Assert columns, Issue counts, title, priority, assignee, tags, date, and permission state.</li>
+<li class="">Search and clear the search to restore all cards.</li>
+<li class="">Switch status, priority, assignee, and tag grouping; the other host reads the persisted config.</li>
+<li class="">Use a real pointer/drag action to move a card to a target drop zone.</li>
+<li class="">Assert optimistic placement, server status/sort order, and post-reload placement.</li>
+<li class="">On server failure, roll back the card and show an error instead of retaining false success.</li>
+<li class="">Long-list scrolling, empty-column quick create, and narrow layouts keep primary actions usable.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-issue-crud-detail-and-drag">4. Issue CRUD, detail, and drag<a href="#4-issue-crud-detail-and-drag" class="hash-link" aria-label="Direct link to 4. Issue CRUD, detail, and drag" title="Direct link to 4. Issue CRUD, detail, and drag" translate="no">​</a></h3>
+<ol>
+<li class="">Create an Issue with title, description, status, priority, assignee, due date, and tags.</li>
+<li class="">The deep link opens the new Issue detail.</li>
+<li class="">Edit all fields, assert a version increment, and read the same result from the other host.</li>
+<li class="">Add a comment and attachment; both survive reload.</li>
+<li class="">Delete the attachment and verify its removal from the server and both hosts.</li>
+<li class="">Close and reopen detail from the card.</li>
+<li class="">Change status and order through drag and drop.</li>
+<li class="">Archive or delete the Issue; remove it from board, My Work, and valid deep links.</li>
+<li class="">Cancelling delete confirmation sends no delete request.</li>
+<li class="">A read-only user cannot activate mutation controls.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-members">5. Members<a href="#5-members" class="hash-link" aria-label="Direct link to 5. Members" title="Direct link to 5. Members" translate="no">​</a></h3>
+<p>Use Owner, Maintainer, Developer, Reporter, and non-member users.</p>
+<ol>
+<li class="">Owner searches for and adds a user.</li>
+<li class="">Change the member role and read the same role from the other host.</li>
+<li class="">Remove the member and verify that project access is lost.</li>
+<li class="">A regular role cannot demote or remove the Owner.</li>
+<li class="">Maintainer behavior matches the backend contract.</li>
+<li class="">Developer and Reporter cannot access member-management controls.</li>
+<li class="">Backend rejection preserves the original list and shows an explicit error.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-files">6. Files<a href="#6-files" class="hash-link" aria-label="Direct link to 6. Files" title="Direct link to 6. Files" translate="no">​</a></h3>
+<p>This suite covers cloud shared files. Wework reveal/local-path actions remain separate host tests.</p>
+<ol>
+<li class="">Create a folder and upload one text and one binary file.</li>
+<li class="">Assert path, size, type, creator, and update time.</li>
+<li class="">Navigate into the folder and back through breadcrumbs.</li>
+<li class="">Preview previewable content; binary content exposes correct download or unsupported-preview UI.</li>
+<li class="">Downloaded content matches the upload hash.</li>
+<li class="">Rename files and folders; the other host reads the new path.</li>
+<li class="">Delete a file; non-empty-folder behavior matches the backend contract.</li>
+<li class="">Duplicate names, invalid paths, oversized files, and unauthorized uploads show deterministic
+errors.</li>
+<li class="">Delivery assets and ordinary shared files remain distinct with the same cloud semantics on both
+hosts.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="7-automation-and-run-history">7. Automation and run history<a href="#7-automation-and-run-history" class="hash-link" aria-label="Direct link to 7. Automation and run history" title="Direct link to 7. Automation and run history" translate="no">​</a></h3>
+<p>The current shared <code>CollaborationApp</code> automation page is a capability placeholder. That is a P0
+capability gap and cannot pass because an entry point exists.</p>
+<ol>
+<li class="">Open the automation list and create a rule.</li>
+<li class="">Configure trigger, conditions, execution nodes, agent/team, model, and workspace binding.</li>
+<li class="">Save and assert the real backend definition.</li>
+<li class="">Edit, enable, disable, and archive the rule.</li>
+<li class="">Run now and assert the resulting run and related Issue/Task.</li>
+<li class="">Open run detail and verify state, start/end time, and errors.</li>
+<li class="">Reload and open the same rule and run from the other host.</li>
+<li class="">Unsaved draft, leave confirmation, and version-conflict behavior are identical.</li>
+<li class="">Non-managers see only permitted read-only information.</li>
+</ol>
+<p>Existing <code>project-automation</code> coverage can continue to own complex editor details, but the shared
+parity suite must cover the complete primary lifecycle.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="8-project-settings">8. Project settings<a href="#8-project-settings" class="hash-link" aria-label="Direct link to 8. Project settings" title="Direct link to 8. Project settings" translate="no">​</a></h3>
+<ol>
+<li class="">Edit name, description, visibility, and tags.</li>
+<li class="">Add, rename, reorder, and remove statuses; select the processing status.</li>
+<li class="">Change card-display fields.</li>
+<li class="">Apply permitted cloud updates to GitHub, GitLab, and DingTalk AI Table provider settings.</li>
+<li class="">Save, assert the server version, and read the result from the other host.</li>
+<li class="">Archive the project and return to project home; neither host lists it as active.</li>
+<li class="">Restricted roles cannot access or mutate protected fields.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="9-permissions-and-optimistic-lock-conflicts">9. Permissions and optimistic-lock conflicts<a href="#9-permissions-and-optimistic-lock-conflicts" class="hash-link" aria-label="Direct link to 9. Permissions and optimistic-lock conflicts" title="Direct link to 9. Permissions and optimistic-lock conflicts" translate="no">​</a></h3>
+<p>Minimum permission matrix:</p>
+<table><thead><tr><th>Role</th><th>Read project</th><th>Create/edit Issue</th><th>Manage members</th><th>Change settings</th><th>Manage automation</th></tr></thead><tbody><tr><td>Owner</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>Maintainer</td><td>Yes</td><td>Yes</td><td>Per backend contract</td><td>Yes</td><td>Yes</td></tr><tr><td>Developer</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr><tr><td>Reporter</td><td>Yes</td><td>Per backend contract</td><td>No</td><td>No</td><td>No</td></tr><tr><td>Non-member of private project</td><td>No</td><td>No</td><td>No</td><td>No</td><td>No</td></tr></tbody></table>
+<p>Conflict scenarios:</p>
+<ol>
+<li class="">Both hosts read the same project or Issue version.</li>
+<li class="">Web saves first; Wework submits the stale version.</li>
+<li class="">Wework receives <code>409</code>, shows the shared conflict message, and loads the latest server version.</li>
+<li class="">Local fields must not silently overwrite server data. If product behavior preserves a draft, it
+must be explicit.</li>
+<li class="">Repeat for project settings, Issue editing, and board reorder.</li>
+<li class=""><code>403</code> or hidden projects expose no stale sensitive fields; <code>404</code> versus unauthorized behavior
+follows the backend anti-enumeration contract.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="10-routing-and-restoration">10. Routing and restoration<a href="#10-routing-and-restoration" class="hash-link" aria-label="Direct link to 10. Routing and restoration" title="Direct link to 10. Routing and restoration" translate="no">​</a></h3>
+<p>Web:</p>
+<ul>
+<li class=""><code>/collaboration</code></li>
+<li class=""><code>/collaboration/{projectId}</code></li>
+<li class=""><code>/collaboration/{projectId}?view=files|members|automation|runs|manage</code></li>
+<li class=""><code>/collaboration/{projectId}/issues/{itemId}</code></li>
+<li class="">reload, back, and forward;</li>
+<li class="">invalid project ID, invalid item ID, and unauthorized deep links;</li>
+<li class="">legacy <code>/inbox</code>.</li>
+</ul>
+<p>Wework:</p>
+<ul>
+<li class="">open the top-level Collaboration tab;</li>
+<li class="">fixed project-space tab and project selection;</li>
+<li class="">close and reopen Collaboration;</li>
+<li class="">restore project, view, and Issue detail after app reload;</li>
+<li class="">open an Issue from a notification, task association, or project context;</li>
+<li class="">do not create duplicate project-space tabs;</li>
+<li class="">restore the My Work default board.</li>
+</ul>
+<p>Common assertions:</p>
+<ul>
+<li class="">Both hosts provide the same <code>CollaborationLocation</code> to the shared component.</li>
+<li class="">Before location restoration finishes, show explicit loading rather than the wrong home.</li>
+<li class="">Exactly one <code>collaboration-root</code> exists after restoration.</li>
+<li class="">Back returns to the expected shared parent view, not a host default page.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="structural-parity-assertions">Structural parity assertions<a href="#structural-parity-assertions" class="hash-link" aria-label="Direct link to Structural parity assertions" title="Direct link to Structural parity assertions" translate="no">​</a></h2>
+<p>At the start of every shared cloud parity run:</p>
+<ol>
+<li class="">Exactly one <code>collaboration-root</code> exists.</li>
+<li class="">Component name and contract version match.</li>
+<li class="">Serialized cloud capabilities match between Web and Wework.</li>
+<li class="">Capture a normalized semantic snapshot for project home, My Work, board, Issue detail, members,
+files, automation, and settings.</li>
+<li class="">Shared regions must be identical. Differences are allowed only in predeclared host slots:<!-- -->
+<ul>
+<li class="">Wework local-project creation;</li>
+<li class="">Wework terminal or local execution entry;</li>
+<li class="">Wework native file/reveal actions;</li>
+<li class="">Web URL/browser chrome;</li>
+<li class="">Wework tab chrome.</li>
+</ul>
+</li>
+<li class="">Any new difference fails; tests must not auto-update the allowlist.</li>
+<li class="">Screenshots are failure diagnostics only and cannot replace structural or server assertions.</li>
+</ol>
+<p>Recommended read-only root metadata:</p>
+<div class="language-html codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-html codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">section</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-testid</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">collaboration-root</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-component</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">CollaborationWorkspace</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-contract-version</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">1</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f">  </span><span class="token tag attr-name" style="color:#00a4db">data-collaboration-host</span><span class="token tag attr-value punctuation attr-equals" style="color:#393A34">=</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag attr-value" style="color:#e3116c">web</span><span class="token tag attr-value punctuation" style="color:#393A34">&quot;</span><span class="token tag" style="color:#00009f"></span><br></span><span class="token-line" style="color:#393A34"><span class="token tag" style="color:#00009f"></span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">section</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<p>Only <code>data-collaboration-host</code> may differ.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="fixtures-and-data">Fixtures and data<a href="#fixtures-and-data" class="hash-link" aria-label="Direct link to Fixtures and data" title="Direct link to Fixtures and data" translate="no">​</a></h2>
+<p>Each suite creates a unique prefix such as <code>collab-parity-{runId}</code> and provisions:</p>
+<ul>
+<li class="">Owner A;</li>
+<li class="">Maintainer B;</li>
+<li class="">Developer C;</li>
+<li class="">Reporter D;</li>
+<li class="">non-member E;</li>
+<li class="">one private and one public cloud project;</li>
+<li class="">at least five statuses;</li>
+<li class="">Issues spanning every priority, assignee, and tag condition;</li>
+<li class="">one parent and one child Issue;</li>
+<li class="">one text file, one binary file, and one folder;</li>
+<li class="">one disabled and one runnable automation;</li>
+<li class="">at least one successful and one failed run.</li>
+</ul>
+<p>The fixture builder returns IDs and current versions for projects, Issues, members, files, and
+automations. Tests must not infer dynamic IDs from visible text.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ci-execution">CI execution<a href="#ci-execution" class="hash-link" aria-label="Direct link to CI execution" title="Direct link to CI execution" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="web">Web<a href="#web" class="hash-link" aria-label="Direct link to Web" title="Direct link to Web" translate="no">​</a></h3>
+<p>The existing Chromium CI project must discover the new spec. A long cross-host scenario may use a
+dedicated tag, but a CI job must invoke it explicitly.</p>
+<p>Focused local command:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> frontend </span><span class="token builtin class-name">exec</span><span class="token plain"> playwright </span><span class="token builtin class-name">test</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">\</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  e2e/tests/collaboration/shared-cloud-parity.spec.ts </span><span class="token punctuation" style="color:#393A34">\</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token parameter variable" style="color:#36acaa">--project</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">chromium</span><br></span></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework">Wework<a href="#wework" class="hash-link" aria-label="Direct link to Wework" title="Direct link to Wework" translate="no">​</a></h3>
+<p>Focused local command after checkpoint registration:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> wework e2e:desktop -- </span><span class="token parameter variable" style="color:#36acaa">--segment</span><span class="token plain"> collaboration-cloud-parity</span><br></span></code></pre></div></div>
+<p>CI must verify:</p>
+<ul>
+<li class="">checkpoint catalog, scenario map, and CI shard are consistent;</li>
+<li class="">changes to the shared package, Web host, Wework host, or shared scenario select both Web
+collaboration E2E and the Wework parity checkpoint;</li>
+<li class="">the checkpoint runs independently;</li>
+<li class="">failure evidence includes runner logs, DOM snapshots, request summaries, and failure screenshots.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="shared-package-change-classification">Shared-package change classification<a href="#shared-package-change-classification" class="hash-link" aria-label="Direct link to Shared-package change classification" title="Direct link to Shared-package change classification" translate="no">​</a></h3>
+<p>Every <code>packages/collaboration/**</code> change triggers at least:</p>
+<ul>
+<li class="">shared package unit tests and typecheck;</li>
+<li class="">Web shared cloud parity;</li>
+<li class="">Wework <code>collaboration-cloud-parity</code>;</li>
+<li class="">static host-boundary verification.</li>
+</ul>
+<p>Triggering only one host is not an acceptable merge gate.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="implementation-order">Implementation order<a href="#implementation-order" class="hash-link" aria-label="Direct link to Implementation order" title="Direct link to Implementation order" translate="no">​</a></h2>
+<ol>
+<li class="">Add the static host-boundary test so the current two-root state fails explicitly.</li>
+<li class="">Define the root identity, capability schema, and unified test-ID contract.</li>
+<li class="">Add the shared scenario DSL and fixture builder, starting with project home, My Work, and board.</li>
+<li class="">Add thin Web and Wework drivers and fix incomplete CI checkpoint registration.</li>
+<li class="">Extend coverage through Issues, members, files, settings, and automation.</li>
+<li class="">Add same-project cross-host writes and <code>409</code> conflicts.</li>
+<li class="">Add normalized semantic-tree comparison and an explicit host-difference allowlist.</li>
+<li class="">Keep all historical E2E. Evaluate legacy-selector migration in a separate, evidence-backed
+change after the shared flow is stable.</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="merge-gate">Merge gate<a href="#merge-gate" class="hash-link" aria-label="Direct link to Merge gate" title="Direct link to Merge gate" translate="no">​</a></h2>
+<p>The implementation may be called fully shared and cloud-capability-equivalent only when all of the
+following are proven:</p>
+<ul>
+<li class="">Static boundary checks show both hosts importing one shared root and no second host-side cloud
+implementation.</li>
+<li class="">Runtime identity, contract version, and normalized shared semantic trees match.</li>
+<li class="">All ten feature areas pass from the same scenario definitions on Web and Wework.</li>
+<li class="">At least one cross-host scenario completes bidirectional writes and all three <code>409</code> recovery
+cases on the same project.</li>
+<li class="">Both hosts use the real backend and pass server persistence assertions.</li>
+<li class="">My Work default board, project home, files, and automation are present.</li>
+<li class="">Existing Wework desktop checkpoints and the existing Web collaboration spec remain green.</li>
+<li class=""><code>collaboration-cloud-parity</code> is registered in the catalog, runner, and CI with no ghost
+checkpoint.</li>
+<li class="">There are no silent skips, fallbacks, retry-to-green behavior, or automatically expanding
+structural-difference allowlists.</li>
+</ul>
+<p>If any item is missing, the work remains a migration and cannot be declared complete.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/engineering/collaboration-shared-ui-test-plan.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#objective" class="table-of-contents__link toc-highlight">Objective</a></li><li><a href="#current-state-audit" class="table-of-contents__link toc-highlight">Current-state audit</a><ul><li><a href="#mount-structure" class="table-of-contents__link toc-highlight">Mount structure</a></li><li><a href="#web-playwright" class="table-of-contents__link toc-highlight">Web Playwright</a></li><li><a href="#wework-desktop-checkpoints" class="table-of-contents__link toc-highlight">Wework desktop checkpoints</a></li><li><a href="#first-executable-shared-checkpoint" class="table-of-contents__link toc-highlight">First executable shared checkpoint</a></li><li><a href="#data-testid-audit" class="table-of-contents__link toc-highlight"><code>data-testid</code> audit</a></li></ul></li><li><a href="#acceptance-principles" class="table-of-contents__link toc-highlight">Acceptance principles</a><ul><li><a href="#real-backend" class="table-of-contents__link toc-highlight">Real backend</a></li><li><a href="#one-semantic-scenario" class="table-of-contents__link toc-highlight">One semantic scenario</a></li><li><a href="#self-contained-setup-and-cleanup" class="table-of-contents__link toc-highlight">Self-contained setup and cleanup</a></li></ul></li><li><a href="#proposed-test-layers" class="table-of-contents__link toc-highlight">Proposed test layers</a><ul><li><a href="#layer-1-shared-component-contract" class="table-of-contents__link toc-highlight">Layer 1: shared component contract</a></li><li><a href="#layer-2-static-host-boundary-gate" class="table-of-contents__link toc-highlight">Layer 2: static host-boundary gate</a></li><li><a href="#layer-3-cross-host-cloud-parity-e2e" class="table-of-contents__link toc-highlight">Layer 3: cross-host cloud parity E2E</a></li><li><a href="#layer-4-cross-host-consistency-and-concurrency" class="table-of-contents__link toc-highlight">Layer 4: cross-host consistency and concurrency</a></li></ul></li><li><a href="#unified-data-testid-contract" class="table-of-contents__link toc-highlight">Unified <code>data-testid</code> contract</a></li><li><a href="#feature-scenario-matrix" class="table-of-contents__link toc-highlight">Feature scenario matrix</a><ul><li><a href="#1-my-work-and-the-default-board" class="table-of-contents__link toc-highlight">1. My Work and the default board</a></li><li><a href="#2-project-home" class="table-of-contents__link toc-highlight">2. Project home</a></li><li><a href="#3-board" class="table-of-contents__link toc-highlight">3. Board</a></li><li><a href="#4-issue-crud-detail-and-drag" class="table-of-contents__link toc-highlight">4. Issue CRUD, detail, and drag</a></li><li><a href="#5-members" class="table-of-contents__link toc-highlight">5. Members</a></li><li><a href="#6-files" class="table-of-contents__link toc-highlight">6. Files</a></li><li><a href="#7-automation-and-run-history" class="table-of-contents__link toc-highlight">7. Automation and run history</a></li><li><a href="#8-project-settings" class="table-of-contents__link toc-highlight">8. Project settings</a></li><li><a href="#9-permissions-and-optimistic-lock-conflicts" class="table-of-contents__link toc-highlight">9. Permissions and optimistic-lock conflicts</a></li><li><a href="#10-routing-and-restoration" class="table-of-contents__link toc-highlight">10. Routing and restoration</a></li></ul></li><li><a href="#structural-parity-assertions" class="table-of-contents__link toc-highlight">Structural parity assertions</a></li><li><a href="#fixtures-and-data" class="table-of-contents__link toc-highlight">Fixtures and data</a></li><li><a href="#ci-execution" class="table-of-contents__link toc-highlight">CI execution</a><ul><li><a href="#web" class="table-of-contents__link toc-highlight">Web</a></li><li><a href="#wework" class="table-of-contents__link toc-highlight">Wework</a></li><li><a href="#shared-package-change-classification" class="table-of-contents__link toc-highlight">Shared-package change classification</a></li></ul></li><li><a href="#implementation-order" class="table-of-contents__link toc-highlight">Implementation order</a></li><li><a href="#merge-gate" class="table-of-contents__link toc-highlight">Merge gate</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
