@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作执行完整 E2E 测试计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作执行完整 E2E 测试计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-12"><meta data-rh="true" property="og:description" content="审计日期：2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.500618f6.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.65bd6810.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.ab2e5664.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -474,10 +474,13 @@ App 逻辑设备 ID、不同的 Runtime identity。</li>
 <li class="">从项目设置添加桌面 App 对应的 Wework 设备，填写有效仓库与初始化步骤，然后点击
 “创建环境”。</li>
 <li class="">环境准备命令必须发送到所选设备记录的 <code>app-record-{id}</code> 路由，状态变为
-<code>ready</code>，同时持久化的 <code>prepared_device_id</code> 继续保留逻辑设备 ID。</li>
+<code>ready</code>，并以该路由为键持久化到执行环境的 <code>devices</code> 映射中。</li>
 <li class="">删除该 Wework 设备后，继续使用真实云端 Executor 创建环境并完成原有双智能体自动
 处理链，证明记录路由修复未破坏后续调度。</li>
 </ol>
+<p>环境准备克隆仓库时使用设备上已配置的 Git 凭据，与任务派发到设备的方式一致：Backend
+不下发任务级 token，因为一个执行环境的多个仓库可能分属不同域名。因此私有仓库必须先把
+Git 账号同步到该设备，否则克隆会因缺少凭据失败。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cloud-device-lifecycle"><code>cloud-device-lifecycle</code><a href="#cloud-device-lifecycle" class="hash-link" aria-label="cloud-device-lifecycle的直接链接" title="cloud-device-lifecycle的直接链接" translate="no">​</a></h3>
 <p>该 checkpoint 复用 CI 启动的真实云端 Executor，验证：</p>
 <ol>

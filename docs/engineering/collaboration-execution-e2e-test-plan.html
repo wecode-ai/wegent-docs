@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Complete Collaboration Execution E2E Test Plan | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Complete Collaboration Execution E2E Test Plan | Wegent"><meta data-rh="true" name="description" content="Audit date: 2026-09-12"><meta data-rh="true" property="og:description" content="Audit date: 2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.a1f367a9.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.201ebe18.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.ab2f0f78.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -480,12 +480,17 @@ directly to the database.</li>
 <li class="">Add the Wework device associated with the desktop App from Project settings, enter a valid
 repository and setup step, and click Create Environment.</li>
 <li class="">The environment preparation command must target the selected device record&#x27;s
-<code>app-record-{id}</code> route, reach <code>ready</code>, and keep the logical device ID in the persisted
-<code>prepared_device_id</code>.</li>
+<code>app-record-{id}</code> route, reach <code>ready</code>, and persist its state under that route in the
+execution environment&#x27;s <code>devices</code> map.</li>
 <li class="">After removing that Wework device, initialize the real cloud Executor and complete the
 existing two-agent automation chain, proving that record-scoped routing does not break
 subsequent scheduling.</li>
 </ol>
+<p>Environment preparation clones repositories with the Git credentials configured on the device,
+matching how tasks dispatched to a device behave: the Backend sends no task-scoped token because
+one execution environment may hold repositories from several domains. A private repository
+therefore requires the Git accounts to be synchronized to that device first, otherwise the clone
+fails for missing credentials.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cloud-device-lifecycle"><code>cloud-device-lifecycle</code><a href="#cloud-device-lifecycle" class="hash-link" aria-label="Direct link to cloud-device-lifecycle" title="Direct link to cloud-device-lifecycle" translate="no">​</a></h3>
 <p>This checkpoint reuses the real cloud Executor started by CI and verifies:</p>
 <ol>
