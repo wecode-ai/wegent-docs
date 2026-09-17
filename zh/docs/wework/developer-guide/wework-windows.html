@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Windows 开发与构建 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Windows 开发与构建 | Wegent"><meta data-rh="true" name="description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><meta data-rh="true" property="og:description" content="Wework Windows 桌面版使用 Electron，并与 macOS、Linux 共用同一套 renderer、"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Windows 开发与构建","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.072d9b04.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.ab2e5664.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.fc8bfdef.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.f0b3216f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -29,11 +29,18 @@ Vite watch 构建，再通过 <code>WEWORK_APP_WEB_ROOT</code>/<code>WEWORK_APP_
 运行的桌面应用直接服务最新构建并在产物变化时自动刷新（与 <code>dev-mac-app.sh</code>
 一致）。因此切换分支或修改 renderer 源码后，无需手动同步打包插件产物即可
 生效。</p>
-<p>运行时与 Executor 构建缓存默认放在 <code>%LOCALAPPDATA%\wegent\</code>（可用
-<code>WEWORK_DEV_CACHE_ROOT</code>、<code>WEGENT_CARGO_TARGET_ROOT</code> 覆盖），首次准备较慢，
-之后为增量。可用 <code>-- --executor-isolation</code> 使用临时 Executor Home，或用
-<code>WEWORK_DRY_RUN=1</code> 只打印启动配置。若下载卡住，先设置
-<code>HTTP_PROXY</code>/<code>HTTPS_PROXY</code> 环境变量。</p>
+<p>脚本同样对齐 macOS 的开发实例模型：按 worktree 推导稳定身份和标题，为
+Electron 提供隔离的应用标识与用户数据目录，并为源码 Core DSH 插件生成组件
+资源。重命名可执行文件 bundle 是 macOS 特有实现；Windows 开发标题由
+Electron 进程身份承载。</p>
+<p>不可变的 Runtime 归档和 Executor 构建缓存默认放在
+<code>%LOCALAPPDATA%\wegent\</code>（可用 <code>WEWORK_DEV_CACHE_ROOT</code>、
+<code>WEGENT_CARGO_TARGET_ROOT</code> 覆盖）。当系统盘空间不足且尚无可用缓存时，Cargo
+target 会按 <code>D:</code> 到 <code>H:</code> 的顺序回退。可变且按 worktree 隔离的 materialized
+runtime 仍保留在当前检出的 <code>wework/node_modules/.cache</code>，避免不同 worktree
+共享活跃文件。首次准备较慢，之后为增量。可用
+<code>-- --executor-isolation</code> 使用临时 Executor Home，或用 <code>WEWORK_DRY_RUN=1</code>
+只打印启动配置。若下载卡住，先设置 <code>HTTP_PROXY</code>/<code>HTTPS_PROXY</code> 环境变量。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="构建">构建<a href="#构建" class="hash-link" aria-label="构建的直接链接" title="构建的直接链接" translate="no">​</a></h2>
 <div class="language-powershell codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-powershell codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pnpm --dir wework/electron build:release</span><br></span></code></pre></div></div>
 <p>NSIS 安装器写入
