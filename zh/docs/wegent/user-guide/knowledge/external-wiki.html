@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-wegent/user-guide/knowledge/external-wiki" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">外部 Wiki 同步 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="外部 Wiki 同步 | Wegent"><meta data-rh="true" name="description" content="通过外部 Wiki 连接器，可以将 Wiki.js 页面、GitLab 仓库文件或 GitLab 项目"><meta data-rh="true" property="og:description" content="通过外部 Wiki 连接器，可以将 Wiki.js 页面、GitLab 仓库文件或 GitLab 项目"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Knowledge","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/"},{"@type":"ListItem","position":3,"name":"外部 Wiki 同步","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/zh/assets/js/runtime~main.a390c25d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.bbb44c4e.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/zh/img/wegent.png"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/zh/"><div class="navbar__logo"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/zh/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/zh/docs/wegent">Wegent</a><a class="navbar__item navbar__link" href="/wegent-docs/zh/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>中文</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="切换浅色/暗黑模式（当前为system mode）"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="搜索" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wegent"><span title="Wegent 文档" class="linkLabel_WmDU">Wegent 文档</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/getting-started"><span title="Getting Started" class="categoryLinkLabel_W154">Getting Started</span></a><button aria-label="展开侧边栏分类 &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/concepts"><span title="Concepts" class="categoryLinkLabel_W154">Concepts</span></a><button aria-label="展开侧边栏分类 &#x27;Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/zh/docs/category/user-guide"><span title="User Guide" class="categoryLinkLabel_W154">User Guide</span></a><button aria-label="折叠侧边栏分类 &#x27;User Guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/chat"><span title="Chat" class="categoryLinkLabel_W154">Chat</span></a><button aria-label="展开侧边栏分类 &#x27;Chat&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/coding"><span title="Coding" class="categoryLinkLabel_W154">Coding</span></a><button aria-label="展开侧边栏分类 &#x27;Coding&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/feed"><span title="Feed" class="categoryLinkLabel_W154">Feed</span></a><button aria-label="展开侧边栏分类 &#x27;Feed&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge"><span title="Knowledge" class="categoryLinkLabel_W154">Knowledge</span></a><button aria-label="折叠侧边栏分类 &#x27;Knowledge&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide"><span title="使用指南" class="linkLabel_WmDU">使用指南</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-types"><span title="知识库类型" class="linkLabel_WmDU">知识库类型</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/document-management"><span title="文档管理" class="linkLabel_WmDU">文档管理</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/chunking-strategies"><span title="分块策略" class="linkLabel_WmDU">分块策略</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/configuring-retrievers"><span title="配置检索器" class="linkLabel_WmDU">配置检索器</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/retrieval-and-direct-injection"><span title="检索与直注入" class="linkLabel_WmDU">检索与直注入</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki"><span title="外部 Wiki 同步" class="linkLabel_WmDU">外部 Wiki 同步</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/category/ai-devices"><span title="AI Devices" class="categoryLinkLabel_W154">AI Devices</span></a><button aria-label="展开侧边栏分类 &#x27;AI Devices&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/integrations"><span title="Integrations" class="categoryLinkLabel_W154">Integrations</span></a><button aria-label="展开侧边栏分类 &#x27;Integrations&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/inbox"><span title="Todo" class="categoryLinkLabel_W154">Todo</span></a><button aria-label="展开侧边栏分类 &#x27;Todo&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/settings"><span title="Settings" class="categoryLinkLabel_W154">Settings</span></a><button aria-label="展开侧边栏分类 &#x27;Settings&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/wework-notifications"><span title="Wework 通知与跳转" class="linkLabel_WmDU">Wework 通知与跳转</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide"><span title="📚 用户指南" class="linkLabel_WmDU">📚 用户指南</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/wegent-docs/zh/docs/wegent/user-guide/ai-coding/local-codex-thread-binding"><span title="ai-coding" class="categoryLinkLabel_W154">ai-coding</span></a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/developer-guide"><span title="Developer Guide" class="categoryLinkLabel_W154">Developer Guide</span></a><button aria-label="展开侧边栏分类 &#x27;Developer Guide&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/reference"><span title="Reference" class="categoryLinkLabel_W154">Reference</span></a><button aria-label="展开侧边栏分类 &#x27;Reference&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/zh/docs/category/deployment"><span title="Deployment" class="categoryLinkLabel_W154">Deployment</span></a><button aria-label="展开侧边栏分类 &#x27;Deployment&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wegent/troubleshooting"><span title="🔧 故障排查指南" class="linkLabel_WmDU">🔧 故障排查指南</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/zh/docs/wegent/faq"><span title="❓ 常见问题 (FAQ)" class="linkLabel_WmDU">❓ 常见问题 (FAQ)</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/wegent-docs/zh/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/category/user-guide"><span>User Guide</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge"><span>Knowledge</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">外部 Wiki 同步</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>外部 Wiki 同步</h1></header>
+<p>通过外部 Wiki 连接器，可以将 Wiki.js 页面、GitLab 仓库文件或 GitLab 项目
+Wiki 页面绑定到知识库。绑定后的内容会转换为普通知识文档并参与通用 RAG 检索，
+系统还会定时检查远端版本，在内容变化后自动更新正文和索引。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="支持的连接器">支持的连接器<a href="#支持的连接器" class="hash-link" aria-label="支持的连接器的直接链接" title="支持的连接器的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>连接器</th><th>可导入内容</th><th>添加资料时选择</th><th>访问凭据</th></tr></thead><tbody><tr><td><strong>Wiki.js</strong></td><td>Wiki.js 页面</td><td>页面或目录</td><td>Wiki.js API Key</td></tr><tr><td><strong>GitLab Repo</strong></td><td>GitLab 仓库中的支持文件</td><td>仓库、分支和文件</td><td>GitLab AppKey / Access Token</td></tr><tr><td><strong>GitLab Wiki</strong></td><td>GitLab 项目的 Wiki 页面</td><td>仓库和 Wiki 页面</td><td>GitLab AppKey / Access Token</td></tr></tbody></table>
+<p>Wiki.js 当前支持 <strong>2.x，最低版本 2.5.300</strong>。Wiki.js 3.x 及 2.5.300
+之前的版本不在当前兼容范围内。</p>
+<p>GitLab Repo 支持以下文件扩展名：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pdf, doc, docx, ppt, pptx, xls, xlsx, csv, txt, md, markdown</span><br></span></code></pre></div></div>
+<p>目录仅用于浏览文件，不会作为文档导入。空文件、不支持的文件类型以及超过知识库
+上传大小限制的文件不能绑定。Git LFS 指针文件也不能绑定，因为仓库 API 返回内容
+不包含指针引用的实际二进制文件。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="工作方式">工作方式<a href="#工作方式" class="hash-link" aria-label="工作方式的直接链接" title="工作方式的直接链接" translate="no">​</a></h2>
+<p>外部 Wiki 功能由三部分组成：</p>
+<table><thead><tr><th>组成</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td><strong>连接管理</strong></td><td>设置 → 集成 → 外部 Wiki</td><td>保存连接器类型、站点地址和加密凭据</td></tr><tr><td><strong>资料绑定</strong></td><td>知识库 → 添加文档 → 外部 Wiki</td><td>选择远端页面或文件，每项生成一篇同步文档</td></tr><tr><td><strong>定时同步</strong></td><td>后台定时任务</td><td>比较远端版本，仅更新发生变化的文档</td></tr></tbody></table>
+<p>与一次性网页导入不同，外部 Wiki 是持续绑定关系。再次绑定相同连接、仓库、
+分支和资源时会复用已有文档，不会生成重复条目。</p>
+<p>导入完成后使用知识库的通用索引和检索能力，不需要为 Wiki.js 或 GitLab
+配置专用检索 Skill。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="前置条件">前置条件<a href="#前置条件" class="hash-link" aria-label="前置条件的直接链接" title="前置条件的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="通用条件">通用条件<a href="#通用条件" class="hash-link" aria-label="通用条件的直接链接" title="通用条件的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">Wegent 后端能够访问目标 Wiki.js 或 GitLab 地址。</li>
+<li class="">环境开关 <code>EXTERNAL_DOC_SYNC_ENABLED</code> 已显式设置为 <code>true</code>（默认关闭）。</li>
+<li class="">当前用户拥有目标知识库的编辑权限。</li>
+<li class="">目标连接可以使用 HTTP 或 HTTPS；站点地址必须是后端实际能够连接的地址。</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wikijs">Wiki.js<a href="#wikijs" class="hash-link" aria-label="Wiki.js的直接链接" title="Wiki.js的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">Wiki.js 版本为 2.5.300 或更高的 2.x。</li>
+<li class="">在 <strong>Admin → API</strong> 创建 API Key，其权限组包含：<!-- -->
+<ul>
+<li class=""><code>read:pages</code></li>
+<li class=""><code>read:source</code></li>
+<li class=""><code>manage:pages</code>，或包含 <code>delete:pages</code> 的权限组</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="gitlab-repo-和-gitlab-wiki">GitLab Repo 和 GitLab Wiki<a href="#gitlab-repo-和-gitlab-wiki" class="hash-link" aria-label="GitLab Repo 和 GitLab Wiki的直接链接" title="GitLab Repo 和 GitLab Wiki的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">准备能够读取目标项目的 GitLab Access Token。产品界面中称为
+<strong>GitLab AppKey / Access Token</strong>。</li>
+<li class="">推荐最小权限为 <code>read_api</code>。</li>
+<li class="">Token 对目标项目具有读取权限。GitLab Repo 还需要读取仓库、分支和文件；
+GitLab Wiki 需要读取项目 Wiki。</li>
+<li class="">可以使用 GitLab.com 或自建 GitLab，站点地址可为 HTTP 或 HTTPS。</li>
+</ul>
+<p>凭据通过 <code>PRIVATE-TOKEN</code> 请求头发送，并加密存储在服务端；不会拼接到 URL
+或显示在知识文档中。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="配置外部-wiki-连接">配置外部 Wiki 连接<a href="#配置外部-wiki-连接" class="hash-link" aria-label="配置外部 Wiki 连接的直接链接" title="配置外部 Wiki 连接的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">进入 <strong>设置 → 集成</strong>，找到 <strong>外部 Wiki</strong>。</li>
+<li class="">点击 <strong>新连接</strong>。</li>
+<li class="">填写连接名称并选择连接器类型。</li>
+<li class="">根据连接器填写站点地址和凭据。</li>
+<li class="">点击 <strong>测试连通</strong>。</li>
+<li class="">测试成功后点击 <strong>保存</strong>。</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="配置-wikijs">配置 Wiki.js<a href="#配置-wikijs" class="hash-link" aria-label="配置 Wiki.js的直接链接" title="配置 Wiki.js的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>连接器类型</strong>：<code>Wiki.js</code></li>
+<li class=""><strong>站点地址</strong>：Wiki 根地址，例如 <code>https://wiki.example.com</code>，不要附加
+<code>/graphql</code></li>
+<li class=""><strong>API Key</strong>：Wiki.js 后台创建的 API Key</li>
+<li class=""><strong>默认语言（可选）</strong>：多语言站点用于路径解析，例如 <code>zh</code></li>
+</ul>
+<p>连接测试会检查页面列表、页面解析和正文读取，而不只是网络连通性。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="配置-gitlab-repo">配置 GitLab Repo<a href="#配置-gitlab-repo" class="hash-link" aria-label="配置 GitLab Repo的直接链接" title="配置 GitLab Repo的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>连接器类型</strong>：<code>GitLab Repo</code></li>
+<li class=""><strong>站点地址</strong>：GitLab 根地址，例如 <code>https://gitlab.example.com</code> 或
+<code>http://gitlab.internal</code>，不要附加 <code>/api/v4</code></li>
+<li class=""><strong>API Key</strong>：GitLab AppKey / Access Token</li>
+</ul>
+<p>连接测试会调用 GitLab API 获取当前 Token 可访问的项目。测试成功但没有项目时，
+界面会提示当前 AppKey 没有可访问项目。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="配置-gitlab-wiki">配置 GitLab Wiki<a href="#配置-gitlab-wiki" class="hash-link" aria-label="配置 GitLab Wiki的直接链接" title="配置 GitLab Wiki的直接链接" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>连接器类型</strong>：<code>GitLab Wiki</code></li>
+<li class=""><strong>站点地址</strong>：GitLab 根地址，不要附加 <code>/api/v4</code></li>
+<li class=""><strong>API Key</strong>：GitLab AppKey / Access Token</li>
+</ul>
+<p>GitLab Wiki 与 GitLab Repo 可以使用同一个 GitLab 实例和 Token，但它们是两个
+独立连接，添加资料时展示的资源类型不同。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="连接管理注意事项">连接管理注意事项<a href="#连接管理注意事项" class="hash-link" aria-label="连接管理注意事项的直接链接" title="连接管理注意事项的直接链接" translate="no">​</a></h3>
+<ul>
+<li class="">仅修改连接名称、启用状态等非目标字段时，API Key 留空表示保留原凭据；
+修改站点地址或连接器时必须重新输入 API Key，系统不会把旧凭据发送到新目标。</li>
+<li class="">停用连接后，系统停止远端读取和同步；最近一次成功同步的本地正文和索引仍可使用。</li>
+<li class="">删除连接前必须先解除引用该连接的全部同步文档。</li>
+<li class="">连接器类型决定已绑定资源的身份和解析方式。需要切换类型时，建议新建连接并重新绑定，
+不要把已有连接直接改成另一种连接器。</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="添加-wikijs-页面">添加 Wiki.js 页面<a href="#添加-wikijs-页面" class="hash-link" aria-label="添加 Wiki.js 页面的直接链接" title="添加 Wiki.js 页面的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">打开目标知识库，点击 <strong>添加文档 → 外部 Wiki</strong>。</li>
+<li class="">选择 Wiki.js 连接。</li>
+<li class="">在页面树中选择需要绑定的页面。</li>
+<li class="">点击 <strong>绑定选中</strong>。</li>
+</ol>
+<p>页面选择器支持按标题或路径搜索、全选、取消全选和目录选择。当站点页面数超过
+服务端浏览上限时，会显示截断提示并加载最近更新的页面。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="添加-gitlab-repo-文件">添加 GitLab Repo 文件<a href="#添加-gitlab-repo-文件" class="hash-link" aria-label="添加 GitLab Repo 文件的直接链接" title="添加 GitLab Repo 文件的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">打开目标知识库，点击 <strong>添加文档 → 外部 Wiki</strong>。</li>
+<li class="">选择 <code>GitLab Repo</code> 连接。</li>
+<li class="">在 <strong>仓库</strong> 下拉框选择目标项目。</li>
+<li class="">在 <strong>分支</strong> 下拉框选择目标分支。默认优先选择项目默认分支。</li>
+<li class="">展开目录并勾选需要同步的文件。</li>
+<li class="">点击 <strong>绑定选中</strong>。</li>
+</ol>
+<p>文件选择器只允许选择受支持的文件类型。目录用于逐层浏览，不能作为知识文档导入。
+绑定身份包含连接、仓库、分支和文件路径，因此：</p>
+<ul>
+<li class="">同一路径在不同分支中是不同的同步文档。</li>
+<li class="">文件改名会被视为旧文件删除和新文件出现，需要重新绑定新路径。</li>
+<li class="">切换项目或分支后，选择器会清除上一范围中的临时选择。</li>
+</ul>
+<p>绑定后系统下载文件原始内容，复用知识库现有的附件解析、转换和索引流程。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="添加-gitlab-wiki-页面">添加 GitLab Wiki 页面<a href="#添加-gitlab-wiki-页面" class="hash-link" aria-label="添加 GitLab Wiki 页面的直接链接" title="添加 GitLab Wiki 页面的直接链接" translate="no">​</a></h2>
+<ol>
+<li class="">打开目标知识库，点击 <strong>添加文档 → 外部 Wiki</strong>。</li>
+<li class="">选择 <code>GitLab Wiki</code> 连接。</li>
+<li class="">在 <strong>仓库</strong> 下拉框选择目标项目。</li>
+<li class="">在 Wiki 页面列表中选择需要同步的页面。</li>
+<li class="">点击 <strong>绑定选中</strong>。</li>
+</ol>
+<p>GitLab Wiki 页面属于项目，不需要选择分支。页面会按其格式转换为 Markdown、
+AsciiDoc 或文本后进入知识库索引流程。</p>
+<p>如果项目没有启用 Wiki、Wiki 为空，或者 Token 无权读取 Wiki，页面列表将为空
+或显示对应错误。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="绑定结果和文档展示">绑定结果和文档展示<a href="#绑定结果和文档展示" class="hash-link" aria-label="绑定结果和文档展示的直接链接" title="绑定结果和文档展示的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>结果</th><th>说明</th></tr></thead><tbody><tr><td><strong>已绑定 N 个</strong></td><td>新资源已创建同步文档，后台开始读取和索引</td></tr><tr><td><strong>已重新同步 N 个</strong></td><td>已存在的资源触发了正文刷新</td></tr><tr><td><strong>正在处理中，本次跳过</strong></td><td>文档仍处于转换或索引流程，没有重复派发任务</td></tr></tbody></table>
+<p>知识库文档列表会同时显示：</p>
+<ul>
+<li class="">文件类型，例如 <code>MD</code>、<code>PDF</code>；</li>
+<li class="">连接器类型和图标，例如 <code>wikijs</code>、<code>gitlab-repo</code>、<code>gitlab-wiki</code>；</li>
+<li class="">最近一次成功完成索引的时间。</li>
+</ul>
+<p>在 <strong>添加文档 → 外部 Wiki → 已绑定文档</strong> 中，每条文档也会显示自己的连接器
+名称和图标。切换当前连接不会改变其他已绑定文档的连接器标识。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="定时同步机制">定时同步机制<a href="#定时同步机制" class="hash-link" aria-label="定时同步机制的直接链接" title="定时同步机制的直接链接" translate="no">​</a></h2>
+<p>后台默认每天 UTC 19:00（北京时间次日凌晨 3:00）执行巡检：</p>
+<ol>
+<li class="">分批扫描所有已绑定的外部 Wiki 文档。</li>
+<li class="">按连接和资源范围调用对应连接器。</li>
+<li class="">比较远端版本、已下载正文版本和已建立索引版本。</li>
+<li class="">仅为发生变化或索引缺失的文档派发任务。</li>
+</ol>
+<p>不同连接器使用不同的远端版本依据：</p>
+<table><thead><tr><th>连接器</th><th>版本依据</th></tr></thead><tbody><tr><td>Wiki.js</td><td>页面 <code>updatedAt</code></td></tr><tr><td>GitLab Repo</td><td>文件 Blob ID</td></tr><tr><td>GitLab Wiki</td><td>页面标题、格式和正文计算出的内容哈希</td></tr></tbody></table>
+<table><thead><tr><th>远端状态</th><th>系统行为</th></tr></thead><tbody><tr><td>版本无变化且索引正常</td><td>不更新文档</td></tr><tr><td>远端内容变化</td><td>重新下载正文并重建索引</td></tr><tr><td>正文已是最新但索引缺失</td><td>使用现有正文重建索引</td></tr><tr><td>页面或文件已删除</td><td>标记源文档不存在，保留最近一次成功索引</td></tr><tr><td>仓库或分支不可访问</td><td>标记同步失败，保留现有内容</td></tr><tr><td>连接不可用、权限失败或限流</td><td>标记同步失败，后续巡检自动重试</td></tr></tbody></table>
+<p>检测到更新时，任务日志会记录文档 ID、知识库 ID、文档名、连接器、连接 ID、
+资源路径、前后版本和更新动作，不记录 API Key 或文档正文。</p>
+<p>也可以在文档详情中手动执行 <strong>同步</strong>，立即重新获取远端内容。文档正在处理时，
+系统会跳过重复任务。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="源资源被删除或移动">源资源被删除或移动<a href="#源资源被删除或移动" class="hash-link" aria-label="源资源被删除或移动的直接链接" title="源资源被删除或移动的直接链接" translate="no">​</a></h2>
+<p>远端页面或文件被删除后，系统不会自动删除本地知识文档，而是标记源资源不存在：</p>
+<ul>
+<li class="">最近一次成功同步的正文和索引继续保留，Agent 仍可检索历史内容。</li>
+<li class="">源资源恢复后，后续巡检会自动恢复同步。</li>
+<li class="">确认不再需要时，可以在已绑定文档列表中解除绑定。</li>
+</ul>
+<p>GitLab Repo 文件改名或移动后，原路径按删除处理。新路径具有新的资源身份，需要
+重新选择并绑定。</p>
+<p>如果整个 GitLab 项目、分支或 Wiki 权限发生变化，系统会标记同步失败而不是删除
+本地内容。权限恢复后会在后续巡检中重试。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="管理操作">管理操作<a href="#管理操作" class="hash-link" aria-label="管理操作的直接链接" title="管理操作的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>操作</th><th>位置</th><th>说明</th></tr></thead><tbody><tr><td>查看绑定</td><td>添加文档 → 外部 Wiki → 已绑定文档</td><td>查看文档名称、连接器和同步状态</td></tr><tr><td>解除绑定</td><td>已绑定文档 → 解除绑定</td><td>删除本地同步文档及其索引</td></tr><tr><td>手动同步</td><td>文档详情 → 同步</td><td>立即拉取远端正文并重建索引</td></tr><tr><td>停用连接</td><td>设置 → 集成 → 外部 Wiki</td><td>停止远端读取和自动同步</td></tr><tr><td>删除连接</td><td>设置 → 集成 → 外部 Wiki</td><td>必须先解除所有引用文档</td></tr></tbody></table>
+<p>每个用户管理自己的外部 Wiki 连接。绑定和解除绑定需要目标知识库的编辑权限；
+同步文档的可见性与知识库中的普通文档一致。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="常见问题">常见问题<a href="#常见问题" class="hash-link" aria-label="常见问题的直接链接" title="常见问题的直接链接" translate="no">​</a></h2>
+<p><strong>Q：GitLab 连接成功，但没有可选仓库？</strong></p>
+<p>确认 Token 具有 <code>read_api</code> 权限，并且 Token 所属用户或访问令牌能够读取目标项目。
+项目列表只展示当前 Token 可访问的项目。</p>
+<p><strong>Q：GitLab Repo 中看不到某个文件？</strong></p>
+<p>确认选择了正确的仓库和分支，并检查文件扩展名是否在支持列表中。目录、空文件、
+无扩展名文件和超出知识库上传大小限制的文件不能导入。</p>
+<p><strong>Q：GitLab Wiki 为什么不需要选择分支？</strong></p>
+<p>GitLab 项目 Wiki 由独立的 Wiki API 管理，不按代码仓库分支选择。</p>
+<p><strong>Q：是否支持 HTTP 或内网 GitLab？</strong></p>
+<p>支持。系统不限制 GitLab 必须使用 HTTPS，也不限制特定域名或网段；只要 Wegent
+后端能够连接该地址并且 Token 有权限即可。</p>
+<p><strong>Q：远端更新后多久同步？</strong></p>
+<p>最迟在下一次每日巡检同步。需要立即生效时，可以在文档详情中执行 <strong>同步</strong>。</p>
+<p><strong>Q：文档一直显示“排队中”？</strong></p>
+<p>后台任务按队列执行。超过 30 分钟仍未变化时，可在详情中查看失败原因并重试。</p>
+<p><strong>Q：同一个资源可以绑定到多个知识库吗？</strong></p>
+<p>可以。每个知识库拥有独立的同步文档和索引。</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="服务端配置参考">服务端配置参考<a href="#服务端配置参考" class="hash-link" aria-label="服务端配置参考的直接链接" title="服务端配置参考的直接链接" translate="no">​</a></h2>
+<table><thead><tr><th>环境变量</th><th>默认值</th><th>说明</th></tr></thead><tbody><tr><td><code>EXTERNAL_DOC_SYNC_ENABLED</code></td><td><code>false</code></td><td>外部文档绑定与定时同步总开关</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_CRON</code></td><td><code>0 21 * * *</code></td><td>巡检调度（UTC crontab）</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_SCAN_BATCH_SIZE</code></td><td><code>500</code></td><td>每批扫描的本地文档数</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_RUN_MAX_DOCUMENTS</code></td><td><code>10000</code></td><td>单次运行最多处理文档数</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_TIME_BUDGET_SECONDS</code></td><td><code>2700</code></td><td>单次运行时间预算（秒）</td></tr><tr><td><code>WIKI_SYNC_REMOTE_BATCH_SIZE</code></td><td><code>500</code></td><td>每批远端资源探测上限</td></tr><tr><td><code>WIKI_TREE_MAX_PAGES</code></td><td><code>5000</code></td><td>Wiki.js 页面选择器的加载上限</td></tr><tr><td><code>MAX_UPLOAD_FILE_SIZE_MB</code></td><td><code>100</code></td><td>GitLab Repo 等知识文档的单文件大小上限</td></tr><tr><td><code>REPOSITORY_READ_TIMEOUT_SECONDS</code></td><td><code>15</code></td><td>GitLab API 单次读取超时（秒）</td></tr><tr><td><code>EXTERNAL_WIKI_DOWNLOAD_TIMEOUT_SECONDS</code></td><td><code>300</code></td><td>单个 GitLab 文件或 Wiki 页面下载超时</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_RETENTION_HOURS</code></td><td><code>24</code></td><td>孤儿附件删除前的安全保留时间</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_SCAN_BATCH_SIZE</code></td><td><code>200</code></td><td>每轮孤儿附件扫描上限</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_SCAN_INTERVAL_SECONDS</code></td><td><code>3600</code></td><td>孤儿附件扫描间隔（秒）</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-相关文档">🔗 相关文档<a href="#-相关文档" class="hash-link" aria-label="🔗 相关文档的直接链接" title="🔗 相关文档的直接链接" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/document-management">文档管理</a> - 知识库文档的通用管理操作</li>
+<li class=""><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide">使用指南</a> - 知识库完整使用指南</li>
+<li class=""><a class="" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/configuring-retrievers">配置检索器</a> - 文档索引与检索配置</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wegent/user-guide/knowledge/external-wiki.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/retrieval-and-direct-injection"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">检索与直注入</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/category/ai-devices"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">AI Devices</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#支持的连接器" class="table-of-contents__link toc-highlight">支持的连接器</a></li><li><a href="#工作方式" class="table-of-contents__link toc-highlight">工作方式</a></li><li><a href="#前置条件" class="table-of-contents__link toc-highlight">前置条件</a><ul><li><a href="#通用条件" class="table-of-contents__link toc-highlight">通用条件</a></li><li><a href="#wikijs" class="table-of-contents__link toc-highlight">Wiki.js</a></li><li><a href="#gitlab-repo-和-gitlab-wiki" class="table-of-contents__link toc-highlight">GitLab Repo 和 GitLab Wiki</a></li></ul></li><li><a href="#配置外部-wiki-连接" class="table-of-contents__link toc-highlight">配置外部 Wiki 连接</a><ul><li><a href="#配置-wikijs" class="table-of-contents__link toc-highlight">配置 Wiki.js</a></li><li><a href="#配置-gitlab-repo" class="table-of-contents__link toc-highlight">配置 GitLab Repo</a></li><li><a href="#配置-gitlab-wiki" class="table-of-contents__link toc-highlight">配置 GitLab Wiki</a></li><li><a href="#连接管理注意事项" class="table-of-contents__link toc-highlight">连接管理注意事项</a></li></ul></li><li><a href="#添加-wikijs-页面" class="table-of-contents__link toc-highlight">添加 Wiki.js 页面</a></li><li><a href="#添加-gitlab-repo-文件" class="table-of-contents__link toc-highlight">添加 GitLab Repo 文件</a></li><li><a href="#添加-gitlab-wiki-页面" class="table-of-contents__link toc-highlight">添加 GitLab Wiki 页面</a></li><li><a href="#绑定结果和文档展示" class="table-of-contents__link toc-highlight">绑定结果和文档展示</a></li><li><a href="#定时同步机制" class="table-of-contents__link toc-highlight">定时同步机制</a></li><li><a href="#源资源被删除或移动" class="table-of-contents__link toc-highlight">源资源被删除或移动</a></li><li><a href="#管理操作" class="table-of-contents__link toc-highlight">管理操作</a></li><li><a href="#常见问题" class="table-of-contents__link toc-highlight">常见问题</a></li><li><a href="#服务端配置参考" class="table-of-contents__link toc-highlight">服务端配置参考</a></li><li><a href="#-相关文档" class="table-of-contents__link toc-highlight">🔗 相关文档</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

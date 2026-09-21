@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en-US" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-wegent/user-guide/knowledge/external-wiki" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">External Wiki Sync | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="External Wiki Sync | Wegent"><meta data-rh="true" name="description" content="External Wiki connectors let you bind Wiki.js pages, GitLab repository files, or"><meta data-rh="true" property="og:description" content="External Wiki connectors let you bind Wiki.js pages, GitLab repository files, or"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Knowledge","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/"},{"@type":"ListItem","position":3,"name":"External Wiki Sync","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
+<script src="/wegent-docs/assets/js/runtime~main.44353169.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.510cf7d9.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><link rel="preload" as="image" href="/wegent-docs/img/wegent.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/wegent-docs/"><div class="navbar__logo"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/wegent-docs/img/wegent.png" alt="Wegent Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Wegent</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/wegent-docs/docs/wegent">Wegent</a><a class="navbar__item navbar__link" href="/wegent-docs/docs/wework">Wework</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href="#" aria-haspopup="true" aria-expanded="false" role="button" class="navbar__link"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" class="iconLanguage_nlXk"><path fill="currentColor" d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>English</a><ul class="dropdown__menu"><li><a href="/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki" target="_self" rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang="en-US">English</a></li><li><a href="/wegent-docs/zh/docs/wegent/user-guide/knowledge/external-wiki" target="_self" rel="noopener noreferrer" class="dropdown__link" lang="zh-CN">中文</a></li></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent"><span title="Wegent documentation" class="linkLabel_WmDU">Wegent documentation</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/getting-started"><span title="Getting Started" class="categoryLinkLabel_W154">Getting Started</span></a><button aria-label="Expand sidebar category &#x27;Getting Started&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/concepts"><span title="Concepts" class="categoryLinkLabel_W154">Concepts</span></a><button aria-label="Expand sidebar category &#x27;Concepts&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/wegent-docs/docs/category/user-guide"><span title="User Guide" class="categoryLinkLabel_W154">User Guide</span></a><button aria-label="Collapse sidebar category &#x27;User Guide&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/chat"><span title="Chat" class="categoryLinkLabel_W154">Chat</span></a><button aria-label="Expand sidebar category &#x27;Chat&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/coding"><span title="Coding" class="categoryLinkLabel_W154">Coding</span></a><button aria-label="Expand sidebar category &#x27;Coding&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/feed"><span title="Feed" class="categoryLinkLabel_W154">Feed</span></a><button aria-label="Expand sidebar category &#x27;Feed&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge"><span title="Knowledge" class="categoryLinkLabel_W154">Knowledge</span></a><button aria-label="Collapse sidebar category &#x27;Knowledge&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/knowledge-base-guide"><span title="Knowledge Base Guide" class="linkLabel_WmDU">Knowledge Base Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/knowledge-base-types"><span title="Knowledge Base Types" class="linkLabel_WmDU">Knowledge Base Types</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/document-management"><span title="Document Management" class="linkLabel_WmDU">Document Management</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/chunking-strategies"><span title="Chunking Strategies" class="linkLabel_WmDU">Chunking Strategies</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/configuring-retrievers"><span title="Configuring Retrievers" class="linkLabel_WmDU">Configuring Retrievers</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/retrieval-and-direct-injection"><span title="Retrieval And Direct Injection" class="linkLabel_WmDU">Retrieval And Direct Injection</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/knowledge/external-wiki"><span title="External Wiki Sync" class="linkLabel_WmDU">External Wiki Sync</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/category/ai-devices"><span title="AI Devices" class="categoryLinkLabel_W154">AI Devices</span></a><button aria-label="Expand sidebar category &#x27;AI Devices&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/integrations"><span title="Integrations" class="categoryLinkLabel_W154">Integrations</span></a><button aria-label="Expand sidebar category &#x27;Integrations&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/inbox"><span title="Todo" class="categoryLinkLabel_W154">Todo</span></a><button aria-label="Expand sidebar category &#x27;Todo&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/settings"><span title="Settings" class="categoryLinkLabel_W154">Settings</span></a><button aria-label="Expand sidebar category &#x27;Settings&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/wework-notifications"><span title="Wework notifications and navigation" class="linkLabel_WmDU">Wework notifications and navigation</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/wegent-docs/docs/wegent/user-guide"><span title="📚 User Guide" class="linkLabel_WmDU">📚 User Guide</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/wegent-docs/docs/wegent/user-guide/ai-coding/local-codex-thread-binding"><span title="ai-coding" class="categoryLinkLabel_W154">ai-coding</span></a></div></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/developer-guide"><span title="Developer Guide" class="categoryLinkLabel_W154">Developer Guide</span></a><button aria-label="Expand sidebar category &#x27;Developer Guide&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/reference"><span title="Reference" class="categoryLinkLabel_W154">Reference</span></a><button aria-label="Expand sidebar category &#x27;Reference&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist" href="/wegent-docs/docs/category/deployment"><span title="Deployment" class="categoryLinkLabel_W154">Deployment</span></a><button aria-label="Expand sidebar category &#x27;Deployment&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent/troubleshooting"><span title="🔧 Troubleshooting Guide" class="linkLabel_WmDU">🔧 Troubleshooting Guide</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/wegent-docs/docs/wegent/faq"><span title="❓ Frequently Asked Questions (FAQ)" class="linkLabel_WmDU">❓ Frequently Asked Questions (FAQ)</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/wegent-docs/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/category/user-guide"><span>User Guide</span></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/wegent-docs/docs/wegent/user-guide/knowledge"><span>Knowledge</span></a></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">External Wiki Sync</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>External Wiki Sync</h1></header>
+<p>External Wiki connectors let you bind Wiki.js pages, GitLab repository files, or
+GitLab project Wiki pages to a knowledge base. Bound resources become regular
+knowledge documents that participate in general RAG retrieval. A scheduled job
+checks remote versions and automatically updates content and indexes when a
+resource changes.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="supported-connectors">Supported Connectors<a href="#supported-connectors" class="hash-link" aria-label="Direct link to Supported Connectors" title="Direct link to Supported Connectors" translate="no">​</a></h2>
+<table><thead><tr><th>Connector</th><th>Importable content</th><th>Selection flow</th><th>Credential</th></tr></thead><tbody><tr><td><strong>Wiki.js</strong></td><td>Wiki.js pages</td><td>Page or directory</td><td>Wiki.js API key</td></tr><tr><td><strong>GitLab Repo</strong></td><td>Supported files in GitLab repositories</td><td>Repository, branch, and files</td><td>GitLab AppKey / Access Token</td></tr><tr><td><strong>GitLab Wiki</strong></td><td>GitLab project Wiki pages</td><td>Repository and Wiki pages</td><td>GitLab AppKey / Access Token</td></tr></tbody></table>
+<p>Wiki.js currently supports <strong>2.x starting at version 2.5.300</strong>. Wiki.js 3.x and
+versions older than 2.5.300 are outside the current compatibility range.</p>
+<p>GitLab Repo supports these file extensions:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">pdf, doc, docx, ppt, pptx, xls, xlsx, csv, txt, md, markdown</span><br></span></code></pre></div></div>
+<p>Directories are used only for browsing and are not imported as documents.
+Empty files, unsupported file types, and files over the knowledge base upload
+size limit cannot be bound. Git LFS pointer files are rejected because the
+repository API response does not contain the referenced binary content.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-it-works">How It Works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How It Works" title="Direct link to How It Works" translate="no">​</a></h2>
+<p>External Wiki sync consists of three parts:</p>
+<table><thead><tr><th>Part</th><th>Location</th><th>Description</th></tr></thead><tbody><tr><td><strong>Connection management</strong></td><td>Settings → Integrations → External Wiki</td><td>Stores the connector type, site URL, and encrypted credentials</td></tr><tr><td><strong>Resource binding</strong></td><td>Knowledge Base → Add Document → External Wiki</td><td>Select remote pages or files; each resource becomes one synchronized document</td></tr><tr><td><strong>Scheduled sync</strong></td><td>Background scheduled task</td><td>Compares remote versions and updates only changed documents</td></tr></tbody></table>
+<p>Unlike a one-time web import, an external Wiki resource maintains a continuous
+binding. Binding the same connection, repository, branch, and resource again
+reuses the existing document instead of creating a duplicate.</p>
+<p>Imported content uses the standard knowledge base indexing and retrieval
+pipeline. Wiki.js and GitLab do not require a dedicated retrieval Skill.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="prerequisites">Prerequisites<a href="#prerequisites" class="hash-link" aria-label="Direct link to Prerequisites" title="Direct link to Prerequisites" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="general">General<a href="#general" class="hash-link" aria-label="Direct link to General" title="Direct link to General" translate="no">​</a></h3>
+<ul>
+<li class="">The Wegent backend can reach the target Wiki.js or GitLab address.</li>
+<li class=""><code>EXTERNAL_DOC_SYNC_ENABLED</code> is explicitly set to <code>true</code>. It is disabled by default.</li>
+<li class="">The current user has edit permission on the target knowledge base.</li>
+<li class="">The target can use HTTP or HTTPS; the site URL must be reachable from the
+backend.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="wikijs">Wiki.js<a href="#wikijs" class="hash-link" aria-label="Direct link to Wiki.js" title="Direct link to Wiki.js" translate="no">​</a></h3>
+<ul>
+<li class="">Wiki.js 2.x at version 2.5.300 or later.</li>
+<li class="">An API key created under <strong>Admin → API</strong> whose permission group includes:<!-- -->
+<ul>
+<li class=""><code>read:pages</code></li>
+<li class=""><code>read:source</code></li>
+<li class=""><code>manage:pages</code>, or a permission group containing <code>delete:pages</code></li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="gitlab-repo-and-gitlab-wiki">GitLab Repo and GitLab Wiki<a href="#gitlab-repo-and-gitlab-wiki" class="hash-link" aria-label="Direct link to GitLab Repo and GitLab Wiki" title="Direct link to GitLab Repo and GitLab Wiki" translate="no">​</a></h3>
+<ul>
+<li class="">A GitLab Access Token that can read the target projects. The product UI calls
+this credential <strong>GitLab AppKey / Access Token</strong>.</li>
+<li class="">The recommended minimum scope is <code>read_api</code>.</li>
+<li class="">The token can read the target projects. GitLab Repo also requires repository,
+branch, and file access; GitLab Wiki requires project Wiki access.</li>
+<li class="">GitLab.com and self-managed GitLab instances are supported over HTTP or
+HTTPS.</li>
+</ul>
+<p>The token is sent through the <code>PRIVATE-TOKEN</code> request header and stored
+encrypted on the server. It is never appended to URLs or exposed in knowledge
+documents.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="configure-an-external-wiki-connection">Configure an External Wiki Connection<a href="#configure-an-external-wiki-connection" class="hash-link" aria-label="Direct link to Configure an External Wiki Connection" title="Direct link to Configure an External Wiki Connection" translate="no">​</a></h2>
+<ol>
+<li class="">Go to <strong>Settings → Integrations</strong> and find <strong>External Wiki</strong>.</li>
+<li class="">Click <strong>New Connection</strong>.</li>
+<li class="">Enter a connection name and select a connector type.</li>
+<li class="">Enter the site URL and credential required by that connector.</li>
+<li class="">Click <strong>Test Connection</strong>.</li>
+<li class="">Save the connection after the test succeeds.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="configure-wikijs">Configure Wiki.js<a href="#configure-wikijs" class="hash-link" aria-label="Direct link to Configure Wiki.js" title="Direct link to Configure Wiki.js" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Connector type</strong>: <code>Wiki.js</code></li>
+<li class=""><strong>Site URL</strong>: The Wiki root, such as <code>https://wiki.example.com</code>, without
+<code>/graphql</code></li>
+<li class=""><strong>API Key</strong>: The API key created in Wiki.js</li>
+<li class=""><strong>Default locale (optional)</strong>: Used to resolve paths on multilingual sites,
+such as <code>zh</code></li>
+</ul>
+<p>The connection test checks page listing, page resolution, and body reading, not
+network reachability alone.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="configure-gitlab-repo">Configure GitLab Repo<a href="#configure-gitlab-repo" class="hash-link" aria-label="Direct link to Configure GitLab Repo" title="Direct link to Configure GitLab Repo" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Connector type</strong>: <code>GitLab Repo</code></li>
+<li class=""><strong>Site URL</strong>: The GitLab root, such as <code>https://gitlab.example.com</code> or
+<code>http://gitlab.internal</code>, without <code>/api/v4</code></li>
+<li class=""><strong>API Key</strong>: GitLab AppKey / Access Token</li>
+</ul>
+<p>The connection test calls the GitLab API and lists projects visible to the
+token. If the connection works but no projects are accessible, the test reports
+that the current AppKey has no accessible projects.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="configure-gitlab-wiki">Configure GitLab Wiki<a href="#configure-gitlab-wiki" class="hash-link" aria-label="Direct link to Configure GitLab Wiki" title="Direct link to Configure GitLab Wiki" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Connector type</strong>: <code>GitLab Wiki</code></li>
+<li class=""><strong>Site URL</strong>: The GitLab root, without <code>/api/v4</code></li>
+<li class=""><strong>API Key</strong>: GitLab AppKey / Access Token</li>
+</ul>
+<p>GitLab Repo and GitLab Wiki may use the same GitLab instance and token, but they
+are separate connections and expose different resources in the picker.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="connection-management-notes">Connection Management Notes<a href="#connection-management-notes" class="hash-link" aria-label="Direct link to Connection Management Notes" title="Direct link to Connection Management Notes" translate="no">​</a></h3>
+<ul>
+<li class="">When changing only non-target fields such as the connection name or enabled
+state, leave the API key blank to retain it. Changing the site URL or
+connector requires re-entering the API key; the old credential is never sent
+to the new target.</li>
+<li class="">Disabling a connection stops remote reads and synchronization. The most
+recently synchronized local content and index remain available.</li>
+<li class="">All synchronized documents referencing a connection must be unbound before
+the connection can be deleted.</li>
+<li class="">The connector type determines resource identity and parsing behavior. To
+switch connector types, create a new connection and bind resources again
+instead of repurposing an existing connection.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="add-wikijs-pages">Add Wiki.js Pages<a href="#add-wikijs-pages" class="hash-link" aria-label="Direct link to Add Wiki.js Pages" title="Direct link to Add Wiki.js Pages" translate="no">​</a></h2>
+<ol>
+<li class="">Open the target knowledge base and click
+<strong>Add Document → External Wiki</strong>.</li>
+<li class="">Select a Wiki.js connection.</li>
+<li class="">Select pages in the page tree.</li>
+<li class="">Click <strong>Bind Selected</strong>.</li>
+</ol>
+<p>The picker supports title and path search, select all, clear selection, and
+directory selection. If the site exceeds the server-side browsing limit, the
+picker displays a truncation warning and loads the most recently updated pages.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="add-gitlab-repo-files">Add GitLab Repo Files<a href="#add-gitlab-repo-files" class="hash-link" aria-label="Direct link to Add GitLab Repo Files" title="Direct link to Add GitLab Repo Files" translate="no">​</a></h2>
+<ol>
+<li class="">Open the target knowledge base and click
+<strong>Add Document → External Wiki</strong>.</li>
+<li class="">Select a <code>GitLab Repo</code> connection.</li>
+<li class="">Select the target project from <strong>Repository</strong>.</li>
+<li class="">Select a branch from <strong>Branch</strong>. The project default branch is preferred.</li>
+<li class="">Expand directories and select the files to synchronize.</li>
+<li class="">Click <strong>Bind Selected</strong>.</li>
+</ol>
+<p>The picker enables only supported file types. Directories are for navigation
+and cannot be imported as knowledge documents. Resource identity includes the
+connection, repository, branch, and file path:</p>
+<ul>
+<li class="">The same path on different branches becomes a different synchronized
+document.</li>
+<li class="">Renaming a file is treated as deletion of the old path and creation of a new
+resource. Bind the new path explicitly.</li>
+<li class="">Changing the selected project or branch clears temporary selections from the
+previous scope.</li>
+</ul>
+<p>After binding, Wegent downloads the original file and reuses the existing
+attachment parsing, conversion, and indexing pipeline.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="add-gitlab-wiki-pages">Add GitLab Wiki Pages<a href="#add-gitlab-wiki-pages" class="hash-link" aria-label="Direct link to Add GitLab Wiki Pages" title="Direct link to Add GitLab Wiki Pages" translate="no">​</a></h2>
+<ol>
+<li class="">Open the target knowledge base and click
+<strong>Add Document → External Wiki</strong>.</li>
+<li class="">Select a <code>GitLab Wiki</code> connection.</li>
+<li class="">Select the target project from <strong>Repository</strong>.</li>
+<li class="">Select pages from the Wiki page list.</li>
+<li class="">Click <strong>Bind Selected</strong>.</li>
+</ol>
+<p>GitLab project Wikis do not require branch selection. A page enters the
+knowledge indexing pipeline as Markdown, AsciiDoc, or text according to its
+GitLab Wiki format.</p>
+<p>If the project has no Wiki, the Wiki is empty, or the token cannot read it, the
+page list is empty or displays the corresponding error.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="binding-results-and-document-display">Binding Results and Document Display<a href="#binding-results-and-document-display" class="hash-link" aria-label="Direct link to Binding Results and Document Display" title="Direct link to Binding Results and Document Display" translate="no">​</a></h2>
+<table><thead><tr><th>Result</th><th>Description</th></tr></thead><tbody><tr><td><strong>Bound N</strong></td><td>New synchronized documents were created and background reading and indexing started</td></tr><tr><td><strong>Re-synced N</strong></td><td>Existing resources triggered a content refresh</td></tr><tr><td><strong>Processing, skipped</strong></td><td>Documents are still converting or indexing, so no duplicate work was dispatched</td></tr></tbody></table>
+<p>The knowledge document list displays:</p>
+<ul>
+<li class="">The file type, such as <code>MD</code> or <code>PDF</code>;</li>
+<li class="">The connector type and icon, such as <code>wikijs</code>, <code>gitlab-repo</code>, or
+<code>gitlab-wiki</code>;</li>
+<li class="">The time of the most recent successful index.</li>
+</ul>
+<p>Under <strong>Add Document → External Wiki → Bound documents</strong>, every document also
+shows its own connector name and icon. Changing the selected connection does
+not change connector labels on other bound documents.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="scheduled-sync">Scheduled Sync<a href="#scheduled-sync" class="hash-link" aria-label="Direct link to Scheduled Sync" title="Direct link to Scheduled Sync" translate="no">​</a></h2>
+<p>By default, the background inspection runs daily at 19:00 UTC:</p>
+<ol>
+<li class="">Scan synchronized external Wiki documents in batches.</li>
+<li class="">Call the appropriate connector, grouped by connection and resource scope.</li>
+<li class="">Compare the remote version, downloaded content version, and indexed
+version.</li>
+<li class="">Dispatch work only for changed resources or missing indexes.</li>
+</ol>
+<p>Each connector uses a different remote version:</p>
+<table><thead><tr><th>Connector</th><th>Version source</th></tr></thead><tbody><tr><td>Wiki.js</td><td>Page <code>updatedAt</code></td></tr><tr><td>GitLab Repo</td><td>File Blob ID</td></tr><tr><td>GitLab Wiki</td><td>A content hash calculated from the page title, format, and body</td></tr></tbody></table>
+<table><thead><tr><th>Remote state</th><th>System behavior</th></tr></thead><tbody><tr><td>Version unchanged and index healthy</td><td>No document update</td></tr><tr><td>Remote content changed</td><td>Download the body again and rebuild the index</td></tr><tr><td>Content is current but the index is missing</td><td>Rebuild from the existing body</td></tr><tr><td>Page or file deleted</td><td>Mark the source missing and preserve the last successful index</td></tr><tr><td>Repository or branch inaccessible</td><td>Mark synchronization failed and preserve existing content</td></tr><tr><td>Connection failure, permission error, or rate limit</td><td>Mark synchronization failed and retry in a later inspection</td></tr></tbody></table>
+<p>When an update is detected, task logs include the document ID, knowledge base
+ID, document name, connector, connection ID, resource path, previous and remote
+versions, and the chosen update action. API keys and document bodies are not
+logged.</p>
+<p>You can also click <strong>Sync</strong> in document details to fetch remote content
+immediately. If the document is already processing, duplicate work is skipped.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="deleted-or-moved-source-resources">Deleted or Moved Source Resources<a href="#deleted-or-moved-source-resources" class="hash-link" aria-label="Direct link to Deleted or Moved Source Resources" title="Direct link to Deleted or Moved Source Resources" translate="no">​</a></h2>
+<p>Deleting a remote page or file does not automatically delete the local
+knowledge document. The source is marked missing:</p>
+<ul>
+<li class="">The latest successfully synchronized content and index remain available, so
+agents can still retrieve historical content.</li>
+<li class="">If the source is restored, a later inspection resumes synchronization.</li>
+<li class="">To remove it permanently, unbind it from the bound document list.</li>
+</ul>
+<p>For GitLab Repo, moving or renaming a file makes the old path a missing source.
+The new path has a new resource identity and must be bound explicitly.</p>
+<p>If a GitLab project, branch, or Wiki permission becomes unavailable, the
+document is marked as a synchronization failure rather than being deleted.
+Synchronization retries after access is restored.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="management-operations">Management Operations<a href="#management-operations" class="hash-link" aria-label="Direct link to Management Operations" title="Direct link to Management Operations" translate="no">​</a></h2>
+<table><thead><tr><th>Operation</th><th>Location</th><th>Description</th></tr></thead><tbody><tr><td>View bindings</td><td>Add Document → External Wiki → Bound documents</td><td>View document names, connectors, and synchronization states</td></tr><tr><td>Unbind</td><td>Bound documents → Unbind</td><td>Delete the local synchronized document and its index</td></tr><tr><td>Manual sync</td><td>Document details → Sync</td><td>Fetch remote content and rebuild the index immediately</td></tr><tr><td>Disable connection</td><td>Settings → Integrations → External Wiki</td><td>Stop remote reads and scheduled synchronization</td></tr><tr><td>Delete connection</td><td>Settings → Integrations → External Wiki</td><td>All referencing documents must be unbound first</td></tr></tbody></table>
+<p>Each user manages their own external Wiki connections. Binding and unbinding
+require edit permission on the target knowledge base. Synchronized documents
+follow the same knowledge base visibility rules as ordinary documents.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="faq">FAQ<a href="#faq" class="hash-link" aria-label="Direct link to FAQ" title="Direct link to FAQ" translate="no">​</a></h2>
+<p><strong>Q: The GitLab connection succeeds, but no repositories are available.</strong></p>
+<p>Verify that the token has the <code>read_api</code> scope and can read the target projects.
+The project list includes only projects visible to the current token.</p>
+<p><strong>Q: A file is missing from the GitLab Repo picker.</strong></p>
+<p>Verify the selected repository and branch, then check whether the file
+extension is supported. Directories, empty files, extensionless files, and
+files over the knowledge base upload size limit cannot be imported.</p>
+<p><strong>Q: Why does GitLab Wiki not ask for a branch?</strong></p>
+<p>A GitLab project Wiki is managed through a separate Wiki API and is not selected
+from a code repository branch.</p>
+<p><strong>Q: Are HTTP or private-network GitLab instances supported?</strong></p>
+<p>Yes. GitLab is not required to use HTTPS, and Wegent does not restrict it to
+specific domains or network ranges. The backend only needs network access to
+the address, and the token must have permission.</p>
+<p><strong>Q: How long until a remote update is synchronized?</strong></p>
+<p>At most until the next daily inspection. Use <strong>Sync</strong> in document details when
+the update must take effect immediately.</p>
+<p><strong>Q: The document remains in &quot;Queued.&quot;</strong></p>
+<p>Background tasks run through a queue. If the state has not changed after 30
+minutes, inspect the failure reason in document details and retry.</p>
+<p><strong>Q: Can the same resource be bound to multiple knowledge bases?</strong></p>
+<p>Yes. Each knowledge base has an independent synchronized document and index.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="server-side-configuration-reference">Server-Side Configuration Reference<a href="#server-side-configuration-reference" class="hash-link" aria-label="Direct link to Server-Side Configuration Reference" title="Direct link to Server-Side Configuration Reference" translate="no">​</a></h2>
+<table><thead><tr><th>Environment variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>EXTERNAL_DOC_SYNC_ENABLED</code></td><td><code>false</code></td><td>Master switch for external document binding and scheduled sync</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_CRON</code></td><td><code>0 21 * * *</code></td><td>Inspection schedule in UTC crontab format</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_SCAN_BATCH_SIZE</code></td><td><code>500</code></td><td>Local documents scanned per batch</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_RUN_MAX_DOCUMENTS</code></td><td><code>10000</code></td><td>Maximum documents processed per run</td></tr><tr><td><code>EXTERNAL_DOC_SYNC_TIME_BUDGET_SECONDS</code></td><td><code>2700</code></td><td>Time budget per run in seconds</td></tr><tr><td><code>WIKI_SYNC_REMOTE_BATCH_SIZE</code></td><td><code>500</code></td><td>Maximum remote resources inspected per batch</td></tr><tr><td><code>WIKI_TREE_MAX_PAGES</code></td><td><code>5000</code></td><td>Wiki.js page picker loading limit</td></tr><tr><td><code>MAX_UPLOAD_FILE_SIZE_MB</code></td><td><code>100</code></td><td>Per-file size limit for GitLab Repo and other knowledge documents</td></tr><tr><td><code>REPOSITORY_READ_TIMEOUT_SECONDS</code></td><td><code>15</code></td><td>Timeout for one GitLab API read in seconds</td></tr><tr><td><code>EXTERNAL_WIKI_DOWNLOAD_TIMEOUT_SECONDS</code></td><td><code>300</code></td><td>Timeout for downloading one GitLab file or Wiki page</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_RETENTION_HOURS</code></td><td><code>24</code></td><td>Safety retention before an orphaned attachment may be deleted</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_SCAN_BATCH_SIZE</code></td><td><code>200</code></td><td>Maximum orphan candidates per scan</td></tr><tr><td><code>KNOWLEDGE_ATTACHMENT_ORPHAN_SCAN_INTERVAL_SECONDS</code></td><td><code>3600</code></td><td>Orphan scan interval in seconds</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-related-documentation">🔗 Related Documentation<a href="#-related-documentation" class="hash-link" aria-label="Direct link to 🔗 Related Documentation" title="Direct link to 🔗 Related Documentation" translate="no">​</a></h2>
+<ul>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/knowledge/document-management">Document Management</a> - Common knowledge document
+management operations</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/knowledge/knowledge-base-guide">Knowledge Base Guide</a> - Complete knowledge base
+guide</li>
+<li class=""><a class="" href="/wegent-docs/docs/wegent/user-guide/knowledge/configuring-retrievers">Configuring Retrievers</a> - Document indexing and
+retrieval configuration</li>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wegent/user-guide/knowledge/external-wiki.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/docs/wegent/user-guide/knowledge/retrieval-and-direct-injection"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Retrieval And Direct Injection</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/docs/category/ai-devices"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">AI Devices</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#supported-connectors" class="table-of-contents__link toc-highlight">Supported Connectors</a></li><li><a href="#how-it-works" class="table-of-contents__link toc-highlight">How It Works</a></li><li><a href="#prerequisites" class="table-of-contents__link toc-highlight">Prerequisites</a><ul><li><a href="#general" class="table-of-contents__link toc-highlight">General</a></li><li><a href="#wikijs" class="table-of-contents__link toc-highlight">Wiki.js</a></li><li><a href="#gitlab-repo-and-gitlab-wiki" class="table-of-contents__link toc-highlight">GitLab Repo and GitLab Wiki</a></li></ul></li><li><a href="#configure-an-external-wiki-connection" class="table-of-contents__link toc-highlight">Configure an External Wiki Connection</a><ul><li><a href="#configure-wikijs" class="table-of-contents__link toc-highlight">Configure Wiki.js</a></li><li><a href="#configure-gitlab-repo" class="table-of-contents__link toc-highlight">Configure GitLab Repo</a></li><li><a href="#configure-gitlab-wiki" class="table-of-contents__link toc-highlight">Configure GitLab Wiki</a></li><li><a href="#connection-management-notes" class="table-of-contents__link toc-highlight">Connection Management Notes</a></li></ul></li><li><a href="#add-wikijs-pages" class="table-of-contents__link toc-highlight">Add Wiki.js Pages</a></li><li><a href="#add-gitlab-repo-files" class="table-of-contents__link toc-highlight">Add GitLab Repo Files</a></li><li><a href="#add-gitlab-wiki-pages" class="table-of-contents__link toc-highlight">Add GitLab Wiki Pages</a></li><li><a href="#binding-results-and-document-display" class="table-of-contents__link toc-highlight">Binding Results and Document Display</a></li><li><a href="#scheduled-sync" class="table-of-contents__link toc-highlight">Scheduled Sync</a></li><li><a href="#deleted-or-moved-source-resources" class="table-of-contents__link toc-highlight">Deleted or Moved Source Resources</a></li><li><a href="#management-operations" class="table-of-contents__link toc-highlight">Management Operations</a></li><li><a href="#faq" class="table-of-contents__link toc-highlight">FAQ</a></li><li><a href="#server-side-configuration-reference" class="table-of-contents__link toc-highlight">Server-Side Configuration Reference</a></li><li><a href="#-related-documentation" class="table-of-contents__link toc-highlight">🔗 Related Documentation</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discussions<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
