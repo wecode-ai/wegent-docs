@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Transcript and Preference Cloud Sync | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Transcript and Preference Cloud Sync | Wegent"><meta data-rh="true" name="description" content="The Wework Core DSH plugin @wegent/dsh-transcript-sync synchronizes native"><meta data-rh="true" property="og:description" content="The Wework Core DSH plugin @wegent/dsh-transcript-sync synchronizes native"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-transcript-sync" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Transcript and Preference Cloud Sync","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-transcript-sync"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.e4555c77.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.af7ffc62.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.510cf7d9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -67,12 +67,24 @@ entire growing rollout file first. A rollout that exceeds the previous
 128 MiB threshold can therefore keep uploading while the pending segment
 remains within the limit.</li>
 </ul>
-<p>Two computers may keep Wework open at the same time. Clients poll cloud progress
-every five seconds and acquire a short writer lease only while uploading, then
-release it immediately. An idle office computer does not hold the lease, and a
-running local task is never overwritten by restore. If both computers complete
-the same sequence concurrently, the first commit remains on the main line and
-the second becomes a deterministic branch, preserving both results.</p>
+<p>Two computers may keep Wework open at the same time. Wework persists one stable
+device ID for each desktop installation. While a lease is active,
+<code>writer_client_id</code> identifies the current writer; after release, it remains as
+the most recent writer, while <code>writer_lease_expires_at</code> alone determines whether
+the lease is active. Clients poll only unarchived cloud progress every five
+seconds. The most recent writer uploads that transcript without restoring it,
+while another device automatically restores an unarchived transcript that is
+missing locally. A fresh device therefore restores all unarchived tasks from
+other devices without making the synchronization source repeatedly download
+its own workspaces. Archived tasks are not restored automatically. Clients
+acquire a short writer lease only while uploading, then release it immediately.
+An idle office computer does not hold the lease, and a running or already bound
+local task is never overwritten by restore. If both computers complete the same
+sequence concurrently, the first commit remains on the main line and the second
+becomes a deterministic branch, preserving both results. After a device creates
+a conflict fork, its original local task moves to that fork, so synchronization
+restores only the now-missing parent main line as a second local task. The fork
+itself remains upload-only on its source device.</p>
 <p>The existing <code>wework_transcript_turns</code> table remains in place with the previous
 summary fields. Restore ignores this table, and it cannot replace the native
 tgz.</p>
