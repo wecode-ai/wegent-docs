@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><meta data-rh="true" property="og:description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.e9605f1c.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.2624e079.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.c81658ca.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.8920b357.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -101,16 +101,16 @@ checkpoint. When upstream checkpoints are skipped, each checkpoint establishes
 its own minimal fixtures instead of depending on tasks or UI state created only
 by the complete flow. PR CI builds the smallest segment matrix for the changed
 feature paths. Shared desktop infrastructure, merge queue, scheduled runs, and
-<code>ci:all</code> still run the complete desktop suites. Core uses thirteen fixed GitHub
-Actions matrix jobs and Cloud uses ten. Every job runs its
-up to three isolated checkpoints concurrently, shortening each shard&#x27;s critical
-path without adding runners. Checkpoints that share the Collaboration cloud
-runtime remain serialized through an exclusive resource lock so real Electron,
-WebView, and Executor stacks cannot contaminate one another. The twenty-three Core and Cloud
-matrix jobs still provide
+<code>ci:all</code> still run the complete desktop suites. Core uses seventeen fixed GitHub
+Actions matrix jobs and Cloud uses fifteen. A Core job runs at most two isolated
+checkpoints concurrently so three complete Electron, Executor, and real-backend
+stacks cannot contend for one runner&#x27;s CPU; Cloud jobs retain up to three
+concurrent checkpoints. Checkpoints that share the Collaboration cloud runtime
+or have demonstrated timing contention remain serialized through an exclusive
+resource lock. The thirty-two Core and Cloud matrix jobs still provide
 suite-level parallelism across runners. Shards are balanced from observed CI
-durations and capped to keep the complete suite inside its ten-minute critical-path
-budget; a new or materially slower checkpoint requires rebalancing instead of
+durations and capped to bound the complete suite&#x27;s critical path; a new or
+materially slower checkpoint requires rebalancing instead of
 removing coverage or rerunning failures. The 2,200-delta Codex notification
 isolation stress case and the long plugin auto-update checkpoint each have a
 dedicated shard; the notification scenario uses a targeted 30-second render
