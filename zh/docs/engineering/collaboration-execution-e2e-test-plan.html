@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作执行完整 E2E 测试计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作执行完整 E2E 测试计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-12"><meta data-rh="true" property="og:description" content="审计日期：2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.a104ac36.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.14b42d03.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.f1d67fe6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -23,7 +23,7 @@
 <li class="">Issue 分配给 Wegent Chat 智能体后，Skill 与 MCP 能被加载、调用并产生可验证结果。</li>
 <li class="">Issue 分配给 Wegent ClaudeCode 智能体后，Skill 与 MCP 能被加载、调用并产生可验证结果。</li>
 <li class="">Issue 分配给 Codex 智能体后，Skill、MCP 和 Plugin 能被加载、调用并产生可验证结果。</li>
-<li class="">Issue 分配给人后，Wework 能收到通知，用户能从 Issue 创建任务，在真实运行时执行，提交产物，并推动 Issue 状态变化。</li>
+<li class="">Issue 分配给人后，Wework 能收到通知，用户能从 Issue 创建私人本地任务，在真实运行时执行，并按明确指令操作共享 Issue。</li>
 <li class="">执行失败、Executor 离线、页面刷新、进程重启和重复事件不会伪造成功或破坏最终一致性。</li>
 <li class="">每个关键步骤都有结构化断言、后端证据和截图证据。</li>
 </ol>
@@ -52,8 +52,8 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="人">人<a href="#人" class="hash-link" aria-label="人的直接链接" title="人的直接链接" translate="no">​</a></h3>
 <p>人的分配链不直接启动 AI Runtime：</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Issue assignment</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Wework notification</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    -&gt; User opens Issue</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      -&gt; User creates Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        -&gt; Wework Runtime executes Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">          -&gt; Artifact / delivery</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            -&gt; Issue status projection</span><br></span></code></pre></div></div>
-<p>分配给人首先产生通知和协作上下文。用户可以从通知进入 Issue，也可以在未被分配时主动进入 Issue 并创建任务。</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Issue assignment</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Wework notification</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    -&gt; User opens Issue</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      -&gt; User creates private local Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        -&gt; Local Wework Runtime starts</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">          -&gt; Issue moves to in progress</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            -&gt; Runtime completes without advancing Issue again</span><br></span></code></pre></div></div>
+<p>分配给人首先产生通知和协作上下文。用户可以从通知进入 Issue，也可以在未被分配时主动进入 Issue 并创建任务。私人任务的对话和终态不自动写入共享 Issue；评论、交付和后续状态变化由用户手动执行，或由 AI 在收到明确指令后通过项目空间工具执行。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="测试边界与真实性原则">测试边界与真实性原则<a href="#测试边界与真实性原则" class="hash-link" aria-label="测试边界与真实性原则的直接链接" title="测试边界与真实性原则的直接链接" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="必须使用真实组件">必须使用真实组件<a href="#必须使用真实组件" class="hash-link" aria-label="必须使用真实组件的直接链接" title="必须使用真实组件的直接链接" translate="no">​</a></h3>
 <ul>
@@ -266,7 +266,8 @@
 <li class="">Wework Task 完成，Issue 动态和状态投影完成。</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e2e-07issue-分配给人并由-wework-执行">E2E-07：Issue 分配给人并由 Wework 执行<a href="#e2e-07issue-分配给人并由-wework-执行" class="hash-link" aria-label="E2E-07：Issue 分配给人并由 Wework 执行的直接链接" title="E2E-07：Issue 分配给人并由 Wework 执行的直接链接" translate="no">​</a></h3>
-<p>目标：证明人的分配不是只创建负责人字段，而是形成通知、执行、产物和状态闭环。</p>
+<p>目标：证明负责人可以从共享 Issue 创建仅自己可见的本地任务，把 AI
+作为个人工具执行工作，同时保持私人执行流与共享协作状态的边界。</p>
 <p>步骤：</p>
 <ol>
 <li class="">分配者把 Human Issue 分配给目标用户。</li>
@@ -274,28 +275,33 @@
 <li class="">验证 Wework 出现系统通知和应用内未读标识。</li>
 <li class="">用户点击通知，深链进入正确 Workspace、Project 和 Issue。</li>
 <li class="">用户在 Issue 中点击“创建任务”。</li>
-<li class="">新任务自动保留 Workspace、Project 和 Issue 上下文。</li>
-<li class="">用户提交执行要求。</li>
-<li class="">Wework 使用真实本地或云端 Runtime 执行任务。</li>
-<li class="">运行时生成 <code>human-result.txt</code> 或等价交付物。</li>
-<li class="">用户把产物同步到 Issue。</li>
-<li class="">Task 完成。</li>
-<li class="">Issue 状态进入等待确认或已完成。</li>
+<li class="">新任务仅对当前用户可见，并自动保留 Workspace、Project 和 Issue 上下文。</li>
+<li class="">Composer 以原生 Issue 气泡展示当前 Issue，而不是普通文本或错误状态标签。</li>
+<li class="">用户提交执行要求，本地 Runtime 开始运行后，Issue 从收集箱或待处理进入进行中。</li>
+<li class="">Runtime 能使用 <code>wework_space</code> 工具读取当前 Issue；只有用户明确要求时才更新
+Issue、添加评论或提交交付物。</li>
+<li class="">运行时生成 <code>human-result.txt</code> 或等价本地产物并完成 Task。</li>
+<li class="">Task 完成、失败、停止或产生交付物时，不自动把 Issue 推进到待确认或已完成。</li>
+<li class="">用户手动修改 Issue 状态，或明确要求 AI 使用 <code>wework_space</code> 修改状态。</li>
 </ol>
 <p>必须验证：</p>
 <ul>
 <li class="">通知接收人、分配事件和 Issue ID 正确。</li>
 <li class="">重复分配事件不会产生重复通知。</li>
 <li class="">点击通知进入正确 Issue，不只是打开协作首页。</li>
-<li class="">新建 Task 绑定正确 Workspace、Project、Issue 和用户。</li>
-<li class="">执行由真实 Runtime 完成。</li>
-<li class="">产物真实存在，并能从 Issue 动态或交付物区域读取。</li>
-<li class="">Task 终态和 Issue 状态投影一致。</li>
+<li class="">新建 Task 绑定正确 Workspace、Project、Issue、用户和当前本地设备。</li>
+<li class="">发送后的 Issue 引用保持原生气泡样式，不出现 <code>[blocked]</code> 等状态文本污染。</li>
+<li class="">执行由真实本地 Runtime 完成，并具备项目空间工具。</li>
+<li class="">Runtime 启动会把可开始的 Issue 自动标记为进行中。</li>
+<li class="">Runtime 终态、停止和交付不会继续改动 Issue 状态或负责人。</li>
+<li class="">私人任务中的普通对话不会自动发布为共享 Issue 评论。</li>
+<li class="">用户明确要求 AI 更新 Issue 时，工具调用使用当前项目和 Issue 的显式 ID。</li>
 </ul>
 <p>补充场景：</p>
 <ul>
 <li class="">未分配给当前用户时，用户仍可主动进入 Issue 创建任务。</li>
 <li class="">主动参与不得伪造“已分配给我”的通知或分配事件。</li>
+<li class="">Issue 已处于待确认或已完成时，启动私人任务不得把状态回退到进行中。</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e2e-08跨端一致性">E2E-08：跨端一致性<a href="#e2e-08跨端一致性" class="hash-link" aria-label="E2E-08：跨端一致性的直接链接" title="E2E-08：跨端一致性的直接链接" translate="no">​</a></h3>
 <p>步骤：</p>
@@ -359,8 +365,11 @@
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">workspaceId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">projectId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">issueId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">assignmentId or assignment event id</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">teamId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">botId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">ghostId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">projectChatAgentId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">backendTaskId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">runtimeTaskId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">executorId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">executorType</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">runtimeDeviceId</span><br></span></code></pre></div></div>
 <p>身份字段必须来自后端 API、执行记录或 Runtime 日志，不能从 UI 文本猜测。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-后端与运行时终态">2. 后端与运行时终态<a href="#2-后端与运行时终态" class="hash-link" aria-label="2. 后端与运行时终态的直接链接" title="2. 后端与运行时终态的直接链接" translate="no">​</a></h3>
-<p>至少断言：</p>
+<p>智能体直接承接 Issue 的场景至少断言：</p>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Task status == COMPLETED</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Runtime execution status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Project message status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Project message metadata.run_status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Issue ai_state.status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Issue status == in_review | completed</span><br></span></code></pre></div></div>
+<p>人工负责人创建私人本地 Task 的场景单独断言：Task 和 Runtime 已完成，
+Issue 保持 Runtime 启动后的 <code>in_progress</code>，直到用户手动修改或明确要求 AI
+使用项目空间工具修改。</p>
 <p>不同运行时没有对应字段时，文档化映射关系，并断言该运行时的权威终态字段。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-tool-call-与-output">3. Tool call 与 output<a href="#3-tool-call-与-output" class="hash-link" aria-label="3. Tool call 与 output的直接链接" title="3. Tool call 与 output的直接链接" translate="no">​</a></h3>
 <p>必须形成完整链：</p>
@@ -419,8 +428,8 @@
 <li class=""><code>25-human-issue-opened.png</code>：点击通知后打开正确 Issue。</li>
 <li class=""><code>26-human-task-created.png</code>：从 Issue 创建并绑定的任务。</li>
 <li class=""><code>27-human-task-running.png</code>：真实 Runtime 执行中。</li>
-<li class=""><code>28-human-artifact.png</code>：产物已生成并同步。</li>
-<li class=""><code>29-human-issue-completed.png</code>：Task 和 Issue 最终状态。</li>
+<li class=""><code>28-human-artifact.png</code>：本地产物已生成。</li>
+<li class=""><code>29-human-task-completed.png</code>：Task 已完成且 Issue 仍保持进行中。</li>
 </ol>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="恢复与跨端">恢复与跨端<a href="#恢复与跨端" class="hash-link" aria-label="恢复与跨端的直接链接" title="恢复与跨端的直接链接" translate="no">​</a></h3>
 <ol start="30">
@@ -586,9 +595,10 @@ Git 账号同步到该设备，否则克隆会因缺少凭据失败。</p>
 <ul>
 <li class="">Wework 收到目标用户的真实分配通知。</li>
 <li class="">点击通知进入正确 Issue。</li>
-<li class="">从 Issue 创建的 Task 保留完整协作上下文。</li>
-<li class="">真实 Runtime 完成任务并生成产物。</li>
-<li class="">产物同步到 Issue，Task 与 Issue 状态一致。</li>
+<li class="">从 Issue 创建的私人 Task 保留完整协作上下文和原生 Issue 气泡。</li>
+<li class="">真实本地 Runtime 具备 <code>wework_space</code> 工具并完成任务。</li>
+<li class="">Runtime 启动后 Issue 进入进行中；Task 终态不自动推进 Issue。</li>
+<li class="">Issue 评论、交付和后续状态只由用户手动操作或明确指令触发。</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="证据">证据<a href="#证据" class="hash-link" aria-label="证据的直接链接" title="证据的直接链接" translate="no">​</a></h3>
 <ul>

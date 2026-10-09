@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Complete Collaboration Execution E2E Test Plan | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Complete Collaboration Execution E2E Test Plan | Wegent"><meta data-rh="true" name="description" content="Audit date: 2026-09-12"><meta data-rh="true" property="og:description" content="Audit date: 2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.ab006a09.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.b616b12d.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.464c023c.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -23,7 +23,7 @@
 <li class="">After an Issue is assigned to a Wegent Chat agent, its Skill and MCP are loaded, invoked, and produce a verifiable result.</li>
 <li class="">After an Issue is assigned to a Wegent ClaudeCode agent, its Skill and MCP are loaded, invoked, and produce a verifiable result.</li>
 <li class="">After an Issue is assigned to a Codex agent, its Skill, MCP, and Plugin are loaded, invoked, and produce a verifiable result.</li>
-<li class="">After an Issue is assigned to a person, Wework receives a notification, the user creates a Task from the Issue, a real runtime executes it, an artifact is delivered, and the Issue status advances.</li>
+<li class="">After an Issue is assigned to a person, Wework receives a notification, the user creates a private local Task from the Issue, a real runtime executes it, and shared Issue changes happen only through explicit actions.</li>
 <li class="">Execution failures, Executor outages, page refreshes, process restarts, and duplicate events neither fabricate success nor break eventual consistency.</li>
 <li class="">Every critical step has structured assertions, backend evidence, and screenshot evidence.</li>
 </ol>
@@ -52,8 +52,8 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="human">Human<a href="#human" class="hash-link" aria-label="Direct link to Human" title="Direct link to Human" translate="no">​</a></h3>
 <p>Assignment to a person does not immediately start an AI runtime:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Issue assignment</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Wework notification</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    -&gt; User opens Issue</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      -&gt; User creates Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        -&gt; Wework Runtime executes Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">          -&gt; Artifact / delivery</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            -&gt; Issue status projection</span><br></span></code></pre></div></div>
-<p>Assignment to a person first creates a notification and collaboration context. The user may enter the Issue from that notification, or proactively enter an unassigned Issue and create a Task.</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Issue assignment</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Wework notification</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    -&gt; User opens Issue</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">      -&gt; User creates private local Task</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">        -&gt; Local Wework Runtime starts</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">          -&gt; Issue moves to in progress</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">            -&gt; Runtime completes without advancing Issue again</span><br></span></code></pre></div></div>
+<p>Assignment to a person first creates a notification and collaboration context. The user may enter the Issue from that notification, or proactively enter an unassigned Issue and create a Task. Private Task conversation and terminal state are not automatically written to the shared Issue. Comments, deliveries, and subsequent status changes require a manual user action or an explicit instruction for AI to use project-space tools.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="test-boundary-and-authenticity-rules">Test Boundary and Authenticity Rules<a href="#test-boundary-and-authenticity-rules" class="hash-link" aria-label="Direct link to Test Boundary and Authenticity Rules" title="Direct link to Test Boundary and Authenticity Rules" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="components-that-must-be-real">Components that must be real<a href="#components-that-must-be-real" class="hash-link" aria-label="Direct link to Components that must be real" title="Direct link to Components that must be real" translate="no">​</a></h3>
 <ul>
@@ -266,7 +266,9 @@
 <li class="">The Wework Task completes and Issue activity and status projections complete.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e2e-07-assign-an-issue-to-a-person-and-execute-it-in-wework">E2E-07: Assign an Issue to a person and execute it in Wework<a href="#e2e-07-assign-an-issue-to-a-person-and-execute-it-in-wework" class="hash-link" aria-label="Direct link to E2E-07: Assign an Issue to a person and execute it in Wework" title="Direct link to E2E-07: Assign an Issue to a person and execute it in Wework" translate="no">​</a></h3>
-<p>Goal: prove that human assignment creates a notification, execution, artifact, and status loop rather than merely writing an owner field.</p>
+<p>Goal: prove that an assignee can create a private local Task from a shared Issue
+and use AI as a personal tool while preserving the boundary between private
+execution and shared collaboration state.</p>
 <p>Steps:</p>
 <ol>
 <li class="">Have an assigner assign the Human Issue to the target user.</li>
@@ -274,28 +276,43 @@
 <li class="">Verify that Wework shows a system notification and in-app unread indicator.</li>
 <li class="">Click the notification and deep-link to the correct Workspace, Project, and Issue.</li>
 <li class="">Click Create Task in the Issue.</li>
-<li class="">Verify that the new Task retains Workspace, Project, and Issue context.</li>
-<li class="">Submit execution instructions.</li>
-<li class="">Execute the Task through a real local or cloud Wework Runtime.</li>
-<li class="">Generate <code>human-result.txt</code> or an equivalent delivery.</li>
-<li class="">Synchronize the artifact back to the Issue.</li>
-<li class="">Complete the Task.</li>
-<li class="">Move the Issue to in review or completed.</li>
+<li class="">Verify that the new Task is visible only to the current user and retains
+Workspace, Project, and Issue context.</li>
+<li class="">Verify that the composer shows the current Issue as a native chip rather than
+plain text or an incorrect status label.</li>
+<li class="">Submit execution instructions. When the local Runtime starts, move an inbox
+or pending Issue to in progress.</li>
+<li class="">Verify that the Runtime can use <code>wework_space</code> to read the current Issue and
+changes the Issue, adds comments, or submits deliveries only when explicitly requested.</li>
+<li class="">Generate <code>human-result.txt</code> or an equivalent local artifact and complete the Task.</li>
+<li class="">Verify that Task completion, failure, stop, or delivery does not automatically
+move the Issue to in review or completed.</li>
+<li class="">Change Issue status manually, or explicitly instruct AI to change it through
+<code>wework_space</code>.</li>
 </ol>
 <p>Required proof:</p>
 <ul>
 <li class="">Notification recipient, assignment event, and Issue ID are correct.</li>
 <li class="">Duplicate assignment events do not create duplicate notifications.</li>
 <li class="">Clicking the notification opens the exact Issue, not just the Collaboration home page.</li>
-<li class="">The new Task is bound to the correct Workspace, Project, Issue, and user.</li>
-<li class="">A real Runtime completes the execution.</li>
-<li class="">The artifact exists and can be read from Issue activity or the delivery area.</li>
-<li class="">Task terminal state and Issue status projection agree.</li>
+<li class="">The new Task is bound to the correct Workspace, Project, Issue, user, and local device.</li>
+<li class="">The sent Issue reference remains a native chip and is not polluted by text such
+as <code>[blocked]</code>.</li>
+<li class="">A real local Runtime completes the execution and has project-space tools.</li>
+<li class="">Runtime start automatically marks an eligible Issue in progress.</li>
+<li class="">Runtime terminal state, stop, and delivery do not further change Issue status
+or assignee.</li>
+<li class="">Ordinary private-task conversation is not automatically published as a shared
+Issue comment.</li>
+<li class="">When the user explicitly asks AI to update the Issue, the tool call uses the
+explicit current project and Issue IDs.</li>
 </ul>
 <p>Additional scenario:</p>
 <ul>
 <li class="">A user who is not assigned may still proactively enter an Issue and create a Task.</li>
 <li class="">Proactive participation must not fabricate an “assigned to me” notification or assignment event.</li>
+<li class="">Starting a private Task for an Issue already in review or completed must not
+move the Issue back to in progress.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e2e-08-cross-host-consistency">E2E-08: Cross-host consistency<a href="#e2e-08-cross-host-consistency" class="hash-link" aria-label="Direct link to E2E-08: Cross-host consistency" title="Direct link to E2E-08: Cross-host consistency" translate="no">​</a></h3>
 <p>Steps:</p>
@@ -359,8 +376,12 @@
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">workspaceId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">projectId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">issueId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">assignmentId or assignment event id</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">teamId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">botId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">ghostId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">projectChatAgentId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">backendTaskId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">runtimeTaskId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">executorId</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">executorType</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">runtimeDeviceId</span><br></span></code></pre></div></div>
 <p>Identity fields must come from backend APIs, execution records, or Runtime logs, not be inferred from UI text.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-backend-and-runtime-terminal-states">2. Backend and runtime terminal states<a href="#2-backend-and-runtime-terminal-states" class="hash-link" aria-label="Direct link to 2. Backend and runtime terminal states" title="Direct link to 2. Backend and runtime terminal states" translate="no">​</a></h3>
-<p>Assert at least:</p>
+<p>For scenarios where an agent directly owns the Issue, assert at least:</p>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Task status == COMPLETED</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Runtime execution status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Project message status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Project message metadata.run_status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Issue ai_state.status == completed</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Issue status == in_review | completed</span><br></span></code></pre></div></div>
+<p>For a human assignee&#x27;s private local Task, assert separately that the Task and
+Runtime are complete while the Issue remains <code>in_progress</code> after runtime start,
+until the user changes it manually or explicitly instructs AI to use
+project-space tools.</p>
 <p>If a runtime does not have one of these fields, document the mapping and assert that runtime&#x27;s authoritative terminal field.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-tool-call-and-output">3. Tool call and output<a href="#3-tool-call-and-output" class="hash-link" aria-label="Direct link to 3. Tool call and output" title="Direct link to 3. Tool call and output" translate="no">​</a></h3>
 <p>The complete chain must be present:</p>
@@ -419,8 +440,8 @@
 <li class=""><code>25-human-issue-opened.png</code>: correct Issue opened after clicking the notification.</li>
 <li class=""><code>26-human-task-created.png</code>: Task created and bound from the Issue.</li>
 <li class=""><code>27-human-task-running.png</code>: real Runtime executing the Task.</li>
-<li class=""><code>28-human-artifact.png</code>: artifact generated and synchronized.</li>
-<li class=""><code>29-human-issue-completed.png</code>: final Task and Issue states.</li>
+<li class=""><code>28-human-artifact.png</code>: local artifact generated.</li>
+<li class=""><code>29-human-task-completed.png</code>: Task completed while the Issue remains in progress.</li>
 </ol>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="recovery-and-cross-host-state">Recovery and cross-host state<a href="#recovery-and-cross-host-state" class="hash-link" aria-label="Direct link to Recovery and cross-host state" title="Direct link to Recovery and cross-host state" translate="no">​</a></h3>
 <ol start="30">
@@ -601,9 +622,13 @@ and shared Workspace API mapping must trigger <code>collaboration-shared-core</c
 <ul>
 <li class="">Wework receives a real assignment notification for the target user.</li>
 <li class="">Clicking the notification opens the correct Issue.</li>
-<li class="">A Task created from the Issue preserves complete collaboration context.</li>
-<li class="">A real Runtime completes the Task and generates an artifact.</li>
-<li class="">The artifact is synchronized to the Issue and Task and Issue states agree.</li>
+<li class="">The private Task created from the Issue preserves complete collaboration context
+and a native Issue chip.</li>
+<li class="">A real local Runtime has <code>wework_space</code> tools and completes the Task.</li>
+<li class="">Runtime start moves the Issue to in progress; Task terminal state does not
+automatically advance the Issue.</li>
+<li class="">Issue comments, deliveries, and subsequent status changes are triggered only
+by manual user actions or explicit instructions.</li>
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="evidence">Evidence<a href="#evidence" class="hash-link" aria-label="Direct link to Evidence" title="Direct link to Evidence" translate="no">​</a></h3>
 <ul>
