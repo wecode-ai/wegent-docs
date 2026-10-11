@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.257952f1.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.c9912bf7.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.3b80e9e5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -55,13 +55,9 @@ Electron 应用包和发布标签使用同一版本。</p>
 <code>latest*.yml</code> 或 <code>beta*.yml</code>，下载完成后先关闭本地运行时，再安装并重启。
 如果所选通道尚未发布 Electron 版本，对应 YAML 清单可以不存在；客户端将其视为
 “暂无可用更新”，而不是网络错误。其他检查失败仍需原样报告。</p>
-<p>macOS 和 Windows 的正式版本 Release 必须分别包含 ZIP 和 NSIS 安装器对应的
-<code>.blockmap</code>。macOS 客户端将完整下载或差分下载成功后的 ZIP、blockmap、版本、
-架构、URL 和 SHA-512 作为一组经过验证的差分基线原子保存；后续更新只使用这组本地
-基线，不根据新产物文件名猜测旧 blockmap 地址。首次更新、缓存基线不完整或校验
-失败时下载完整安装包并建立新基线。差分校验失败时只再执行一次完整下载。构建产物
-缺少任一 blockmap 时发布流程必须失败。差分计划、累计下载量和回退原因记录在应用
-日志目录的 <code>app-update.log</code> 中。</p>
+<p>Wework 禁用 <code>electron-updater</code> 的差分下载和旧 ZIP 缓存。macOS 与 Windows
+客户端只下载经过压缩的完整 Host 更新包，避免低复用率差分产生大量 Range 请求、
+重复流量和额外磁盘占用。组件更新仍按内容哈希复用未变化的组件。</p>
 <p>发布流程只生成 Electron YAML 更新清单和组件清单。macOS 和 Windows 使用
 Electron 自身的 ZIP/NSIS 更新链路；Linux 暂不提供应用内自动升级，继续使用
 AppImage 手工替换。</p>
@@ -157,8 +153,8 @@ Electron 和 Chromium。</p>
 <p>应用更新由主进程中的单个任务管理。同一版本和通道的自动下载、手动下载与重复检查
 共享任务，检查操作不得清空正在进行的下载。缺失组件最多使用三个并发下载；全部
 完成大小、压缩包哈希和解包内容校验后才写入 <code>pending</code>。更新进度依次覆盖组件、
-宿主下载、校验和安装就绪阶段，并累计差分失败前已经传输的字节；Squirrel.Mac 对
-本地缓存 ZIP 的安装交接不计入网络下载量。</p>
+宿主下载和安装就绪阶段；Squirrel.Mac 对已下载 ZIP 的本地安装交接不计入网络
+下载量。</p>
 <p>单个组件下载遇到明确的瞬时传输失败时，客户端最多尝试三次，并在失败后分别等待
 一秒、两秒再重试。可重试范围仅包括连接中断、DNS/连接/请求超时、HTTP 408、429
 和 5xx。HTTP 4xx（408、429 除外）、压缩包大小或 SHA-256 不匹配、解包内容
