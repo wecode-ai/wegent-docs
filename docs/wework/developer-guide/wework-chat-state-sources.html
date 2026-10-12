@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Chat State Sources | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Chat State Sources | Wegent"><meta data-rh="true" name="description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><meta data-rh="true" property="og:description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Chat State Sources","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.20b67419.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.14c510ee.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.7ee0d5eb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -115,6 +115,19 @@ This keeps historical assistant replies visible when a new turn starts after a
 WebView or executor rebuild. A thread ID change must clear both the completed
 message cache and transcript snapshot so messages cannot cross thread
 boundaries.</p>
+<p>History snapshots must retain the Provider&#x27;s before and after cursors. Default
+reads during execution may reuse a snapshot, but explicit pagination must use
+native history. A tail snapshot is not complete history. Merge live assistant
+blocks and runtime items by item ID so new items cannot replace loaded history.
+Adding live items must not upgrade a summary turn&#x27;s <code>itemsView</code> to full.</p>
+<p>Automatic Goal continuation owns a new turn. It must neither carry the previous
+turn&#x27;s client user message association nor rewrite its subtask-to-turn mapping.
+The starting-next-turn label ends when that turn produces visible text or tools;
+history reconciliation remains active until continuation settles.</p>
+<p>The capability publication lock covers session preparation and runtime
+initialization only. Codex and Claude Code release the read lease before model
+execution. Capability synchronization publishes under the write lease, so a
+long model run cannot block other tasks from starting.</p>
 <p>When the first message carries a pending Goal seed, both the send entry point
 and pane initialization must write the seed status into
 <code>RuntimeTaskLifecycleStore</code> immediately. An asynchronous <code>runtime.goal.get</code>
