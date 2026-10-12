@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作执行完整 E2E 测试计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作执行完整 E2E 测试计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-12"><meta data-rh="true" property="og:description" content="审计日期：2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.5cfd0b08.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.6ddb4c7e.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.351d83fe.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -324,6 +324,23 @@ Issue、添加评论或提交交付物。</li>
 旧处理人不能接手，当前指派下已经提交或验收的结果也不能重复接手。
 <code>project-assignment-notification</code> 覆盖验收后重新指派与显式接手，不发起 AI 请求。</li>
 </ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="人工处理-ai-辅助的当前电脑回归">人工处理 AI 辅助的当前电脑回归<a href="#人工处理-ai-辅助的当前电脑回归" class="hash-link" aria-label="人工处理 AI 辅助的当前电脑回归的直接链接" title="人工处理 AI 辅助的当前电脑回归的直接链接" translate="no">​</a></h4>
+<p>CI checkpoint：<code>collaboration-issue-task-discovery</code>。</p>
+<p>前置条件：隔离 Electron、真实 Backend、MySQL、Redis、Codex 和两台在线 APP
+执行器；仅替代模型上游。创建两个项目，分别初始化当前电脑和另一台 APP 的执行环境。
+每个项目创建 Issue，指派给当前用户并显式接手，确认 <code>human_work.can_submit</code> 为真。</p>
+<p>步骤及断言：</p>
+<ol>
+<li class="">从项目设置打开执行环境，等待实际设备目录加载，确认配置设备已就绪。</li>
+<li class="">打开 Issue，点击“AI 帮助”，发送预填的处理建议请求。</li>
+<li class="">等待真实 Codex 返回模型回复；不能以创建绑定或显示聊天面板代替执行成功。</li>
+<li class="">检查只创建一个任务绑定，设备必须是当前电脑，不能继承另一台 APP 的项目环境。</li>
+<li class="">检查 Issue 仍在进行中；AI 辅助不得自动提交或验收人工结果。</li>
+<li class="">对两种项目环境分别执行上述步骤，关闭对话和 Issue。</li>
+</ol>
+<p>边界：第二个项目的执行器在线、环境已初始化且目录已加载，排除后台发现尚未完成。
+失败证据保留在 runner 的 <code>failure.txt</code>、<code>ui-snapshot.json</code>、模型请求和运行时日志中。
+清理由共享 runner 停止隔离 Electron、生成的执行器和后端，并删除临时数据及凭据。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e2e-08跨端一致性">E2E-08：跨端一致性<a href="#e2e-08跨端一致性" class="hash-link" aria-label="E2E-08：跨端一致性的直接链接" title="E2E-08：跨端一致性的直接链接" translate="no">​</a></h3>
 <p>步骤：</p>
 <ol>
