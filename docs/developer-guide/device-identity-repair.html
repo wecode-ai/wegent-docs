@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework identity and legacy records | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/device-identity-repair"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework identity and legacy records | Wegent"><meta data-rh="true" name="description" content="Rollout and data boundaries"><meta data-rh="true" property="og:description" content="Rollout and data boundaries"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/device-identity-repair"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/device-identity-repair" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/device-identity-repair" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/device-identity-repair" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.c6d7a9c8.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.ec87caba.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.c8bf0132.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -22,6 +22,17 @@ Normal registration and user-requested removal still update records through appl
 <li class="">New Wework installations persist a UUIDv4 <code>device_id</code>. Restarts preserve it. Existing IDs, including <code>local-device</code>, and explicit configurations remain unchanged.</li>
 <li class=""><code>runtime_instance_id</code> identifies the persistent Runtime installation; <code>app_device_id</code> identifies its desktop IPC exposure.</li>
 <li class="">App records expose <code>execution_target_id</code> as <code>app-record-&lt;primary key&gt;</code> for exact routing. The UI still displays the registered device ID.</li>
+</ul>
+<p>App WebSocket registration sessions, execution queue pulls, and wake-up rooms
+must use the same confirmed <code>app-record-&lt;primary key&gt;</code>. Pulling with
+<code>app_device_id</code> cannot identify a unique record when installations share an IPC
+alias, and causes <code>Runner is no longer authorized</code> before an Issue starts.
+Reconnect the Executor after deploying this fix to refresh existing sessions;
+device removal and historical record changes are unnecessary. The desktop
+<code>collaboration-app-queue-identity</code> checkpoint starts two real Executors sharing
+an alias and verifies automatic cloud Issue execution, completion, record routing,
+and exactly one execution.</p>
+<ul>
 <li class="">Configuration creation is file-locked and atomically persisted. Corrupt or unwritable configuration fails explicitly; it never invents a shared fallback identity.</li>
 </ul>
 <p>Registration matches the owner, default namespace, device ID, Runtime and IPC identities. Identical historical duplicates reuse a stable record; distinct installations retain separate records, online states and execution routes. Ambiguous identities are rejected, never guessed from display names.
