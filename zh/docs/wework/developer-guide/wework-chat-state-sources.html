@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.92619451.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.61b6ad2e.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.9dcf6524.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -164,6 +164,14 @@ Claude Code 的 <code>/compact</code> 是普通原生命令；Codex 仍使用其
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="工具活动预览滚动">工具活动预览滚动<a href="#工具活动预览滚动" class="hash-link" aria-label="工具活动预览滚动的直接链接" title="工具活动预览滚动的直接链接" translate="no">​</a></h3>
 <p>折叠的工具活动预览最多显示三行，并在用户没有展开工具详情时跟随最新活动。自动滚动必须同时响应工具行数量变化和底部“正在思考”行的出现或消失；工具完成后即使行数不变，“正在思考”也必须保持在内层滚动区域的可见范围内。展开详情时预览解除高度限制，不能用强制滚动覆盖用户阅读位置。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="goal-与任务执行状态">Goal 与任务执行状态<a href="#goal-与任务执行状态" class="hash-link" aria-label="Goal 与任务执行状态的直接链接" title="Goal 与任务执行状态的直接链接" translate="no">​</a></h2>
+<p>完整目标更新必须经由 <code>syncRuntimeGoal</code> 写入。该入口先将
+runtime 目标与会话缓存中的目标合并，再把实际接受的状态投影到生命周期，确保
+目标栏和侧栏读取同一个目标版本。不能分别写入缓存和原始事件状态：较旧更新被
+缓存拒绝后，生命周期也必须保留已接受的状态。更新时间相同的有效更新按到达
+顺序接受，包括暂停、受阻、恢复以及目标内容或用量变化；异步快照仍通过请求
+版本隔离迟到响应。</p>
+<p>侧栏运行图标的中心圆点仅表示目标状态为 <code>active</code>。已暂停或受阻的目标仍存在，
+但不显示该圆点；不能据此判断目标不存在。</p>
 <p>Goal 条的运行态必须受当前 runtime task 的执行快照约束：当 App Server 明确返回当前任务 <code>running: false</code> 时，仍为 <code>active</code> 的 goal 在 UI 中必须派生为 <code>paused</code>，并停止累计显示的耗时。这避免在重新打开已中断任务时，goal 继续显示“进行中”并计时。</p>
 <ul>
 <li class="">仅当 <code>running</code> 是明确的布尔值时，任务执行状态才是已知状态；缺失该字段意味着状态尚不确定，不能据此暂停 goal。</li>
