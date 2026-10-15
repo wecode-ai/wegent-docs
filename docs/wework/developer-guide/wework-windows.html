@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Windows development and builds | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Windows development and builds | Wegent"><meta data-rh="true" name="description" content="The Wework Windows desktop application uses Electron and shares the same"><meta data-rh="true" property="og:description" content="The Wework Windows desktop application uses Electron and shares the same"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-windows" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Windows development and builds","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-windows"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.59e04807.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.a15c99e1.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.e59af4e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -68,11 +68,31 @@ result is <code>wework/electron/release/WeWork-win32-x64/WeWork.exe</code>; a Li
 macOS package is not an equivalent substitute.</p>
 <p><code>.github/workflows/wework-e2e.yml</code> builds this native application on
 <code>windows-latest</code> and runs Windows Desktop Core E2E with the same Core shard
-matrix used by Linux. A complete regression runs all 17 Core shards. When path
+matrix used by Linux. A complete regression runs all 18 Core shards. When path
 classification selects only specific checkpoints, both platforms still run the
 same selected shards. Windows path, drive-letter, UNC, named-pipe, and <code>.exe</code>
 sidecar behavior must be verified by this Windows job and cannot be inferred
 from another platform passing.</p>
+<p>Windows CI caches the pnpm store and rebuilds dependency links on every install
+instead of restoring archived <code>node_modules</code> links. E2E uses the Socket.IO client
+bundled with the build artifact. Remote HOME queries convert Git Bash paths to
+native Windows paths; preview assertions use normalized UI paths. Windows skill
+directories use junctions with absolute targets; Unix uses relative symbolic links.
+Generated image workspace references remove the Windows extended path prefix
+returned by Rust canonicalize so the renderer does not parse it as a POSIX path.
+Windows workspace clones enable and persist <code>core.longpaths=true</code> for Git
+template files and subsequent operations. Core DSH and Smart app plugin installs
+use a <code>pnpm-store</code> inside their own DSH Home, avoiding cross-drive default stores
+whose SQLite cache was created by an administrator.</p>
+<p>Standard-user CI processes forward stdout/stderr live and keep separate logs in
+<code>.ci-artifacts/windows-standard-user/</code>, preserving process output when other
+runtime files remain locked. New desktop window readiness handshakes use the
+existing 180-second startup budget. Missing readiness events fail explicitly
+and save diagnostics instead of waiting for the entire CI job to be terminated.
+Drawer E2E uses Electron media preferences to verify both normal animation and
+reduced motion, then restores the system preference. Docked environment panel
+scenarios explicitly establish a wide window rather than exercising the narrow
+window&#x27;s floating popover.</p>
 <p><code>.github/workflows/wework-app.yml</code> creates the signed installer and Electron
 YAML update manifest on <code>windows-latest</code>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="troubleshooting">Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" title="Direct link to Troubleshooting" translate="no">​</a></h2>
