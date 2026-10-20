@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Complete Collaboration Execution E2E Test Plan | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Complete Collaboration Execution E2E Test Plan | Wegent"><meta data-rh="true" name="description" content="Audit date: 2026-09-12"><meta data-rh="true" property="og:description" content="Audit date: 2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.8585c436.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.a67dc47b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.2d0150c3.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.a2ca9af7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -331,30 +331,29 @@ explicit current project and Issue IDs.</li>
 <ul>
 <li class="">A user who is not assigned may still proactively enter an Issue and create a Task.</li>
 <li class="">Proactive participation must not fabricate an “assigned to me” notification or assignment event.</li>
-<li class="">Starting a private Task for an Issue already in review or completed must not
-move the Issue back to in progress.</li>
-<li class="">Start work in the human-processing panel is a separate explicit action:
-reassigning an in-review or completed Issue preserves its status and clears
-the previous human submission. Only the new assignee&#x27;s Start work action
-moves it to in progress. The former assignee cannot start, and a submitted or
-accepted result under the current assignment cannot be started again.
-<code>project-assignment-notification</code> covers reassignment after acceptance and
-explicit start without making an AI request.</li>
+<li class="">Starting a private Task may move an Issue from in review to in progress;
+completed Issues retain their completed status.</li>
+<li class="">Users with edit permission start, complete, and reopen Issues directly through
+the status selector or board drag without a result form. Comments and attachments
+carry work communication.</li>
+<li class=""><code>project-assignment-notification</code> covers creating a Task directly from pending,
+binding the complete current assignment identity, projecting progress from real
+Task delivery, reassignment after completion, direct status changes, and comments.</li>
 </ul>
 <h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="current-computer-regression-for-human-ai-assistance">Current-computer regression for human AI assistance<a href="#current-computer-regression-for-human-ai-assistance" class="hash-link" aria-label="Direct link to Current-computer regression for human AI assistance" title="Direct link to Current-computer regression for human AI assistance" translate="no">​</a></h4>
 <p>CI checkpoint: <code>collaboration-issue-task-discovery</code>.</p>
 <p>Prerequisites: isolated Electron, real Backend, MySQL, Redis, Codex, and two online
 APP executors; replace only the model upstream. Create two projects with initialized
 environments on the current computer and the other APP respectively. Assign an Issue
-in each project to the current user and explicitly start work; require
-<code>human_work.can_submit</code> to be true.</p>
+in each project to the current user and set it to in progress through an ordinary
+status update. Require <code>human_task_binding.assignmentId</code> to match the assignment.</p>
 <p>Steps and assertions:</p>
 <ol>
 <li class="">Open project execution settings and wait for the real device catalog and ready environment.</li>
-<li class="">Open the Issue, click AI assistance, and send the prefilled request for a draft suggestion.</li>
+<li class="">Open the Issue, click Create Task, and send a request containing the original Issue reference.</li>
 <li class="">Wait for a model reply through real Codex; a binding or visible composer does not prove execution.</li>
 <li class="">Require exactly one task binding on the current computer, independent of the other APP environment.</li>
-<li class="">Require the Issue to remain in progress; assistance must not submit or accept human work.</li>
+<li class="">Require the Issue to remain in progress; finishing a private task must not change its shared status.</li>
 <li class="">Repeat for both environments, then close the conversation and Issue.</li>
 </ol>
 <p>Boundary: the other executor is online, its environment is initialized, and the catalog
