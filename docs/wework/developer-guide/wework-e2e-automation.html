@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><meta data-rh="true" property="og:description" content="Wework provides a dedicated Playwright E2E entrypoint and a test-only frontend automation bridge for operating the Wework Vite/React frontend in CI. The default entrypoint runs in browser mode, which covers most frontend interactions; the desktop task-flow E2E below covers native-window and task-execution behavior."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.27eb4556.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.76cf7a52.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.f7acdc32.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -101,17 +101,58 @@ checkpoint. When upstream checkpoints are skipped, each checkpoint establishes
 its own minimal fixtures instead of depending on tasks or UI state created only
 by the complete flow. PR CI builds the smallest segment matrix for the changed
 feature paths. Shared desktop infrastructure, merge queue, scheduled runs, and
-<code>ci:all</code> still run the complete desktop suites. Core uses seventeen fixed GitHub
-Actions matrix jobs and Cloud uses fifteen. A Core job runs at most two isolated
-checkpoints concurrently so three complete Electron, Executor, and real-backend
-stacks cannot contend for one runner&#x27;s CPU; Cloud jobs retain up to three
-concurrent checkpoints. Checkpoints that share the Collaboration cloud runtime
-or have demonstrated timing contention remain serialized through an exclusive
-resource lock. The thirty-two Core and Cloud matrix jobs still provide
+<code>ci:all</code> still run the complete desktop suites. Core and Cloud shard definitions
+live in <code>.github/scripts/classify-wework-desktop-e2e.sh</code>. Linux Core and Cloud jobs
+run at most four isolated checkpoints concurrently; actual concurrency also
+depends on the shard&#x27;s checkpoint count. Each checkpoint owns its database,
+Redis, ports, and runtime directories, and Harness runtimes are extracted once
+before the shard starts. The former intensive-runtime and Collaboration groups
+therefore no longer serialize entire checkpoints. macOS checkpoints that require
+the native desktop foreground still use an exclusive resource lock.</p>
+<p><code>split-workbench</code> keeps its fixed three-second drag interaction assertion on a
+dedicated Linux shard so competing full-stack instances do not change the benchmark&#x27;s
+CPU allocation. It retains all functional assertions and logs pointer movement,
+pointer-up dispatch, and split readiness timings. Other functional shards still
+allow up to four instances.
+Core and Cloud matrix jobs also provide
 suite-level parallelism across runners. Shards are balanced from observed CI
 durations and capped to bound the complete suite&#x27;s critical path; a new or
 materially slower checkpoint requires rebalancing instead of
-removing coverage or rerunning failures. The 2,200-delta Codex notification
+removing coverage or rerunning failures.
+Long scenarios are split into independent checkpoints as well as balanced shards:</p>
+<ul>
+<li class=""><code>plugin-account-auth</code> expands into password sync, exclusive credential transfer, OAuth, DWS accounts, conversation QR, and GitHub checkpoints.</li>
+<li class=""><code>plugin-uninstall-resilience</code> expands into lost response, unknown result, restart recovery, and reinstall race checkpoints.</li>
+<li class=""><code>harness-apps</code> expands into development and installation/runtime lifecycle checkpoints.</li>
+<li class=""><code>streaming-text</code> expands into content, tool details, timers, scrolling, message order, and subagent checkpoints.</li>
+</ul>
+<p>Each checkpoint establishes its own prerequisites in an isolated environment. The
+group names remain valid for <code>--segment</code>; <code>--from-segment</code> starts at the group&#x27;s
+first checkpoint. CI schedules the individual checkpoints directly. Shards reuse
+the same build artifact while reducing CPU contention between heavy workflows.
+The long list still checks all 24 plugins, scrolling, and last-item selection.
+<code>plugin-toggle-persistence</code> independently checks enable/disable persistence across
+two restarts with one plugin, avoiding repeated synchronization of the whole list.
+Linux Core/Cloud tests emit <code>[runner-resources]</code> JSON records at startup, completion,
+and every 15 seconds, also saved as <code>runner-resources.jsonl</code> in the diagnostic
+artifact. Web shards reuse this sampler with <code>RUNNER_PROCESS_DIAGNOSTICS=1</code> to
+record process IDs, parent IDs, states, elapsed times, and names without command
+arguments. <code>RUNNER_RESOURCE_LOG_PATH</code> selects the log path; separate
+<code>e2e-process-diagnostics-*</code> artifacts help diagnose commands that remain alive
+after tests finish. Records include CPU utilization, load average, memory, available disk
+space, Linux CPU/memory/I/O pressure, and cgroup CPU limits, memory peaks, and OOM
+counters. Unreadable kernel metrics report <code>unavailable</code>. CPU utilization is the
+average between samples; its initial value is <code>null</code>.
+<code>[desktop-e2e-schedule]</code> logs list active checkpoints and actual concurrency on
+each start and completion, making overlap visible independently of the configured
+worker limit. Compare shard durations and these metrics after increasing
+concurrency to identify CPU, memory, or I/O contention.
+Drawer animation checks sample from before the action until movement is observed
+and the track animation completes, then stop explicitly within the shared step
+timeout. Command transport and rendering delays cannot exhaust a fixed 800ms
+capture window. Movement, continuity, intermediate-frame, and reduced-motion
+assertions remain intact.
+The 2,200-delta Codex notification
 isolation stress case and the long plugin auto-update checkpoint each have a
 dedicated shard; the notification scenario uses a targeted 30-second render
 budget without changing the shared 10-second UI timeout. CI first builds one Core Electron
@@ -473,7 +514,7 @@ whole-job timeouts caused by transient hosted-runner mirror degradation.</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework prepare:codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop:memory</span><br></span></code></pre></div></div>
 <p>The repository includes a basic workflow at <code>.github/workflows/wework-e2e.yml</code>. It runs when Wework, <code>packages/chat-core</code>, the pnpm lockfile, or the workflow itself changes.
 Linux and Windows Desktop Core E2E consume the same shard matrix produced by
-the classifier; a complete classification runs all 17 Core shards on both
+the classifier; a complete classification runs every declared Core shard on both
 platforms. The Windows job builds native <code>WeWork.exe</code>,
 <code>wegent-executor.exe</code>, and <code>codex.exe</code> artifacts on <code>windows-latest</code> before
 running checkpoints. A cross-platform package or a single Windows smoke test is
