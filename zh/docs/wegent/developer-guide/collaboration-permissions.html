@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作权限架构与不可破坏的规则 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作权限架构与不可破坏的规则 | Wegent"><meta data-rh="true" name="description" content="空间决定管理范围，项目默认继承空间成员，资源通过明确授权参与项目。所有列表和操作使用同一套服务端权限判定。本文是经用户确认的产品契约；测试验证这些规则，不能为了通过测试而降低规则。"><meta data-rh="true" property="og:description" content="空间决定管理范围，项目默认继承空间成员，资源通过明确授权参与项目。所有列表和操作使用同一套服务端权限判定。本文是经用户确认的产品契约；测试验证这些规则，不能为了通过测试而降低规则。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"协作权限架构与不可破坏的规则","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.c3bbe942.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.19162252.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e5af6238.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -19,9 +19,9 @@
 <p>管理角色只有管理员、成员和只读成员。API 使用 <code>Maintainer</code>、<code>Developer</code>、<code>Viewer</code> 表达；所有者由空间归属关系确定，响应中的 <code>Owner</code> 是只读的所有者标识，不能通过成员接口赋予。项目创建者是审计信息；创建项目时明确添加创建者为项目管理员。</p>
 <p>新项目、父空间授权和创建者的管理员授权在同一事务中写入。新项目的父空间授权直接插入，不对不存在的授权记录加锁，避免不同空间并发创建项目时产生 MySQL 间隙锁死锁。已有资源的授权恢复路径保持原有加锁规则；MySQL 权限回归套件覆盖并发创建、唯一父空间和创建后的使用权限。</p>
 <table><thead><tr><th>空间身份</th><th>默认继承项目</th><th>受限项目</th></tr></thead><tbody><tr><td>所有者</td><td>管理员</td><td>管理员</td></tr><tr><td>管理员</td><td>管理员</td><td>管理员</td></tr><tr><td>成员</td><td>成员</td><td>单独邀请</td></tr><tr><td>只读成员</td><td>只读成员</td><td>单独邀请</td></tr><tr><td>项目访客</td><td>项目直接授权</td><td>项目直接授权</td></tr></tbody></table>
-<p>有效权限是有效继承关系与直接授权的并集。较低的直接角色不能覆盖继承权限。公开浏览是单独的读取授权，不自动将浏览者加入负责人或协作小组名单。</p>
+<p>空间所有者和管理员始终拥有所属项目的管理权。对其他用户，有效的项目直接角色优先于空间继承角色，可以提升或降低项目权限；移除项目直接授权后恢复当前空间继承权限。仅修改项目职责不创建角色覆盖，也不批准待审批或已拒绝的授权。公开浏览是单独的读取授权，不自动将浏览者加入负责人或协作小组名单。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="权限契约">权限契约<a href="#权限契约" class="hash-link" aria-label="权限契约的直接链接" title="权限契约的直接链接" translate="no">​</a></h2>
-<table><thead><tr><th>编号</th><th>不变量</th></tr></thead><tbody><tr><td>CP01</td><td>每个项目有唯一、有效的父空间；归属与成员授权分别保存。</td></tr><tr><td>CP02</td><td>空间所有者和管理员管理所有所属项目，包括受限项目，与项目创建者无关。</td></tr><tr><td>CP03</td><td>默认项目继承成员和只读成员；受限项目停止这两类继承。</td></tr><tr><td>CP04</td><td>仅加入项目不获得父空间资源、成员或其他项目权限。</td></tr><tr><td>CP05</td><td>权限取有效来源的并集；待审批、拒绝、未知角色、失效空间和归档项目不提供权限。</td></tr><tr><td>CP06</td><td>创建者、负责人、小组组长和设备账号不产生额外的人类管理权限。</td></tr><tr><td>CP07</td><td>Viewer 能读取空间及有权访问的项目，不能修改、评论、指派或执行。</td></tr><tr><td>CP08</td><td>项目成员列表包含继承和直接成员，返回有效角色、直接角色、来源及来源空间；继承角色只读。</td></tr><tr><td>CP09</td><td>已启用共享项目智能体对项目读者可见；显式 private 定义保持仅创建者可见和可用；离线或配置问题以状态和原因表达。</td></tr><tr><td>CP10</td><td>资源使用授权不授予修改原定义或读取私人凭据的权限。</td></tr><tr><td>CP11</td><td>智能体和设备使用必须满足有效资源使用授权及项目启用关系；旧版合法安装关系在原项目内保留使用效力，不扩展资源目录或原定义权限。</td></tr><tr><td>CP12</td><td>固定设备、项目池和用户选择只改变调度，不绕过项目资源授权。</td></tr><tr><td>CP13</td><td>列表、详情、创建、修改、指派、评论启动、自动化派发与设备领取使用相同的授权规则。</td></tr><tr><td>CP14</td><td>Issue 读取先检查项目权限，再检查 open/related；项目管理员可读全部 Issue。</td></tr><tr><td>CP15</td><td>执行同时检查 Issue、执行能力、启用绑定和资源授权；快照不能替代当前授权。</td></tr><tr><td>CP16</td><td>撤权阻止新派发和领取；正在运行的任务请求停止，收到 Runtime 确认后才标记停止。</td></tr><tr><td>CP17</td><td>移出空间撤销空间成员关系及其所有下属项目直接授权；需要继续作为访客时重新邀请。</td></tr><tr><td>CP18</td><td>撤销空间资源授权使所有下属项目绑定失效；保留历史数据并显示失效状态。</td></tr><tr><td>CP19</td><td>空间所有权可以转交，历史创建者保持不变；项目的治理权不依赖历史创建者。</td></tr><tr><td>CP20</td><td>权限判定返回来源和拒绝原因；前端不能独立授予服务端拒绝的能力。</td></tr></tbody></table>
+<table><thead><tr><th>编号</th><th>不变量</th></tr></thead><tbody><tr><td>CP01</td><td>每个项目有唯一、有效的父空间；归属与成员授权分别保存。</td></tr><tr><td>CP02</td><td>空间所有者和管理员管理所有所属项目，包括受限项目，与项目创建者无关。</td></tr><tr><td>CP03</td><td>默认项目继承成员和只读成员；受限项目停止这两类继承。</td></tr><tr><td>CP04</td><td>仅加入项目不获得父空间资源、成员或其他项目权限。</td></tr><tr><td>CP05</td><td>空间所有者和管理员保留项目管理权；其他用户的有效项目直接角色优先于空间继承角色，移除直接授权后恢复继承；待审批、拒绝、未知角色、失效空间和归档项目不提供权限。</td></tr><tr><td>CP06</td><td>创建者、负责人、小组组长和设备账号不产生额外的人类管理权限。</td></tr><tr><td>CP07</td><td>Viewer 能读取空间及有权访问的项目，不能修改、评论、指派或执行。</td></tr><tr><td>CP08</td><td>项目成员列表包含继承和直接成员，返回有效角色、直接角色、来源及来源空间；空间继承角色只读，项目管理员可为继承成员设置或移除项目直接角色。</td></tr><tr><td>CP09</td><td>已启用共享项目智能体对项目读者可见；显式 private 定义保持仅创建者可见和可用；离线或配置问题以状态和原因表达。</td></tr><tr><td>CP10</td><td>资源使用授权不授予修改原定义或读取私人凭据的权限。</td></tr><tr><td>CP11</td><td>智能体和设备使用必须满足有效资源使用授权及项目启用关系；旧版合法安装关系在原项目内保留使用效力，不扩展资源目录或原定义权限。</td></tr><tr><td>CP12</td><td>固定设备、项目池和用户选择只改变调度，不绕过项目资源授权。</td></tr><tr><td>CP13</td><td>列表、详情、创建、修改、指派、评论启动、自动化派发与设备领取使用相同的授权规则。</td></tr><tr><td>CP14</td><td>Issue 读取先检查项目权限，再检查 open/related；项目管理员可读全部 Issue。</td></tr><tr><td>CP15</td><td>执行同时检查 Issue、执行能力、启用绑定和资源授权；快照不能替代当前授权。</td></tr><tr><td>CP16</td><td>撤权阻止新派发和领取；正在运行的任务请求停止，收到 Runtime 确认后才标记停止。</td></tr><tr><td>CP17</td><td>移出空间撤销空间成员关系及其所有下属项目直接授权；需要继续作为访客时重新邀请。</td></tr><tr><td>CP18</td><td>撤销空间资源授权使所有下属项目绑定失效；保留历史数据并显示失效状态。</td></tr><tr><td>CP19</td><td>空间所有权可以转交，历史创建者保持不变；项目的治理权不依赖历史创建者。</td></tr><tr><td>CP20</td><td>权限判定返回来源和拒绝原因；前端不能独立授予服务端拒绝的能力。</td></tr></tbody></table>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="授权与执行">授权与执行<a href="#授权与执行" class="hash-link" aria-label="授权与执行的直接链接" title="授权与执行的直接链接" translate="no">​</a></h2>
 <!-- -->
 <p>派发人、智能体定义所有者、设备所有者和 Runtime 会话身份分别记录。资源所有者共享的是明确的使用能力；模型与连接凭据仍由原有凭据权限和执行身份管理。项目访问只授予所属 Issue 的会话读取权，不授予整个设备的任务目录。</p>
@@ -34,7 +34,7 @@
 <li class="">项目管理：成员模式、有效成员与来源、访客、已启用资源、项目小组、自动化及 Issue 安全级别。</li>
 <li class="">个人资源：原定义、个人设备、连接配置及共享授权。</li>
 </ul>
-<p>成员行必须说明“管理员，继承自某空间”或“成员，直接邀请”。继承权限在项目页不能修改。停用与删除分别表达绑定和原资源的生命周期。</p>
+<p>成员行必须区分有效项目角色、只读的空间继承角色和项目直接角色。项目中修改继承成员的角色会创建项目直接授权，不改变空间或其他项目的权限；移除直接授权后，成员行仍显示恢复后的继承角色。空间所有者和管理员的项目管理权不受项目直接角色影响。停用与删除分别表达绑定和原资源的生命周期。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="不改表的存储与版本兼容">不改表的存储与版本兼容<a href="#不改表的存储与版本兼容" class="hash-link" aria-label="不改表的存储与版本兼容的直接链接" title="不改表的存储与版本兼容的直接链接" translate="no">​</a></h2>
 <p>本次实现不增加表或列，不要求洗数据、批量改角色或重建项目。项目归属继续使用现有 <code>resource_members</code> 的 <code>CloudProject → workspace</code> 已批准关系，原关系的 Owner 标签保持不变；<code>workspace_id</code> 是查询属性，不是新增物理列。每次读取要求唯一父空间，缺失或歧义时拒绝授权，不猜测归属。</p>
 <p>成员模式写入项目已有 <code>metadata</code> JSON 的 <code>membership_mode</code>，缺省为 <code>inherit</code>。新建项目同时写入旧后端识别的父空间关系。旧请求未提供新字段时不清空它们；旧代码若整体覆盖 JSON 仍可能丢失新设置，因此旧后端只能维持旧行为，不能承担新权限规则的实施。</p>
@@ -59,7 +59,7 @@
 <p>回归入口：</p>
 <ul>
 <li class="">
-<p>Rust 已接管的项目列表和项目执行设备查询遵循同一 CP 契约。<code>test_rust_collaboration_permissions_mysql.py</code> 在真实 MySQL 上执行 Rust 使用的 SQL，核对角色组合、受限继承、项目访客、公开只读及撤权；Rust 单元测试保护来源字段与设备授权交集。Python 服务测试保留相同业务断言，迁移接口的 HTTP 断言沿现有桌面 CI 场景运行。</p>
+<p>Rust 已接管的项目列表、详情和项目执行设备查询遵循同一 CP 契约。<code>test_rust_collaboration_permissions_mysql.py</code> 在真实 MySQL 上执行 Rust 使用的 SQL，核对角色覆盖、恢复继承、空间管理权、受限继承、项目访客、公开只读及撤权；Rust 单元测试保护来源字段与设备授权交集。Python 服务测试保留相同业务断言，迁移接口的 HTTP 断言沿现有桌面 CI 场景运行。</p>
 </li>
 <li class="">
 <p>API 角色矩阵与资源契约：<code>test_collaboration_permission_contract.py</code>、<code>test_collaboration_permission_resources.py</code>、<code>test_workspace_shared_agents.py</code>。</p>
@@ -74,7 +74,7 @@
 <p>启动失败保护：<code>test_startup_migration_failure.py</code>。</p>
 </li>
 <li class="">
-<p>规则保护：<code>test_collaboration_permission_guard.py</code> 校验批准的 CP 指纹与逐条覆盖。CP09、CP11 随用户新增的旧版本兼容要求调整，保留私有选择与原项目内的安装授权。</p>
+<p>规则保护：<code>test_collaboration_permission_guard.py</code> 校验批准的 CP 指纹与逐条覆盖。CP05、CP08 按用户确认支持项目角色覆盖普通空间继承，并保留 CP02 的空间管理范围；CP09、CP11 保留私有选择与原项目内的安装授权。</p>
 </li>
 <li class="">
 <p>共享界面覆盖继承来源、项目访客、成员模式、所有权转交、旧后端能力缺省、失效绑定恢复和讨论重订阅。</p>
