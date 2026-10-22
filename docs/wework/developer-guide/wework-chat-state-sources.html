@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Chat State Sources | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Chat State Sources | Wegent"><meta data-rh="true" name="description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><meta data-rh="true" property="og:description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Chat State Sources","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.bbc2ab2f.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.5414d631.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.ad88be80.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.f7acdc32.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -21,6 +21,9 @@
 <li class=""><code>useWorkbenchPaneSession</code> owns pane content such as messages and queued input, but reads all task and turn lifecycle facts from the Store.</li>
 <li class=""><code>runtimePaneStatus.ts</code> is a read-only projection from a lifecycle snapshot to existing pane presentation fields. It must not infer execution or turn state independently.</li>
 </ol>
+<p>Sidebar priority filtering also reads explicit <code>interactionStatus</code> through the
+lifecycle Store projection. A stale task-list snapshot must not override an
+accepted user reply in the view layer.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="latest-turn-identity">Latest Turn Identity<a href="#latest-turn-identity" class="hash-link" aria-label="Direct link to Latest Turn Identity" title="Direct link to Latest Turn Identity" translate="no">​</a></h2>
 <p><code>turn.id</code> identifies the active turn and may be cleared after completion. <code>turn.latestId</code> retains the latest turn identity confirmed by runtime events, transcripts, or executor snapshots. Task-list refreshes, completion timestamp precision changes, and other metadata updates must not clear it. Reply predictions use <code>turn.latestId</code> as their request identity and wait until a real turn identity is available. Starting a new turn still invalidates the previous suggestion.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="state-source-inventory">State Source Inventory<a href="#state-source-inventory" class="hash-link" aria-label="Direct link to State Source Inventory" title="Direct link to State Source Inventory" translate="no">​</a></h2>
@@ -309,6 +312,18 @@ assistant message share a timestamp, the user input must remain first.
 Canonical <code>turns</code> are the frontend transcript&#x27;s only input, so restoring a
 message only in the compatibility <code>messages</code> array is insufficient.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="assistant-in-turn-display-order-and-typography">Assistant In-Turn Display Order and Typography<a href="#assistant-in-turn-display-order-and-typography" class="hash-link" aria-label="Direct link to Assistant In-Turn Display Order and Typography" title="Direct link to Assistant In-Turn Display Order and Typography" translate="no">​</a></h3>
+<p>The running transcript cache serves existing messages when reopening a task or
+restoring a page. When a cached message has <code>runtimeItems</code>, canonical <code>turns</code>
+must use those items directly, preserving native item IDs, types, and order,
+including an empty array. Rebuilding items from presentation <code>content</code> and
+<code>blocks</code> changes the text identity to an aggregate message ID and moves it
+before process messages, so later deltas with the native ID create a second
+text segment. Text extraction must also preserve raw whitespace: trailing spaces
+or newlines in a snapshot can separate the next delta and must not be trimmed
+like metadata. The <code>streaming-content</code> E2E restores the page after a paragraph
+break in a partial plain-text response and then resumes output, checking cached
+items, text uniqueness, and process placement before completion as well as the
+final state.</p>
 <p>Final text, process text, and tool blocks within one assistant turn must be
 projected in runtime item arrival order. The UI must not group them by type and
 then render them in a fixed layout. In particular, when final text arrives

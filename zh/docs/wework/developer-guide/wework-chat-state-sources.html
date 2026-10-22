@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.45bef0ea.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.c3bbe942.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.e5af6238.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -21,6 +21,8 @@
 <li class=""><code>useWorkbenchPaneSession</code> 管理消息、排队输入等 pane 内容，但任务和 turn 生命周期事实全部读取 Store。</li>
 <li class=""><code>runtimePaneStatus.ts</code> 只是把生命周期快照投影到现有 pane 展示字段的只读适配层，不能自行推断执行或 turn 状态。</li>
 </ol>
+<p>侧栏优先级筛选中的显式 <code>interactionStatus</code> 也只读取生命周期 Store 的投影；
+任务列表旧快照不能在视图层重新覆盖已经接受的用户回复。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="最近-turn-的身份">最近 turn 的身份<a href="#最近-turn-的身份" class="hash-link" aria-label="最近 turn 的身份的直接链接" title="最近 turn 的身份的直接链接" translate="no">​</a></h2>
 <p><code>turn.id</code> 只表示正在运行的 turn，完成后可以清空。<code>turn.latestId</code> 保留从运行事件、transcript 或 executor 快照确认的最近 turn 身份；任务列表刷新、完成时间精度变化和其他元数据更新不能清除它。回复预测以 <code>turn.latestId</code> 标识请求，等待真实 turn 身份可用后才生成建议。新 turn 启动时，原建议仍会失效。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="状态信源清单">状态信源清单<a href="#状态信源清单" class="hash-link" aria-label="状态信源清单的直接链接" title="状态信源清单的直接链接" translate="no">​</a></h2>
@@ -244,6 +246,14 @@ turn 被取消后 goal 在暂停请求到达前启动下一 turn。如果 goal �
 assistant 之前。canonical <code>turns</code> 是前端 transcript 的唯一输入，不能只把补回消息
 留在兼容 <code>messages</code> 数组中。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="assistant-轮内显示顺序与字号">Assistant 轮内显示顺序与字号<a href="#assistant-轮内显示顺序与字号" class="hash-link" aria-label="Assistant 轮内显示顺序与字号的直接链接" title="Assistant 轮内显示顺序与字号的直接链接" translate="no">​</a></h3>
+<p>运行中 transcript 的缓存用于切回任务或恢复页面时读取已有消息。缓存消息已有
+<code>runtimeItems</code> 时，canonical <code>turns</code> 必须直接使用这些条目，保留原生 item ID、
+条目类型和顺序，包括空数组。不能再用展示用的 <code>content</code> 与 <code>blocks</code> 重建条目：
+这会把正文换成聚合消息 ID，并把正文移到过程消息前，导致后续原生 ID 的增量被
+追加为另一段正文。文本提取也必须保留原始空白；快照末尾的空格或换行可能是
+下一个增量的分隔符，不能按元数据字段的规则裁剪。<code>streaming-content</code> E2E 在段落
+换行后暂停普通文本并恢复页面，再继续输出，分别检查缓存条目、正文唯一性和
+过程消息位置；不能只检查完成快照。</p>
 <p>同一个 assistant turn 内的最终文本、过程文本和工具块必须按 runtime item 的到达顺序
 投影到界面，不能先按类型分组再固定渲染。特别是最终文本先到、过程文本后到时，后到
 的过程文本必须显示在最终文本下方；刷新 transcript 后也应保持同一顺序。</p>
