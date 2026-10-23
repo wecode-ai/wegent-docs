@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.7b8b81fa.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.8291fd74.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.13a925c6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -120,12 +120,54 @@ dedicated Linux shard so competing full-stack instances do not change the benchm
 CPU allocation. It retains all functional assertions and logs pointer movement,
 pointer-up dispatch, and split readiness timings. Other functional shards still
 allow up to four instances.
-Core and Cloud matrix jobs also provide
-suite-level parallelism across runners. Shards are balanced from observed CI
-durations and capped to bound the complete suite&#x27;s critical path; a new or
+Core and Cloud matrix jobs also provide suite-level parallelism across runners.
+Core uses 10 shards, with Windows sharing the same matrix, and Cloud uses 8.
+Combining short shards reuses container initialization, checkout, artifact
+downloads, and runtime preparation without increasing checkpoint concurrency
+within a runner. The two Core benchmark shards and three Cloud account-auth and
+long-plugin-list shards remain separate. The concurrency limit must accommodate
+the complete matrix in one scheduling wave; classifier regression tests enforce
+both the shard budget and this constraint. Shared runner capacity can still
+introduce external queueing.
+Lint, unit-test, platform E2E, and desktop E2E summary jobs use
+<code>always() &amp;&amp; !cancelled()</code>: failures still produce a summary, while cancellation
+stops superseded summaries from waiting for runners and blocking newer runs.
+Cleanup and diagnostic upload steps retain their existing cancellation handling.</p>
+<p>Step timings from successful runs <code>39920301020</code> and <code>39920742402</code> separate test
+work from setup overhead. In the first sample, non-test steps across 42 shards
+consumed about 60 runner minutes, or 31% of shard execution time; setup overhead
+was higher in the second sample. The final 18 shards remove 24 setup cycles.</p>
+<p>Checkpoint timings from <code>39930854745</code> drive the final allocation: longest tasks
+start first and cumulative work is balanced, while CLI and Electron preparation
+remain shared. That run&#x27;s <code>workspace-tabs</code> failed early because Issue creation
+did not wait for readiness after navigating to the board. Its successful
+116-second duration from <code>39920301020</code> supplies the estimate instead of its
+incomplete failure duration. The click uses the existing <code>clickWhenEnabled</code>
+with the default ten-second timeout and preserves all business assertions.
+The 112 ordinary Core checkpoints total 10,246 seconds, distributed into eight
+shards of 14 tasks with four concurrent workers each. Predicted durations are
+323–332 seconds; a ninth shard only reduces the maximum to 320 seconds.
+The 37 ordinary Cloud checkpoints total 5,769 seconds, distributed into five
+shards with predicted durations of 291–339 seconds; a sixth shard only reduces
+the maximum to 321 seconds. Two Core and three Cloud shards remain isolated.
+These scheduling estimates exclude per-shard setup and runtime resource
+variation and are not measured savings.
+Background-terminal history verification reads the first visible xterm row&#x27;s
+<code>aria-posinset</code>, then waits for each native PageUp to strictly decrease that row
+until reaching the start of history. Each operation retains the default
+ten-second timeout, all twelve initial output lines are asserted, and native
+PageDown restores the viewport. A single ten-second deadline cannot bound many
+page operations: control latency under concurrent CI can exhaust it while
+history remains intact. Focused regressions cover a slow control channel, stalled
+scrolling, and missing history.
+Shards are balanced from observed CI durations; a new or
 materially slower checkpoint requires rebalancing instead of
 removing coverage or rerunning failures.
-Long scenarios are split into independent checkpoints as well as balanced shards:</p>
+Long scenarios are split into independent checkpoints as well as balanced shards:
+The newly merged <code>stand-in-project-enable</code> checkpoint has no historical sample.
+It shares preparation with the stand-in configuration flows in Core shard 3,
+which now contains 15 tasks; other ordinary Core shards contain 14. The estimates
+above exclude this new checkpoint.</p>
 <ul>
 <li class=""><code>plugin-account-auth</code> expands into password sync, exclusive credential transfer, OAuth, DWS accounts, conversation QR, and GitHub checkpoints.</li>
 <li class=""><code>plugin-uninstall-resilience</code> expands into write coordination, lost response, unknown result, restart recovery, and reinstall race checkpoints. <code>plugin-write-coordination</code> independently checks API responsiveness during contention, post-commit ACK conflicts, and later sync recovery. Removal recovery checkpoints create another active installation so catalog refresh is tested alongside pending cleanup.</li>
@@ -187,11 +229,8 @@ spend time optimizing the Executor. Release packaging leaves the variable unset
 and continues to build the <code>release</code> Executor by default. Desktop E2E builds
 skip the duplicate TypeScript typecheck that the parallel Lint workflow runs in full,
 while retaining the real Vite and Electron artifact build; test coverage and the
-type gate remain unchanged. The macOS Inspector path also uses the debug
-Executor profile and disables dev-profile debuginfo. It builds a release
-Executor only when the memory checkpoint actually runs (<code>ci:memory</code>, <code>ci:all</code>,
-or a non-pull-request run), because optimized code generation is relevant to
-memory measurements but does not add Inspector coverage. The macOS memory job keys its pnpm store from both
+type gate remain unchanged. The shared macOS Inspector and memory E2E build uses
+a release Executor so memory measurements use optimized code. The macOS memory job keys its pnpm store from both
 the workspace and Electron lockfiles, then installs offline so registry stalls
 cannot consume the critical-path budget. Its large streaming Markdown response
 uses a targeted 30-second completion budget while ordinary memory interactions
@@ -535,12 +574,10 @@ not equivalent coverage.</p>
 <p>Regular draft PRs do not run browser or desktop E2E. Merge queue runs the
 complete browser plus Linux and Windows Desktop Core suites before a commit
 enters <code>main</code>; <code>main</code> does not repeat checks that already passed for the merge
-group. The macOS memory gate runs by default only on scheduled and manual runs.
-Add the <code>ci:memory</code> label when a PR must validate the memory boundary. Applying that
-label starts only the memory gate and does not repeat browser, Linux desktop, or
-Windows desktop E2E. Applying <code>ci:all</code> runs browser, Linux desktop, Windows
+group. The macOS memory gate runs only for non-draft PRs carrying <code>ci:memory</code> or <code>ci:all</code>.
+Regular PRs, scheduled runs, and manual runs do not execute memory E2E. Applying <code>ci:all</code> runs browser, Linux desktop, Windows
 desktop, and macOS memory E2E even when the PR&#x27;s changed paths would not
-normally select Wework E2E. The workflow also runs a complete regression every
+normally select Wework E2E. The workflow also runs a regression excluding memory E2E every
 day at 04:00 UTC. Keeping <code>ci:all</code> on a PR also runs all Windows Core shards
 on subsequent pushes. Windows builds, shards, and the summary share one
 scheduling condition; skipped required jobs fail the gate. The macOS memory
