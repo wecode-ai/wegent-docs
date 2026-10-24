@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">代码工作台 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="代码工作台 | Wegent"><meta data-rh="true" name="description" content="应用菜单"><meta data-rh="true" property="og:description" content="应用菜单"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"代码工作台","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.0ad905be.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.653afce8.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.c0423b45.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -84,6 +84,8 @@
 <p>右侧工作区用于浏览项目文件、预览内容和审核变更。多目录项目会在文件标签中显示文件夹选择器；切换文件夹只改变文件树和预览根目录，不会改变任务、终端或对话使用的执行目录。</p>
 <p>选择可写文本文件后会直接进入编辑器，无需再点击“编辑”。修改会在约 3 秒后自动保存，因此编辑器不显示手动“保存”按钮。Markdown 文件可以在编辑器与渲染预览之间切换，只读文本和二进制文件继续使用预览模式。</p>
 <p>助手回复中的本地文件和目录链接可以直接在文件标签中打开。文件链接可以定位到指定代码行；目录链接会将该目录设为文件树根目录。在 macOS 桌面版中，文件标签的“打开”和“打开位置”操作同时支持文件与目录。</p>
+<p>助手生成的 Codex 文件引用也会显示为可点击的文件名，支持 PPTX、XLSX、PDF、文档和代码文件。来源引用进入“来源”列表，交付文件进入“输出”列表。引用中的代码行号可直接定位；页码、幻灯片编号、工作表区域和对象标签会显示在文件名旁，点击后打开对应文件，目前不自动跳转到 Office 文件内的具体位置。旧式 <code>【F:路径†L起始行-L结束行】</code> 引用同样支持代码行定位。</p>
+<p>引用中的路径按原始文件名处理，保留中文、空格、百分号和其他特殊字符。代码示例、用户消息及已转义的引用语法不会变成文件控件。后续建议显示其问题标题，点击复制操作可复制完整问题，供继续提问。</p>
 <p>使用 <code>Command+J</code> 打开或关闭底部工作区面板。打开面板不会自动创建新终端；已有终端会按任务保留，切回任务时直接恢复。</p>
 <p>点击底部标签栏的 <strong>+</strong>，可以根据当前设备能力选择 <strong>Terminal</strong>、<strong>IDE</strong> 或 <strong>桌面</strong>。Terminal 从当前项目目录启动，Worktree 任务从对应工作树启动；IDE 在系统默认浏览器中打开；桌面能力可用时在 Wework 内置浏览器中展示。</p>
 <p>排查切换任务后终端未重绘时，前端日志会记录终端类型、任务与会话标识、激活阶段、xterm 行列数、容器尺寸和隐藏状态；不会记录终端输出、命令或工作区路径。</p>
@@ -103,6 +105,7 @@
 <p>包含运行中 Terminal 或 Wework 内置浏览器的对话页面会保持挂载。Terminal 进程、标签和输出缓冲会继续保留，内置浏览器的页面、地址和标签状态也会保持；关闭对应资源后，页面即可释放，仅保留可恢复的面板状态。隐藏对话不会响应当前对话的快捷键或浏览器打开事件。</p>
 <p>首次打开的对话会定位到最新消息。已经停留在底部的对话切回后仍保持底部；如果之前浏览到历史消息，则恢复与底部的相对距离。长对话只挂载视口附近的消息，并复用已测量的消息高度，减少滚动时的 WebView 内存增长。</p>
 <p>消息、滚动位置和消息高度缓存都有数量上限。归档任务时会立即移除该任务的缓存；再次打开已被缓存淘汰的任务时，Wework 会从本地运行时重新读取完整记录。</p>
+<p>恢复会话后，即使模型列表仍在加载或已配置模型暂时不可用，也可以回答运行中任务已经发出的 MCP 表单或其他需要直接回应的请求。发送新的聊天消息仍需要可用的模型。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用回复中的选中文本">使用回复中的选中文本<a href="#使用回复中的选中文本" class="hash-link" aria-label="使用回复中的选中文本的直接链接" title="使用回复中的选中文本的直接链接" translate="no">​</a></h2>
 <p>在助手回复中选择一段文本后，可以将其添加到当前对话输入框，或在侧边栏中基于该文本继续提问。回复仍在流式输出时也可以使用这些操作；后续内容更新不会关闭已经打开的文本操作菜单。</p>
 <p>任务运行期间显示在工具调用上方的过程文本也属于可选回复内容。选择其中的文本后会显示相同的操作菜单，可以直接添加到当前任务的输入框。</p>
