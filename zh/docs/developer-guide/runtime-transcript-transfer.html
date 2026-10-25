@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Runtime 会话历史传输 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/runtime-transcript-transfer"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Runtime 会话历史传输 | Wegent"><meta data-rh="true" name="description" content="长会话的历史文件仍在，并不代表历史可以通过单次 RPC 返回。云端 Runtime"><meta data-rh="true" property="og:description" content="长会话的历史文件仍在，并不代表历史可以通过单次 RPC 返回。云端 Runtime"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/runtime-transcript-transfer"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/runtime-transcript-transfer" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/developer-guide/runtime-transcript-transfer" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/developer-guide/runtime-transcript-transfer" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.39fef0ef.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.061e921c.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d8b0caa6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -52,6 +52,14 @@ RPC 完成日志在外层响应编码后记录，编码超限不会再被记录�
 逐行解析，但仍需扫描文件并保留解析后的轮次再分页；单轮极大输出和完整导出仍可能占用较多内存。
 24 小时缓存采用时间清理，没有额外磁盘容量配额。协议没有改写原始历史文件。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="回归验证">回归验证<a href="#回归验证" class="hash-link" aria-label="回归验证的直接链接" title="回归验证的直接链接" translate="no">​</a></h2>
+<p>会话搜索使用与实际展示相同的正文和过程块过滤，并以原始 item ID 定位命中。
+读取命中时保留完整 anchor turn，包括已完成的 turn：远处的最终回答片段也可能影响
+同文过程块是否隐藏。邻接 turn 继续按页读取；临时上下文页不向已完成的历史搜索结果
+追加命中，退出查找后恢复原会话的消息和分页位置。完整 anchor 的大小仍取决于单轮历史。</p>
+<p>云端搜索由 Rust Backend 处理，沿用项目授权、Issue 可见性、持久化会话绑定与设备身份
+校验，再调用 Executor。读取绑定会话时不接受客户端指定的工作区或 runtime handle。
+本机和云端的重复正文、长 turn、上下文续读及退出恢复用例分别接入现有
+<code>running-conversation-history</code> 与 <code>conversation-state</code> CI 检查点。</p>
 <table><thead><tr><th>场景</th><th>预期</th></tr></thead><tbody><tr><td>新旧客户端与 Executor 混用</td><td>旧响应可读，新协议只对显式请求启用，未知版本失败</td></tr><tr><td>高熵大输出、中文、emoji、结构化结果</td><td>多块传输，逐字段还原，单包低于阈值</td></tr><tr><td>错序、缺块、换快照、gzip 损坏、过期</td><td>明确失败，不发布半页内容</td></tr><tr><td>换任务或会话请求已有快照</td><td>无法读取其他地址的快照</td></tr><tr><td>超过 500 轮</td><td>完整导出不截断，最近页和向前翻页连续</td></tr><tr><td>历史加载失败</td><td>主界面显示错误，点击重载可再次读取</td></tr></tbody></table>
 <p>自动化覆盖在 Rust <code>transcript_transport</code> / <code>codex_transcript_page</code>、共享 TypeScript
 传输客户端、桌面 IPC 和会话组件测试中。已注册的桌面
