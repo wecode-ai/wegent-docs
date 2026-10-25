@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">我的分身与场景角色 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="我的分身与场景角色 | Wegent"><meta data-rh="true" name="description" content="在协作侧边栏打开 我的分身，可以持续交代工作、追问进展，或请 AI 拟定场景角色。主分身的对话与具体工作的执行记录分别保存；切换角色后返回，可以继续原来的对话。"><meta data-rh="true" property="og:description" content="在协作侧边栏打开 我的分身，可以持续交代工作、追问进展，或请 AI 拟定场景角色。主分身的对话与具体工作的执行记录分别保存；切换角色后返回，可以继续原来的对话。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"我的分身与场景角色","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.976d9911.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.d10a4130.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.200c5ec1.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.facfb399.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -22,6 +22,8 @@
 <p>群中手动发送的“自己 @ 自己”也可以交办工作。分身发出的回复始终保留钉钉 AI 代发标记，并根据钉钉返回的标记过滤本人 AI 消息，避免自动回复触发自身。</p>
 <p>每个来源可分别设置为手动交办、操作前询问，或自动处理。新钉钉连接默认在操作前询问。接入使用执行设备上已安装的钉钉插件及其账号；需要登录时，通过原有钉钉连接入口完成授权。</p>
 <p>协作项目沿用项目成员权限，项目专属智能体不能扩展接收其他项目或钉钉来源。多个角色都能接手同一来源时，由 AI 选择一个处理角色，避免重复执行。</p>
+<p>已连接的协作项目显示项目名称，包括有项目访问权限但未加入其所属空间的项目。切换分身执行设备后，已连接项目的名称仍保留，也可以解除连接；只有在当前设备执行时，才能新增本地项目连接。</p>
+<p>远程执行设备仍可使用“所有项目”范围，该范围使用所选执行器自己的项目目录，不会把当前电脑未显式连接的本地项目作为远程连接展示。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="工作归属和操作确认">工作归属和操作确认<a href="#工作归属和操作确认" class="hash-link" aria-label="工作归属和操作确认的直接链接" title="工作归属和操作确认的直接链接" translate="no">​</a></h2>
 <p>同一具体事项的后续消息会尽量归入已有工作。不确定的归属会等待你检查。在工作预览中展开关联消息，可以拆成独立工作，或移到同一角色的其他工作；调整归属不会重新执行已处理的消息。</p>
 <p>需要确认的操作可直接在工作列表的预览中处理，无需打开会话。在会话中，同一确认卡显示在输入区，可点击确认或拒绝，无需手动发送“是”。发送钉钉回复时，确认卡展示与该工具调用绑定的待发送正文。选择操作前询问时，写入文件、执行需要提升权限的命令和具有写入性质的 MCP 工具调用使用运行时确认机制。确认只针对当前操作，不提供长期放行规则。该策略目前要求使用 Codex 运行时。</p>
