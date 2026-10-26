@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作中的新建 Issue | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/coding/collaboration-issue-home"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作中的新建 Issue | Wegent"><meta data-rh="true" name="description" content="协作侧栏的“新建 Issue”打开内容优先的输入页。项目选择位于输入框顶部；悬停或键盘聚焦侧栏项目时，右侧“新建对话”按钮打开同一输入页并预选该项目。点击项目名称仍然进入看板。"><meta data-rh="true" property="og:description" content="协作侧栏的“新建 Issue”打开内容优先的输入页。项目选择位于输入框顶部；悬停或键盘聚焦侧栏项目时，右侧“新建对话”按钮打开同一输入页并预选该项目。点击项目名称仍然进入看板。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/coding/collaboration-issue-home"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/coding/collaboration-issue-home" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/coding/collaboration-issue-home" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/coding/collaboration-issue-home" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Coding","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/coding/"},{"@type":"ListItem","position":3,"name":"协作中的新建 Issue","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/coding/collaboration-issue-home"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.cf903b04.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.c7d04284.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d10a4130.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -34,6 +34,8 @@
 <p>评论发送失败时保留正文和所选负责人。评论已经发送、转派失败时，保留转派对象和错误提示，可直接重试 <strong>转派</strong>，不会重复发送已保存的评论。该入口遵循现有分配权限，转派成功后使用现有通知和分配动态。</p>
 <p>桌面回归 <code>collaboration-issue-assignment-activity</code> 验证第一位提及联动、评论与转派持久化、无评论转派及分配历史。定向组件测试覆盖手动覆盖、权限限制、重复提交和失败恢复。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="处理指派给我的-issue">处理指派给我的 Issue<a href="#处理指派给我的-issue" class="hash-link" aria-label="处理指派给我的 Issue的直接链接" title="处理指派给我的 Issue的直接链接" translate="no">​</a></h2>
+<p>在项目看板中，将分组字段切换为 <strong>负责人</strong>，再从旁边的筛选框选择自己，即可查看分配给自己的 Issue。清除筛选后恢复显示全部负责人。分组选择是当前账户在当前项目中的个人偏好，刷新后保留；普通成员和只读成员也可以使用，不会修改项目的共享看板配置。共享状态列和卡片显示设置仍由项目管理员保存。</p>
+<p>按标签分组时，同一 Issue 可显示在多个标签列中。同列拖动不会修改标签；跨列移动只替换来源标签并保留其他标签，移入“无标签”列会清空标签。</p>
 <p>云端原生项目的 Issue 指派给成员后，可从收件箱或项目看板打开。其他成员指派时，桌面端会发送通知。</p>
 <p>有编辑权限的用户可以通过详情状态选择或看板拖拽，直接开始、完成或重新开始 Issue。所有状态操作都无需填写信息，也无需提交验收表单。处理进展、结果说明和反馈统一通过评论、回复和附件沟通，状态变更保留历史记录。</p>
 <p>需要 AI 帮助时，使用详情中的 <strong>新建任务</strong> 入口创建关联任务。任务保留当前分配关联；AI 交付可从关联任务中查看，不会自动替人变更 Issue 状态。</p>
@@ -56,6 +58,7 @@
 <li class=""><code>#</code> 菜单仅显示 Issue，引用使用独立图标且保存到正文。</li>
 <li class="">手动改选和取消负责人，不使用原生 select；斜杠不打开任务命令菜单。</li>
 <li class="">通过任务项目真实写入接口建立本地项目，重新加载两次后检查本地空间仅出现一个项目，并能从其入口开始协作。</li>
+<li class="">普通成员按负责人筛选本人 Issue、组合搜索并清除筛选；刷新后保留个人分组，不同项目的偏好互相隔离。只读成员和管理员切换分组同样不会修改共享看板配置及其版本。</li>
 </ol>
 <p>云端数据沿用该 checkpoint 的独立项目夹具，结束时归档；本地项目在测试专用 Executor home 中创建，不接触用户项目目录。失败保留 runner 日志用于定位，不通过跳过或重试掩盖失败。</p>
 <p><code>pnpm --filter wework e2e:desktop --segment collaboration-issue-archive</code> 通过真实本地项目验证未完成 Issue 不可归档、单个归档与恢复、批量归档，以及归档抽屉中的记录更新。</p>
