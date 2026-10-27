@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.8c5d5d32.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.bc079fe7.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d10a4130.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -162,7 +162,7 @@ Executor Manager、Knowledge Engine、Shared 和 CLI 测试；修改
 <p>在 PR 上添加 <code>ci:all</code> 标签可以跳过路径分类，强制运行全部模块测试、平台 E2E、
 Wework 浏览器和桌面 E2E，以及 Wework macOS 内存门禁，适合路径分类可能遗漏
 影响面的改动。三个测试 workflow 都会响应标签事件；没有 <code>ci:all</code> 标签时仍按
-改动路径决定测试范围。Wework macOS 内存门禁仅在带有 <code>ci:memory</code> 或 <code>ci:all</code> 标签的非 Draft PR 中运行；
+改动路径决定测试范围。Wework macOS 内存门禁仅在带有 <code>ci:all</code> 标签的非 Draft PR 中运行；
 普通 PR、定时任务和手动任务均不触发内存 E2E。</p>
 <p>功能分支不在普通 <code>push</code> 事件中运行重复 CI；创建 PR 后由 <code>pull_request</code> 事件验证。
 同一 PR 或 <code>main</code> 上有更新提交时，旧的未完成运行会被取消。<code>test-summary</code> 和
