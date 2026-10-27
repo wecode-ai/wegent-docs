@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="桌面 E2E 共享 fixture 使用 GPT 5.6 Luna。真实运行时目录同时存在 GPT-5.6 Luna 和 GPT 5.6 Luna 两种显示名称，默认模型选择断言接受这两种名称，同时继续核对模型 ID 和供应商。任务恢复断言继续核对 fixture 原有的显示名称。"><meta data-rh="true" property="og:description" content="桌面 E2E 共享 fixture 使用 GPT 5.6 Luna。真实运行时目录同时存在 GPT-5.6 Luna 和 GPT 5.6 Luna 两种显示名称，默认模型选择断言接受这两种名称，同时继续核对模型 ID 和供应商。任务恢复断言继续核对 fixture 原有的显示名称。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.2df41470.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.d10a4130.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.680d6a1a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.facfb399.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -77,6 +77,7 @@
 与重启前不同，再逐项验证三个值均已恢复；这样回归覆盖的是跨 origin 的桌面持久化，
 而不是同一个 renderer 进程内的普通读取。</p>
 <p>主桌面流程的短对话布局回归会保存 <code>short-conversation-00-ready.png</code>、<code>short-conversation-01-prompt-filled.png</code>、<code>short-conversation-02-completed-top-aligned.png</code> 和 <code>short-conversation-layout-metrics.json</code>。最后一个截图和 metrics 均在切走并重新打开对话后生成；门禁要求首条消息距离消息视口顶部不超过 <code>160px</code>。本地排查该回归时可直接运行 <code>node wework/e2e/desktop/run-checkpoints.mjs --short-conversation-only</code>，但该检查同时属于常规 <code>e2e:desktop</code> 主流程，不是独立 CI 入口。</p>
+<p><code>runtime-input-answer-persistence</code> Core checkpoint 会在主工作区和临时聊天中通过真实交互回答 MCP elicitation 表单。Executor、Codex app-server、MCP server、桌面自动化传输和工作区列表刷新均为真实集成，仅模型服务由 loopback fixture 提供。测试通过 Executor 请求闸门在真实响应后保持已接受的答案待定，并延迟终态续跑响应，从而确定性地建立“接受成功 → 终态历史先到 → 工作区列表刷新后完成”的顺序，并在刷新前后都断言完整答案摘要可见。checkpoint 同时验证传输失败和过期请求的真实拒绝都不会把答案标记为成功，以及等待接受期间归档不会恢复答案。</p>
 <p>主桌面 runner 也支持按有序 checkpoint 分段执行。当前 checkpoint 依次为
 <code>remote-device-onboarding</code>、<code>workspace-tabs</code>、<code>cloud-project-creation</code>、
 <code>cloud-space-mention</code>、<code>priority-filter</code>、<code>telemetry-consent</code>、
@@ -84,7 +85,7 @@
 <code>project-assignment-notification</code>、<code>offline-local-project-space</code>、
 <code>core-dsh-plugin-management</code>、<code>plugin-auto-update</code>、
 <code>plugin-workspace-publication</code>、<code>project-ai-settings</code>、<code>model-routing</code>、
-<code>permission-modes</code>、<code>computer-use</code>、<code>task-status-sync</code>、
+<code>permission-modes</code>、<code>runtime-input-answer-persistence</code>、<code>computer-use</code>、<code>task-status-sync</code>、
 <code>task-board-association</code>、<code>core-task-flow</code>、<code>task-attachments</code>、
 <code>cloud-git-worktree</code>、<code>cloud-worktree-capability</code>、<code>cloud-worktree-create</code>、
 <code>cloud-worktree-queued-cancel</code>、<code>cloud-worktree-tools</code>、
@@ -102,8 +103,9 @@
 checkpoint。跳过上游时，每个 checkpoint 会自行建立最小前置 fixture，不依赖只有
 完整流程才创建的任务或 UI 状态。PR CI 会根据改动的功能路径组合最小 segment
 矩阵；共享桌面基础设施、merge queue、定时任务和 <code>ci:all</code> 仍运行完整桌面套件。
-Core 和 Cloud 的分片定义以 <code>.github/scripts/classify-wework-desktop-e2e.sh</code> 为准。
-Linux Core 和 Cloud job 最多并行运行 4 个彼此隔离的 checkpoint，实际并发还受
+Core 和 Cloud 的分片定义以 <code>.github/scripts/classify-wework-desktop-e2e.sh</code> 为准。</p>
+<p><code>collaboration-runtime-reconciliation</code> 是可独立运行的 Core checkpoint，自动建立隔离的云项目、Issue、智能体和真实 Executor。它通过透明 WebSocket 代理暂存真实完成事件，分别验证快照先到、最终事件先到，以及两个终态事务在真实 MySQL 行锁后交错提交。每种顺序都检查数据库中的完整最终文本、Issue 界面和刷新后的结果。续轮在模型响应暂停期间重放旧完成事件，覆盖重复、乱序、无序号和空内容；每次都等待后端真实确认，再检查新轮、工作流和执行容量未被旧事件改变。代理只调度传输，模型服务之外的组件均保持真实；清理时释放模型、事务锁和代理连接。</p>
+<p>Linux Core 和 Cloud job 最多并行运行 4 个彼此隔离的 checkpoint，实际并发还受
 分片内 checkpoint 数量限制。每个 checkpoint 使用独立的数据库、Redis、端口和运行目录，
 Harness runtime 在分片启动前统一解压，因此不再因“重型运行时”或“协作”分组而全程串行。
 macOS 中需要争用原生桌面前台的 checkpoint 仍通过资源锁保持串行。</p>
