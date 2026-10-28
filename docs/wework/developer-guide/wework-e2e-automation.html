@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.14a788d8.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.edd17c5d.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.df3ef98e.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.88a665a8.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -164,6 +164,11 @@ PageDown restores the viewport. A single ten-second deadline cannot bound many
 page operations: control latency under concurrent CI can exhaust it while
 history remains intact. Focused regressions cover a slow control channel, stalled
 scrolling, and missing history.
+<code>background-terminals</code> runs alone first within its existing shard; the remaining
+checkpoints then regain their configured concurrency. Native keyboard actions
+avoid CPU contention from other full desktop environments while preparation is
+reused, without another matrix job, a longer ten-second step budget, or fewer
+history and native-input assertions.
 Shards are balanced from observed CI durations; a new or
 materially slower checkpoint requires rebalancing instead of
 removing coverage or rerunning failures.
