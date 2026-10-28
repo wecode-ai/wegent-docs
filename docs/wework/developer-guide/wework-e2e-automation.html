@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.09c60376.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.bdc97bcc.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.8bf27695.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -180,7 +180,7 @@ above exclude this new checkpoint.</p>
 <ul>
 <li class=""><code>plugin-account-auth</code> expands into password sync, exclusive credential transfer, OAuth, DWS accounts, conversation QR, and GitHub checkpoints.</li>
 <li class=""><code>plugin-uninstall-resilience</code> expands into write coordination, lost response, unknown result, restart recovery, and reinstall race checkpoints. <code>plugin-write-coordination</code> independently checks API responsiveness during contention, post-commit ACK conflicts, and later sync recovery. Removal recovery checkpoints create another active installation so catalog refresh is tested alongside pending cleanup.</li>
-<li class=""><code>harness-apps</code> expands into development and installation/runtime lifecycle checkpoints.</li>
+<li class=""><code>harness-apps</code> expands into development, installation/runtime lifecycle, and multi-model routing checkpoints.</li>
 <li class=""><code>streaming-text</code> expands into content, tool details, timers, scrolling, message order, and subagent checkpoints.</li>
 </ul>
 <p>Each checkpoint establishes its own prerequisites in an isolated environment. The
@@ -252,7 +252,28 @@ milestone screenshots, and every run retains logs, state snapshots, and other
 useful diagnostics. Before upload, CI removes only transient Chromium caches
 that cannot help reproduce a failure. Uploads disable redundant compression for
 PNG and other already-compressed evidence so artifact archiving does not extend
-the pipeline tail. Merge queue validates
+the pipeline tail.</p>
+<p>The Backend Rust E2E image producer, desktop consumers, and warmup must use the
+same content digest, covering Cargo manifests, the lockfile, source, examples,
+and <code>e2e-tests.yml</code>, which defines the artifact layout. The image must contain
+both <code>wegent-backend-rs</code> and <code>attachment-s3-e2e</code>. Missing artifacts fail restoration
+and release the temporary container; an incomplete cache is not a fallback.
+CI cache policy runs <code>test-backend-rs-e2e-runtime.rb</code>, which executes the actual
+workflow build, publish, and restore scripts to check this contract.</p>
+<p>In Core shard 6, <code>harness-app-models</code> holds the real additional-token handoff,
+asserts that the running tab is not published yet, then checks close, reopen,
+model calls, and route release. A host running snapshot does not mean renderer
+handoff is complete. Management refresh, open, and retry must not bypass the
+installation&#x27;s pending lifecycle. On failure, compare delivery counts in
+<code>harness-model-token-handoff.json</code> with the UI snapshot rather than increasing
+waits or weakening the early-publication assertion.
+A retained management page can leave a stopped runtime&#x27;s URL registered after
+restoring an old running snapshot. Starting again invalidates that registration
+before creating a new tab. An existing tab or pending operation still owns its
+registration and must not lose it to a stale management snapshot. The checkpoint
+checks for no stale iframe immediately after Start and no running iframe before
+the additional-token handoff finishes.</p>
+<p>Merge queue validates
 the final commit that enters <code>main</code>, so Tests, Lint, Platform E2E, and Wework E2E
 do not repeat the same validation after the merge through a <code>push main</code> trigger. The
 mapping lives in <code>.github/scripts/classify-wework-desktop-e2e.sh</code> and must be updated when new
