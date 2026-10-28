@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">项目与工作区 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="项目与工作区 | Wegent"><meta data-rh="true" name="description" content="项目用于把同一份代码目录下的多次任务组织在一起。每个项目可以关联一个或多个执行设备上的目录。"><meta data-rh="true" property="og:description" content="项目用于把同一份代码目录下的多次任务组织在一起。每个项目可以关联一个或多个执行设备上的目录。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"项目与工作区","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.a6684fdc.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.155d4436.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.00ec7350.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -193,6 +193,8 @@
 <p>Wework 会打开指定目录；应用已经运行时会复用现有窗口。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="编辑交付物">编辑交付物<a href="#编辑交付物" class="hash-link" aria-label="编辑交付物的直接链接" title="编辑交付物的直接链接" translate="no">​</a></h2>
 <p>交付时可以设置标题和备注，并选择要收录的聊天消息、文件及文件夹。标题默认使用当前任务标题，备注支持 Markdown。</p>
+<p>在任务中确认交付后，保存成功会自动关闭交付窗口，并打开关联 Issue 的详情抽屉，可继续查看交付记录。保存失败时保留交付窗口并显示错误，便于重试。</p>
+<p>交付会保存到关联 Issue 所在的项目空间。</p>
 <p>交付后，在 Issue 的交付记录中打开交付物，点击 <strong>编辑</strong>，即可修改标题和备注、增删或替换文件，以及调整收录的聊天消息。<strong>补选来源会话消息</strong> 读取当前仍有权限访问的来源会话；会话离线、删除或失去访问权限时，已有消息仍可保留或移除。被交付要求引用的附件不能直接移除。</p>
 <p><strong>保存修改</strong> 更新同一条交付记录，保留交付链接、来源任务和首次交付时间，不重复完成任务或推进工作流，也不提供历史版本界面。取消编辑不会写入。保存失败时表单保留；多人同时修改发生冲突时，可先保留自己的内容，再选择 <strong>重新加载（放弃本次修改）</strong> 查看最新交付物。</p>
 <p>本地项目空间离线可编辑，云端项目空间要求当前用户仍可查看对应 Issue，并具有 Developer 或更高项目角色。文件页展示保存后的附件。</p>
