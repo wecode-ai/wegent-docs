@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Desktop upgrades, rollback, and E2E maintenance | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Desktop upgrades, rollback, and E2E maintenance | Wegent"><meta data-rh="true" name="description" content="Repairs delivered with the update package"><meta data-rh="true" property="og:description" content="Repairs delivered with the update package"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Desktop upgrades, rollback, and E2E maintenance","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.374e95ed.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.c041967c.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.a58d38a9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -69,7 +69,12 @@ healthy release over unrelated application copies. If that URL still holds an ea
 host, retain its signed program and update that inactive release&#x27;s program references first.
 Preparation replaces no installed program files and preserves both current and prior rollback.</p>
 <p>Delivered launchers enter the new payload bootstrap first. Its native helper installs the
-selected host, then the bootstrap executes the installed application with the same PID.
+selected host, then a native relay spawns the installed application with a fresh PID.
+Never re-execute Electron at the same PID: RunningBoard&#x27;s cached PID version can become
+stale and Control Center rejects status-item registration with <code>process has mismatched pid version</code>.
+The slot entry hides its Dock identity before handoff. The relay retains the legacy supervisor&#x27;s
+process tree until the existing health marker is confirmed or the target exits, preserving
+the original activation transaction&#x27;s failure handling.
 A retained legacy program copy references the original source&#x27;s data owner. Activation uses
 the existing snapshot-preservation protocol so delivered cleaners also retain that profile.
 After the selected bootstrap loads with the matching version, it takes over recovery forwarding
@@ -82,6 +87,17 @@ continuing the original task after rollback. Source fixtures retain snapshots of
 bootstrap, release store, and native launcher rather than reimplementing their behavior.
 Failed activation also enters through the signed versioned source to cover cached legacy recovery.
 Mechanism evidence still cannot authorize production edges bound to different package hashes.</p>
+<p>Suite v9 also verifies that the system actually hosts the native status item after upgrade
+and rollback, beyond Electron having created a <code>Tray</code> object. Users with an existing Dock
+pin targeting a release slot must remove it and pin the installed application instead;
+the application never edits Dock preferences.</p>
+<p><code>release-package-startup</code> retains a real first launch without warming the runtime cache.
+The Windows CI trace recorded 145 seconds of extraction and a controller connection around
+192 seconds after launch. This scenario assigns the existing 180-second budget separately
+to component preparation, runtime extraction, Core profile preparation, Core process startup,
+and renderer loading. Stalled, regressing, or over-budget phases still fail; preparation logs
+never substitute for the real controller connection. Ordinary starts, restarts, and upgrade
+scenarios retain their existing wait budgets.</p>
 <p>Complete hosts, runtime caches, and prepared profiles live in release slots. Preparation runs using the target package&#x27;s own entry point. A stable native launcher reads the active pointer and supervises the activation journal without loading target business code.</p>
 <p>After confirmation, stop writers, finalize a consistent snapshot, exit, and switch. Both runtime and renderer readiness confirm health. Exit or failure to become ready within 60 seconds enters recovery without an automatic restart loop.</p>
 <p>Keep active Goal recovery journals when the executor or app-server stops. A completed previous turn does not complete its Goal; an exit notification or a closed notification stream must not finalize the Goal using that earlier outcome.</p>

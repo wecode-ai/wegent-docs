@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">桌面升级、回退与 E2E 维护 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="桌面升级、回退与 E2E 维护 | Wegent"><meta data-rh="true" name="description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><meta data-rh="true" property="og:description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"桌面升级、回退与 E2E 维护","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.bb3ab612.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.02b01c9c.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d3db0f4f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -63,7 +63,11 @@ macOS x64 使用上述明确的架构等价规则。</p>
 若该路径仍保存更早的健康版本，先保留其签名程序副本并更新该非活动版本的程序引用。
 准备期间不替换外层应用中的任何程序文件，当前版本及之前的回退版本均保持可用。</p>
 <p>已交付的启动器仍先进入目标槽位中的启动入口，由新包的原生助手完成安装路径修复，
-再以相同 PID 执行安装位置的主程序。旧来源建立独立的回退程序副本，引用原来源的数据所有者；
+再由原生中继以新 PID 启动安装位置的主程序。不能在同一 PID 内重新执行 Electron：
+RunningBoard 缓存的 PID 版本可能失效，控制中心会以 <code>process has mismatched pid version</code>
+拒绝菜单栏图标的注册。槽位入口在交接前隐藏 Dock 身份，中继保留旧启动器监督的进程树，
+直到既有健康标记确认或目标退出；目标失败仍由原激活事务处理。
+旧来源建立独立的回退程序副本，引用原来源的数据所有者；
 激活时使用已有快照保留协议保护这些数据，使旧版清理器也不会删除回退后的 profile。
 目标启动入口成功加载且版本匹配后，在打开数据前接管恢复转交；旧启动器缓存的版本目录入口
 也会先转交到新包的恢复代码，再恢复原安装位置。这个转交不确认运行时或界面健康。
@@ -73,6 +77,14 @@ bundle identifier 和外层目录 inode，并在回退后运行来源包自己�
 来源夹具保留已交付的启动入口、版本存储和原生启动器源码快照；不重新实现旧行为。
 故障激活场景让旧启动器实际通过签名的来源版本目录启动，验证缓存恢复入口的旧客户端。
 这些机制证据不能代替实际交付包哈希绑定的发布版本对证据。</p>
+<p>套件 v9 进一步核对升级和回退后系统实际托管的原生菜单栏图标，不能仅断言 Electron
+已创建 <code>Tray</code> 对象。过去已固定到版本槽位的 Dock 图标需要用户移除并重新固定安装位置；
+应用不会修改用户的 Dock 偏好。</p>
+<p><code>release-package-startup</code> 保留真实发布包的首次冷启动，不预热运行时缓存。Windows CI 的原始
+日志记录了 145 秒的运行时解包和约 192 秒后的控制器连接，因此该场景按组件准备、运行时解包、
+Core profile 准备、Core 进程启动和渲染器加载分别执行原有 180 秒预算。阶段停滞、倒退或
+超出单阶段预算仍失败，准备日志不能代替真实控制器连接。普通启动、重启和升级场景的原有
+等待预算保持不变。</p>
 <table><thead><tr><th>层级</th><th>数据来源</th><th>验证内容</th><th>能否开放正式升级边</th></tr></thead><tbody><tr><td>策略与事务测试</td><td>小型清单和临时文件目录</td><td>最低来源版本、路径、撤销、激活日志、快照恢复边界</td><td>否</td></tr><tr><td>机制回归 E2E</td><td>从源码分别打包、签名的固定 A/B 夹具</td><td>真下载、真解压、真 Electron/Executor、切换、恢复、任务继续执行</td><td>否</td></tr><tr><td>发布版本对 E2E</td><td>不可变的实际来源包和本次交付目标包</td><td>指定版本对的完整升级与回退</td><td>是，且仅限该平台、架构和包哈希</td></tr></tbody></table>
 <p>场景集中在 <code>app-upgrade.scenario.mjs</code>，套件版本和场景列表集中在 <code>upgrade-suite.mjs</code>。四个 checkpoint 分别检查正常升级、包含升级的手动回退、已确认回退被中断后的恢复及目标进程启动失败后的恢复；每个 checkpoint 建立自己的最小数据，不能依赖上一个场景。</p>
 <p>套件 v5 分别限制整包准备、解压和运行环境准备阶段，每阶段最多 5 分钟；阶段必须单向前进，停滞或失败立即终止，不能把单个步骤的预算误作所有串行操作的总预算。目标包将 profile 复制、组件准备、运行环境物化及 profile 准备的开始、结束和耗时写入 <code>logs/release-preparation.log</code>，CI 必须保留该日志。</p>
