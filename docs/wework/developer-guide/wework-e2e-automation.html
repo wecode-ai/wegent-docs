@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.debc8f3b.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.6969219b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.6940de0f.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.d69846ab.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -111,8 +111,25 @@ checkpoint. When upstream checkpoints are skipped, each checkpoint establishes
 its own minimal fixtures instead of depending on tasks or UI state created only
 by the complete flow. PR CI builds the smallest segment matrix for the changed
 feature paths. Shared desktop infrastructure, merge queue, scheduled runs, and
-<code>ci:all</code> still run the complete desktop suites. Core and Cloud shard definitions
-live in <code>.github/scripts/classify-wework-desktop-e2e.sh</code>. Linux Core and Cloud jobs
+<code>ci:all</code> still run the complete desktop suites. Registration, module paths,
+execution modes, and Core/Cloud shard assignments now come from independent
+<code>wework/e2e/desktop/catalog/&lt;checkpoint&gt;.json</code> files. The filename is the checkpoint
+ID. <code>checkpoints.mjs</code>, the runner, and CI read the same declarations, so adding a
+scenario does not edit shared registration lists or comma-joined shard lines.
+<code>order</code> controls default execution order; <code>ci.core</code> / <code>ci.cloud</code> declare <code>shard</code>
+and <code>position</code>, while each CI lane&#x27;s <code>order</code> retains catalog order. Insert values
+between existing ones; equal values sort by checkpoint ID without renumbering
+other files. Core retains ten shards and Cloud retains eight. <code>scenario</code> names
+the module and <code>scenarioOnly</code> runs that module alone. Composite checkpoints use
+<code>members</code>; <code>ciHost</code> shares an existing checkpoint&#x27;s CI lifecycle. Package upgrade
+checkpoints remain owned by <code>upgrade-suite.mjs</code>.</p>
+<p>A config change selects its CI owner, including the host of a composite member.
+New scenario modules select their declaration automatically. Optional <code>paths</code>
+shell globs add source coverage alongside existing path rules. Cross-feature
+rules retain their priority in <code>.github/scripts/desktop-ci/</code>. Classifier contracts
+live in <code>.github/scripts/ci-classification-tests/</code>, whose <code>.sh</code> files are discovered
+by the existing test entry point.</p>
+<p>Linux Core and Cloud jobs
 run at most four isolated checkpoints concurrently; actual concurrency also
 depends on the shard&#x27;s checkpoint count. Each checkpoint owns its database,
 Redis, ports, and runtime directories, and Harness runtimes are extracted once
@@ -346,12 +363,11 @@ the additional-token handoff finishes.</p>
 <p>Merge queue validates
 the final commit that enters <code>main</code>, so Tests, Lint, Platform E2E, and Wework E2E
 do not repeat the same validation after the merge through a <code>push main</code> trigger. The
-mapping lives in <code>.github/scripts/classify-wework-desktop-e2e.sh</code> and must be updated when new
-feature coverage is registered. When adding a <code>DESKTOP_CHECKPOINTS</code> entry, also
-add it to a Core, Cloud, or formal-release catalog, assign it to a shard, map
-the relevant source paths to the smallest applicable coverage, and update both
-the matrix expectations and focused classifier assertions in
-<code>.github/scripts/test-classify-ci-changes.sh</code>. The classifier rejects a
+mapping is maintained in feature-local catalog files. Declare a new checkpoint&#x27;s
+module, execution mode, CI shard, and source <code>paths</code> in its own file, then add
+focused assertions to the relevant classifier contract module. Update affected
+matrix expectations when cross-feature coverage changes; shared runner lists,
+shard lists, and test entry points no longer need edits. The classifier rejects a
 checkpoint that exists only in the runner without CI catalog coverage, preventing
 locally runnable coverage that GitHub CI never invokes. Segment commands are also
 useful for focused local iteration:</p>
