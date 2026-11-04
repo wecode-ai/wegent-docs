@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.6fed3ee0.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.759a9643.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.17bf3a2e.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -135,6 +135,10 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="测试结构-4">测试结构<a href="#测试结构-4" class="hash-link" aria-label="测试结构的直接链接" title="测试结构的直接链接" translate="no">​</a></h3>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">frontend/src/__tests__/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── utils/                   # 工具函数测试</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── hooks/                   # React hooks 测试</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└── components/              # 组件测试</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework-单元测试">Wework 单元测试<a href="#wework-单元测试" class="hash-link" aria-label="Wework 单元测试的直接链接" title="Wework 单元测试的直接链接" translate="no">​</a></h2>
+<p>单元测试聚焦任务状态与消息一致性、账号和权限边界、持久化、设备与运行时路由、
+输入提交及失败恢复。不要为 CSS 类名、图标、文案排列、源码关键词、固定元数据
+或诊断日志格式单独增加用例；混合场景只保留对实际业务结果有约束的断言。
+遥测保留授权、拒绝收集、脱敏与账号隔离覆盖，不为统计标签和调试快照单独建测试。</p>
 <p>从仓库根目录运行全部 Wework 单元测试：</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> wework </span><span class="token builtin class-name">test</span><br></span></code></pre></div></div>
 <p>调试单个测试文件时，将文件路径或文件名传给测试脚本。以下两种形式等价，都会只
@@ -143,6 +147,16 @@
 <p>测试脚本会兼容性地移除参数开头的一个独立 <code>--</code>，再把其余文件过滤条件和 Vitest
 选项原样传递给测试运行器。运行聚焦测试时，应确认输出中的 <code>Test Files</code> 数量符合
 预期，避免误跑全量测试。</p>
+<p>不依赖 DOM 的纯逻辑测试应在文件顶部声明 <code>// @vitest-environment node</code>。
+这类测试不加载 <code>src/test/setup.dom.ts</code> 中的浏览器模拟、存储和插件 UI 初始化；
+需要浏览器行为的测试保留默认 jsdom 环境。组件测试所需的插件 UI 辅助函数
+从 <code>@/test/setup.dom</code> 导入。</p>
+<p>Wework CI 执行测试但不再默认采集覆盖率，避免 Istanbul 插桩开销。
+需要排查覆盖率时可定向执行 <code>pnpm --dir wework exec vitest run &lt;测试文件&gt; --coverage</code>。
+完整 renderer push 检查每 15 秒输出当前 shard 的通过文件数，完整诊断仍保留在日志中。</p>
+<p>运行中的 Executor 会并发写入 <code>tasks.sqlite</code>。直接写入该数据库的桌面 E2E fixture
+应在独立连接上设置 <code>PRAGMA busy_timeout = 10000</code>，等待正常写事务释放锁。
+锁等待仅作用于 fixture 数据库连接；业务断言与全局 UI 超时保持原有约束。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="异步提问模型桩">异步提问模型桩<a href="#异步提问模型桩" class="hash-link" aria-label="异步提问模型桩的直接链接" title="异步提问模型桩的直接链接" translate="no">​</a></h3>
 <p>桌面 E2E 的异步提问模型桩仅将对应 <code>function_call_output</code> 回执之后、与预期答案
 完全一致的用户消息识别为回答；答案文本复用共享解析器移除运行时包装上下文。

@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.fbdf04c0.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.d69846ab.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.facaeda4.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.6969219b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -135,6 +135,12 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="test-structure-4">Test Structure<a href="#test-structure-4" class="hash-link" aria-label="Direct link to Test Structure" title="Direct link to Test Structure" translate="no">​</a></h3>
 <div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">frontend/src/__tests__/</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── utils/                   # Utility function tests</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├── hooks/                   # React hooks tests</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└── components/              # Component tests</span><br></span></code></pre></div></div>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="wework-unit-tests">Wework Unit Tests<a href="#wework-unit-tests" class="hash-link" aria-label="Direct link to Wework Unit Tests" title="Direct link to Wework Unit Tests" translate="no">​</a></h2>
+<p>Focus unit coverage on task state and message consistency, account and permission
+boundaries, persistence, device and runtime routing, input submission, and failure
+recovery. Do not add standalone cases for CSS classes, icons, copy ordering, source
+keywords, fixed metadata, or diagnostic log formatting. Keep mixed scenarios focused
+on business outcomes. Retain telemetry consent, opt-out, redaction, and account
+isolation coverage rather than separate analytics-label or debug-snapshot tests.</p>
 <p>Run the complete Wework unit test suite from the repository root:</p>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> wework </span><span class="token builtin class-name">test</span><br></span></code></pre></div></div>
 <p>When debugging one test file, pass its path or file name to the test script.
@@ -144,6 +150,20 @@ The following forms are equivalent and collect only matching Vitest files:</p>
 passes all remaining file filters and Vitest options through unchanged. For a
 focused run, confirm that the reported <code>Test Files</code> count matches the intended
 scope so an accidental full-suite run is caught immediately.</p>
+<p>Pure logic tests without DOM dependencies should declare <code>// @vitest-environment node</code>
+at the top of the file. These tests do not load the browser mocks, storage, or plugin UI
+fixtures in <code>src/test/setup.dom.ts</code>. Tests exercising browser behavior keep the default
+jsdom environment. Component tests import plugin UI helpers from <code>@/test/setup.dom</code>.</p>
+<p>Wework CI runs tests without collecting coverage by default to avoid Istanbul
+instrumentation overhead. Collect focused coverage when needed with
+<code>pnpm --dir wework exec vitest run &lt;test-file&gt; --coverage</code>.
+Full renderer push checks report the current shard&#x27;s passed file count every 15 seconds;
+complete diagnostics remain in the logs.</p>
+<p>A running Executor writes to <code>tasks.sqlite</code> concurrently. Desktop E2E fixtures that
+write directly to this database must set <code>PRAGMA busy_timeout = 10000</code> on their
+independent connection so normal write transactions can release their locks.
+Keep this wait scoped to the fixture connection and preserve business assertions
+and global UI timeout budgets.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="async-question-model-fixtures">Async Question Model Fixtures<a href="#async-question-model-fixtures" class="hash-link" aria-label="Direct link to Async Question Model Fixtures" title="Direct link to Async Question Model Fixtures" translate="no">​</a></h3>
 <p>The desktop E2E async question fixture recognizes only an exact expected answer
 in a user message after the matching <code>function_call_output</code> acknowledgement,
