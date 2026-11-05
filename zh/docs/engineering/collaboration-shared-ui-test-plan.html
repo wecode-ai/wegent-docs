@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作共享 UI 双端 E2E 与验收计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作共享 UI 双端 E2E 与验收计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-10"><meta data-rh="true" property="og:description" content="审计日期：2026-09-10"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.52113ae5.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.94b2a9ff.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a9c20deb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -60,7 +60,8 @@ Issue 和人类负责人小组，依次从评论菜单转派给机器人、小�
 <p>运行命令：<code>pnpm --filter wework e2e:desktop --segment follow-up-task-switch</code>。
 该 checkpoint 注册于统一桌面 runner 与 Core CI；截图、日志和隔离历史只保留在 <code>wework/test-results/</code>。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="父子事项与并发看板">父子事项与并发看板<a href="#父子事项与并发看板" class="hash-link" aria-label="父子事项与并发看板的直接链接" title="父子事项与并发看板的直接链接" translate="no">​</a></h3>
-<p>Wework 在现有看板工具栏增加个人「按父事项」布局，不替换已有泳道或保存视图。
+<p>Web 协作与 Wework 在现有看板工具栏提供一致的个人「按父事项」布局，不替换已有泳道或保存视图。
+Web 平台组件测试覆盖入口显示、切换后按父事项展示子事项，以及关闭后恢复普通看板。
 普通布局继续只展示当前层事项；父子布局按直接父事项分行，保留独立事项与进入子级的入口。
 完成数量和并行数量按当前用户可读取的直接子事项计算，并按事项 ID 去重；搜索和泳道筛选只
 改变卡片投影，不改变父事项的整体完成数量。详情提供父项链接、子项列表与新建子项入口。</p>

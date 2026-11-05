@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Collaboration shared UI cross-host E2E and acceptance plan | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Collaboration shared UI cross-host E2E and acceptance plan | Wegent"><meta data-rh="true" name="description" content="Audit date: 2026-09-10"><meta data-rh="true" property="og:description" content="Audit date: 2026-09-10"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-shared-ui-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-shared-ui-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.a5e6c9cf.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.0aed8a9b.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.6b3f8fa4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -71,8 +71,10 @@ Component tests verify that historical timing stops while the current timer adva
 <p>Run <code>pnpm --filter wework e2e:desktop --segment follow-up-task-switch</code>.
 The checkpoint belongs to the shared desktop runner and Core CI. Screenshots, logs and isolated history stay under <code>wework/test-results/</code>.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="parent-issues-and-parallel-board-work">Parent issues and parallel board work<a href="#parent-issues-and-parallel-board-work" class="hash-link" aria-label="Direct link to Parent issues and parallel board work" title="Direct link to Parent issues and parallel board work" translate="no">​</a></h3>
-<p>Wework adds a personal <strong>By parent</strong> layout to the existing board toolbar, preserving columns and
-saved views. The ordinary board keeps its current-level projection. Parent rows show direct children,
+<p>Web collaboration and Wework offer the same personal <strong>By parent</strong> layout in the existing board
+toolbar, preserving columns and saved views. Web platform component tests cover the visible toggle,
+grouping child issues by parent, and returning to the ordinary board when toggled off.
+The ordinary board keeps its current-level projection. Parent rows show direct children,
 standalone issues, and navigation to deeper levels. Completion and parallel counts include only
 readable direct children, deduplicated by issue ID. Search and column filters affect card projections
 without changing overall parent counts. Details expose parent links, children, and child creation.</p>
