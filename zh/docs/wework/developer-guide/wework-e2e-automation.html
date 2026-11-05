@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="桌面 E2E 共享 fixture 使用 GPT 5.6 Luna。真实运行时目录同时存在 GPT-5.6 Luna 和 GPT 5.6 Luna 两种显示名称，默认模型选择断言接受这两种名称，同时继续核对模型 ID 和供应商。任务恢复断言继续核对 fixture 原有的显示名称。"><meta data-rh="true" property="og:description" content="桌面 E2E 共享 fixture 使用 GPT 5.6 Luna。真实运行时目录同时存在 GPT-5.6 Luna 和 GPT 5.6 Luna 两种显示名称，默认模型选择断言接受这两种名称，同时继续核对模型 ID 和供应商。任务恢复断言继续核对 fixture 原有的显示名称。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.8b7bd8f2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.a5e024bb.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a128d91e.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -126,8 +126,11 @@ macOS 中需要争用原生桌面前台的 checkpoint 仍通过资源锁保持�
 <p><code>split-workbench</code> 含固定 3 秒的拖拽交互性能断言，使用独立 Linux 分片，
 避免其他全栈实例争抢 CPU 改变性能基准。它仍保留完整功能断言，并记录拖拽移动、
 松开事件分发和分屏就绪的分阶段耗时；其他功能分片仍可运行最多 4 个实例。
-各 Core/Cloud matrix job 还提供跨 runner 的套件级并行。Core 使用 10 个分片（Windows
-复用相同矩阵），Cloud 使用 8 个分片。合并短分片可复用容器初始化、代码检出、
+各 Core/Cloud matrix job 还提供跨 runner 的套件级并行。分类器提供 10 个 Core 逻辑分片，
+Windows 保持 10 台 runner；Linux 设置 <code>CORE_RUNNER_SCALE=1.5</code>，完整选择时按历史耗时
+重排到 15 台 runner。部分选择按所选矩阵扩容，且不超过可分配的 checkpoint 数；
+不含历史检查点的部分选择保留原矩阵。两个 Core 性能基准分片仍独占 runner。
+Cloud 使用 8 个分片。合并短分片可复用容器初始化、代码检出、
 构建产物下载和运行时准备，不增加每台 runner 内的 checkpoint 并发数。性能基准的
 2 个 Core 分片以及账号认证和长插件列表的 3 个 Cloud 分片仍独立运行。
 并发上限必须不低于完整矩阵的分片数，避免配置强制分批；分类器回归测试同时检查
@@ -135,6 +138,16 @@ macOS 中需要争用原生桌面前台的 checkpoint 仍通过资源锁保持�
 Lint、单元测试、平台 E2E 和桌面 E2E 的汇总 job 使用 <code>always() &amp;&amp; !cancelled()</code>：
 测试失败时仍汇总结果，workflow 被新提交取消后停止排队，避免旧汇总阻塞新提交。
 清理和诊断上传步骤继续使用原有的取消处理方式。</p>
+<p>PR 的 Wework renderer 单测使用 4 台 runner，继续按已有文件耗时均衡分配；
+Electron 和其他辅助测试仍只执行一次。平台浏览器/API 和 provider-native E2E
+均使用 8 个完整且无重复的逻辑分片，复用共享构建产物，每台 runner 保持独立服务与用户。
+钉钉协议集成、知识库和附件等额外检查继续只在指定分片执行。
+Linux Core 的历史耗时回放中，测试阶段最长路径由 614 秒降至 478 秒；此估算不包含
+构建、环境准备和排队时间，实际收益需由后续 CI 记录确认。扩容会增加 runner 的准备开销。</p>
+<p>设备目录选择使用执行器原生 home 查询与目录枚举，不再为默认的 <code>home_dir</code>、<code>ls_dirs</code>
+启动 <code>printenv</code>、<code>ls</code> 子进程。CI 日志曾记录两次进程创建分别耗时 6.2、8.1 秒，
+而相同路径在前一轮仅耗时数十毫秒；原生查询消除这项启动依赖，保留隐藏目录、
+符号链接、输出上限和错误处理语义。自定义命令仍走原命令路径，E2E 的 10 秒断言不变。</p>
 <p>成功 CI 记录 <code>39920301020</code> 和 <code>39920742402</code> 的逐步骤耗时用于拆分环境开销。
 前者 42 个分片的非测试步骤合计约 60 机器分钟，占分片执行量约 31%；后者的
 环境开销更高。最终 18 个分片减少了 24 次环境准备。</p>

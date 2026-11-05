@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.ec4917f6.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.c742a965.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.a5929bda.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -142,7 +142,12 @@ CPU allocation. It retains all functional assertions and logs pointer movement,
 pointer-up dispatch, and split readiness timings. Other functional shards still
 allow up to four instances.
 Core and Cloud matrix jobs also provide suite-level parallelism across runners.
-Core uses 10 shards, with Windows sharing the same matrix, and Cloud uses 8.
+The classifier provides 10 logical Core shards. Windows retains 10 runners;
+Linux sets <code>CORE_RUNNER_SCALE=1.5</code> and redistributes a full selection across
+15 runners using historical durations. Partial selections scale with their selected
+matrix, bounded by assignable checkpoints; selections without the history checkpoint
+retain their original matrix. The two Core benchmarks keep dedicated runners.
+Cloud uses 8 shards.
 Combining short shards reuses container initialization, checkout, artifact
 downloads, and runtime preparation without increasing checkpoint concurrency
 within a runner. The two Core benchmark shards and three Cloud account-auth and
@@ -154,6 +159,21 @@ Lint, unit-test, platform E2E, and desktop E2E summary jobs use
 <code>always() &amp;&amp; !cancelled()</code>: failures still produce a summary, while cancellation
 stops superseded summaries from waiting for runners and blocking newer runs.
 Cleanup and diagnostic upload steps retain their existing cancellation handling.</p>
+<p>PR Wework renderer unit tests use 4 runners with the existing measured file
+balancing. Electron and auxiliary checks still execute once. Platform browser/API
+and provider-native E2E each use 8 complete, nonoverlapping logical shards,
+reusing shared builds with independent services and users per runner. Additional
+DingTalk protocol integration, knowledge, and attachment checks retain their
+designated shards. Historical Linux Core timing replay reduces the test-stage
+critical path from 614 to 478 seconds. This estimate excludes builds, preparation,
+and queueing; subsequent CI runs must establish actual savings. Additional runners
+increase preparation overhead.</p>
+<p>Device folder selection uses native Executor home lookup and directory enumeration
+for the default <code>home_dir</code> and <code>ls_dirs</code> commands, without spawning <code>printenv</code> or <code>ls</code>.
+CI recorded process creation taking 6.2 and 8.1 seconds where the preceding run
+took tens of milliseconds. Native queries remove this startup dependency while
+preserving hidden directories, symlinks, output limits, and error handling.
+Explicit custom commands retain command execution; the ten-second E2E assertion is unchanged.</p>
 <p>Step timings from successful runs <code>39920301020</code> and <code>39920742402</code> separate test
 work from setup overhead. In the first sample, non-test steps across 42 shards
 consumed about 60 runner minutes, or 31% of shard execution time; setup overhead
