@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">电脑操控 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="电脑操控 | Wegent"><meta data-rh="true" name="description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><meta data-rh="true" property="og:description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"电脑操控","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.5b650b03.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.0df67fb1.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a9c20deb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -19,12 +19,23 @@
 <code>wework_browser</code>，不要使用电脑操控模拟浏览器点击。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="架构">架构<a href="#架构" class="hash-link" aria-label="架构的直接链接" title="架构的直接链接" translate="no">​</a></h2>
 <p>调用链如下：</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; wework_computer MCP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 打包内的 wegent-executor</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 带 Bearer Token 的 loopback HTTP bridge</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron ComputerUseService</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; @trycua/cua-driver</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 平台辅助功能与屏幕捕获接口</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; wework_computer MCP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 打包内的 wegent-executor</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 带 Bearer Token 的 loopback HTTP bridge</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron ComputerUseService</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron Node Helper 子进程（Node IPC）</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; @trycua/cua-driver</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; 平台辅助功能与屏幕捕获接口</span><br></span></code></pre></div></div>
 <p>Electron 主进程拥有 CUA Driver 的生命周期。启用电脑操控且系统权限满足后，
-<code>ComputerUseService</code> 创建 Driver，监听随机的 <code>127.0.0.1</code> 端口，并把 PID、地址、
+<code>ComputerUseService</code> 在独立的 Electron Node Helper 子进程中创建 Driver，主进程监听
+随机的 <code>127.0.0.1</code> 端口，并把主进程 PID、地址、
 随机 token 和启动时间原子写入当前 Executor Home 的
 <code>runtime/computer-use-bridge.json</code>。关闭功能或退出应用时必须中止当前动作、关闭
 bridge、停止 Driver 并删除该文件。</p>
+<p>原生工具不得在 Electron 主进程内执行：macOS 对同进程的辅助功能调用可能直接
+进入 AppKit，而 CUA 的后台线程不能操作 AppKit 窗口。独立子进程让窗口调用跨进程
+交由宿主主线程处理，并隔离原生崩溃。子进程以 <code>ELECTRON_RUN_AS_NODE=1</code> 运行打包
+内的 Helper，沿用宿主的 TCC 责任链，权限请求仍由 Wework 主进程负责。取消信号通过
+Node IPC 传入对应的原生调用；宿主 IPC 断开时子进程立即退出。</p>
+<p>桥接使用 Node 的 <code>child_process.fork</code> 和带错误回调的 <code>send</code>。Electron 43.0.0 的
+<code>utilityProcess.postMessage</code> 在子进程退出时存在主进程原生崩溃问题，不能用它承载
+这条崩溃隔离链路，见 <a href="https://releases.electronjs.org/pr/53293" target="_blank" rel="noopener noreferrer" class="">Electron #53293</a>。</p>
+<p>Driver 异常退出后，主进程清理 bridge、显示错误，并保留启用偏好；状态查询不会
+自动重启 Driver 或重放结果未知的动作。用户关闭再开启电脑操控后创建新进程。</p>
 <p>Executor 启动 Codex 会话时读取这份 runtime record。文件不存在、内容无效或功能
 尚未就绪时，不注入 <code>wework_computer</code>。文件有效时，Executor 以自身的
 <code>computer-use-mcp-server</code> 子命令启动 stdio MCP server，并只通过带 token 的本机

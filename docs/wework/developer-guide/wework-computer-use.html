@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Computer use | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Computer use | Wegent"><meta data-rh="true" name="description" content="Wework computer use lets local Codex conversations control desktop applications"><meta data-rh="true" property="og:description" content="Wework computer use lets local Codex conversations control desktop applications"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Computer use","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.aaf78cbb.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.092f66bd.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.6b3f8fa4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -21,14 +21,31 @@ browser. Web tasks continue to use <code>wework_browser</code>; do not emulate b
 actions through desktop control.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="architecture">Architecture<a href="#architecture" class="hash-link" aria-label="Direct link to Architecture" title="Direct link to Architecture" translate="no">​</a></h2>
 <p>The call path is:</p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; wework_computer MCP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; packaged wegent-executor</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Bearer-authenticated loopback HTTP bridge</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron ComputerUseService</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; @trycua/cua-driver</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; platform accessibility and screen-capture APIs</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Codex</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; wework_computer MCP</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; packaged wegent-executor</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Bearer-authenticated loopback HTTP bridge</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron ComputerUseService</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; Electron Node Helper child process (Node IPC)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; @trycua/cua-driver</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">  -&gt; platform accessibility and screen-capture APIs</span><br></span></code></pre></div></div>
 <p>The Electron main process owns the CUA Driver lifecycle. Once computer use is
 enabled and system permissions are ready, <code>ComputerUseService</code> creates the
-Driver, listens on a random <code>127.0.0.1</code> port, and atomically writes the PID,
+Driver in a separate Electron Node Helper process. The main process listens on a
+random <code>127.0.0.1</code> port and atomically writes its own PID,
 address, random token, and start time to
 <code>runtime/computer-use-bridge.json</code> under the active Executor Home. Disabling
 the feature or quitting the application must cancel the current action, close
 the bridge, stop the Driver, and remove this file.</p>
+<p>Native tools must execute outside the Electron main process. On macOS,
+same-process accessibility calls can enter AppKit directly, but CUA&#x27;s background
+threads cannot manipulate AppKit windows. A child process routes window calls
+through the host&#x27;s main thread and isolates native crashes. The child runs the
+bundled Helper with <code>ELECTRON_RUN_AS_NODE=1</code>, preserving the host&#x27;s TCC
+responsibility chain. Wework still owns permission requests. Node IPC forwards
+cancellation to the corresponding native call; losing the host IPC channel
+terminates the child immediately.</p>
+<p>The bridge uses Node&#x27;s <code>child_process.fork</code> and <code>send</code> with error callbacks.
+Electron 43.0.0 has a native main-process crash in <code>utilityProcess.postMessage</code>
+after child termination, so that API cannot carry this crash-isolation boundary.
+See <a href="https://releases.electronjs.org/pr/53293" target="_blank" rel="noopener noreferrer" class="">Electron #53293</a>.</p>
+<p>An unexpected Driver exit removes the bridge and reports an error while retaining
+the enabled preference. Status checks neither restart the Driver nor replay an
+action with an unknown outcome. Turning computer use off and on creates a new
+process.</p>
 <p>Executor reads this runtime record when it launches a Codex conversation. It
 does not inject <code>wework_computer</code> when the file is absent or invalid, or when
 the feature is not ready. For a valid record, Executor starts its own
