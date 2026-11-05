@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">电脑操控 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="电脑操控 | Wegent"><meta data-rh="true" name="description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><meta data-rh="true" property="og:description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"电脑操控","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.94b2a9ff.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.0f72929f.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.a9c20deb.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -42,7 +42,26 @@ Node IPC 传入对应的原生调用；宿主 IPC 断开时子进程立即退出
 HTTP 请求调用 Electron。写操作使用 <code>default_tools_approval_mode = &quot;writes&quot;</code>，
 读取屏幕或工具目录不需要复用写操作确认。</p>
 <p>每次只能执行一个桌面动作。用户点击停止或按 Esc 时，Electron 通过
-<code>AbortSignal</code> 中止当前 Driver 调用；不得仅隐藏状态浮层而让底层动作继续。</p>
+<code>AbortSignal</code> 请求取消当前 Driver 调用；不得仅隐藏状态浮层而让底层动作继续。</p>
+<p>MCP 在等待工具结果时仍读取输入，处理 <code>notifications/cancelled</code> 和 ping。取消或
+stdio EOF 会丢弃对应 HTTP 请求；Electron 在响应连接异常关闭时请求取消 SDK 调用。
+工具执行和目录查询都使用 90 秒宿主截止时间，低于 HTTP 客户端的 120 秒截止时间。
+已派发的工具调用取消时返回原始原因及 <code>action outcome is unknown</code>，不得视为动作
+未执行；派发前取消及目录查询保留原始取消原因。迟到的结果不得覆盖取消错误。</p>
+<p>子进程从 SDK 自身目录的 <code>readOnlyHint</code> 获取只读标记，不维护手写工具分类。
+只读调用与目录查询直接取消 SDK Future。写操作不提前丢弃 Future：CUA 0.22.1 的
+后台原生输入仍可能继续，并跳过鼠标释放等收尾；动作占用因此保持到原生调用真实
+完成或驱动进程退出。关闭驱动也要等到进程实际退出，才能创建下一代驱动。
+目录查询与工具调用共用取消协议；子进程在取消后 5 秒内仍未应答时，宿主强制结束
+该进程并报告动作结果未知。此时沿用异常退出的恢复流程，由用户关闭再开启电脑操控，
+不得自动重放动作。重新启用只重建运行时；强制结束进程不证明系统中的鼠标按键或
+修饰键状态已释放。</p>
+<p>主进程日志中的 <code>[computer-use]</code> 记录操作编号、宿主及原生子进程 PID、工具名、开始、
+完成、取消、失败阶段与耗时，不记录参数、截图、会话内容或 token。排查卡住时先
+核对阶段，再对该操作的 <code>nativePid</code> 采样；聚合调用的显示名称不能证明实际阻塞在
+<code>start_session</code>。
+CUA 0.22.1 的 AX 遍历有 20 秒截止时间，但取消 Rust Future 不能强制停止已开始的
+<code>spawn_blocking</code> 原生工作。因此 SDK 取消成功本身不是原生线程退出的证据。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="权限与设置">权限与设置<a href="#权限与设置" class="hash-link" aria-label="权限与设置的直接链接" title="权限与设置的直接链接" translate="no">​</a></h2>
 <p>macOS 需要向实际运行的 Wework 应用授予：</p>
 <ul>

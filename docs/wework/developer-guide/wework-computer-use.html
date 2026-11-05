@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Computer use | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Computer use | Wegent"><meta data-rh="true" name="description" content="Wework computer use lets local Codex conversations control desktop applications"><meta data-rh="true" property="og:description" content="Wework computer use lets local Codex conversations control desktop applications"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Computer use","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.0aed8a9b.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.6b3f8fa4.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.f486f824.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.d42b3e62.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -54,9 +54,37 @@ only through token-authenticated local HTTP requests. Mutating tools use
 <code>default_tools_approval_mode = &quot;writes&quot;</code>; screen reads and tool discovery do
 not inherit write approval.</p>
 <p>Only one desktop action may run at a time. When the user clicks Stop or presses
-Escape, Electron cancels the active Driver call through an <code>AbortSignal</code>.
+Escape, Electron requests cancellation through an <code>AbortSignal</code>.
 Hiding the activity indicator while leaving the underlying action running is
 not sufficient.</p>
+<p>MCP continues reading input while tools run, including <code>notifications/cancelled</code>
+and ping. Cancellation or stdio EOF drops the corresponding HTTP request;
+Electron requests SDK cancellation when the response connection closes prematurely.
+Tool execution and discovery have a 90-second host deadline, below the HTTP
+client&#x27;s 120-second deadline. Cancelling a dispatched tool call reports its
+original reason and <code>action outcome is unknown</code>; it does not prove the action
+was never executed. Pre-dispatch cancellation and discovery retain their original
+reason. Late results cannot replace cancellation errors.</p>
+<p>The worker derives read-only classification from the SDK catalog&#x27;s <code>readOnlyHint</code>,
+without a handwritten tool registry. Read-only calls and discovery cancel their
+SDK Future directly. Mutating calls retain that Future: CUA 0.22.1 can otherwise
+leave native input running and skip release cleanup. Action admission remains
+occupied until the native call actually finishes or its process exits. Driver
+shutdown also waits for process exit before a replacement can be created.
+Discovery and tool calls share cancellation handling. If the worker has not
+replied within five seconds of cancellation, the host forcibly terminates it
+and reports an unknown action outcome. Recovery follows the existing worker
+failure flow: the user disables and re-enables computer use, without automatic
+action replay. Re-enabling only rebuilds the runtime; forced process termination
+does not prove that OS mouse-button or modifier-key state has been released.</p>
+<p>The main-process <code>[computer-use]</code> log records an operation ID, host and native
+worker PIDs, tool name, start, completion, cancellation, failure, and elapsed
+time without arguments, screenshots, session content, or tokens. Check these
+stages before sampling that operation&#x27;s <code>nativePid</code>. An aggregate call&#x27;s display
+name does not identify the blocked operation. CUA 0.22.1 bounds AX traversal at
+20 seconds, but cancelling a Rust
+Future cannot forcibly stop already running <code>spawn_blocking</code> native work.
+Successful SDK cancellation alone therefore does not prove native-thread exit.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="permissions-and-settings">Permissions and settings<a href="#permissions-and-settings" class="hash-link" aria-label="Direct link to Permissions and settings" title="Direct link to Permissions and settings" translate="no">​</a></h2>
 <p>On macOS, the actual Wework application process requires:</p>
 <ul>
