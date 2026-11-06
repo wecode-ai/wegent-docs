@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Collaboration templates | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-templates"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Collaboration templates | Wegent"><meta data-rh="true" name="description" content="Wework exposes discovery under Collaboration → Templates. Wegent exposes the same"><meta data-rh="true" property="og:description" content="Wework exposes discovery under Collaboration → Templates. Wegent exposes the same"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-templates"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-templates" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-templates" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-templates" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Collaboration templates","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-templates"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.bcd69ba4.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.b3f83a4b.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.6e466551.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -23,14 +23,20 @@ The picker lists active projects managed by the account. Selecting one rechecks 
 management access before role and group-name confirmation. Successful application opens
 the project board while preserving existing tasks, groups and views.</p>
 <p>New projects inherit the template name, description, roles and workflow, using the existing
-space picker and space creation flow. Web templates containing Agents use the account’s
+space picker and space creation flow. New Web projects containing template Agents use the account’s
 designated default executor and its unique default model for each required runtime;
-they never choose an arbitrary device or model. The default executor must be online and
-must not be an APP device that only supports desktop-local calls. New-project forms require
+they never choose an arbitrary device or model. The default executor must be online;
+APP devices are supported when the Backend can access their model catalogs. New-project forms require
 explicit execution-environment selection and explain that selected environments are shared
 with the chosen space and authorized for the project. Missing consent, devices or models
-blocks submission before project creation. Existing projects require prior device authorization;
-import does not grant space or project device access. Saving, collecting and previewing templates
+preserves the form for correction before project creation. Existing-project confirmation lists
+online devices already authorized for the project, regardless of the account default. A sole
+device is selected automatically; users choose between multiple devices without changing their
+account default. Listing reads device inventory only; submission rechecks online status,
+authorization and runtime default models. When devices are unavailable or inventory loading
+fails, users can open project device settings in a new tab, return and refresh to continue with
+their group names and role edits preserved. Import does not grant space or project device access.
+Saving, collecting and previewing templates
 does not perform these operations.
 Local projects use their local execution environment without calling cloud space-sharing
 or project device-grant APIs.</p>
@@ -76,7 +82,7 @@ roles are not created; definitions still referenced by retained roles remain in 
 templates without definitions still allow manual assignment. Saving YAML into the
 template library alone does not create project Agents; applying it does.</p>
 <p>Models, devices, workspaces and tools follow the recipient&#x27;s execution environment.
-Before creating agents, all required runtimes are checked against the current device&#x27;s unique default models. Missing defaults or a device not authorized for the destination project block import before any agent is created; import never grants device access.
+Before creating agents, all required runtimes are checked against the selected device&#x27;s unique default models. Missing defaults or revoked project authorization preserve the confirmation dialog so users can configure the device and continue before any agent is created; import never grants device access.
 When creating a project from a template, device and default-model readiness is checked before project creation. A failed preflight preserves the form without creating an empty project, allowing users to switch templates or complete configuration and retry. Project-specific device authorization is still checked after creation. Later persistence failures retain the created project and direct users to inspect its configuration, preventing duplicate creation.
 Source account model, plugin and device IDs and credentials are excluded. Project
 and group exports load real Agent definitions, preserving prompts with portable
@@ -99,6 +105,11 @@ while a known account is offline synchronize privately after that account
 reconnects. Conflicts preserve drafts; synchronization neither overwrites a
 conflicting source nor publishes it.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verification">Verification<a href="#verification" class="hash-link" aria-label="Direct link to Verification" title="Direct link to Verification" translate="no">​</a></h2>
+<p>Existing-project user story: users can apply a template through their project&#x27;s configured
+device and recover from missing devices without re-entering group names or role assignments.</p>
+<table><thead><tr><th>Precondition</th><th>Action</th><th>Expected result</th><th>Coverage</th></tr></thead><tbody><tr><td>One online authorized project APP device</td><td>Open template, edit group name, refresh, apply and reload</td><td>Project device selected automatically; name preserved; six Agents bound to that device; group persisted</td><td><code>authorized</code> template case in <code>issue-dispatch-executor.spec.ts</code></td></tr><tr><td>No authorized project device</td><td>Edit name, open device settings in a new tab, add and initialize device, return, refresh and apply</td><td>Confirmation and name preserved; refreshed device selected; Agents and group created</td><td><code>configure</code> template case in the same suite</td></tr><tr><td>Multiple online project devices</td><td>Choose a device in confirmation and apply</td><td>Uses the explicit selection without changing the account default; unavailable and offline devices excluded</td><td><code>ProjectTemplateApplyDialog.test.tsx</code>, <code>templateAgentRouting.test.ts</code></td></tr><tr><td>Inventory failure or authorization revoked before submission</td><td>Refresh or choose another device</td><td>Input preserved; submission revalidates access; invalid device creates no Agents</td><td>Same component and routing tests</td></tr></tbody></table>
+<p>Both real-device cases reuse the existing Executor CI project with real Backend, devices and
+storage. Wegent internal APIs are not mocked.</p>
 <p>Shared-package tests cover validation, YAML round trips, cache isolation, source
 updates, and partial failures. Backend tests cover inbox isolation and reference
 installation. The <code>collaboration-templates</code> desktop checkpoint covers real
