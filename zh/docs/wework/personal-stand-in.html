@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">我的分身与场景角色 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="我的分身与场景角色 | Wegent"><meta data-rh="true" name="description" content="角色档案逐项操作"><meta data-rh="true" property="og:description" content="角色档案逐项操作"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"我的分身与场景角色","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.e3740e95.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.3bae34ab.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.2a4fa3ee.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -31,6 +31,7 @@
 <p>设备离线、取消失败或执行进程尚未确认停止时，保持 <strong>停止中</strong>，不能换绑。恢复连接后使用 <strong>重试停止</strong>；关闭并重新打开页面不会解除这一限制。<strong>停止分身</strong>与仅关闭 <strong>接收新工作</strong>不同，后者不取消已有工作。</p>
 <p>停止后也可以迁移：在同一页面选择 <strong>迁移档案</strong>（主分身或某个场景角色）、目标设备，再点击 <strong>迁移并绑定</strong>并确认。迁移保留旧档案、记忆和会话历史，在目标追加该档案的职责、模型设置、标签及可见记忆，不覆盖已有配置。副本保持暂停，设备目录、项目/来源授权和安排需要重新配置后启用。复制成功后才换绑；复制失败可重试，旧分身始终保持停止。若换绑后的目标启动确认失败，保留目标绑定以便停止和恢复，不会自动重启旧分身。目标本来就处于停止状态时，也只允许追加这种无设备权限的停用副本，不能借迁移改动原有配置或恢复开关。</p>
 <p>首次尚未绑定时，从项目入口打开明确设备上的分身，会按该链接建立首次绑定；已有绑定不会被链接替换。</p>
+<p>首次绑定遇到并发版本冲突时，界面读取已保存的权威绑定，不重复绑定或启动分身，也不会覆盖另一个账号的绑定。</p>
 <p>在 <strong>我的分身</strong> 页面点击左侧任务栏的 <strong>看板</strong>，或在任务视图菜单中选择 <strong>看板</strong>，会打开个人任务看板。</p>
 <p>协作项目顶部的 <strong>我的分身</strong> 同样带有 <strong>Beta</strong> 标识，可直接为当前项目配置分身，无需开启实验性功能。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="手动设置与对话调整">手动设置与对话调整<a href="#手动设置与对话调整" class="hash-link" aria-label="手动设置与对话调整的直接链接" title="手动设置与对话调整的直接链接" translate="no">​</a></h2>
@@ -80,6 +81,7 @@
 <p>协作通知会读取本机及支持远程查询的在线执行设备上的分身处理记录。查询失败时，提示会标明失败设备及原因；这表示处理记录未能加载，并不代表 Issue 执行失败。若提示版本不兼容，请更新该执行设备的 Executor，并刷新通知。其他桌面 App 设备不参与远程查询；本机记录仍通过本机执行器读取。</p>
 <p>Issue 详情的负责人下拉控件内用图标显示本次分配的接收情况：白色人形带勾表示<strong>本人已读</strong>，黑色人形带勾表示<strong>分身已接收</strong>；悬停可查看状态和时间。本人成功打开详情后记录已读；分身成功接下任务、准备处理后记录接收，无需等待执行完成。两个回执和各自时间独立保留，不会将 Issue 标为完成。通知预览、全部标为已读和后台读取不产生本人已读回执。</p>
 <p>分配人和接收人均可查看回执，详情打开期间会自动刷新。底部分配动态中的最近一次有效分配也显示同一份回执，与顶部负责人控件同步更新，不为历史动态增加轮询。转派后回执只显示在最新分配动态上，取消分配后不再显示旧接收人的回执。转派或重新分配后重新记录；历史分配没有可靠回执时，图标提示“暂无接收记录”。云端回执同步失败会在执行器本地保留并补报，失败后逐步延长重试间隔，最长每小时一次；待发送回执最多保留 30 天。重启不会重置等待时间。本地项目回执保存在所属执行器。</p>
+<p>Issue 状态或其他属性刷新不会重建同一次指派的回执图标或中断其悬停提示。重新指派（包括再次指派给同一个人）会立即隐藏旧回执，等待本次指派的结果。</p>
 <p>分身接收分配时先保存本人设备上的任务绑定和接收回执，再启动执行；交给后台分身安排的事项在进入待处理队列时即记录接收。接收不代表执行成功，之后启动失败也不会撤销已接收的事实。云端上报仍检查当前分配、本人设备和任务绑定；拒绝原因写入诊断日志，不通过放宽权限补写回执。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="日历安排与项目负责人">日历安排与项目负责人<a href="#日历安排与项目负责人" class="hash-link" aria-label="日历安排与项目负责人的直接链接" title="日历安排与项目负责人的直接链接" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="项目负责人对话和自动处理">项目负责人对话和自动处理<a href="#项目负责人对话和自动处理" class="hash-link" aria-label="项目负责人对话和自动处理的直接链接" title="项目负责人对话和自动处理的直接链接" translate="no">​</a></h3>
@@ -88,6 +90,9 @@
 <table><thead><tr><th>操作</th><th>步骤与边界</th></tr></thead><tbody><tr><td>选择小组和设备</td><td>打开负责人对话，选择当前项目协作小组及设备；没有小组时点设置小组与负责人</td></tr><tr><td>与负责人沟通</td><td>智能体负责人可在私人输入框讨论目标与进展；人工负责人按提示回到原 Issue 协作</td></tr><tr><td>工作列表 / 设置</td><td>用顶部工作列表回到具体事项，或用设置调整小组配置；具体执行仍关联原 Issue</td></tr><tr><td>记忆</td><td>从负责人对话顶部进入记忆；此面板固定当前项目作用域，不会把私人记忆发布到项目</td></tr><tr><td>发布到项目</td><td>顶部发布到项目 → 选择有评论权限的目标 Issue → 填写要公开的指令或结论 → 发布；成功后返回私人对话</td></tr><tr><td>让负责人自动处理</td><td>在支持的智能体负责人及设备下开启；按原项目权限和操作确认处理共享项目事件</td></tr><tr><td>接管 / 停止</td><td>接管前核对原成员与设备并确认；原绑定停止后续派发，已开始工作保留原执行状态；停止不等于删除 Issue</td></tr><tr><td>现在查看</td><td>当前由自己处理时手动触发检查，阅读处理状态或到原 Issue 补充信息；检查成功不代表所有工作完成</td></tr></tbody></table>
 <p>发布只共享你填写的内容，不附带私人聊天或记忆；没有可评论的 Issue 时返回项目创建或选择可访问的 Issue。等待权限检查或提交期间按钮可能不可用，不通过换设备绕过权限。</p>
 <p>在 <strong>我的分身 → 角色档案 → 连接 → 日历 / 定时交办</strong> 中记录事项和触发时间，支持一次或周期性触发。到时将事项交给所属分身处理，沿用分身当时的职责、设备、模型和工作目录；整个日历连接统一设置处理方式。日历事项单独保存，返回或关闭时保护未保存的修改；运行记录可进入对应工作查看结果。</p>
+<p>通过对话交办未来执行时，分身应先查阅已有工作证据，或立即委派只读检查，核实实际流程、工作目录及必要输入。可以从说明和配置中查到的信息不应反复要求你填写；确实缺少业务选择时，通过问题卡确认，未解决前不创建自动执行安排。要求“走现有自动流程”不代表流程已经核实，也不能把“到时再研究怎么做”当作准备完成。</p>
+<p>这里的“只读检查”是预查任务的行为要求，不是新增的沙箱或工具权限模式，也不保证预查任务在技术上无法写入。预查沿用既有权限契约、联网能力和工具审批规则；本轮仅约束调度决策，不扩大或收紧已有权限。</p>
+<p>执行方案应写入日程说明，保留原要求，不擅自改成提醒。明确要求提醒时，只需确认提醒内容和时间，不需要检查被提醒事项的执行流程。创建成功仅表示安排已保存，不保证指定时间前完成，也不提前批准发布等外部操作；执行时仍需遵循原生权限、审批和必要条件检查。</p>
 <p>任务侧边栏的 <strong>已安排</strong>是独立功能，保留原有的目标、运行任务、模型和执行环境设置，无需开启实验性功能。它与连接日历分别管理各自的列表、编辑和运行记录。分身工作列表展示具体工作。</p>
 <p>项目页面中的负责人就是原协作小组负责人。对话顶部展示小组与负责人姓名，设置仍使用原小组配置。“自动处理项目事件”是在选定设备上启用该负责人的持续处理能力；每个项目与小组只有一个有效成员／设备绑定，切换必须显式接管。私人聊天与记忆仅自己可见，明确发布后才进入所选 Issue。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="连接-github-和-gitlab">连接 GitHub 和 GitLab<a href="#连接-github-和-gitlab" class="hash-link" aria-label="连接 GitHub 和 GitLab的直接链接" title="连接 GitHub 和 GitLab的直接链接" translate="no">​</a></h2>
