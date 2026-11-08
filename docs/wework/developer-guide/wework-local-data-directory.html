@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Local Data Directory | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-local-data-directory"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Local Data Directory | Wegent"><meta data-rh="true" name="description" content="Wework stores its local runtime data under ~/.wework in the user&#x27;s home"><meta data-rh="true" property="og:description" content="Wework stores its local runtime data under ~/.wework in the user&#x27;s home"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-local-data-directory"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-local-data-directory" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-local-data-directory" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-local-data-directory" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Local Data Directory","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-local-data-directory"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.92533b64.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.305f0368.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.dfc16d62.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -30,27 +30,29 @@ locations are no longer used.</p>
 <p>The <code>WEGENT_EXECUTOR_HOME</code> environment variable overrides the default Executor
 Home. This is useful for isolated sessions, tests, and custom deployments.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="desktop-executor-identity">Desktop Executor Identity<a href="#desktop-executor-identity" class="hash-link" aria-label="Direct link to Desktop Executor Identity" title="Direct link to Desktop Executor Identity" translate="no">​</a></h2>
-<p>The Electron host derives its <code>electron-&lt;hash&gt;</code> device ID from the SHA-256 hash
-of the hardware UUID and application identifier (default <code>io.wecode.wework</code>).
-The same machine and application retain their ID across restarts, reinstalls,
-different user Homes or data directories, and deletion of <code>desktop-device-id</code>.
-Different hardware or application identifiers produce different IDs. The raw
-hardware UUID is neither sent as the device ID nor written to identity files or logs.</p>
-<p>The managed Executor uses this ID for local IPC and cloud <code>app_device_id</code>,
-<code>device-&lt;app_device_id&gt;</code> for cloud <code>device_id</code>, and <code>runtime-&lt;app_device_id&gt;</code>
-for <code>runtime_instance_id</code>, preserving their distinct routing responsibilities.
-The host supplies these values over the existing environment interface,
-overriding legacy random configuration identities. Changing Executor Home
-therefore retains the same cloud device. Account permissions, session tokens
-and record-scoped routes remain controlled by the existing authentication and
-registration protocol; a hardware hash does not grant authority.</p>
-<p>The user-data directory&#x27;s <code>desktop-device-id</code> only records the computed result;
-it is not an identity source, and old worktree records are not used to infer one.
-Legacy random IDs are replaced when the new rule first runs. Startup fails when
-a valid hardware UUID is unavailable instead of generating a random replacement.
-Isolated verification can still explicitly set <code>WEGENT_APP_IPC_DEVICE_ID</code> without
-overwriting the regular identity file. Changing only the data directory no longer
-simulates a different machine.</p>
+<p>Managed desktop and standalone Executors both prefer persisted identities and
+generate new ones only when missing.</p>
+<p>Without an explicit verification override, the Electron host first reads <code>desktop-device-id</code>, preserving IDs saved by older
+versions. Only when the file is absent does it hash the machine hardware UUID and
+application identifier (default <code>io.wecode.wework</code>) with SHA-256 and save
+<code>electron-&lt;hash&gt;</code>. Without an existing identity, the same machine and application
+produce the same ID. The raw hardware UUID is never sent as a device ID or written
+to identity files or logs.</p>
+<p>The managed Executor uses the host ID for local IPC and cloud <code>app_device_id</code>.
+Both managed and standalone Executors first use the <code>device_id</code> and
+<code>runtime_instance_id</code> persisted in <code>device-config.json</code>. Environment values seed
+only missing fields: the host supplies <code>device-&lt;app_device_id&gt;</code> and
+<code>runtime-&lt;app_device_id&gt;</code>; standalone Executors generate IDs when no seeds exist.
+New identities are saved and retained on restart. These three identities preserve
+their distinct routing responsibilities. Account permissions, session tokens and
+record-scoped routing remain controlled by authentication and registration;
+hardware hashes do not grant authority.</p>
+<p>Identity resolution neither moves conversation data nor rewrites saved references,
+and does not infer identity from old worktree records. Without an override, empty or unreadable identity
+files fail startup rather than silently replacing an identity. A valid hardware
+UUID is required only when generating a new desktop identity. Isolated verification
+can set a nonempty <code>WEGENT_APP_IPC_DEVICE_ID</code> as the effective ID before file reads
+or hardware lookup, without overwriting the normal file.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="directory-scanning-during-home-migration">Directory Scanning During Home Migration<a href="#directory-scanning-during-home-migration" class="hash-link" aria-label="Direct link to Directory Scanning During Home Migration" title="Direct link to Directory Scanning During Home Migration" translate="no">​</a></h2>
 <p>When moving a legacy Codex Home into the workbench directory, relative symlink
 scanning uses the entry types supplied by directory enumeration. It recurses
