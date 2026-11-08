@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 我的分身 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/wework-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 我的分身 | Wegent"><meta data-rh="true" name="description" content="连接企业服务端后，首次主分身引导、新建个人角色或云端项目分身默认选择可用云设备或远程设备（优先设备的默认标记），两者均不可用时默认本机。创建表单允许显式改选本机或其他设备；切换时沿用未保存修改确认。首次打开时优先保留已配置的本地档案；未保存的默认占位角色不视为已有配置。显式选择的云设备按企业地址和账号记住，设备离线不切换旧档案。开始编辑后设备清单变化不自动切换运行位置。保存和对话复用目标 Executor 的现有 Runtime 通道。未连接企业服务端及本地项目保持现有执行方式，不增加插件、提供方设置或云主机创建。"><meta data-rh="true" property="og:description" content="连接企业服务端后，首次主分身引导、新建个人角色或云端项目分身默认选择可用云设备或远程设备（优先设备的默认标记），两者均不可用时默认本机。创建表单允许显式改选本机或其他设备；切换时沿用未保存修改确认。首次打开时优先保留已配置的本地档案；未保存的默认占位角色不视为已有配置。显式选择的云设备按企业地址和账号记住，设备离线不切换旧档案。开始编辑后设备清单变化不自动切换运行位置。保存和对话复用目标 Executor 的现有 Runtime 通道。未连接企业服务端及本地项目保持现有执行方式，不增加插件、提供方设置或云主机创建。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/wework-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/wework-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/wework-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/wework-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Wework 我的分身","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/wework-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.2b103c94.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.e3740e95.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.2a4fa3ee.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -124,6 +124,13 @@
 <p>安排被修改、暂停或取消后，不能启动新命令。已排队的命令启动前仍检查当前身份、安排版本和原工作中的原生问题及审批。即使安排随后被编辑或删除，已接收命令的原回执仍是执行事实。等待用户或执行结果不确定时，在原工作中处理，不自动重发。旧版所属安排缺少持久回执的未结束记录需要人工核对；非分身安排保留现有执行路径。</p>
 <p>日历待处理触发使用与历史记录相同的每安排 100 条容量上限。达到上限时保留已有待处理/运行记录及下一次到期时间，待容量释放后继续收集。某条日历入队失败时，只将该次触发标记为需要关注，其他日历继续处理。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="首次功能选择与周期复盘">首次功能选择与周期复盘<a href="#首次功能选择与周期复盘" class="hash-link" aria-label="首次功能选择与周期复盘的直接链接" title="首次功能选择与周期复盘的直接链接" translate="no">​</a></h2>
+<p>Codex 的 <code>wework.execution</code> 应用上下文由宿主从当前运行元数据重新生成：
+定时工作包含安排、运行 ID 和计划触发时间，明确当前运行已经开始；委派工作
+包含来源任务 ID，明确子任务已经创建，结果由宿主回传。工具的 <code>message</code>
+只描述执行阶段的业务工作，不要求子任务再创建自身或重新询问触发时间。
+旧轮次的执行上下文不会沿用；纯文本生成不注入。此上下文不授予工具、来源
+访问或行动权限，原生审批与来源边界保持不变。一次性或周期性的本人工作历史
+复盘均可使用现有 <code>weekly_review</code> 只读边界，普通定时工作不因此获得历史工具。</p>
 <p>首次引导使用两步弹窗：连接常用应用、确认开始使用。直接复用 <code>StandInConnectionSettings</code> 的提供方目录、授权和范围编辑，不创建另一套连接状态或保存接口。未连接也能继续并开启主分身；空连接不产生外部动态。最终确认通过现有个人设置保存接口提交草稿，成功后再记录引导完成；保存失败保留草稿，完成标记失败重试不重复提交已保存设置。关闭时复用连接编辑器和设置页的草稿保护。</p>
 <p>顶部问号保留每日简报、会议准备、项目跟进、钉钉提及自动回复和每周复盘五类示例。选择示例切回主分身，将业务需求追加到可编辑草稿，保留已有草稿，
 不自动发送、创建任务或新增定时安排。主分身用单人图标，角色用双人图标；当前
