@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">我的分身与场景角色 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="我的分身与场景角色 | Wegent"><meta data-rh="true" name="description" content="角色档案逐项操作"><meta data-rh="true" property="og:description" content="角色档案逐项操作"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"我的分身与场景角色","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.aa22a682.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.2a4fa3ee.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.e19f2f15.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.e1fd8a62.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -40,7 +40,16 @@
 <p>主会话保持对话与输入框。<strong>工作列表</strong>入口显示待处理数量，点击后查看具体事项；连接问题和非阻塞的后台异常统一收在 <strong>需要检查</strong> 中，展开后可查看记录或重试。后台主动更新使用独立标识，不显示为你发送的消息。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="查看编辑和遗忘分身记忆">查看、编辑和遗忘分身记忆<a href="#查看编辑和遗忘分身记忆" class="hash-link" aria-label="查看、编辑和遗忘分身记忆的直接链接" title="查看、编辑和遗忘分身记忆的直接链接" translate="no">​</a></h2>
 <a id="stand-in-memory-controls"></a>
+<p>主分身记忆面板的“遗忘规则”也列出尚未关联新规则的“旧版遗忘指纹”，显示遗忘时间和指纹短标识。旧版没有保留事实原文或作用域，因此显示“作用域未知”，不会推测或恢复内容，也不会提供给模型或显示在项目专属面板中。选择“删除规则”并确认仅移除该指纹；一条旧记忆可能有多个指纹，其他限制保持不变。仍被新规则引用的指纹不能单独删除；并发变更需重新加载后再操作。</p>
 <p>从 <strong>左侧栏 → 我的分身 → 记忆</strong> 打开记忆面板，先确认当前执行设备。</p>
+<p>不必每次说“记住这个”。分身可以从当前已授权的正常对话中提取有持续价值的信息，例如稳定偏好、反复出现的约束、长期目标和可复用的决定。引用、假设、助手建议及其他人的事实不能直接变成关于你的记忆；来源内容也不能授予新的权限。</p>
+<p>记忆搜索按响应大小分页；单条记录过长时会分块读取，不会因此跳过该条或挡住后续记忆。续读期间记录或可见范围变化，需要重新搜索，不能把旧页与新页拼成同一条证据。</p>
+<p>会话历史整理读取用户和助手的可见文本，不直接收集工具调用的原始输出、运行过程或隐藏推理。本次自动整理仅覆盖已授权会话文本；只在工具输出中出现、且没有其他可验证来源的信息，目前不属于完整覆盖范围，不能将“会话文本已读完”理解为所有工具结果均已整理。</p>
+<p>暂停分身或角色接收新工作，不会撤销已保存的来源授权，这些信息仍可参与记忆。要停止整理，请暂停记忆整理安排；要撤销某个来源，请移除其授权。自动整理仅开放经来源与运行身份校验的记忆读写和进度工具，不开放 Shell 或外部写操作。</p>
+<p>启用主分身后，执行设备会自动创建一次 <strong>分身记忆整理</strong> 安排，默认每 6 小时检查一次。可从 <strong>我的分身 → 设置 → 连接 → 日历 → 分身记忆整理</strong> 查看周期和运行记录，并暂停、修改或删除。已暂停或删除的安排不会被后台自动重建。整理使用独立会话，不占用当前对话；执行设备和模型必须可用。完成后可从运行记录打开原任务查看结果；整理不会为了回报结果而自动启动具有普通工具权限的主分身对话。</p>
+<p>后台整理保留原文证据和作用域，按分页读取会话及长消息。尚未读完或保存失败的会话不会推进完成进度。纠正或遗忘后，后台整理不会从同一旧证据重建该条记忆；遗忘不会删除原始会话。同时按用户选择保留最小化遗忘规则，记录被排除的简短事实及作用域，不保留原始对话、文件或证据摘录。规则不是有效记忆；分身读取规则后，应按含义避免重新学习同一事实，但不能把同一主题下的新事实一并排除。精确指纹由程序校验，跨表述的语义判断由模型执行，尚不能据此承诺识别所有语义相同的内容。可在记忆面板下方展开“遗忘规则”，查看简短事实及作用域；选择“删除规则”并确认后，后续整理允许重新学习，取消不生效。删除规则不会立即恢复有效记忆，也不会影响其他规则。读取或删除失败时保留已有数据，并提供单独的重新加载入口。真实模型的跨表述语义效果仍需持续验证。</p>
+<p>有保存原文证据的记录会显示 <strong>查看来源证据</strong>。展开可查看证据片段、来源标识，以及它是用户原话、助手原话还是来源记录。助手原话不代表用户事实。没有保存证据的记录不显示此入口；展开证据不会重新读取来源或修改记忆。</p>
+<p>在面板中修改内容或作用域后，旧原文不再作为新记忆的证据展示；后台重新取得相符证据时可补齐。仅打开记录或不改内容地保存不会清除已有证据。</p>
 <table><thead><tr><th>操作</th><th>具体步骤与边界</th></tr></thead><tbody><tr><td>添加记忆</td><td>点击添加，填写内容并选择作用域，再保存；空白内容不能保存，单条最多 1000 字符</td></tr><tr><td>选择作用域</td><td>个人记忆、已有角色及已连接来源按当前配置列出；项目专属面板会固定项目作用域，不能任意跨作用域保存</td></tr><tr><td>编辑</td><td>在记录上点击编辑，修改后保存；不是修改输入框草稿</td></tr><tr><td>取消或关闭</td><td>有未保存修改时先确认是否放弃，不会因关闭面板自动保存</td></tr><tr><td>遗忘</td><td>在对应记录选择遗忘，再确认；取消则保留记录。遗忘不是归档对话，也不删除原始消息或项目</td></tr><tr><td>错误恢复</td><td>查看面板内错误并重试；作用域已断开或不存在时，先恢复来源/角色或选择有效作用域，不会静默改存到个人记忆</td></tr></tbody></table>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="模型选择">模型选择<a href="#模型选择" class="hash-link" aria-label="模型选择的直接链接" title="模型选择的直接链接" translate="no">​</a></h2>
 <p>分身档案的模型选择支持云端模型和执行设备上的本地自定义模型。云端模型使用执行设备连接的 Wework 云端账号；本地自定义模型使用该设备的 provider 配置和认证。主分身对话与它创建的具体工作都沿用已保存的模型选择。切换执行设备后，请确认该设备具有对应模型的配置和访问权限。</p>
