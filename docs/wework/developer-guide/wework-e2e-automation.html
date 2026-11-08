@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E Automation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E Automation | Wegent"><meta data-rh="true" name="description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><meta data-rh="true" property="og:description" content="Desktop E2E fixtures use GPT 5.6 Luna. Real runtime catalogs advertise both GPT-5.6 Luna and GPT 5.6 Luna, so default-model selection assertions accept these two display names while retaining model ID and provider checks. Task restoration assertions retain the fixture&#x27;s original display name."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E Automation","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.6c90b069.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.5acf60cb.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.dfc16d62.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -153,8 +153,40 @@ Linux sets <code>CORE_RUNNER_SCALE=1.5</code> and redistributes a full selection
 15 runners using historical durations. Partial selections scale with their selected
 matrix, bounded by assignable checkpoints; selections without the history checkpoint
 retain their original matrix. The two Core benchmarks keep dedicated runners.
-Cloud uses 8 shards.
-Combining short shards reuses container initialization, checkout, artifact
+Cloud uses 8 shards.</p>
+<p>Windows balancing uses measured durations from successful checkpoints only. Unknown checkpoints keep their original runner without receiving new measured work. Original measured siblings move only when neither the known checkpoint peak nor the preparation-inclusive peak increases; otherwise they stay on their original runner. Partial selections without another measured destination retain their matrix. An unknown shared-preparation member keeps its whole original shard to avoid duplicating expensive setup. Runner counts, benchmark isolation and the 40-minute test-step budget remain unchanged; failed scenario durations are not successful samples.
+Refresh existing weights as scenarios evolve, not only unknown entries. In run
+42411289396, Core 2 and 6 reached the step deadline after all completed checkpoints
+passed; profile-settings and plugin-bridge had been underestimated for three runs.
+Ordinary-shard weights use medians of successful scheduler start/end durations,
+rounded up, from the three latest evidenced runs. Unobserved weights and exclusive
+benchmarks remain unchanged. Budget checks also include the largest measured
+successful runner overhead of 125 seconds for standard-user startup, orchestration
+gaps and cleanup. An immutable fixture preserves the original ten-shard matrix and 168 checkpoints&#x27;
+successful timings, then-current weights for unfinished cases and source links,
+not raw logs. Every historical case requires a duration and exactly-once replay
+coverage. Later catalog additions explicitly have no historical prediction,
+rather than a zero cost in a complete budget. Old weights fail the historical
+replay; the complete current scenario set still requires real Windows CI.
+In run <code>42400229326</code>, Core 4 and 8 exhausted their step budgets while still
+executing checkpoints normally, whereas Core 3 finished after only its previously
+unmeasured Dots checkpoint. Recording successful <code>dots-closed-loops</code> (178 seconds)
+and <code>idle-executor-requests</code> (39 seconds) samples lets both shards participate in
+full balancing again, without changing tests or budgets. Never record unfinished
+or step-timeout-interrupted checkpoints as successful duration samples.</p>
+<p>Current-package startup and component-update scenarios declare
+<code>usesColdPackageStartup</code> and reuse phase-bounded cold-start waiting. Each phase
+keeps the existing startup budget; stalls, phase regression, native failure and
+phase timeouts remain failures, and real controller readiness is still required.
+Do not combine serial materialization and runtime startup into one phase budget.
+<code>usesReleasePackageRuntimeAssets</code> only selects asset ownership, not this mode:
+historical upgrade sources may lack complete phase logs. Ordinary startup keeps
+its original total budget.
+Codex idle-only restarts and configuration mutations must also protect turn
+preparation: thread resume and MCP authority reload own the shared process before
+native thread admission. Background model-catalog refresh must defer restarting
+during this window, not terminate the process or bypass Native teardown barriers.</p>
+<p>Combining short shards reuses container initialization, checkout, artifact
 downloads, and runtime preparation without increasing checkpoint concurrency
 within a runner. The two Core benchmark shards and three Cloud account-auth and
 long-plugin-list shards remain separate. The concurrency limit must accommodate
@@ -301,6 +333,17 @@ after tests finish. Records include CPU utilization, load average, memory, avail
 space, Linux CPU/memory/I/O pressure, and cgroup CPU limits, memory peaks, and OOM
 counters. Unreadable kernel metrics report <code>unavailable</code>. CPU utilization is the
 average between samples; its initial value is <code>null</code>.
+<code>RUNNER_RESOURCE_SAMPLE_INTERVAL_MS</code> selects a sampling interval from 100 to
+2147483647ms; the default remains 15 seconds. Periodic <code>schedulingDelayMs</code> records the
+sampler&#x27;s own scheduling delay, not the tested process&#x27;s delay. Intervals below
+one second collect process lists only at startup and completion to avoid
+frequently spawning <code>ps</code>. The streaming-activity Redis CI step uses 100ms
+resource samples and server command arrival times without arguments or values.
+Its 200ms test timeout and assertions remain unchanged; successful samples do
+not prove that a historical timeout has been fixed.
+MONITOR readiness has a separate five-second bound. Capture continues until the
+test exits and the filtering pipe drains. The initial <code>OK</code> indicates readiness
+only; a successful test must also have captured actual commands.
 <code>[desktop-e2e-schedule]</code> logs list active checkpoints and actual concurrency on
 each start and completion, making overlap visible independently of the configured
 worker limit. Compare shard durations and these metrics after increasing

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">代码工作台 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="代码工作台 | Wegent"><meta data-rh="true" name="description" content="应用菜单"><meta data-rh="true" property="og:description" content="应用菜单"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"代码工作台","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.3766274d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.340dca73.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.2a4fa3ee.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -111,7 +111,7 @@
 <p>标题栏的 <strong>打开工作区位置</strong> 与旁边的 IDE 下拉菜单用于打开当前工作目录并选择可用 IDE；可记住所选打开方式。它与底部面板 + 中面向设备的 IDE 入口不同，选择前确认任务目录及设备。</p>
 <p>右侧工作区用于浏览项目文件、预览内容和审核变更。多目录项目会在文件标签中显示文件夹选择器；切换文件夹只改变文件树和预览根目录，不会改变任务、终端或对话使用的执行目录。</p>
 <p>选择可写文本文件后会直接进入编辑器，无需再点击“编辑”。修改会在约 3 秒后自动保存，因此编辑器不显示手动“保存”按钮。Markdown 文件可以在编辑器与渲染预览之间切换，只读文本和二进制文件继续使用预览模式。</p>
-<p>助手回复中的本地文件和目录链接可以直接在文件标签中打开。文件链接可以定位到指定代码行；目录链接会将该目录设为文件树根目录。在 macOS 桌面版中，文件标签的“打开”和“打开位置”操作同时支持文件与目录。</p>
+<p>助手回复中的本地文件和目录链接可以直接在文件标签中打开。Windows 绝对路径的分隔符即使经过 URL 编码，文档链接也会识别为本地参考文档，而不是外部协议。文件链接可以定位到指定代码行；目录链接会将该目录设为文件树根目录。在 macOS 桌面版中，文件标签的“打开”和“打开位置”操作同时支持文件与目录。</p>
 <p>助手生成的 Codex 文件引用也会显示为可点击的文件名，支持 PPTX、XLSX、PDF、文档和代码文件。来源引用进入“来源”列表，交付文件进入“输出”列表。引用中的代码行号可直接定位；页码、幻灯片编号、工作表区域和对象标签会显示在文件名旁，点击后打开对应文件，目前不自动跳转到 Office 文件内的具体位置。旧式 <code>【F:路径†L起始行-L结束行】</code> 引用同样支持代码行定位。</p>
 <p>引用中的路径按原始文件名处理，保留中文、空格、百分号和其他特殊字符。代码示例、用户消息及已转义的引用语法不会变成文件控件。后续建议显示其问题标题，点击复制操作可复制完整问题，供继续提问。</p>
 <p>使用 <code>Command+J</code> 打开或关闭底部工作区面板。打开面板不会自动创建新终端；已有终端会按任务保留，切回任务时直接恢复。</p>
