@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Chat State Sources | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Chat State Sources | Wegent"><meta data-rh="true" name="description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><meta data-rh="true" property="og:description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Chat State Sources","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.8557f901.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.c63b911c.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.18b0af28.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.45b84fb7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -25,6 +25,16 @@
 lifecycle Store projection. A stale task-list snapshot must not override an
 accepted user reply in the view layer.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="point-refreshes-and-list-costs">Point Refreshes and List Costs<a href="#point-refreshes-and-list-costs" class="hash-link" aria-label="Direct link to Point Refreshes and List Costs" title="Direct link to Point Refreshes and List Costs" translate="no">​</a></h2>
+<p><code>runtime.work.changed</code> and cross-window work changes share a serial refresh queue.
+Events arriving during a read mark one trailing invalidation instead of starting overlapping
+full-list requests. Disposal drops trailing work; read failures remain observable and a later
+event can recover.</p>
+<p><code>runtime.tasks.list</code>, including cached notification inventory polling, only reads the Runtime
+catalog. It must not reopen the Issue database, acquire write transactions, or reproject Issue
+statuses for each task. Lifecycle transitions, completed bindings, and explicit <code>todos.list</code>
+reconciliation own those projections. <code>inventory_read_tests</code> uses synthetic long-lived history
+to verify read isolation and lifecycle projection. The desktop <code>idle-executor-requests</code>
+checkpoint additionally covers burst invalidations without overlapping list reads.</p>
 <p>Goal updates, clearing, and post-turn settlement checks refresh only the affected execution.
 When point lookup is available, <code>refreshRuntimeTask</code> calls its owner&#x27;s <code>runtime.tasks.get</code>,
 not the device-wide <code>runtime.tasks.list</code> for every event. Missing tasks return null and lookup
