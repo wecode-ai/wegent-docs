@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Socket.IO Redis connection recovery | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Socket.IO Redis connection recovery | Wegent"><meta data-rh="true" name="description" content="Backend instances use Redis Pub/Sub to relay device commands, RPC acknowledgements,"><meta data-rh="true" property="og:description" content="Backend instances use Redis Pub/Sub to relay device commands, RPC acknowledgements,"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Deployment","item":"https://wecode-ai.github.io/wegent-docs/docs/category/deployment"},{"@type":"ListItem","position":2,"name":"Socket.IO Redis connection recovery","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.31be87cf.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.81864025.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.45b84fb7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -18,9 +18,11 @@ connections. An online device does not establish that communication between inst
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="connection-settings">Connection settings<a href="#connection-settings" class="hash-link" aria-label="Direct link to Connection settings" title="Direct link to Connection settings" translate="no">​</a></h2>
 <p>The Backend Socket.IO Redis manager enables TCP keepalive and uses the following
 environment variables. Values are seconds and must be finite, positive numbers.</p>
-<table><thead><tr><th>Environment variable</th><th>Default</th><th>Purpose</th></tr></thead><tbody><tr><td><code>SOCKETIO_REDIS_SOCKET_TIMEOUT</code></td><td><code>30</code></td><td>Bound the wait for a Redis read or write</td></tr><tr><td><code>SOCKETIO_REDIS_CONNECT_TIMEOUT</code></td><td><code>5</code></td><td>Bound the wait to establish a Redis connection</td></tr><tr><td><code>SOCKETIO_REDIS_HEALTH_CHECK_INTERVAL</code></td><td><code>15</code></td><td>Health check interval before client commands or reads</td></tr></tbody></table>
+<table><thead><tr><th>Environment variable</th><th>Default</th><th>Purpose</th></tr></thead><tbody><tr><td><code>SOCKETIO_REDIS_SOCKET_TIMEOUT</code></td><td><code>30</code></td><td>Bound the wait for a Redis read or write</td></tr><tr><td><code>SOCKETIO_REDIS_CONNECT_TIMEOUT</code></td><td><code>5</code></td><td>Bound the wait to establish a Redis connection</td></tr><tr><td><code>SOCKETIO_REDIS_HEALTH_CHECK_INTERVAL</code></td><td><code>15</code></td><td>Health check interval before client commands or reads</td></tr><tr><td><code>SOCKETIO_REDIS_ACK_PROBE_INTERVAL_SECONDS</code></td><td><code>30</code></td><td>Wait between completed ACK probes</td></tr></tbody></table>
 <p>These settings apply only to the Backend Socket.IO Redis manager. They do not change
-cache or Celery connection settings. Restart Backend instances after changing them.</p>
+cache or Celery connection settings. Restart Backend instances after changing them.
+Set <code>SOCKETIO_REDIS_CLIENT_NAME</code> to identify the manager&#x27;s connections in Redis
+<code>CLIENT LIST</code>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="timeouts-and-resubscription">Timeouts and resubscription<a href="#timeouts-and-resubscription" class="hash-link" aria-label="Direct link to Timeouts and resubscription" title="Direct link to Timeouts and resubscription" translate="no">​</a></h2>
 <p>A TCP connection can remain ESTABLISHED while Redis stops sending data. A finite
 read timeout allows the existing client retry and resubscription paths to run.
@@ -32,6 +34,12 @@ automatically resubscribe. Persistent failures use Socket.IO&#x27;s existing ret
 Once resubscribed, the listener can receive new messages. Redis Pub/Sub does not replay
 messages missed during disconnection, so operations that already timed out must be retried.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verify-recovery">Verify recovery<a href="#verify-recovery" class="hash-link" aria-label="Direct link to Verify recovery" title="Direct link to Verify recovery" translate="no">​</a></h2>
+<p>Each Python Backend process sends a probe ACK through the Redis channel used
+by Socket.IO. After three consecutive failures, <code>/api/shutdown/status</code>
+returns 503. The next successful probe restores readiness. Each probe waits up
+to five seconds, with a 30-second interval between checks by default.</p>
+<p>With <code>LOG_LEVEL=DEBUG</code>, correlate <code>publish</code>, <code>receive</code> and <code>match</code> using
+the same <code>host_id</code>, <code>sid</code> and <code>callback_id</code>.</p>
 <p>Call the read-only <code>runtime.capacity.get</code> from a Backend instance other than the
 device&#x27;s WebSocket owner and confirm the RPC acknowledgement arrives. Also check
 device commands and live updates after subscription recovery.</p>
