@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework named themes and acceptance | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/engineering/wework-appearance-themes-test-plan"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework named themes and acceptance | Wegent"><meta data-rh="true" name="description" content="Experience and ownership"><meta data-rh="true" property="og:description" content="Experience and ownership"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/wework-appearance-themes-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/wework-appearance-themes-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/wework-appearance-themes-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/wework-appearance-themes-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.3afa7647.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.989feada.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.45b84fb7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -20,6 +20,13 @@ It reuses the original semantic palette and sidebar opacity: <code>#ffffff</code
 backgrounds with a <code>#2563eb</code> accent.
 The acceptance inventory is independent of application data to detect omissions. Tokyo Night uses
 <code>#1a1b26</code> for the background, <code>#a9b1d6</code> for text, and <code>#7aa2f7</code> for the accent.</p>
+<p>Terminal ANSI palettes are independent of syntax highlighting. Wework and themes without an
+authored terminal palette preserve the original 16 xterm colors; function, string, or operator
+colors must not replace ANSI blue, green, or cyan. Authored terminal palettes still follow their
+themes; switching back to Wework restores the original cyan and blue zsh directory and Git prompts.
+Opaque Wework light terminals use xterm&#x27;s 4.5 minimum text contrast so ANSI whites remain readable
+without changing the palette definitions. Dark mode, other named themes, and transparent backgrounds
+retain xterm&#x27;s default contrast behavior.</p>
 <p>Themes cover Wework-owned chrome, tabs, sidebars, every settings page, authentication, plugins,
 applications, automations, interactions, projects, boards, Issues, project Agent editors, menus and
 dialogs. Detached windows, quick windows, Process Explorer, and system drag surfaces also consume
