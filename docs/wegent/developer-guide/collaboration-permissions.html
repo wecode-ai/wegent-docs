@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Collaboration permission architecture and invariants | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Collaboration permission architecture and invariants | Wegent"><meta data-rh="true" name="description" content="Manual cloud startup retains the durable dispatch queue so transient failures and Executor restarts cannot lose accepted requests. Manual recovery requires no assignment, project subscription or intake enablement, while retaining current account, role and Issue authorization; accepted or deleted work is never replayed. Automatic dispatch retains current assignment and intake-policy checks. manualissuestartupintentsurvivesrestartwithoutassignmentor_intake and the existing real database fault/restart E2E cover recovery; CP invariants are unchanged."><meta data-rh="true" property="og:description" content="Manual cloud startup retains the durable dispatch queue so transient failures and Executor restarts cannot lose accepted requests. Manual recovery requires no assignment, project subscription or intake enablement, while retaining current account, role and Issue authorization; accepted or deleted work is never replayed. Automatic dispatch retains current assignment and intake-policy checks. manualissuestartupintentsurvivesrestartwithoutassignmentor_intake and the existing real database fault/restart E2E cover recovery; CP invariants are unchanged."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Collaboration permission architecture and invariants","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.b720fd39.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.534de6b1.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.df083333.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.8e932d8a.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -192,6 +192,44 @@ the first device RPC occurred.</p>
 </li>
 </ul>
 <p>Permission changes must update the corresponding rule, local architecture record and tests. Semantic changes require user authorization. Never weaken assertions, skip cases or add administrator exceptions to conceal a violation. Tests use isolated databases, deterministic encryption and mocked external services; passing them does not claim deployment or live Runtime execution.</p>
+<p>Stand-in roles and conversation identity do not require a cloud Executor. Cloud
+Issue reservations, assignment receipts and public replies use the owning Runtime&#x27;s
+backend-assigned registration route; the desktop <code>electron-…</code> identity routes local
+IPC. Multiple Runtime registrations may share a desktop alias, so it cannot prove
+device ownership. A missing registration route waits for registration without
+bypassing device, project, Issue or active-assignment checks. Receipt outbox entries
+retain their accepted binding&#x27;s device. Route changes do not recreate the role or
+conversation identity. <code>test_stand_in_issue_replies.py</code> and Executor
+<code>runtime_owner_tests</code> cover ambiguity denial, exact routes and receipt identity;
+CI&#x27;s stand-in Issue-conversation scenario covers real execution with duplicate
+desktop aliases.</p>
+<p>A role&#x27;s execution device selects where new work is received; it grants no resource
+authority. A device change stages a paused role on the target, redirects source
+intake, and then activates the target. The target retains identity, resource and
+source authorization checks; credentials are not copied. Source tasks, sessions
+and role configuration remain on their original device, and existing Issues retain
+their conversation binding. Recovery uses version checks and never restores a
+second receiver when target activation is uncertain. CP rules remain unchanged.
+<code>saveStandInRoleDevice.test.ts</code>, Executor role-device tests and the existing CI
+stand-in conversation scenario cover success, denial, lost responses and routing
+new work separately from existing tasks.</p>
+<p>The Rust comment entry preserves existing authority checks: project and Issue
+visibility are checked for the comment and mentioned recipients, and the comment
+and stand-in wakeups commit in one transaction. Lock order is Issue, recipient,
+then recipient inbox; sequence and event identity retain the Python contract.
+Disabling human reminders or mentioning oneself does not suppress wakeups. Replies
+to a validated public stand-in message retain its role identity and recheck recipient
+visibility; ordinary user messages cannot forge a stand-in recipient. Events only
+prompt Runtime permission revalidation and grant no execution or resource authority.
+The CI stand-in conversation scenario covers self-mentions, durable events and
+direct replies; focused Rust tests cover reply identity and cross-implementation
+event deduplication.</p>
+<p>A manual request rejected for the wrong device must never recover as accepted
+work. Repeating that request must also preserve work accepted durably before a
+role move. Project-addressed role saves preserve the primary device. Only imports
+from the old project format normalize stale device aliases; saved independent
+role choices remain intact. Executor regressions cover these persistence and
+recovery boundaries.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verification-record">Verification record<a href="#verification-record" class="hash-link" aria-label="Direct link to Verification record" title="Direct link to Verification record" translate="no">​</a></h2>
 <p>Final verification is rerun against the no-DDL implementation. Counts from the withdrawn migration implementation are historical. The full backend suite already includes the focused permission tests.</p>
 <p>Reproduce the backend suite with <code>cd backend &amp;&amp; uv run pytest tests/ -n 4 -q --assert=plain --tb=line --show-capture=no</code>. The dedicated permission step is in <code>.github/workflows/test.yml</code>; shared tests use <code>pnpm --filter @wegent/collaboration test</code>. MySQL checks use an isolated temporary container.</p>
