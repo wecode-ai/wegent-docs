@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.aeb7f266.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.e89e58af.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.cf6d6e9a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.624af6d2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -165,6 +165,11 @@ transcript。不得按正文长度、block 数量或其他内容权重推断新�
 同一轮次的迟到启动通知也不能恢复已经停止的状态。
 Goal 的原生续跑可能超过本地请求的生命周期，即使请求控制记录已清理，仍应能引导
 原生状态中的运行轮次；等待下一轮时只做有界等待，不另建引导状态。</p>
+<p>会话恢复接入与共享进程保护使用不同的忙碌条件。<code>thread/resume</code> 等待本地执行持有者和
+原生活跃 turn 结束，但不能仅因 Goal 仍为 active 就阻塞：没有活跃 turn 的 Goal 可能
+必须先恢复会话才能继续。活跃 Goal 仍保护共享进程，阻止后台空闲重启或配置改写；
+恢复时若需更新 MCP 权限或运行指令，仍须等待旧订阅的 <code>thread/closed</code> 后才能重载。
+恢复过程保留原会话、目标创建时间和累计用量，不通过清除或重建 Goal 解除接入等待。</p>
 <p>用户发送引导时，Wework 先把引导消息乐观插入当前 turn，再调用
 <code>runtime.tasks.guidance</code>。如果 Codex <code>turn/steer</code> 明确返回预期 turn ID 与实际活跃
 turn ID 不一致，executor 用返回的实际 ID 纠正本次引导目标并只重试一次，不回写
