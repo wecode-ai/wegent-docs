@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Socket.IO Redis 连接恢复 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Socket.IO Redis 连接恢复 | Wegent"><meta data-rh="true" name="description" content="多个 Backend 实例通过 Redis Pub/Sub 转发设备命令、RPC 回包和实时消息。设备的"><meta data-rh="true" property="og:description" content="多个 Backend 实例通过 Redis Pub/Sub 转发设备命令、RPC 回包和实时消息。设备的"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Deployment","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/deployment"},{"@type":"ListItem","position":2,"name":"Socket.IO Redis 连接恢复","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.5e1de52c.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.0388fca3.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.7f168569.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -25,14 +25,15 @@ WebSocket 心跳与 Redis 订阅连接是独立链路；显示在线不能证明
 <p>当 TCP 连接仍显示为 ESTABLISHED，但 Redis 不再发送数据时，有限读取超时会使
 客户端进入已有的重连和重新订阅流程。收到一条消息的部分数据后停止收包，也会触发
 这一流程，避免 listener 一直等待剩余字节。</p>
-<p>健康检查在客户端执行命令或读取前进行，不是在后台定时运行。因此完全空闲的订阅
-也可能达到读取超时，并自动重新订阅。持续连接失败时沿用 Socket.IO 的重试退避。
+<p>健康检查在客户端执行命令或读取前进行，不是在后台定时运行。后台回执探测的等待
+间隔取配置值与读取超时一半的较小值，让健康空闲订阅在超时前收到消息，避免无谓
+重连期间丢失 RPC 回执。持续连接失败时沿用 Socket.IO 的重试退避。
 重新订阅恢复后可以接收新消息；Redis Pub/Sub 不重放断连期间错过的消息，已超时的
 设备操作需要重新发起。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="验证恢复">验证恢复<a href="#验证恢复" class="hash-link" aria-label="验证恢复的直接链接" title="验证恢复的直接链接" translate="no">​</a></h2>
 <p>Python Backend 在每个进程内通过 Socket.IO 使用的 Redis channel 发送探测回执。
 连续三次探测失败后，<code>/api/shutdown/status</code> 返回 503，下一次成功后恢复就绪。
-探测间隔默认为 30 秒，每次最多等待 5 秒。</p>
+配置的探测间隔默认为 30 秒；默认读取超时下实际等待间隔为 15 秒，每次最多等待 5 秒。</p>
 <p>用 <code>LOG_LEVEL=DEBUG</code> 采集回执日志时，可按 <code>host_id</code>、<code>sid</code> 和
 <code>callback_id</code> 对齐 <code>publish</code>、<code>receive</code> 和 <code>match</code> 三个阶段。</p>
 <p>从设备 WebSocket 所属实例以外的 Backend 调用只读 <code>runtime.capacity.get</code>，确认

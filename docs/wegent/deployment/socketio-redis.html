@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Socket.IO Redis connection recovery | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Socket.IO Redis connection recovery | Wegent"><meta data-rh="true" name="description" content="Backend instances use Redis Pub/Sub to relay device commands, RPC acknowledgements,"><meta data-rh="true" property="og:description" content="Backend instances use Redis Pub/Sub to relay device commands, RPC acknowledgements,"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/deployment/socketio-redis" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Deployment","item":"https://wecode-ai.github.io/wegent-docs/docs/category/deployment"},{"@type":"ListItem","position":2,"name":"Socket.IO Redis connection recovery","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/deployment/socketio-redis"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.a16f7d9d.js" defer="defer"></script>
-<script src="/wegent-docs/assets/js/main.52aafd26.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.60ac2476.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/main.18170363.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -29,15 +29,18 @@ read timeout allows the existing client retry and resubscription paths to run.
 This also covers a connection that stops after delivering only part of a message,
 so the listener cannot wait indefinitely for the remaining bytes.</p>
 <p>Health checks run before client commands or reads, rather than on a background
-timer. A completely idle subscription can therefore reach its read timeout and
-automatically resubscribe. Persistent failures use Socket.IO&#x27;s existing retry backoff.
+timer. Background ACK probes wait for the smaller of the configured interval and
+half the read timeout, keeping healthy idle subscriptions active before they expire
+and avoiding lost RPC callbacks during unnecessary resubscription. Persistent
+failures use Socket.IO&#x27;s existing retry backoff.
 Once resubscribed, the listener can receive new messages. Redis Pub/Sub does not replay
 messages missed during disconnection, so operations that already timed out must be retried.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="verify-recovery">Verify recovery<a href="#verify-recovery" class="hash-link" aria-label="Direct link to Verify recovery" title="Direct link to Verify recovery" translate="no">​</a></h2>
 <p>Each Python Backend process sends a probe ACK through the Redis channel used
 by Socket.IO. After three consecutive failures, <code>/api/shutdown/status</code>
 returns 503. The next successful probe restores readiness. Each probe waits up
-to five seconds, with a 30-second interval between checks by default.</p>
+to five seconds. The configured interval defaults to 30 seconds; with the default
+read timeout, the effective wait between checks is 15 seconds.</p>
 <p>With <code>LOG_LEVEL=DEBUG</code>, correlate <code>publish</code>, <code>receive</code> and <code>match</code> using
 the same <code>host_id</code>, <code>sid</code> and <code>callback_id</code>.</p>
 <p>Call the read-only <code>runtime.capacity.get</code> from a Backend instance other than the
