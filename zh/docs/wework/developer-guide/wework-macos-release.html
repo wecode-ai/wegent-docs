@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.90b3a2cf.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.967385bc.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.7f168569.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -74,6 +74,9 @@ Electron 应用包和发布标签使用同一版本。</p>
 与运行不会写入旧版的组件目录或插件配置。升级、主动回滚和失败恢复复用同一套
 真实安装包 E2E，回归包额外检查原应用路径、组件目录和插件配置目录身份不变。
 数据格式兼容的主动回滚直接切换到保留版本；不兼容时仍须确认后恢复更新前快照。</p>
+<p>准备程序、停止写入后的校验和启动交接共用实际路径身份，允许 <code>/tmp</code> 与
+<code>/private/tmp</code> 等指向同一位置的路径别名。版本、数据格式和可读格式仍须完全
+匹配；相对路径、不存在的位置、其他宿主和逃出版本槽的链接不能取得激活所有权。</p>
 <p>启动失败后的回滚记录绑定实际激活尝试和目标包哈希。检查更新仍返回可验证的升级
 路径，但在原更新界面先询问是否再次更新；取消不会下载或清除失败记录，确认仅
 授权当前显示的目标和失败记录。主动回滚显示不同提示；旧版只有版本号的隔离记录

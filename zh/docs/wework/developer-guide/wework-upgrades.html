@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">桌面升级、回退与 E2E 维护 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="桌面升级、回退与 E2E 维护 | Wegent"><meta data-rh="true" name="description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><meta data-rh="true" property="og:description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"桌面升级、回退与 E2E 维护","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.90b3a2cf.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.967385bc.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.7f168569.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,6 +28,75 @@ macOS x64 使用上述明确的架构等价规则。</p>
 <p><code>minSourceVersion</code> 是约束，不是兼容证明。即使 A 高于最低版本，没有通过验证的 A → B 边也不能升级。客户端选择通往所选渠道最新可达版本的最短路径，每一跳单独确认。测试中的 B 只需比 A 新，不要求 B 是全局最新版。</p>
 <p>撤销版本或升级边会阻止新安装；已下载的更新也会在切换前重新检查。没有路径时显示明确原因，不退回不受约束的直升逻辑。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="准备切换与恢复">准备、切换与恢复<a href="#准备切换与恢复" class="hash-link" aria-label="准备、切换与恢复的直接链接" title="准备、切换与恢复的直接链接" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="codex-会话-provider-迁移">Codex 会话 provider 迁移<a href="#codex-会话-provider-迁移" class="hash-link" aria-label="Codex 会话 provider 迁移的直接链接" title="Codex 会话 provider 迁移的直接链接" translate="no">​</a></h3>
+<p>会话数据迁移与下载阶段的环境预热分开执行。目标版本在 <code>DesktopRuntime.prepareExecutor</code>
+的启动前准备步骤中，调用自身交付的 executor 离线迁移入口
+<code>--workbench-codex-providers-migrate</code>；成功后才构造托管 executor，随后才允许任务队列和
+Goal 恢复运行。不能将真实会话重写放进旧版仍在运行的 <code>release-preparation-cli</code> 预热阶段，
+也不能只依赖 Home 搬迁的 <code>beforeMove</code>：已搬迁的 Home 升级时不会再次搬迁。</p>
+<p>离线入口必须先为协议保留标准输出，只输出一份 JSON 完成结果；写入锁竞争等诊断走标准错误。
+否则即使迁移完成，桥接层也会因 JSON 被诊断日志污染而误判失败、回退旧版。真实锁竞争回归必须
+等到诊断出现后才释放写入者，同时验证整段标准输出可解析及诊断保留在标准错误。</p>
+<p>迁移持有 Home 进程锁、智能体执行锁及原生线程写入协调锁，只更改 rollout 的
+<code>session_meta.model_provider</code> 和 SQLite 的 <code>threads.model_provider</code>，统一逻辑身份为
+Wework router（持久化 ID 为单字节的 <code>~</code>）。短 ID 只替换原 JSON 的 provider 值，空余字节
+补为 JSON 空白，保持首行字节数及所有后续字节偏移不变；不能重新序列化整行后移动分页或
+fork 引用的位置。缺少 provider 的老格式保留原字节，使用原生的当前 provider 选择规则。
+原 provider 和索引来源记录在 Home 内的版本化日志中；历史正文、压缩和
+父子引用、权限、创建账号身份、Goal 状态与预算、待恢复用户命令均不重新生成。
+认证文件、用户仓库和云端数据不参与迁移。</p>
+<p>日志 v3 只保存原 provider 的精确 JSON 值与转换前后首行的 SHA-256，不保存基础指令或
+完整首行快照；处理单个首行后即释放缓冲。恢复时反向重建原 provider 值并验证原哈希，
+确保转换没有改动权限或账号等其他字段。已有 v2 日志逐项校验并原子压缩为 v3，
+不同时载入全部会话首行。若在 v3 日志原子发布前中断，下次会从头逐项转换 v2 日志；
+已有会话和索引的迁移进度保留，但日志转换本身没有持久化的条目级游标。
+尚未发布元数据的空 rollout 保持原样，继续使用原生元数据就绪恢复流程；非空截断首行，
+或已经进入迁移日志却丢失首行的文件，仍阻止迁移完成。命名 Home 的辅助读取进程
+共享原生进程存活期锁，不在已有写入进程运行时重复发起迁移，也不继承其他 Home 的认证。
+离线命令不按固定时长强杀；应用关闭会取消并等待迁移进程退出，再释放写入权。
+这不会取消旧版独立启动器的激活健康预算：慢迁移的停写前置阶段和所需中间版本
+必须另行验证，不能仅凭迁移可恢复就推广任意旧版到目标版的升级边。</p>
+<p>日志在修改前持久化；会话文件原子替换，索引在事务中更新。中断后再次进入同一准备步骤，
+必须继续至一致状态，不能把一次异常当作“已迁移”。兼容旧版续聊可能重写索引 provider，
+或将压缩文件物化后追加消息；再次升级时按现存会话校准索引，保留新增消息，不恢复旧历史副本。
+来源和目标程序均停止写入才可转换；失败不能放行新 executor 或 Goal 恢复，版本激活失败沿用
+已有的健康版本回退与启动恢复机制。</p>
+<p>统一身份不等于统一凭证。API-key 路由与原生账号路由分别覆盖完整的线程 provider 定义，
+进程级账号 RPC 保留 Codex 原生鉴权；合并模型目录由本机 router 提供，仅使用非秘密目录凭据，
+不携带账号令牌或任务 API Key。线程不得继承目录凭据或另一个线程的 bearer 命令。
+支持共享路由的 Runtime 在任务及身份会话地址的公开 <code>runtimeHandle</code> 中报告
+<code>modelProviderRouting: &quot;thread&quot;</code>。该能力由当前执行设备生成，不信任持久化或调用方提供的值。
+输入框据此允许在原线程切换 API 模型和原生账号模型，不再按逻辑 provider 名称强制新建会话；
+未报告该能力的旧设备继续沿用原有的 provider 边界确认。权限和凭据校验仍由执行设备负责。
+编辑持久化会话的最后一条消息时，<code>thread/revert</code> 后仍需走正常推理恢复流程，
+在 <code>turn/start</code> 前重新配置该请求的 provider、认证和 MCP。冷恢复历史的控制上下文不能直接用于替换回答；
+原生 OpenAI 线程保留自身的 WebSocket 与账号认证，公开 API 线程使用其 HTTP provider。
+替换请求遗漏的 Agent Home 身份从原会话补齐，不恢复旧认证令牌；未落盘的临时线程继续直接执行。
+上下文压缩同样会调用模型。共享 app-server 重启后，冷线程必须先用本次请求新解析的模型配置
+恢复完整推理上下文，不能只恢复控制配置并继承进程目录发现的 OpenAI 压缩 v2 能力。
+模型路由和通知订阅在恢复前建立，路由注册保留至原生压缩完成；原生账号继续保留自身的压缩协议。
+本机目录使用独立的进程级发现配置；原生线程仍保留 Home 中明确设置的
+<code>features.api_key_model_discovery</code>，不能把本机目录开关用于开启外部 API Key 模型发现。
+共享进程启动前先取得 Home 所有权、完成离线迁移，再将完整合并目录原子写入该 Home 内的进程专属文件，
+通过原生 <code>model_catalog_json</code> 加载，避免自定义 HTTP 目录的 1 MB 限制；不能删减原生指令或权限模板。
+目录文件保留至原生进程实际退出，不能随无关配置目录的清理被删除；修改模型目录仍使用已有的空闲重启与运行中确认流程。
+Unix 上的包装父进程退出不代表原生后代已经停止。保留组长 PID，确认整个所属进程组退出后，
+才能回收父进程并释放 Home 锁和目录文件；不能仅凭退出通知开始迁移。Windows 沿用整树终止流程。
+Linux 主线程进入 <code>Z</code> 状态后，后台线程仍可能持有共享文件表；退出检测同时检查
+<code>/proc/&lt;pid&gt;/stat</code> 的线程数，不能将这类进程误当作已关闭资源的单线程僵尸进程。
+诊断读取内核锁记录及锁拥有者的状态、进程组和线程数；主线程已退出时，
+<a href="https://man7.org/linux/man-pages/man5/proc_pid_fd.5.html" target="_blank" rel="noopener noreferrer" class=""><code>/proc/&lt;pid&gt;/fd</code> 可能不可见</a>，不能据此判断写锁已释放。
+Linux 回归使用真实多线程程序，让主线程退出、工作线程继续持有文件锁，验证退出屏障等待完整线程组并确认实际锁已释放。
+Home 显式设置的原生目录保持有效；本机目录不增加常驻进程，也不串行化不同线程的模型请求。
+恢复已有线程时，模型路由和通知订阅必须在 <code>thread/resume</code> 前建立，因为原生 Goal
+可能在该 RPC 返回之前开始续跑。不得重复提交原用户输入，也不得用上一轮完成结果结算仍活跃的 Goal。
+服务端直接创建的任务也必须为首条可见用户消息保留稳定身份，贯通临时历史、执行请求和原生 turn 的展示绑定；
+断线后用该身份合并历史，不能按文本去重，因为相同内容可以是不同轮次的合法输入。
+恢复验收只在 assistant 消息正文中统计答案，轮次导航预览不能计作第二条消息。</p>
+<p>暂停后的 Goal 在普通重启后仍须保持暂停。再次激活时，通过原任务的持久化执行配置进入既有调度；重复激活不能重复入队，也不能将排队中的恢复状态提前改成运行。原生 <code>goal/set</code> 对未加载线程只更新持久化状态和通知，因此活动登记须结合线程加载状态，不能将该通知当成已经开始执行，从而阻塞同一线程的恢复。已加载线程的自动续跑仍受原有并发保护。</p>
+<p>验收必须包含实际交付包升级、旧会话续聊、回退后继续写入和再次升级；覆盖普通、工具、
+压缩/compact、fork/子会话、活跃 Goal、迁移落盘边界中断，以及账号/API-key 并发隔离。
+纯迁移单测和原生二进制协议探针不能替代打包 Electron 升级与回退证据。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="随更新包交付修复步骤">随更新包交付修复步骤<a href="#随更新包交付修复步骤" class="hash-link" aria-label="随更新包交付修复步骤的直接链接" title="随更新包交付修复步骤的直接链接" translate="no">​</a></h3>
 <p>更新修复由新包自带的 <code>release-preparation-cli</code> 执行，与主程序一起经过完整性和签名校验；
 不下载并执行独立的远程修复脚本。修复发生在目标准备完成、提示重启之前，必须明确适用来源、
@@ -96,6 +165,12 @@ Core profile 准备、Core 进程启动和渲染器加载分别执行原有 180 
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="日常修改与执行">日常修改与执行<a href="#日常修改与执行" class="hash-link" aria-label="日常修改与执行的直接链接" title="日常修改与执行的直接链接" translate="no">​</a></h2>
 <div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token function" style="color:#d73a49">node</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--test</span><span class="token plain"> wework/scripts/upgrade-policy.test.mjs wework/scripts/upgrade-evidence.test.mjs</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--dir</span><span class="token plain"> wework/electron </span><span class="token builtin class-name">test</span><span class="token plain"> src/runtime/release-store.test.ts src/runtime/release-snapshot.test.ts src/runtime/release-profile.test.ts</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token function" style="color:#d73a49">pnpm</span><span class="token plain"> </span><span class="token parameter variable" style="color:#36acaa">--filter</span><span class="token plain"> wework e2e:desktop -- --parallel-segments upgrade-and-rollback</span><br></span></code></pre></div></div>
 <p>通过 <code>WEWORK_E2E_UPGRADE_PAIR</code> 提供已校验的版本对；runner 从来源包解析应用与 executor，不自动构建。设置 <code>WEWORK_E2E_REQUIRE_RELEASE_PACKAGE=1</code> 保留包身份和签名。真实应用标识的默认目录测试需要干净的操作系统用户；发现已有原生应用数据时立即停止，不能清理个人数据来运行测试。</p>
+<p><code>Wework App</code> 的 <code>verification_writer_wait_seconds</code> 可配置原生独立写入进程的占锁观察时长，
+取 0–600 的整数，默认 0，不增加常规 CI 等待。设为 65 时，共享版本对的 <code>app-rollback</code>
+在停写准备阶段额外观察 65 秒：写入进程保持存活，历史首行不能改写，迁移回执和试运行健康
+计时不能提前放行；释放写入锁后必须自动完成升级、续聊及回退。其他两个恢复 checkpoint
+不重复等待。非零值要求目标包声明 <code>afterStopPreparation=1</code>；它不延长产品健康预算，
+也不放宽断言。本地使用 <code>WEWORK_E2E_UPGRADE_WRITER_WAIT_SECONDS=65</code> 运行相同场景。</p>
 <p>维护规则：</p>
 <ol>
 <li class="">改行为时修改共用场景；发新版本时修改版本对配置，不复制测试代码，也不把历史用例自动改指向最新版。</li>
@@ -181,6 +256,6 @@ Git <code>link.exe</code> 时仍使用配置的链接器，并检查无效配置
 <p>原生启动器交接在所有平台显式传递所选版本拥有的 <code>userData</code> 和 release root，
 包括中断回退后的恢复启动。旧版入口可能仍按上一级目录解析 release store，
 不能依赖目录桥接或仅在 macOS 安装路径中传递目录来完成交接。</p>
-<p>同号正式版本已发布、其归档与原候选包不同时，可添加 <code>-f verification_release_tag=wework-v&lt;同一版本号&gt;</code>。此选项仅限非发布重放：测试驱动依赖复用原构建产物，目标归档和描述文件直接从该正式 Release 下载并校验，不修改或重签任何包。版本必须与输入产物一致，既有跨渠道哈希一致性检查保持生效。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wework/developer-guide/wework-upgrades.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/wework/developer-guide/wework-deep-links"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Wework 深链协议</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-account-auth"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">插件账号认证改造</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#清单兼容和升级路径" class="table-of-contents__link toc-highlight">清单兼容和升级路径</a></li><li><a href="#准备切换与恢复" class="table-of-contents__link toc-highlight">准备、切换与恢复</a><ul><li><a href="#随更新包交付修复步骤" class="table-of-contents__link toc-highlight">随更新包交付修复步骤</a></li></ul></li><li><a href="#三层测试分别维护" class="table-of-contents__link toc-highlight">三层测试，分别维护</a><ul><li><a href="#macos-安装路径与-dock-身份" class="table-of-contents__link toc-highlight">macOS 安装路径与 Dock 身份</a></li></ul></li><li><a href="#日常修改与执行" class="table-of-contents__link toc-highlight">日常修改与执行</a></li><li><a href="#原生-launcher-的链接器" class="table-of-contents__link toc-highlight">原生 launcher 的链接器</a></li><li><a href="#发布版本对" class="table-of-contents__link toc-highlight">发布版本对</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
+<p>同号正式版本已发布、其归档与原候选包不同时，可添加 <code>-f verification_release_tag=wework-v&lt;同一版本号&gt;</code>。此选项仅限非发布重放：测试驱动依赖复用原构建产物，目标归档和描述文件直接从该正式 Release 下载并校验，不修改或重签任何包。版本必须与输入产物一致，既有跨渠道哈希一致性检查保持生效。</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/wecode-ai/wegent-docs/edit/main/docs/wework/developer-guide/wework-upgrades.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/wegent-docs/zh/docs/wework/developer-guide/wework-deep-links"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Wework 深链协议</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/wegent-docs/zh/docs/wework/developer-guide/plugin-account-auth"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">插件账号认证改造</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#清单兼容和升级路径" class="table-of-contents__link toc-highlight">清单兼容和升级路径</a></li><li><a href="#准备切换与恢复" class="table-of-contents__link toc-highlight">准备、切换与恢复</a><ul><li><a href="#codex-会话-provider-迁移" class="table-of-contents__link toc-highlight">Codex 会话 provider 迁移</a></li><li><a href="#随更新包交付修复步骤" class="table-of-contents__link toc-highlight">随更新包交付修复步骤</a></li></ul></li><li><a href="#三层测试分别维护" class="table-of-contents__link toc-highlight">三层测试，分别维护</a><ul><li><a href="#macos-安装路径与-dock-身份" class="table-of-contents__link toc-highlight">macOS 安装路径与 Dock 身份</a></li></ul></li><li><a href="#日常修改与执行" class="table-of-contents__link toc-highlight">日常修改与执行</a></li><li><a href="#原生-launcher-的链接器" class="table-of-contents__link toc-highlight">原生 launcher 的链接器</a></li><li><a href="#发布版本对" class="table-of-contents__link toc-highlight">发布版本对</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">文档</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wegent">Wegent</a></li><li class="footer__item"><a class="footer__link-item" href="/wegent-docs/zh/docs/wework">Wework</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">社区</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论区<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">更多</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/wecode-ai/Wegent" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 Wecode AI. Built with Docusaurus.</div></div></div></footer></div>
 </body>
 </html>
