@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">故障排查 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="故障排查 | Wegent"><meta data-rh="true" name="description" content="查看进程资源占用"><meta data-rh="true" property="og:description" content="查看进程资源占用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"故障排查","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.1b1358e5.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.c44da05a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.90b3a2cf.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.7f168569.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -108,8 +108,9 @@
 <li class=""><code>[Wework] HTTP ... returned ...</code>：服务端已返回 HTTP 错误，查看 <code>phase: &quot;http_error&quot;</code> 下的状态码和错误信息。</li>
 </ul>
 <p>每条请求都有 <code>requestId</code>。在桌面客户端中，该值会通过 <code>X-Request-ID</code> 传给 Backend；只有慢响应或 HTTP 错误诊断事件包含后端返回的请求 ID 时，日志才会记录 <code>backendRequestId</code>。用这两个 ID 可以把客户端日志与 Backend 日志关联起来。日志不会记录 Authorization、token 或请求正文。</p>
+<a id="getting-help"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="获取帮助">获取帮助<a href="#获取帮助" class="hash-link" aria-label="获取帮助的直接链接" title="获取帮助的直接链接" translate="no">​</a></h2>
-<p>在发生问题的任务右上角（或新对话状态的工具栏）点击 <strong>反馈问题</strong>。先填写问题描述（必填），可以在输入框中直接粘贴截图或文件，也可以点击 <strong>添加附件</strong> 通过文件选择器上传。确认问题描述后点击 <strong>预览问题</strong>，检查将要提交或导出的内容。</p>
+<p>在任意 Wework 桌面页面右上角点击 <strong>反馈问题</strong>，包括任务、新对话、插件、我的分身、已安排和设置页面。先填写问题描述（必填），可以在输入框中直接粘贴截图或文件，也可以点击 <strong>添加附件</strong> 通过文件选择器上传。确认问题描述后点击 <strong>预览问题</strong>，检查将要提交或导出的内容。</p>
 <p>补充信息的默认行为如下：</p>
 <ul>
 <li class=""><strong>诊断信息</strong>（默认勾选）：Wework 和本地执行服务的运行日志、Wework 版本和系统信息。不含对话内容，隐私风险低；如果不需要，可以手动取消。</li>
