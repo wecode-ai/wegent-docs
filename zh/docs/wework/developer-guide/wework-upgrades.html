@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">桌面升级、回退与 E2E 维护 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="桌面升级、回退与 E2E 维护 | Wegent"><meta data-rh="true" name="description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><meta data-rh="true" property="og:description" content="升级的目标是缩短关闭应用到重新可用之间的时间。下载、解压、组件组合及插件运行目录准备均在当前应用仍可用时完成；只有目标环境准备完整，才提示重启。主程序和匹配组件作为一个完整版本切换，用户数据独立保存。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-upgrades" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"桌面升级、回退与 E2E 维护","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-upgrades"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.f9f2710e.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.7f168569.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.9ee6f5ea.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.c44da05a.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -25,8 +25,10 @@
 macOS x64 使用上述明确的架构等价规则。</p>
 <p>继续使用既有 Electron YAML 和 <code>components-&lt;channel&gt;-&lt;platform&gt;-&lt;arch&gt;.json</code>，不更换发现地址、不改变原字段含义。组件清单新增 <code>upgradePolicy</code>，其中每个目标版本声明 <code>minSourceVersion</code>，并记录明确的来源版本、目标版本、交付包哈希及升级和回退 E2E 证据。</p>
 <p>旧客户端忽略新字段，继续直升旧清单中声明的最新版。路径约束从客户端包含新实现开始生效；不将改造前的旧版本纳入新 E2E 矩阵，也不把旧渠道固定到桥接版。</p>
-<p><code>minSourceVersion</code> 是约束，不是兼容证明。即使 A 高于最低版本，没有通过验证的 A → B 边也不能升级。客户端选择通往所选渠道最新可达版本的最短路径，每一跳单独确认。测试中的 B 只需比 A 新，不要求 B 是全局最新版。</p>
-<p>撤销版本或升级边会阻止新安装；已下载的更新也会在切换前重新检查。没有路径时显示明确原因，不退回不受约束的直升逻辑。</p>
+<p>升级采用区间兼容规则：同一平台、架构和渠道目录中，A → D 的实际包升级与回退验证通过后，目录已登记的 B 满足 A ≤ B &lt; D 时，可以直接升级到 D，不要求单独验证 B → D。例如已有 A → B → C → D 和 A → D，用户在 B 时直接升级到 D。中间版本直升属于产品接受的兼容性推断，不代表这些版本对已实际验证；清单只保留真实版本对的证据，不生成虚构的验证记录。只有链式验证而没有覆盖区间的直达验证时，仍按链式路径升级。</p>
+<p><code>minSourceVersion</code> 仍是约束，单独声明最低版本不能授权升级；低于验证来源、未登记或不低于目标的版本也不在区间内。客户端选择通往所选渠道最新可达版本的最短路径，每一跳单独确认。测试中的目标只需比来源新，不要求是全局最新版。旧客户端继续按自身已交付的路径算法运行；区间规则需要客户端包含本次更新器实现。</p>
+<p>撤销目标、区间证据边或证据来源版本后，该证据不能继续授权中间版本直升。显式撤销 B → D 会优先禁止该直升，即使存在 A → D 的区间覆盖；其他有效路径仍可使用。已安装的撤销来源仍可通过自身未撤销的验证边离开。已下载的更新在切换前使用同一规则重新检查。没有路径时显示明确原因，不退回不受约束的直升逻辑。</p>
+<p>验收版本 22 在既有 <code>app-rollback</code> 检查点中复用已经升级的真实客户端，追加区间发现、撤销和恢复检查。该检查使用明确标记为 <code>fixture</code> 的未来目标清单，不下载夹具包，也不生成该版本对的发布证据；真实来源到目标的升级、数据保留和回退断言继续独立执行。结果保存在 <code>interval-policy-result.json</code>，不增加检查点或包构建。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="准备切换与恢复">准备、切换与恢复<a href="#准备切换与恢复" class="hash-link" aria-label="准备、切换与恢复的直接链接" title="准备、切换与恢复的直接链接" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="codex-会话-provider-迁移">Codex 会话 provider 迁移<a href="#codex-会话-provider-迁移" class="hash-link" aria-label="Codex 会话 provider 迁移的直接链接" title="Codex 会话 provider 迁移的直接链接" translate="no">​</a></h3>
 <p>会话数据迁移与下载阶段的环境预热分开执行。目标版本在 <code>DesktopRuntime.prepareExecutor</code>
@@ -241,7 +243,7 @@ Git <code>link.exe</code> 时仍使用配置的链接器，并检查无效配置
 填写逗号分隔的精确 <code>platform/arch/channel/version</code>，例如 <code>macos/arm64/stable/0.6.2</code>。
 默认留空，未确认时聚合提示待确认来源并阻止推广；确认仅排除对应失败来源，不跳过测试，
 不把失败标记为通过，不删除既有历史边或中间包。CI 摘要记录已确认的排除项。</p>
-<p>来源包下载、权限、目录格式或哈希校验异常直接阻断，不视为版本兼容失败。已撤销版本和回归夹具不能作为来源。首次支持新协议、确实没有历史目录的版本以自身版本建立起点；已有历史却找不到合格上一版时必须报错，不能重新作为首次发布。不能因为 X 通过就推断所有中间版本都兼容；上一版必须独立实测，保留已有升级边和中转包以维持连续升级路径。</p>
+<p>来源包下载、权限、目录格式或哈希校验异常直接阻断，不视为版本兼容失败。已撤销版本和回归夹具不能作为来源。首次支持新协议、确实没有历史目录的版本以自身版本建立起点；已有历史却找不到合格上一版时必须报错，不能重新作为首次发布。X → 目标通过后，客户端按区间规则允许已登记的中间来源直升；发版仍独立实测上一版，保留已有升级边和中转包以维持其他升级路径。区间推断不增加版本对测试或 CI 作业，验收版本 22 保留既有真实包升级与回退门禁。</p>
 <p>成功后将确认的最低来源和精确升级边写入目标渠道的 <code>upgradePolicy</code>，随不可变版本资产发布，再推广滚动清单。下一次发布从该清单读取 X，自动沿用或提升起点，不回写源码中的版本列表。Stable 发布分别生成 Stable 和 Beta 的验证记录，Beta 发布只推广 Beta。所有平台作业成功才执行发布；任何必需版本对失败都不会推广清单。CI 始终保存决策摘要和失败日志，区分 X 不可用、验证失败和发布阻断，不通过重试掩盖失败。</p>
 <p>旧包解压目录必须先解析为实际路径，避免 macOS 的 <code>/var</code>、<code>/private/var</code> 等别名导致包身份校验失败。候选包在验证前作为 CI artifact 保存，验证证据另行上传；发布作业仍须等待所有平台验证成功，并校验证据后才推广清单。这样失败时可直接下载同一份签名包复现，无需重新打包或修改包身份。诊断保留界面快照及失败说明，排除凭据目录、浏览器分区和会话存储。</p>
 <p>发布作业为 macOS 和 Windows 生成完整便携版本包，从既有发布下载自动选出的来源包，通过共享 checkpoint runner 运行升级和回退。成功结果绑定来源/目标版本、包哈希、平台、架构、套件版本和 CI run。只将验证成功的边合并进组件清单；旧边和其引用的中转包必须保留。修改已发布包内容会使哈希验证失败，必须作为新版本重新发布和验证。</p>
