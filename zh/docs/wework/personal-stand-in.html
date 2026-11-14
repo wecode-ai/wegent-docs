@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">我的助理与场景角色 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="我的助理与场景角色 | Wegent"><meta data-rh="true" name="description" content="在 Issue 中持续协作"><meta data-rh="true" property="og:description" content="在 Issue 中持续协作"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"我的助理与场景角色","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.2aecc1ba.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.58495231.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.06c049b4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -18,7 +18,7 @@
 同一个助理在同一个 Issue 中沿用已有会话；重新指派不会清空历史，也不跳过新的权限核对。
 改派、取消指派、删除原提及或暂停自动接收后，仍可继续和重试已有会话，公开回复也会继续同步。
 手动启动助理不要求 Issue 指派给自己，也不会自动更改负责人；自动接收配置用于筛选新工作，不限制用户主动操作。项目与 Issue 的实际访问和执行权限仍需有效。
-接单和完成结果作为两条独立评论出现。子代理执行期间仍可输入和发送评论，后续唤醒按顺序处理。
+较多步骤的分派工作默认交给原生子代理执行，无需在任务里额外要求“使用子代理”；主助理负责协调、核验并简洁回复，简单问题直接回答。通常只发布简短接单和完成结果，必要时说明阻塞、提问或请求原生审批；常规工具与子代理进度不逐条发布为评论。子代理执行期间仍可输入和发送评论，后续唤醒按顺序处理。
 直接回复助理评论时不必再次 @，回复会交给该原助理。私人聊天、推理和工具过程不会同步到评论区。</p>
 <p>Issue 中的助理回复以“所属用户 (角色)”署名，例如“张三 (助理)”，便于区分不同用户的助理。成员姓名暂不可用时显示用户编号；成员信息加载后显示姓名。</p>
 <a id="分身聊天与桌面通知"></a>
@@ -26,7 +26,7 @@
 <p>从 <strong>协作 → 我的</strong> 可在右侧 <strong>助理</strong> 标签查看按角色划分的任务列表；点击任务在右侧继续原任务会话。首页只展示 Issue 相关助理任务，<strong>助理设置</strong> 打开已有配置；通用对话仍从 <strong>我的助理</strong> 进入。未连接看板时先显示连接引导。首页固定保留助理标签和一个 Issue 详情标签；打开另一个 Issue 会替换当前详情，重新打开仍保留草稿，私人助理聊天不会自动发布到 Issue。</p>
 <p>上一条回复结束、或后台结果刚触发新回复时，可以继续发送要求；消息会按当前回合状态送入原会话。</p>
 <p>此聊天样式用于“我的助理”的主助理、角色对话：每条原生 AI 消息独立一个气泡，后台执行前的确认语与执行后的结果不会合并。聊天中不显示内部“引导对话”或“执行 X 秒”；普通任务和代码会话的执行过程展示保持不变。</p>
-<p>运行时仅对助理身份会话启用原生 subagent v2，以支持可被新消息唤醒的邮箱等待；普通任务保留默认配置，明确配置的 single 协作模式仍禁用子代理，包括恢复已有的 v2 会话。原生权限、来源范围与审批约束保持不变。</p>
+<p>运行时对助理身份会话和协作 Issue 的助理会话启用原生 subagent v2，包括恢复已有会话；普通任务保留默认配置，明确配置的 single 协作模式仍禁用子代理。原生权限、来源范围与审批约束保持不变。</p>
 <p>从 <strong>左侧栏 → 我的助理</strong> 打开主助理或场景角色对话。AI 回复使用左侧气泡，你发送的消息在右侧。原生 subagent 在后台执行时，输入框仍可发送下一句话；新消息送入同一个主会话，不停止原子代理，也不等待普通任务队列。发送失败保留内容和附件。待回答问题和权限确认仍通过原卡片处理，聊天消息不会代替授权。独立任务只用于确实需要单独会话、工作区或生命周期的工作，不是保持聊天可用的前提。</p>
 <p>桌面端输入框上方的 <strong>开启桌面助理通知</strong> 提示提供 <strong>打开通知设置</strong>、<strong>不再提示</strong> 和 <strong>暂时关闭</strong>。打开通知设置会进入系统通知设置（macOS、Windows）及 Wework 铃铛的统一设置；请允许系统通知，并检查“助理主动提醒”的系统通知开关。Linux 需自行在桌面环境的通知设置中允许。打开设置不代表权限已经授予。暂时关闭仅作用于当前应用会话；不再提示按账号保存在当前设备，只隐藏提示，不关闭通知。也可随时从顶部 <strong>铃铛 → 通知设置 → 助理主动提醒</strong> 调整。</p>
 <p><strong>我的助理</strong> 旁的数字统计主助理及角色对话中的未读 AI 消息，不统计内部 subagent 数量或任务完成次数；超过 99 显示 <strong>99+</strong>。阅读前台助理对话会清除该对话的未读，后台或隐藏窗口不会自动标为已读。每条新消息最多触发一次桌面通知，点击返回对应设备、账号和助理对话；切换账号不会沿用其他账号的计数。系统拒绝通知时，消息仍保留在会话和通知中心。</p>
