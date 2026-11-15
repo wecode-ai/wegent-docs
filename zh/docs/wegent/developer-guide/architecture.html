@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">🏗️ 系统架构 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/architecture"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="🏗️ 系统架构 | Wegent"><meta data-rh="true" name="description" content="本文档详细介绍 Wegent 平台的系统架构、组件设计和技术栈。"><meta data-rh="true" property="og:description" content="本文档详细介绍 Wegent 平台的系统架构、组件设计和技术栈。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/architecture"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/architecture" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/architecture" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/architecture" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"🏗️ 系统架构","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/architecture"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.e9154f5b.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.ee4052d0.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.2fbf2c5b.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.cebe0a37.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -242,6 +242,17 @@
 <li class="">软删除支持</li>
 <li class="">CRD 资源通过 (namespace, name, user_id) 三元组唯一标识</li>
 </ul>
+<p>共享项目 Issue（<code>loop_items</code>）和动态评论（<code>project_chat_messages</code>）的
+<code>created_at</code>、<code>updated_at</code> 使用数据库会话时区保存无时区时间；当前 Rust
+连接池使用 <code>+08:00</code>。SQL 写入使用 <code>CURRENT_TIMESTAMP</code>，应用生成的 UTC
+时间先通过现有数据库时间转换函数编码，接口读取时再统一输出带时区的 UTC。
+不能把 <code>UTC_TIMESTAMP</code> 或未经转换的 UTC 时间直接写入这些字段，否则读取时
+会再次减去 8 小时，导致更新时间早于创建时间及动态顺序错乱。</p>
+<p>动态中的 <code>activity_at</code>、状态和指派历史时间，以及执行记录的运行时间采用
+各自既定的 UTC 约定，不随上述数据库列一起平移。Issue 动态按实际时间正序排列，
+显示为设备本地时间。真实 MySQL 回归和桌面协作小组 E2E 分别验证持久化时间，
+以及成员执行中、完成后和刷新后的时区与顺序。已有异常历史时间必须依据原始
+执行证据校正，不能根据时间差批量推算。</p>
 <hr>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="7--缓存-redis">7. 🔴 缓存 (Redis)<a href="#7--缓存-redis" class="hash-link" aria-label="7. 🔴 缓存 (Redis)的直接链接" title="7. 🔴 缓存 (Redis)的直接链接" translate="no">​</a></h3>
 <p><strong>职责</strong>：</p>
