@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">使用指南 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="使用指南 | Wegent"><meta data-rh="true" name="description" content="知识库支持存储、组织和检索文档，实现 RAG（检索增强生成），让 AI 智能体能够基于您的特定文档回答问题。"><meta data-rh="true" property="og:description" content="知识库支持存储、组织和检索文档，实现 RAG（检索增强生成），让 AI 智能体能够基于您的特定文档回答问题。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/knowledge-base-guide" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/user-guide/knowledge/knowledge-base-guide" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"User Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/user-guide"},{"@type":"ListItem","position":2,"name":"Knowledge","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/"},{"@type":"ListItem","position":3,"name":"使用指南","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/user-guide/knowledge/knowledge-base-guide"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.109a4996.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.90d88d76.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.3c96fb99.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -173,17 +173,17 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="成员角色">成员角色<a href="#成员角色" class="hash-link" aria-label="成员角色的直接链接" title="成员角色的直接链接" translate="no">​</a></h3>
 <table><thead><tr><th>角色</th><th>权限</th></tr></thead><tbody><tr><td><strong>Owner（所有者）</strong></td><td>完全控制，可转移所有权并管理所有成员</td></tr><tr><td><strong>Maintainer（维护者）</strong></td><td>可管理文档、设置和邀请成员</td></tr><tr><td><strong>Developer（开发者）</strong></td><td>可阅读和贡献文档</td></tr><tr><td><strong>Reporter（报告者）</strong></td><td>只读访问</td></tr></tbody></table>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="管理成员">管理成员<a href="#管理成员" class="hash-link" aria-label="管理成员的直接链接" title="管理成员的直接链接" translate="no">​</a></h3>
-<p>从知识库列表的 <strong>权限详情</strong>、文档管理的 <strong>权限管理</strong> 或创建后的 <strong>库已创建</strong> 页面，均可使用相同的成员管理和添加流程。手机端从列表的 <strong>更多</strong> 打开权限详情。</p>
+<p>知识库列表的 <strong>权限详情</strong>、普通库详情、CodeWiki 文档管理及创建后的 <strong>库已创建</strong> 入口使用同一权限弹窗。打开弹窗时文档列表保持原位置，关闭后焦点回到入口。手机端从列表的 <strong>更多</strong> 打开权限详情。</p>
 <ol>
-<li class="">搜索已授权协作者，查看成员及其角色；待审批申请不受搜索影响。</li>
+<li class="">查看授权对象及其权限；管理者可同时查看待审批申请。</li>
 <li class="">点击 <strong>添加协作者</strong>，按用户名或邮箱选择人员，也可搜索并选择群组。</li>
 <li class="">为选中对象选择管理员、开发者、使用者或访客角色。创建者身份不可通过添加流程分配。</li>
 <li class="">点击 <strong>授权</strong>。部分成功时，仅保留失败项供重试；结果不明时先核验已有授权。</li>
 </ol>
-<p>成员列表支持修改角色、移除成员及处理待审批申请。仅有查看权限时，只展示自己的有效权限和来源。</p>
+<p>能直接访问该库的用户可查看自己的有效权限及来源，以及创建者、所属空间继承规则和全部已批准的授权对象。普通用户只读查看，不加载待审批申请，也不获得修改或移除权限。管理者继续在同一弹窗修改显式授权的角色、移除成员和处理审批。创建者是身份，继承规则不是可直接编辑或删除的成员记录；显示继承规则不会展开群组全部人员，也不表示所有成员具有相同角色。</p>
 <p>创建后可以选择 <strong>完成／稍后配置</strong>，不会删除知识库。列表刷新失败可单独重试，不必重新创建或重复授权。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="群组授权">群组授权<a href="#群组授权" class="hash-link" aria-label="群组授权的直接链接" title="群组授权的直接链接" translate="no">​</a></h3>
-<p>在 <strong>添加协作者</strong> 中选择群组并分配角色，该群组成员将继承对应权限；已授权群组可在管理主体的 <strong>群组</strong> 标签页查看。</p>
+<p>在 <strong>添加协作者</strong> 中选择群组并分配角色，该群组成员将继承对应权限；已授权群组与人员一起显示在授权对象列表中。</p>
 <p><strong>注意：</strong> 通过群组授权获得的知识库显示在成员的 <strong>与我共享</strong> 区域，而非接收群组的本地知识库列表下。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="权限来源可视化">权限来源可视化<a href="#权限来源可视化" class="hash-link" aria-label="权限来源可视化的直接链接" title="权限来源可视化的直接链接" translate="no">​</a></h3>
 <p>在查看成员列表时，系统会显示每个成员的访问来源：</p>
