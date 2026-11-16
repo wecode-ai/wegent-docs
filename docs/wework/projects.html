@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Projects and workspaces | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/projects"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Projects and workspaces | Wegent"><meta data-rh="true" name="description" content="Collaboration groups and global resource catalogs"><meta data-rh="true" property="og:description" content="Collaboration groups and global resource catalogs"><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Projects and workspaces","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/projects"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.5ae30c0b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.aaf98d45.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.2c832340.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -101,7 +101,7 @@ automation compatibility path.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="link-a-project-space">Link a project space<a href="#link-a-project-space" class="hash-link" aria-label="Direct link to Link a project space" title="Direct link to Link a project space" translate="no">​</a></h2>
 <p>After enabling <strong>Settings → General → Experimental features</strong>, open <strong>Edit project</strong> for a local project and configure <strong>Automatically join project space</strong>. A local project is the code and execution workspace, while a project space is the task-tracking and collaboration board. Linking them does not move or copy project files, and neither resource replaces the other.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="create-a-local-or-cloud-project-space">Create a local or cloud project space<a href="#create-a-local-or-cloud-project-space" class="hash-link" aria-label="Direct link to Create a local or cloud project space" title="Direct link to Create a local or cloud project space" translate="no">​</a></h3>
-<p>The sidebar places projects without another group under <strong>Personal group</strong>. Open its <strong>… → Create project</strong> action. New projects default to the current device while disconnected and to the cloud while connected. <strong>Add folder</strong> and <strong>Import existing project</strong> in the creation dialog remain available for adding projects from this device:</p>
+<p>The sidebar places projects without another group under <strong>Personal group</strong>. Open its <strong>… → Create project</strong> action. New projects default to the current device while disconnected and to the cloud while connected. The creation dialog configures a new project and does not offer folder creation or existing-project import buttons:</p>
 <ul>
 <li class="">A <strong>local project</strong> is stored on the current device and is available only on that device.</li>
 <li class="">A <strong>cloud project</strong> is stored in Wegent Cloud and supports collaboration across devices signed in to the same account. Selecting it while signed out starts the sign-in flow. If the account has no cloud space after sign-in, Wework creates one before continuing project creation.</li>
@@ -152,13 +152,13 @@ renaming or deleting a tag also updates the affected tasks.</p>
 <p>DingTalk controls access to AI Table records. Wework project roles control entry and editing in its table view.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="import-more-projects-into-the-local-space">Import more projects into the local space<a href="#import-more-projects-into-the-local-space" class="hash-link" aria-label="Direct link to Import more projects into the local space" title="Direct link to Import more projects into the local space" translate="no">​</a></h3>
 <p>Wework automatically adds local Task projects to the local space during initial
-setup. To add more projects, open <strong>Personal group → … → Create project</strong>, then select an import action. These actions remain available when connected to the cloud:</p>
+setup. To add more projects, use the <strong>New project</strong> dropdown in a local group’s project list. Import options appear when local import is supported and are not repeated in the creation dialog:</p>
 <ul>
 <li class=""><strong>Import existing project</strong> lists projects that already exist on the Tasks
 page but are not yet in the local space. Wework deduplicates them by runtime
 project identity and normalized workspace roots, so projects already shown in
 the local space are excluded.</li>
-<li class=""><strong>Add folder</strong> selects a new local directory, registers its Task project, and
+<li class=""><strong>Create from local folder</strong> selects a new local directory, registers its Task project, and
 adds it to the local space immediately.</li>
 </ul>
 <p>Background synchronization does not automatically restore an archived local
