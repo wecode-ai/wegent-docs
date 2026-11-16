@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 桌面版发布 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 桌面版发布 | Wegent"><meta data-rh="true" name="description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><meta data-rh="true" property="og:description" content="Wework 桌面应用使用 Electron。正式构建和发布由"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-macos-release" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 桌面版发布","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-macos-release"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.c201dac4.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.0163f2c0.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.cebe0a37.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -253,6 +253,11 @@ Executor 启动 Codex 时必须显式启用该工具。桌面 E2E 默认验证�
 打包链路时，应解包或检查真实应用产物，确认这些文件存在且与仓库中的源文件一致；
 仅检查中间资源目录不能证明最终发行物合规。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="开发模式热更新">开发模式热更新<a href="#开发模式热更新" class="hash-link" aria-label="开发模式热更新的直接链接" title="开发模式热更新的直接链接" translate="no">​</a></h2>
+<p>macOS 开发监听每秒检查一次源文件和目录的元数据，避免 FSEvents 或原生目录通知
+未送达时，原子保存、连续编辑和新增目录不再触发构建。只有输入版本发生变化才构建；
+输出目录、<code>node_modules</code>、<code>.git</code> 和 <code>dist</code> 仍排除在监听之外。轮询不读取文件内容。
+Chokidar 3 必须同时设置 <code>useFsEvents: false</code> 和 <code>usePolling: true</code>；仅设置
+<code>CHOKIDAR_USEPOLLING=true</code> 不会关闭已经选中的 FSEvents 后端。其他平台保留原生监听。</p>
 <p>文件监听必须等待 Chokidar 的 <code>ready</code>，再采集输入快照并启动首次构建。仅创建
 原生 watcher 不代表订阅已经就绪，启动后的首次编辑可能丢失通知。关闭时须等待
 所有监听器释放；失败日志同时保留编辑、通知和构建的时间线。
