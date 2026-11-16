@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作执行完整 E2E 测试计划 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作执行完整 E2E 测试计划 | Wegent"><meta data-rh="true" name="description" content="审计日期：2026-09-12"><meta data-rh="true" property="og:description" content="审计日期：2026-09-12"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/collaboration-execution-e2e-test-plan" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.ae6b4c38.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.561c8fe4.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d2786db8.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -542,22 +542,30 @@ App 逻辑设备 ID、不同的 Runtime identity。</li>
 不下发任务级 token，因为一个执行环境的多个仓库可能分属不同域名。因此私有仓库必须先把
 Git 账号同步到该设备，否则克隆会因缺少凭据失败。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cloud-device-lifecycle"><code>cloud-device-lifecycle</code><a href="#cloud-device-lifecycle" class="hash-link" aria-label="cloud-device-lifecycle的直接链接" title="cloud-device-lifecycle的直接链接" translate="no">​</a></h3>
-<p>该 checkpoint 复用 CI 启动的真实云端 Executor，验证：</p>
+<p>该 checkpoint 将 CI 已启动的两个真实 Executor 进程配置到同一沙箱。公网 Backend 使用
+仅在测试中注册的沙箱提供方，由 runner 操作这两个进程。验证包括：</p>
 <ol>
-<li class="">初始 Backend 状态为 <code>online</code>，设备具有 Executor 版本和 Runtime identity。</li>
-<li class="">Wework 展示版本升级入口、当前版本、目标版本和短暂离线提示。</li>
-<li class="">管理型云环境中，重启操作命中 Sandbox identity；重启等待期间设备操作被禁用。</li>
-<li class="">测试真实停止 Executor 进程，等待 Backend 变为 <code>offline</code>，再启动同一 Executor。</li>
-<li class="">Backend 恢复 <code>online</code>，Runtime identity 保持稳定，Wework 显示“重新在线”并恢复操作。</li>
-<li class="">不支持管理型恢复的公共 Backend 分支必须明确显示重启失败，且不能把在线设备误标为离线。</li>
+<li class="">两个 Executor 初始均在线，且各有独立的 Runtime identity。设备菜单和“有新版本”
+徽标都能打开重启确认，徽标入口显示当前和最新版本。</li>
+<li class="">目标设备空闲时，同沙箱另一台设备运行真实桌面任务，测试模型暂缓回复。所有者
+的非强制升级请求因同沙箱忙碌被拒绝，其他已登录用户尝试强制重启也被拒绝。</li>
+<li class="">从版本徽标确认后，向 Sandbox identity 发送一次强制重启。Wework 在重启等待和
+离线期间禁用相关操作。</li>
+<li class="">沙箱提供方真实停止两个 Executor。Backend 和 Wework 观测到离线后，用原先的
+Executor 数据目录重新启动，Runtime identity 保持不变。即使仍有新版本可用，
+Wework 也显示“重新在线”并恢复操作。</li>
 </ol>
+<p>公网 Backend 初始不注册重启提供方。先确认设备菜单发出的真实请求返回 501，界面
+显示失败且仍可重试、打开终端或使用设备菜单，设备仍在线。随后在同一 Backend
+进程中启用沙箱提供方，继续执行成功链路。</p>
 <p>证据截图：</p>
 <ul>
 <li class=""><code>cloud-device-01-online.png</code></li>
-<li class=""><code>cloud-device-upgrade-confirmation.png</code></li>
+<li class=""><code>cloud-device-restart-unavailable.png</code>（仅公网未配置场景）</li>
+<li class=""><code>cloud-device-restart-confirmation.png</code></li>
 <li class=""><code>cloud-device-restart-pending.png</code></li>
+<li class=""><code>cloud-device-restart-offline.png</code></li>
 <li class=""><code>cloud-device-restart-recovered.png</code></li>
-<li class=""><code>cloud-device-restart-unavailable.png</code>（仅公共 Backend 拒绝分支）</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ci-checkpoint-映射">CI checkpoint 映射<a href="#ci-checkpoint-映射" class="hash-link" aria-label="CI checkpoint 映射的直接链接" title="CI checkpoint 映射的直接链接" translate="no">​</a></h2>
 <p>优先扩展和复用现有 checkpoint，不复制已有部署、插件或运行时框架。</p>
