@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">与 AI 协作 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="与 AI 协作 | Wegent"><meta data-rh="true" name="description" content="描述任务"><meta data-rh="true" property="og:description" content="描述任务"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"与 AI 协作","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.4d99d02c.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.04974b3b.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.cebe0a37.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -38,8 +38,8 @@
 <li class="">打开 <strong>左侧栏 → 已安排</strong>，用搜索筛选已有计划，或点击创建。</li>
 <li class="">填写名称和任务说明。选择每次运行创建新任务，或继续已有的已固定任务；需要持续完成时启用持续目标并明确目标。</li>
 <li class="">在运行位置选择本地/云端、设备、项目、模型与支持的推理等级。执行目录、账号和插件以选中设备为准。</li>
-<li class="">选择工作日、每天、每周、自定义或仅一次；按表单设置执行时间和自定义间隔。通知可选所有运行、仅需要关注或不通知。</li>
-<li class="">保存后检查计划状态。编辑后需要再次保存；通过运行记录打开实际工作查看结果，不能把计划已保存等同于运行成功。</li>
+<li class="">选择周一至周五、每天、每周、自定义或仅一次；按表单设置执行时间和自定义间隔。周期 Cron 计划可勾选 <strong>仅中国大陆法定工作日执行</strong>：按北京时间日期跳过法定休息日，包含补班周末。选择“每天”可覆盖全部补班日；周一至周五、每周及自定义 Cron 仍受原日期规则限制。间隔计划和仅一次不提供此选项。通知可选所有运行、仅需要关注或不通知。</li>
+<li class="">工作日筛选默认关闭，已有周一至周五计划保持原义；本地和云端设备均可使用，执行位置不变。保存后检查计划状态。编辑后需要再次保存；通过运行记录打开实际工作查看结果，不能把计划已保存等同于运行成功。</li>
 <li class="">暂时不运行时停用计划；删除时核对确认。个人计划、项目看板自动化和分身日历各有独立入口，不要互相替代。</li>
 </ol>
 <p>使用云端模型的个人定时任务在每次触发（包括手动运行）时，会重新校验模型访问权限并读取当前云端连接的凭据。登录令牌续期后，无需重新创建计划；新建任务和继续已有任务均使用当前凭据。若登录已失效、模型已删除或访问权限已撤销，本次运行会失败，请检查云端连接和模型权限后重试。</p>
