@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">dots 启发的 Wework 闭环用户用例 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/dots-closed-loop-user-stories"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="dots 启发的 Wework 闭环用户用例 | Wegent"><meta data-rh="true" name="description" content="目标与依据"><meta data-rh="true" property="og:description" content="目标与依据"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/dots-closed-loop-user-stories"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/dots-closed-loop-user-stories" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/engineering/dots-closed-loop-user-stories" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/engineering/dots-closed-loop-user-stories" hreflang="x-default"><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.d412ddf2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.2c242c6a.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.d2786db8.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -17,21 +17,21 @@
 <p>来源均在 2026-11-07 阅读：<a href="https://openai.com/index/introducing-dots/" target="_blank" rel="noopener noreferrer" class="">OpenAI 发布文章</a>明确列出反馈修复、发布材料更新和研究分析更新；<a href="https://learn.chatgpt.com/docs/dots/getting-started" target="_blank" rel="noopener noreferrer" class="">官方使用指南</a>说明上下文、持续反馈及人工决策；<a href="https://www.macrumors.com/2026/09/29/openai-launches-dots/" target="_blank" rel="noopener noreferrer" class="">MacRumors 行业报道</a>关注持续工作和权限；<a href="https://9to5google.com/2026/09/29/openai-dots-agent/" target="_blank" rel="noopener noreferrer" class="">9to5Google 行业报道</a>介绍问题调查及人工审核。以下具体业务数据与验收步骤是 Wework 测试设计，不是上述文章中的事实，也不表示 Wework 兼容 dots 的所有能力。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="环境边界和证据">环境、边界和证据<a href="#环境边界和证据" class="hash-link" aria-label="环境、边界和证据的直接链接" title="环境、边界和证据的直接链接" translate="no">​</a></h2>
 <ul>
-<li class="">使用 <code>pnpm --filter wework ai:verify start</code> 启动隔离桌面会话；使用现有模型、独立工作区和个人主分身。不得操作个人 Wework 窗口或读取认证内容。</li>
+<li class="">使用 <code>pnpm --filter wework ai:verify start</code> 启动隔离桌面会话；使用现有模型、独立工作区和个人主助理。不得操作个人 Wework 窗口或读取认证内容。</li>
 <li class="">用户明确选择本机 Codex 账号时，使用 <code>WEWORK_E2E_NATIVE_CODEX_HOME=&quot;$HOME/.codex&quot; pnpm --filter wework ai:verify start</code>，让现有原生账号机制接入该账号；其余会话数据仍隔离。默认不继承账号，因此初始没有模型不代表模型目录缺陷。不得读取、打印或提交认证内容，完成后执行 <code>ai:verify stop</code> 清理会话链接。</li>
 <li class="">探索性实测使用真实模型；自动 E2E 可脚本化模型响应，但保留真实执行器、工具、文件、计算、任务委派、人工输入、持久化和交付物声明。</li>
-<li class="">主分身负责接收目标、委派任务和回传结果；子任务负责实际执行。每次结果都需核对实际文件或命令输出，并从主会话打开交付物。</li>
+<li class="">主助理负责接收目标、委派任务和回传结果；子任务负责实际执行。每次结果都需核对实际文件或命令输出，并从主会话打开交付物。</li>
 <li class="">等待和运行期间至少离开再返回一次；完成后重新加载，检查结果、人工决定和当前版本是否保留。状态、错误、焦点、等待提示、重复回执和导航问题均记入实测记录。</li>
 <li class="">只使用测试拥有的本地 Git 仓库和文件。业务用例中不发送外部消息、不发布公告、不推送远程仓库。</li>
-<li class="">自动 E2E 在已有私有 Git 基线上创建真实 linked worktree，将其中 <code>stories/</code> 子目录作为所选当前工作区，保持 <code>current_workspace</code> 执行模式。主分身和子任务摘要必须保留该精确路径及 <code>workspace</code> 类型，不能因祖先目录属于 Git worktree 就冒充托管 worktree；不覆盖 Shell 的 <code>workdir</code>，独立检查原生默认 cwd，并在重载后单击主会话的真实交付物卡片验收文件预览。</li>
+<li class="">自动 E2E 在已有私有 Git 基线上创建真实 linked worktree，将其中 <code>stories/</code> 子目录作为所选当前工作区，保持 <code>current_workspace</code> 执行模式。主助理和子任务摘要必须保留该精确路径及 <code>workspace</code> 类型，不能因祖先目录属于 Git worktree 就冒充托管 worktree；不覆盖 Shell 的 <code>workdir</code>，独立检查原生默认 cwd，并在重载后单击主会话的真实交付物卡片验收文件预览。</li>
 <li class="">清理时停止活动子任务和隔离会话，恢复测试配置，清理测试数据。截图、日志、会话文件和本地调查证据不提交。</li>
 </ul>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="用例一客户反馈到经过验证的软件修复">用例一：客户反馈到经过验证的软件修复<a href="#用例一客户反馈到经过验证的软件修复" class="hash-link" aria-label="用例一：客户反馈到经过验证的软件修复的直接链接" title="用例一：客户反馈到经过验证的软件修复的直接链接" translate="no">​</a></h2>
-<p><strong>用户故事：</strong> 作为产品工程师，我希望主分身调查客户反馈并委派修复，返回经过测试的变更，以便直接审查可工作的修复。</p>
+<p><strong>用户故事：</strong> 作为产品工程师，我希望主助理调查客户反馈并委派修复，返回经过测试的变更，以便直接审查可工作的修复。</p>
 <p><strong>前置与数据：</strong> 创建独立 <code>cart-fixture/</code> Git 仓库，包含 <code>cart.mjs</code>、<code>cart.test.mjs</code> 和 <code>feedback.md</code>。故障函数 <code>totalCents(items)</code> 忽略数量。反馈样例为单价 1200 分、数量 2，加单价 500 分、数量 1；故障结果 1700，正确结果 2900。使用 Node 内置测试，无外部安装。</p>
 <p><strong>步骤与验收：</strong></p>
 <ol>
-<li class="">在主分身提交反馈和目标，要求委派任务、复现、添加回归、修复及本地交付，限制只改测试仓库。</li>
+<li class="">在主助理提交反馈和目标，要求委派任务、复现、添加回归、修复及本地交付，限制只改测试仓库。</li>
 <li class="">打开子任务，确认新增数量回归先失败，再因实际函数修复而通过；失败输出应包含 1700 与 2900 的差异。</li>
 <li class="">返回主会话，核对真实测试结果和变更路径；通过应用查看代码或差异，独立运行 <code>node --test cart.test.mjs</code>。</li>
 <li class="">追加反馈：数量为零时金额为零。继续原工作，补充有效测试并确认前次修复仍通过。</li>
@@ -39,7 +39,7 @@
 </ol>
 <p><strong>异常与恢复：</strong> 复现时失败是必要证据，不能被当作最终成功。真实运行失败或模型不可用时应显示错误并通过产品入口恢复；不能重复运行未修复的测试来获取偶然通过。验收需证明空列表、正常数量和零数量都正确，且测试仓库外无变更。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="用例二发布范围变更到人工确认后的发布材料">用例二：发布范围变更到人工确认后的发布材料<a href="#用例二发布范围变更到人工确认后的发布材料" class="hash-link" aria-label="用例二：发布范围变更到人工确认后的发布材料的直接链接" title="用例二：发布范围变更到人工确认后的发布材料的直接链接" translate="no">​</a></h2>
-<p><strong>用户故事：</strong> 作为发布负责人，我希望分身核对范围变化、提出需要我的决定，再同步修订所有发布材料，以便批准一致的客户承诺。</p>
+<p><strong>用户故事：</strong> 作为发布负责人，我希望助理核对范围变化、提出需要我的决定，再同步修订所有发布材料，以便批准一致的客户承诺。</p>
 <p><strong>前置与数据：</strong> <code>scope-v1.md</code> 包含 CSV 导出、自动定时、2026-11-20 全量发布；<code>scope-v2.md</code> 只保留 CSV 导出、自动定时延期、仅 beta 用户，但缺少日期。现有 <code>announcement.md</code> 和 <code>launch-checklist.md</code> 仍是旧承诺。</p>
 <p><strong>步骤与验收：</strong></p>
 <ol>
@@ -51,7 +51,7 @@
 </ol>
 <p><strong>异常与恢复：</strong> 无答案或取消不能自行选择；缺失来源不能猜测。真实回答必须驱动同一工作的后续执行，不产生重复子任务。不允许把草稿描述成已发送或已发布。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="用例三新商业数据到修订分析和决策落实">用例三：新商业数据到修订分析和决策落实<a href="#用例三新商业数据到修订分析和决策落实" class="hash-link" aria-label="用例三：新商业数据到修订分析和决策落实的直接链接" title="用例三：新商业数据到修订分析和决策落实的直接链接" translate="no">​</a></h2>
-<p><strong>用户故事：</strong> 作为销售运营负责人，我希望分身根据订单变化刷新分析、解释影响，并落实我选择的跟进优先级，避免按过期数据行动。</p>
+<p><strong>用户故事：</strong> 作为销售运营负责人，我希望助理根据订单变化刷新分析、解释影响，并落实我选择的跟进优先级，避免按过期数据行动。</p>
 <p><strong>前置与数据：</strong> CSV 字段为 <code>order_id,customer,amount_cents,status</code>。初版为 O1/Aster/10000/paid、O2/Birch/20000/paid、O3/Aster/5000/pending；保存不可变初版。新版将 O2 改为 refunded，并增加 O4/Cedar/30000/pending。</p>
 <p><strong>步骤与验收：</strong></p>
 <ol>
