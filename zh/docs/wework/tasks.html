@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">与 AI 协作 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="与 AI 协作 | Wegent"><meta data-rh="true" name="description" content="描述任务"><meta data-rh="true" property="og:description" content="描述任务"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/tasks" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"与 AI 协作","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/tasks"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.ed9f626b.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.1d96b308.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.ae387b16.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.b261efd1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -19,6 +19,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="持续目标的状态与控制">持续目标的状态与控制<a href="#持续目标的状态与控制" class="hash-link" aria-label="持续目标的状态与控制的直接链接" title="持续目标的状态与控制的直接链接" translate="no">​</a></h3>
 <p>创建 Goal 后，输入区附近显示目标条及状态。悬停或聚焦目标条会显示 <strong>编辑目标</strong>、<strong>删除目标</strong>；目标条右侧按当前状态显示 <strong>暂停目标</strong> 或 <strong>开始目标</strong>。先暂停持续目标，再检查是否还需暂停当前回复；仅停止一轮回复不能视为已暂停持续目标。</p>
 <p>目标可能处于运行、暂停、阻塞、预算/用量受限或完成状态。预算耗尽、工具失败、断开连接都不是完成证明；根据准确状态处理条件后再选择继续。删除目标与删除对话也不是同一操作。</p>
+<p>重启应用后，可以在原会话中开始已停止的目标。Wework 会先恢复该会话的执行配置，再继续原目标，保留目标内容、预算和已用额度。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="模型过载与额度恢复">模型过载与额度恢复<a href="#模型过载与额度恢复" class="hash-link" aria-label="模型过载与额度恢复的直接链接" title="模型过载与额度恢复的直接链接" translate="no">​</a></h3>
 <p>本地 Codex 任务遇到模型过载时，会按 10 秒、30 秒、2 分钟、5 分钟的间隔自动重试，界面显示倒计时。重试延续原会话和模型，保留已完成的工具执行记录。</p>
 <p>订阅额度耗尽后，任务进入等待队列并释放执行名额。输入区显示额度恢复倒计时；到期后，Wework 重新检查额度并使用原模型继续，包括因额度暂停的持续目标。没有明确恢复时间时，每分钟检查一次。等待记录会保存在本机，重新打开 Wework 后继续等待；应用关闭期间不会执行。</p>
