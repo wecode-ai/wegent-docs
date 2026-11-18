@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework Chat State Sources | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework Chat State Sources | Wegent"><meta data-rh="true" name="description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><meta data-rh="true" property="og:description" content="This document records the state sources for the Wework chat path. The goal is to make UI code read one explicit derived status instead of letting the send button, message stream, queue, and runtime task list override each other."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework Chat State Sources","item":"https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.40b52cea.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.5c388a90.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.5a278ace.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -227,6 +227,27 @@ or plan mode. Both modes explicitly enable native V2 collaboration on resume,
 including threads previously persisted as disabled. Explicit single-agent
 executions still disable collaboration tools. Desktop requests no longer send
 the conflicting legacy single field alongside their native mode.</p>
+<p>When neither <code>agents.max_concurrent_threads_per_session</code> nor <code>agents.max_threads</code>
+is present, executor initialization adds <code>[agents] max_concurrent_threads_per_session = 6</code>.
+A non-table <code>agents</code> value is preserved for native configuration validation.
+In V2 this permits seven total threads including the root. Existing values of
+this field or the legacy <code>max_threads</code> field are preserved. The V2-specific
+<code>[features.multi_agent_v2] max_concurrent_threads_per_session</code> setting retains
+native precedence and counts the root. Later manual edits are preserved and
+take effect after restarting the runtime. Single-agent mode still disables
+subagents; the default capacity does not change delegation permissions.</p>
+<p>Project catalog synchronization in <code>projects.list</code> includes SQLite initialization
+and Git metadata discovery. It runs in a blocking worker rather than the IPC
+reactor. Catalog reads open only the project store, without initializing unrelated
+Issue or table providers. Concurrent listings share an asynchronous execution lock, which stays
+with an active worker after caller timeout or disconnect until the work finishes.
+Health queries and other IPC requests remain responsive during discovery; UI
+timeouts are not extended to hide blocking. The three Git probes for a new project share
+a 30-second deadline and reuse the native Git runner’s termination and reaping.
+A timeout does not persist that project’s catalog row; previously completed imports
+remain intact. Discovery errors are logged for the affected workspace and the scan continues
+with other entries; later listings can retry. Database and other non-discovery errors still propagate.</p>
+<p>E2E host-pipe diagnostics enabled for <code>clipboard-history-image</code> and <code>browser-toolbar-actions</code> record request IDs, send/receive/completion timestamps, and cumulative CPU and event-loop active/idle time in both processes. Correlate each request and compare adjacent samples to distinguish handler work, process activity, and scheduling waits. A single successful run is not evidence that an intermittent delay has been fixed.</p>
 <p>When the user sends guidance, Wework optimistically inserts the guidance
 message into the current turn before calling <code>runtime.tasks.guidance</code>. If
 Codex <code>turn/steer</code> explicitly reports that the expected turn ID differs from
@@ -394,6 +415,7 @@ execution that is continuing toward its Goal.</p>
 Enqueue, cancellation, and dequeue advance the same execution revision only after queue
 persistence succeeds. Cancelling admission preserves the previous turn&#x27;s result, and an
 older queued snapshot cannot make the cancelled task busy again.</p>
+<p>Prepare the model route before Goal activation. The prepared native session owns continuation after successful activation, so activation does not enqueue another recovery. Activation and the existing Goal journal still require durable persistence before admission can be acknowledged.</p>
 <p><code>recovering</code> means the executor owns Goal recovery or bounded retry backoff. Recovery awaiting admission has no process binding; backoff retains process ownership and must settle when that process exits. Recovery remains busy without an active model turn; its queued legacy
 <code>task.running: false</code> must not present that owned recovery as stopped.</p>
 <p>Content mappers neither cache Goal status nor gate native lifecycle delivery. Native turn

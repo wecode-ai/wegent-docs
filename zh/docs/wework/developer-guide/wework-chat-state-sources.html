@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Wework 聊天状态信源 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Wework 聊天状态信源 | Wegent"><meta data-rh="true" name="description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><meta data-rh="true" property="og:description" content="本文记录 Wework 聊天链路的状态信源和维护规则。目标是让 UI 只读取明确的单一派生状态，避免发送按钮、消息流、队列和 runtime 任务状态互相覆盖。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-chat-state-sources" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"Wework 聊天状态信源","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-chat-state-sources"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.75d9f5af.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.d25587f6.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.b261efd1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -177,6 +177,20 @@ Goal 的原生续跑可能超过本地请求的生命周期，即使请求控制
 不能覆盖当前选择的普通或计划模式。普通与计划模式在恢复时明确启用原生 V2 协作，
 因此此前误写为 disabled 的原线程可以继续使用 subagent；明确指定的单代理执行仍禁用
 协作工具。桌面请求不再同时写入冲突的旧 single 字段。</p>
+<p><code>agents.max_concurrent_threads_per_session</code> 和 <code>agents.max_threads</code> 均不存在时，
+executor 初始化配置会补入
+<code>[agents] max_concurrent_threads_per_session = 6</code>。在 V2 中这对应包含主线程的
+7 个总线程。已配置的该字段或旧字段 <code>max_threads</code> 不会被覆盖；V2 专属配置
+<code>[features.multi_agent_v2] max_concurrent_threads_per_session</code> 仍按原生优先级生效，
+其数值包含主线程。之后手动调整配置也会保留，重启运行时后生效。
+非表类型的 <code>agents</code> 值保留给原生配置校验。单代理模式仍禁用子 agent；默认额度不改变委派权限。</p>
+<p><code>projects.list</code> 的项目目录同步包含 SQLite 初始化和 Git 元数据探测，必须在阻塞
+worker 中执行，不能占用 IPC reactor。目录读取只打开项目存储，不初始化无关的 Issue 和表格 provider。并发枚举共用一个异步执行锁；请求超时或断开后，
+已启动的 worker 继续持有该锁直到结束，避免遗留查询叠加。枚举期间健康查询及其他
+IPC 请求仍可处理；不通过延长 UI 超时规避阻塞。单个新项目的三次 Git 探测共用
+30 秒期限，复用原生 Git runner 的终止与回收机制。超时不写入该项目目录记录，
+保留此前完成的导入，并记录该工作区的发现错误后继续处理其余目录；后续枚举可重试。数据库等非发现错误继续向调用方传播。</p>
+<p>为 <code>clipboard-history-image</code> 和 <code>browser-toolbar-actions</code> 开启的 E2E host-pipe 诊断会记录请求 ID、发送/接收/完成时间，以及两端进程的累计 CPU 时间和事件循环活动/空闲时间。出现延迟时应关联同一请求并比较相邻采样，区分处理耗时、进程忙碌和调度等待；单轮未复现不能作为已修复的证据。</p>
 <p>用户发送引导时，Wework 先把引导消息乐观插入当前 turn，再调用
 <code>runtime.tasks.guidance</code>。如果 Codex <code>turn/steer</code> 明确返回预期 turn ID 与实际活跃
 turn ID 不一致，executor 用返回的实际 ID 纠正本次引导目标并只重试一次，不回写
@@ -296,6 +310,7 @@ runtime 目标与会话缓存中的目标合并，再把实际接受的状态投
 <p><code>queued</code> 表示调度器尚未接纳执行，不表示模型轮次正在运行。入队、取消、出队在
 队列持久化成功后推进同一份执行状态版本；取消排队不会改写上一轮的结果，旧排队
 快照也不能把取消后的任务重新变成忙碌。</p>
+<p>激活 Goal 前先准备模型路由，由准备好的原生会话在激活成功后继续推进，不再额外排队恢复。激活结果和既有 Goal 日志仍须先持久化，失败不能返回已接纳。</p>
 <p><code>recovering</code> 表示执行器已持有既有 Goal 的恢复或正在执行有界重试退避。等待名额的恢复尚未绑定进程；退避保留进程归属，进程退出必须结算它。恢复期间没有活动模型轮次，排队中的旧 <code>task.running: false</code> 不能把它显示为已停止。</p>
 <p>内容映射器不缓存 Goal 状态，不决定是否接收原生生命周期。原生轮次完成负责收尾
 该轮的消息和思考块；迟到内容可以补全已结束消息，但不能把该轮重新改成 streaming。
