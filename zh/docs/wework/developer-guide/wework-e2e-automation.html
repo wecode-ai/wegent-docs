@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="CI 后台任务负载策略"><meta data-rh="true" property="og:description" content="CI 后台任务负载策略"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.2a983f20.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.1a134b2b.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.b261efd1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -613,6 +613,8 @@ gateway 可能复用已经被上游关闭的连接，并把请求错误地返回
 凭据等场景差异由 Electron 启动时注入的 desktop E2E runtime config 控制，不再
 编译进应用二进制；因此 plugins、core 和 cloud 可共享应用构建，同时仍保持各自
 独立的运行目录与进程状态。</p>
+<p>隔离显示的 Xvfb 进程若在 5 秒内未报告显示编号，启动脚本会在清理前记录 Xvfb 及其直接子进程的状态、内核等待点和进程名，以定位启动阻塞。
+Linux x64 正式打包作业固定使用 Ubuntu 24.04，避免 <code>ubuntu-latest</code> 切换系统版本时直接改变发布构建环境。</p>
 <p>Linux 桌面场景会把 Electron 系统依赖下载得到的 <code>.deb</code> 文件缓存在 runner 用户目录，
 并按操作系统、CPU 架构和自然周轮换缓存。每次运行仍执行 <code>apt-get update</code>，旧缓存
 只作为恢复来源，缺失或更新后的软件包会从 Ubuntu 软件源下载。安装使用
