@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">项目与工作区 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="项目与工作区 | Wegent"><meta data-rh="true" name="description" content="协作分组与全局资源目录"><meta data-rh="true" property="og:description" content="协作分组与全局资源目录"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/projects" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"项目与工作区","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/projects"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.8879537c.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.7f892eb8.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.9e283d82.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -174,8 +174,9 @@
 </ol>
 <p>每一步完成后会自动标记进度，全部完成后引导自动隐藏。可以随时选择 <strong>收起</strong> 暂时减少占用，或选择 <strong>不再显示</strong> 为当前用户和项目空间永久关闭引导。已有内容的看板不会主动显示这套首次上手引导。</p>
 <p>空列会同时说明该阶段适合放什么，以及当前可执行的创建操作；拖动卡片经过列时也会显示目标状态提示。默认的 <strong>我的任务</strong> 看板使用“任务”术语，其他项目空间继续使用 “Issue”。</p>
+<a id="board-views"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="保存和切换看板视图">保存和切换看板视图<a href="#保存和切换看板视图" class="hash-link" aria-label="保存和切换看板视图的直接链接" title="保存和切换看板视图的直接链接" translate="no">​</a></h2>
-<p>原生任务看板右侧的视图下拉菜单集中提供切换、新建和看板设置入口，与 <strong>专注视图</strong>、<strong>已归档</strong> 位于同一行。基础看板默认按收集箱、待开始、进行中、待确认、已完成五个状态分组；状态和自定义标签仍是 Issue 上独立的信息。</p>
+<p>原生任务看板右侧的视图下拉菜单集中提供切换、新建和看板设置入口，与 <strong>专注视图</strong>、<strong>已归档</strong> 位于同一行。选择 <strong>基础看板</strong> 后，泳道固定按项目的状态顺序展示，通常为收集箱、待开始、进行中、待确认、已完成；个人分组偏好和协作阶段标签不会覆盖它。状态和自定义标签仍是 Issue 上独立的信息。</p>
 <p>项目管理员可以创建多个视图，为泳道选择状态或标签、调整顺序、设置标签筛选，并将任一视图设为项目默认视图。进入项目时打开默认视图，随后切换视图只影响当前访问。视图和默认设置会同步给项目成员；删除默认视图后恢复基础看板。卡片显示字段与泳道设置在同一个窗口编辑，一次保存；显示字段应用于项目内所有视图。</p>
 <p>可添加一条 <strong>其它（未匹配）</strong> 泳道，命名为 <strong>Backlog / 待规划</strong> 并移到最左侧。它展示当前视图筛选范围内、不匹配任何其它状态或标签泳道的 Issue；每个视图最多一条。新建 Issue 未匹配其它泳道时自动进入，业务标签不影响归类。拖回此泳道会移除当前视图绑定的全部阶段标签，保留其它标签和状态；如果当前状态仍匹配其它状态泳道，需要先修改状态。若移除阶段标签会破坏视图筛选，该拖动也不可用。泳道中的新建入口保留项目默认的创建状态，并补充满足视图筛选的标签；默认状态匹配其它泳道，或无法满足筛选时，不显示该入口。</p>
 <p>标签名称最多 32 个 Unicode 码点，例如「😀」计为一个。名称保存时不包含首尾空白，泳道和筛选必须引用相同的规范名称。Issue 标签、项目标签、标签泳道和筛选使用相同长度限制；超长输入会显示错误并阻止保存，不会自动截断。历史数据中的长标签仍保留原值，修改标题等无关字段不会改动标签。</p>
@@ -183,7 +184,7 @@
 <p>原生项目重命名或删除标签时，标签目录、未删除 Issue 的标签、视图泳道及筛选引用会一起保存。项目版本冲突或任一 Issue 更新失败时，整次操作回滚，修正错误后可重试。外部托管的 Issue 不支持这项跨记录事务操作。表格中批量修改状态失败时，会列出失败任务和原因；已成功的任务取消选中，失败任务保持选中，便于重试。</p>
 <table><thead><tr><th>拖动方向</th><th>Issue 的变化</th></tr></thead><tbody><tr><td>状态 → 状态</td><td>更新状态，保留标签</td></tr><tr><td>状态 → 标签</td><td>添加目标标签，保留状态</td></tr><tr><td>标签 → 状态</td><td>更新状态，保留标签</td></tr><tr><td>标签 → 标签</td><td>移除来源标签、添加目标标签，保留其他标签和状态</td></tr></tbody></table>
 <p>同一个 Issue 可以同时出现在匹配的状态泳道和标签泳道中。跨类型拖动后，看板会高亮目标卡片并提示实际修改；拖入标签泳道不会重新打开已完成的 Issue。自定义视图包含进行中或待确认泳道时，同样可以使用专注视图展开执行过程。</p>
-<p>已有项目继续使用基础看板，历史 Issue 的状态和标签不需要转换。其他成员同时修改配置时，保存会提示冲突并读取最新配置；由更新版本创建的未知格式视图禁止在旧版本中编辑。</p>
+<p>项目管理员打开历史标签分组项目的看板时，系统自动修正基础分组配置，保留状态顺序、Issue、标签和默认自定义视图。保存失败时仍可查看状态看板，点击提示中的 <strong>重试保存</strong> 可重新保存。切换视图只改变当前显示，不保存项目分组。其他成员同时修改视图配置时，保存会提示冲突并读取最新配置；由更新版本创建的未知格式视图禁止在旧版本中编辑。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="按标签快速筛选">按标签快速筛选<a href="#按标签快速筛选" class="hash-link" aria-label="按标签快速筛选的直接链接" title="按标签快速筛选的直接链接" translate="no">​</a></h2>
 <p>在看板工具栏点击 <strong>全部标签</strong>，输入文本查找标签并勾选一个或多个标签。
 多选时，只要 Issue 包含任意一个所选标签，就会显示。筛选保留当前泳道分组，
