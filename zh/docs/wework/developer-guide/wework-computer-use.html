@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">电脑操控 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="电脑操控 | Wegent"><meta data-rh="true" name="description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><meta data-rh="true" property="og:description" content="Wework 的电脑操控能力让本地 Codex 会话在用户授权后操作桌面应用。它使用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-computer-use" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"电脑操控","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-computer-use"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.7f892eb8.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.9e283d82.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.236dce86.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.7e8ac0b4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -84,7 +84,10 @@ stdio EOF 会丢弃对应 HTTP 请求；Electron 在响应连接异常关闭时�
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="发布集成">发布集成<a href="#发布集成" class="hash-link" aria-label="发布集成的直接链接" title="发布集成的直接链接" translate="no">​</a></h2>
 <p>CUA 不是独立 sidecar，也不从用户环境或网络动态安装。Electron 包固定依赖
 <code>@trycua/cua-driver</code>，pnpm 根据构建平台选择对应的原生包，例如
-<code>@trycua/cua-driver-darwin-arm64</code>。</p>
+<code>@trycua/cua-driver-darwin-arm64</code>。六个平台原生包必须同时声明为 Electron 包的
+直接 <code>optionalDependencies</code>，并与 Driver 保持相同版本；不能只依赖 Driver 的间接
+可选依赖，否则 electron-builder 的依赖收集可能遗漏原生库。本地打包生成的暂存
+<code>package.json</code> 也必须保留这些声明。</p>
 <p>JavaScript 文件进入 <code>app.asar</code>，原生 <code>.node</code>、<code>.dylib</code>、<code>.so</code> 和 <code>.dll</code> 文件通过
 Electron 打包配置解包到 <code>app.asar.unpacked</code>。原生动态加载不能直接读取 ASAR
 虚拟路径，因此 <code>wework/electron/patches/</code> 中的 pnpm 依赖补丁会把 CUA 计算出的
