@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">故障排查 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="故障排查 | Wegent"><meta data-rh="true" name="description" content="查看进程资源占用"><meta data-rh="true" property="og:description" content="查看进程资源占用"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/troubleshooting" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"故障排查","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/troubleshooting"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.949fe468.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.344df604.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -35,6 +35,8 @@
 排查长时间加载时，在 <code>wework-main.log</code> 中比较 <code>main-window-show</code> 和来源为 <code>task-list</code> 的
 <code>renderer-startup-ready</code>。如果 <code>model-loading.log</code> 中有 <code>runtime.inventory.slow</code>，可以查看
 读取执行器身份、请求列表和复核身份各阶段的耗时。</p>
+<p>启动时，收件箱积压的指派通知会分批转发，为任务列表等前台请求留出本地连接。复核身份较慢时，
+可对照同一时段 <code>executor-transport.log</code> 中的请求发起和响应时间，判断是否有本地请求排队。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="排查发布包的升级与回滚">排查发布包的升级与回滚<a href="#排查发布包的升级与回滚" class="hash-link" aria-label="排查发布包的升级与回滚的直接链接" title="排查发布包的升级与回滚的直接链接" translate="no">​</a></h2>
 <p>使用发布工作流的诊断重放时，<code>app.log</code> 中的 <code>[desktop-e2e-startup]</code> 记录实际进程、
 安装版本、活动版本选择和进行中的事务；<code>[desktop-e2e-relaunch]</code> 记录下一步启动的可执行文件。
