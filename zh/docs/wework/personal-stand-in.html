@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">我的助理与场景角色 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="我的助理与场景角色 | Wegent"><meta data-rh="true" name="description" content="在 Issue 中持续协作"><meta data-rh="true" property="og:description" content="在 Issue 中持续协作"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/personal-stand-in" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"我的助理与场景角色","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/personal-stand-in"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.317d410f.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.c0cf15ca.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -24,7 +24,7 @@
 <p>Issue 中的助理回复以“所属用户 (角色)”署名，例如“张三 (助理)”，便于区分不同用户的助理。成员姓名暂不可用时显示用户编号；成员信息加载后显示姓名。</p>
 <a id="助理聊天与桌面通知"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="助理聊天与桌面通知">助理聊天与桌面通知<a href="#助理聊天与桌面通知" class="hash-link" aria-label="助理聊天与桌面通知的直接链接" title="助理聊天与桌面通知的直接链接" translate="no">​</a></h2>
-<p>从 <strong>协作 → 我的</strong> 可在右侧 <strong>助理</strong> 标签查看按角色划分的任务列表；点击任务在右侧继续原任务会话。首页只展示 Issue 相关助理任务，<strong>助理设置</strong> 打开已有配置；通用对话仍从 <strong>我的助理</strong> 进入。未连接看板时先显示连接引导。首页固定保留助理标签和一个 Issue 详情标签；打开另一个 Issue 会替换当前详情，重新打开仍保留草稿，私人助理聊天不会自动发布到 Issue。</p>
+<p>从 <strong>协作 → 我的</strong> 可在右侧 <strong>助理</strong> 标签查看按角色划分的任务列表；点击任务在右侧继续原任务会话。首页只展示 Issue 相关助理任务，<strong>助理设置</strong> 打开已有配置；点击 <strong>对话</strong> 进入协作聊天。未连接看板时先显示连接引导。首页固定保留助理标签和一个 Issue 详情标签；打开另一个 Issue 会替换当前详情，重新打开仍保留草稿，私人助理聊天不会自动发布到 Issue。</p>
 <p>上一条回复结束、或后台结果刚触发新回复时，可以继续发送要求；消息会按当前回合状态送入原会话。</p>
 <p>此聊天样式用于“我的助理”的主助理、角色对话：每条原生 AI 消息独立一个气泡，后台执行前的确认语与执行后的结果不会合并。聊天中不显示内部“引导对话”或“执行 X 秒”；普通任务和代码会话的执行过程展示保持不变。</p>
 <p>运行时对助理身份会话和协作 Issue 的助理会话启用原生 subagent v2，包括恢复已有会话；普通任务保留默认配置，明确配置的 single 协作模式仍禁用子代理。原生权限、来源范围与审批约束保持不变。</p>
@@ -103,11 +103,13 @@
 <p>有保存原文证据的记录会显示 <strong>查看来源证据</strong>。展开可查看证据片段、来源标识，以及它是用户原话、助手原话还是来源记录。助手原话不代表用户事实。没有保存证据的记录不显示此入口；展开证据不会重新读取来源或修改记忆。</p>
 <p>在面板中修改内容或作用域后，旧原文不再作为新记忆的证据展示；后台重新取得相符证据时可补齐。仅打开记录或不改内容地保存不会清除已有证据。</p>
 <table><thead><tr><th>操作</th><th>具体步骤与边界</th></tr></thead><tbody><tr><td>添加记忆</td><td>点击添加，填写内容并选择作用域，再保存；空白内容不能保存，单条最多 1000 字符</td></tr><tr><td>选择作用域</td><td>个人记忆、已有角色及已连接来源按当前配置列出；项目专属面板会固定项目作用域，不能任意跨作用域保存</td></tr><tr><td>编辑</td><td>在记录上点击编辑，修改后保存；不是修改输入框草稿</td></tr><tr><td>取消或关闭</td><td>有未保存修改时先确认是否放弃，不会因关闭面板自动保存</td></tr><tr><td>遗忘</td><td>在对应记录选择遗忘，再确认；取消则保留记录。遗忘不是归档对话，也不删除原始消息或项目</td></tr><tr><td>错误恢复</td><td>查看面板内错误并重试；作用域已断开或不存在时，先恢复来源/角色或选择有效作用域，不会静默改存到个人记忆</td></tr></tbody></table>
+<a id="stand-in-model-selection"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="模型选择">模型选择<a href="#模型选择" class="hash-link" aria-label="模型选择的直接链接" title="模型选择的直接链接" translate="no">​</a></h2>
 <p>助理档案的模型选择支持云端模型和执行设备上的本地自定义模型。云端模型使用执行设备连接的 Wework 云端账号；本地自定义模型使用该设备的 provider 配置和认证。助理创建的具体工作沿用已保存的模型选择。切换执行设备后，请确认该设备具有对应模型的配置和访问权限。</p>
-<p>助理聊天默认继承档案中已保存的模型和思考档位，也可在聊天内临时选择。下次保存的模型或档位有实际变化时，已有聊天从下一条消息重新继承新设置，当前执行回合不会重启。档案改动不会改变已有工作任务的工作目录或会话。</p>
-<p>临时换模型时，使用主助理或角色聊天输入框的模型选择器。首次发送前直接生效；支持按会话路由的执行设备会在原会话切换 Provider，保留原会话标识、历史和草稿。普通对话和助理使用同一套 Codex 路由，因此当前版本切换模型不需要新建会话或引用旧对话。只有版本过旧的执行设备可能显示兼容提示，此时下一条消息会在当前助理聊天中开启新会话；当前回合结束后再切换即可。临时选择不修改已保存的档案或普通聊天。</p>
-<p>助理聊天目前仅支持具备操作审批能力的 Codex 运行时，暂不支持 Claude Code 运行时。已保存的 Claude Code 模型不会自动替换；可在聊天输入框的模型选择器中手动选择可用的 Codex 模型后继续。普通工作任务中的 Claude Code 行为保持不变。</p>
+<p>在 <strong>我的助理 → 选择主助理或角色 → 助理详情 → 管理助理 → 运行环境</strong> 中打开运行环境设置，选择模型和思考档位后保存。我的助理聊天从下一条消息起使用档案的新设置，当前执行回合不会重启。档案改动不会改变已有工作任务的工作目录或会话。</p>
+<p>在 <strong>协作 → 我的 → 助理</strong> 中点击 <strong>对话</strong>，即可在聊天输入框中临时切换模型。首次发送前直接生效；支持按会话路由的执行设备会在原会话切换 Provider，保留原会话标识、历史和草稿。较旧的执行设备可能显示兼容提示，此时下一条消息会在当前助理聊天中开启新会话；当前回合结束后再切换即可。临时选择仅作用于这段聊天。</p>
+<p>助理聊天目前仅支持具备操作审批能力的 Codex 运行时。如果档案中保存的是 Claude Code 模型，请在运行环境设置中选择可用的 Codex 模型并保存，再继续聊天。</p>
+<p>当前模型不可用时，可以在聊天页点击 <strong>重新加载模型</strong>。如果旧会话无法读取模型提供方，或档案模型与旧会话不兼容，可以选择 <strong>使用新会话继续</strong>。确认后，下一条消息会在同一个助理聊天中开启新会话，历史和草稿会保留。</p>
 <a id="stand-in-source-session-policy"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="连接钉钉和协作项目">连接钉钉和协作项目<a href="#连接钉钉和协作项目" class="hash-link" aria-label="连接钉钉和协作项目的直接链接" title="连接钉钉和协作项目的直接链接" translate="no">​</a></h2>
 <p>连接页按来源展示 <strong>已配置</strong> 和 <strong>可添加</strong>，同一来源的群聊、邮箱或项目合并为一行；其他来源入口始终可见。每行显示接收范围、当前状态和下一步操作。已有范围不代表正在接收：协作项目未开启接收时仍保留范围摘要，并标明 <strong>未开启接收</strong>。日历位于独立的 <strong>定时交办</strong> 区域。</p>
@@ -190,7 +192,7 @@
 <p><strong>设置失败与重试</strong>：执行环境读取失败时，在错误提示旁点击 <strong>重新加载</strong>，只重试该设备的项目与工作区目录，保留当前设置草稿。保存失败后重新加载已保存的配置，会先询问是否放弃未保存修改；选择 <strong>继续编辑</strong> 保留输入，确认放弃后才读取已保存配置。 模型目录加载状态显示在“模型”字段下方；加载失败时点击该处的 <strong>重新加载</strong>，保留已选择的模型和当前草稿。保存期间，主助理与角色设置的保存按钮显示 <strong>保存中</strong>。</p>
 <a id="assistant-first-use"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="首次使用助理">首次使用助理<a href="#首次使用助理" class="hash-link" aria-label="首次使用助理的直接链接" title="首次使用助理的直接链接" translate="no">​</a></h2>
-<p>首次打开“我的助理”时，可以点击 <strong>先聊天，稍后连接</strong> 直接进入聊天。系统记住已跳过引导，不保存或启用未确认的来源配置；如果已编辑连接草稿，会先询问是否放弃。保存引导完成状态失败时，保留当前界面并允许重试。<strong>退出助理</strong> 则关闭当前页面，不标记引导完成。</p>
+<p>首次打开“我的助理”时，在引导中选择模型。之后可在 <strong>助理详情 → 管理助理 → 运行环境</strong> 修改。可以点击 <strong>先聊天，稍后连接</strong> 直接进入聊天。系统保存所选模型并记住引导已完成，未确认的来源配置会被放弃；如果已编辑连接草稿，会先询问是否放弃。保存引导完成状态失败时，保留当前界面并允许重试。<strong>退出助理</strong> 则关闭当前页面，不标记引导完成。</p>
 <p>也可以先连接常用应用，再点击 <strong>继续</strong>，确认范围后 <strong>开始使用</strong>。连接步骤复用助理设置中的项目、钉钉、邮箱等入口，按提示授权并选择关注范围。</p>
 <p>顶部说明区分统筹工作的“我的助理”与专注一类事务的场景角色。在 <strong>助理详情</strong> 查看运行状态，在 <strong>管理助理 → 连接</strong> 查看或修改当前身份接收工作的范围。<strong>管理助理 → 从聊天工具联系助理</strong> 用于绑定 IM 私聊。</p>
 <p>首次初始化后，顶部只显示「我的助理」。需要为某类工作单独配置助理时，点击顶部的「＋」添加场景角色。已有角色仍可在顶部切换。</p>
