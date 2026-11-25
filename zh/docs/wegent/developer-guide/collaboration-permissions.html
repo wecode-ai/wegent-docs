@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">协作权限架构与不可破坏的规则 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="协作权限架构与不可破坏的规则 | Wegent"><meta data-rh="true" name="description" content="会话分享时，项目事项的显式人员指派与现有指派记录、接收人收件箱唤醒同事务提交；仅受邀且未被指派的参与者不产生助理接单事件。IM 投递面向有权查看该事项的参与者，网页入口使用登录账号读取同一事项。消息链接不授予事项、附件或会话访问权限。CP01–CP20 不变。"><meta data-rh="true" property="og:description" content="会话分享时，项目事项的显式人员指派与现有指派记录、接收人收件箱唤醒同事务提交；仅受邀且未被指派的参与者不产生助理接单事件。IM 投递面向有权查看该事项的参与者，网页入口使用登录账号读取同一事项。消息链接不授予事项、附件或会话访问权限。CP01–CP20 不变。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/collaboration-permissions" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"协作权限架构与不可破坏的规则","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/collaboration-permissions"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.e069e8fc.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.8e4a1925.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.96ef9934.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -42,6 +42,28 @@
 <p>显式指派独立事项时，按同一事务写入收件箱。负责人可以预先在助理的协作连接开启独立事项，接收范围从保存时起生效，继续使用已有的自动处理和行动确认策略。领取与发布在事项锁下重验当前负责人、指派标识和设备归属。一次指派只有一个设备与会话可以领取，重复发布复用同一条回复。转派、归档、完成或关联项目后，旧绑定无法继续执行或发布。普通受邀者的访问范围仍由事项权限决定。 独立事项执行不挂载项目工具，也不获得个人工作台操控能力。真实 MySQL 合约覆盖设备竞争、身份拒绝、回复幂等与撤销；桌面 <code>task-share-as-issue</code> 增加负责人助理回复故事。</p>
 <p>个人任务的远程访问要求目标电脑当前开启本机授权。运行中回答问题复用既有 <code>runtime.tasks.guidance</code>，Python RPC、Rust Socket.IO 与 Executor 均检查该许可；关闭后立即拒绝，其他电脑的许可和项目只读授权不能替代它。该许可不开放远程配置或设备管理。三层契约测试覆盖开启、撤销、安装隔离和项目权限边界，既有 <code>remote-task-access</code> CI 检查点覆盖实际提交链路；CP01–CP20 不变。</p>
 <p>独立事项按用户明确授权不属于项目或空间，创建者与显式受邀者是唯一可见主体；仅创建者管理邀请、删除和关联项目。更新、评论与撤销共享同一事项行锁，版本防止并发覆盖；分页先过滤当前权限。关联项目在事项及目标项目锁内重验目标编辑权限、分配编号并保留讨论，不授予原参与者项目权限。CP06、CP14 增加独立事项边界，项目内原规则不变；真实 MySQL 的 <code>personal_issues::mysql_tests</code> 与 <code>collaboration-personal-issues</code> 桌面检查点覆盖这些事务。</p>
+<p>详情中的参与者控件只提交目标人员和邀请操作。后端在事项行锁内应用直接邀请变更，保留小组邀请，并在撤销当前负责人直接邀请的同一事务中清除分配和助理绑定。版本过期或权限不足时请求失败，事项保持原状态。</p>
+<p>无项目事项的详情、列表、附件及关联任务读取都从共用参与者记录校验邀请。撤销直接邀请后，只要仍有受邀小组覆盖该人员，就沿用同一记录保留其访问。撤销最后一份邀请时删除记录。仅保存在旧事项元数据中的邀请和附件无法在共用接口中读取。</p>
+<p>详情中的直接邀请统一使用 <code>POST /api/v1/loop-items/{item_id}/collaborators</code>。无项目事项只有创建者可以发出直接邀请，写入和事项版本更新使用同一行锁。已经通过小组获邀时，沿用原记录标识，避免重复通知。</p>
+<p>撤销直接邀请统一使用 <code>DELETE /api/v1/loop-items/{item_id}/collaborators/{user_id}</code>。默认网关将该方法交给 Rust。项目角色和无项目事项的创建者权限都在事项行锁内校验。无项目事项撤销当前负责人的邀请时，同步清除分配、助理绑定并更新事项版本。项目事项保留现有负责人授权规则。</p>
+<p>共用编辑器通过 <code>GET /api/v1/loop-items/{item_id}</code> 读取两类事项详情。无项目事项要求用户会话令牌，并校验创建者或当前邀请。任务令牌和 API Key 继续遵循项目读取规则。</p>
+<p>无项目事项首次打开和编辑后刷新均使用该接口。响应提供当前参与者、归档和资源选择需要的编辑字段，来源会话入口只向创建者显示。旧链接打开已关联项目的事项时，直接采用同一响应里的项目 ID，并遵循项目授权。</p>
+<p>详情中的标题、描述、优先级和截止日期通过 <code>PATCH /api/v1/loop-items/{item_id}</code> 保存。无项目事项仍要求用户会话和当前事项访问权。两类事项共用内容修订和版本检查，保存只更新请求提交的字段。</p>
+<p>无项目事项在归档和恢复时只提交归档字段，并在提交成功后刷新当前负责人的分派角标。完整表单的普通编辑也通过该接口保存。编辑实际变更受邀人员或资源时，邀请、负责人和表单字段仍在同一事务提交。</p>
+<p>两类事项的客户端都通过 <code>DELETE /api/v1/loop-items/{item_id}</code> 操作。项目事项进入回收站。删除无项目事项要求创建者提交当前版本，同一事务隐藏讨论并解除助理执行绑定，附件对象由现有后台清理任务删除。</p>
+<p>「我的工作」共用列表投影和游标分页。无项目事项列表通过 <code>unlinked=true</code> 选择范围，只返回当前用户创建或受邀的事项。负责人字段与任务绑定本身不授予读取权。</p>
+<p>关闭和重开同样使用该接口。两类事项共用状态历史写入，成功提交后通知相关负责人刷新分配角标。项目事项按看板配置检查状态并处理项目自动化，无项目事项使用默认状态。</p>
+<p>两类事项详情通过该接口设置或清除负责人。无项目事项可指派创建者、直接受邀的用户或已添加的资源，人员分派事件、助理唤醒和旧执行绑定的解除与事项变更一起提交。项目事项单独提交人员、机器人或智能体指派时，复用项目指派的权限检查、运行配置和队列处理。</p>
+<p>两类事项清除主负责人时共用分派事件更新。成功提交后刷新受影响人员的分派角标，工作流步骤的分派仍由各步骤管理。</p>
+<p>未关联项目的事项和项目事项共用讨论消息存储。未关联时，事务以事项 ID 和空项目 ID 读写消息，并以当前事项权限校验访问。Rust 的两类事项评论共用事务写入，消息、内容修订和受邀接收人的提及通知一并提交。写入时重新确认已锁定事项的项目归属。首次发布消息或关联项目时，旧讨论按原顺序导入同一存储，保留消息标识、作者和时间。关联项目在同一事务内更新讨论的项目 ID，之后按目标项目的事项权限读取。</p>
+<p>从未关联项目的事项创建子事项时，事务锁定父事项并重验创建者的访问权。子事项独立维护显式受邀者，通过父子关系无法获得另一事项的读取或执行权限。相同创建账号和请求标识在同一父事项下的重试复用已保存的子事项。</p>
+<p>分派记录与关联任务读取共用事项范围查询。项目事项执行项目和事项权限校验，无项目事项按创建者及当前显式邀请校验。任务绑定只返回请求账号拥有的有效关联。关联项目的事务一并迁移绑定记录的项目引用，随后执行目标项目权限校验。任务绑定不开放私人会话，也不授予项目成员或资源权限。桌面 <code>collaboration-personal-issues</code> 检查点覆盖绑定、调用者隔离、未受邀访问拒绝及关联后保留原绑定。</p>
+<p>有无项目的显式人员分派使用同一种分派事件与有效分派索引。无项目事项把事件 ID 用于助理领取和回复校验，接收人唤醒与分派事件在同一事务提交。取消分派会从有效索引移除旧事件，重复创建请求保留原事件 ID。只有创建事务直接写首条索引，无需锁定不存在的历史事件范围。</p>
+<p>无项目事项的助理领取使用事项任务绑定记录，仅绑定所有者可从关联任务接口取得该记录。改派、删除或关联项目时解除原领取绑定，与事项变更同事务提交。</p>
+<p>讨论附件和新建会话分享的附件都保存在同一张事项附件表，通过共用接口读取。无项目时，只有通过会话登录的创建者或当前受邀者可读取和编辑附件，撤销邀请后重新检查。移动事项后附件随原事项保留。删除无项目事项时，后台用已删除记录重试清理对象和附件记录。提及只通知事务内仍可见事项的有效人员。</p>
+<p>旧分享附件链接在验证当前事项权限及附件归属后，在同一站点跳转到共用下载接口。共用接口再次校验当前访问权限，再读取文件。</p>
+<p>详情的单字段编辑提交版本号及改动字段。无项目事项在锁定当前记录后校验版本与访问权，并保留未提交的字段和邀请信息。明确传入空值可以清除日期或负责人。</p>
+<p>两种事项详情都通过事项参与者接口读取列表。无项目时，接口重验创建者或现有受邀者权限，返回直接受邀人，且不返回邮箱。</p>
 <p>人工回答的精确接收确认可能晚于执行完成。Rust Socket.IO 原投影事务仅在设备归属、持久回答 ID、原执行、项目、Issue 及已完成活动的 Runtime 轮次全部匹配时结算原问题；依次锁定 Issue、执行和活动，提交后发布问题变化，不重复完成通知。执行状态、版本和事件序号不变，不重发输入。已有后续执行也不丢失原回答确认；旧消息、错误轮次与其他所有者不能结算。回归复用现有隔离 MySQL 迁移验收，覆盖乱序、重复确认、身份拒绝及重试轮次边界；该迟到确认行为仅由 Rust 事件主路径负责。CP01–CP20 不变。</p>
 <p>云端手动启动继续复用持久派发队列，临时失败和执行器重启不能丢失已接收的请求。恢复手动请求不要求指派、项目订阅或接收开关，但仍验证当前账号、角色和 Issue 权限；已启动或已删除的工作不因恢复而重复执行。自动派发继续验证当前指派及自动接收策略。<code>manual_issue_startup_intent_survives_restart_without_assignment_or_intake</code> 和既有真实数据库故障与重启 E2E 覆盖恢复事务，CP 不变量不变。</p>
 <p>助理 Issue 消息从排队进入执行时，重新读取服务端当前 Issue 的 <code>permissions.execute</code>；角色降为只读或缺少执行权限信息时不启动模型。该检查不依赖负责人或接收开关，权限恢复后原会话仍可使用。<code>queued_stand_in_turns_recheck_current_issue_execution_permission</code> 覆盖权限撤销、缺失和恢复，CP15 不变。</p>
