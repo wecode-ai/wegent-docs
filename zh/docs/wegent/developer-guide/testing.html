@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">测试框架文档 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="测试框架文档 | Wegent"><meta data-rh="true" name="description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><meta data-rh="true" property="og:description" content="本文档介绍 Wegent 项目的单元测试框架设置。"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"测试框架文档","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.de09c4dc.js" defer="defer"></script>
-<script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.b95b203d.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/main.8e4a1925.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg style="display: none;"><defs>
@@ -183,12 +183,33 @@ Wework 浏览器和桌面 E2E，以及 Wework macOS 内存门禁，适合路径�
 影响面的改动。三个测试 workflow 都会响应标签事件；没有 <code>ci:all</code> 标签时仍按
 改动路径决定测试范围。Wework macOS 内存门禁仅在带有 <code>ci:all</code> 标签的非 Draft PR 中运行；
 普通 PR、定时任务和手动任务均不触发内存 E2E。</p>
+<p>平台 E2E 在 PR 和 merge queue 上按改动路径运行，定时和手动运行保留全量覆盖。
+仅改动任务执行 Rust crate 的源码时，由平台 E2E 和 Rust 测试验证执行行为。交付镜像
+继续在打包、启动和其余后端输入变动时验证，也会参加全量回归。
+Executor E2E 的设备用例和独立沙箱用例在不同 runner 上并行执行，各自使用独立的服务和数据库。
+设备用例保留单 worker，沙箱用例保留双 worker。Rust Backend 的 Clippy 与测试并行运行，
+<code>Test Summary</code> 要求两项都通过。
+macOS 渲染性能门禁按受影响的源码和性能测试输入触发，全量回归也会运行。失败时上传首次测量报告。需要进一步定位时，可在 macOS 上手动执行
+<code>pnpm --filter wework profile:renderer --capture</code> 采集 trace。</p>
 <p>Linux 桌面 E2E 分片从共享镜像获取原生测试工具。平台 E2E 在 Rust 后端构建期间准备依赖和服务，
 使用前等待同一次 CI 运行的后端产物。同仓库 PR 可复用该 PR 中构建输入完全匹配的 Linux 桌面包。普通 PR 的 macOS 桌面检查构建本地应用和 Executor。
 需要从 PR 提取完整 macOS 构建或原生后端产物时，使用 <code>ci:all</code> 运行。</p>
 <p>Rust 后端 E2E 先查找精确匹配的最终运行时，再按需构建。构建可复用依赖镜像和由主分支写入的
 GHCR BuildKit 层。缺少依赖镜像时，直接用真实源码编译，依赖预热任务才编译占位目标。
-Linux Core 的两个延迟基准保留专用分片，其余检查点在现有分片间均衡。</p>
+依赖镜像解析脚本也参与运行时缓存键，修改该脚本会触发实际构建。
+当前依赖镜像缺失时，从基础提交最近八个第一父提交中查找工具链和依赖构建阶段
+一致的镜像。Cargo 按当前锁文件验证依赖并重编受影响目标。
+构建按文件内容同步当前提交的工作区源码，删除已移除的文件，并保留未变文件的时间戳，
+由 Cargo 判断需要重新编译的 crate。
+功能 E2E 的网关包以优化级别 0 编译，复用原有依赖编译产物。Linux Core 为两个
+延迟基准和运行中会话历史分别保留专用分片，其余检查点在现有分片间均衡。
+耗时较长的检查点优先分到不同 runner，降低并发 Electron 会话的 CPU 争用。
+CI 调度、分类或 Rust E2E 构建编排改动触发桌面打包启动、原生生命周期和插件路由冒烟检查。
+产品文件继续按路径选择场景。定时、手动和 <code>ci:all</code> 运行完整桌面套件。
+仅修改桌面 E2E 的共享辅助模块时，PR 运行原生生命周期、设备文件交付、内嵌浏览器和插件路由，
+覆盖项目创建、文件和窗口操作，完整套件继续验证其他调用方。</p>
+<p>Backend Rust 模块检查中的单包 MySQL 和 Redis 回归复用工作区编译出的测试二进制，
+保留各自的服务配置和日志。筛选条件未命中任何测试时，检查失败。</p>
 <p>Windows 桌面构建由 <code>build-wework-windows-e2e</code> 共享 action 负责，主分支缓存预热与
 PR 使用同一路径。只有 <code>main</code> 可以写入共享缓存；完整桌面包按源码输入、Node、
 Rust 和 runner 镜像版本精确匹配，不使用前缀匹配。命中后直接验证并上传原始构建包，
@@ -278,6 +299,8 @@ APT 下载缓存只有 <code>main</code> 写入，PR 只恢复。</li>
 已经由 merge queue 验证过的测试。不要在 PR/merge-group 上新增大型自动保存缓存；需要增加缓存时，应采用
 <code>actions/cache/restore</code> 和仅限 <code>main</code> 的 <code>actions/cache/save</code>，或使用已有共享
 action。</p>
+<p>连续推送会取消旧预热。新的主分支预热从最近一次成功的主分支推送运行计算改动，
+覆盖被取消运行中的输入。找不到可用祖先时执行全量预热。</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="写入-github-actions-输出">写入 GitHub Actions 输出<a href="#写入-github-actions-输出" class="hash-link" aria-label="写入 GitHub Actions 输出的直接链接" title="写入 GitHub Actions 输出的直接链接" translate="no">​</a></h3>
 <p>写入 <code>$GITHUB_OUTPUT</code> 时，每一行必须是 <code>name=value</code> 格式。不要把会输出进度或诊断
 信息的命令替换结果直接写入该文件；先只提取所需的值，再写入输出。例如，解析

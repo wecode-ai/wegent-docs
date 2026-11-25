@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Test Framework Documentation | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="zh_CN"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Test Framework Documentation | Wegent"><meta data-rh="true" name="description" content="This document describes the unit testing framework setup for the Wegent project."><meta data-rh="true" property="og:description" content="This document describes the unit testing framework setup for the Wegent project."><link data-rh="true" rel="icon" href="/wegent-docs/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wegent/developer-guide/testing" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer Guide","item":"https://wecode-ai.github.io/wegent-docs/docs/category/developer-guide"},{"@type":"ListItem","position":2,"name":"Test Framework Documentation","item":"https://wecode-ai.github.io/wegent-docs/docs/wegent/developer-guide/testing"}]}</script><link rel="stylesheet" href="/wegent-docs/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/assets/js/runtime~main.e411087b.js" defer="defer"></script>
+<script src="/wegent-docs/assets/js/runtime~main.e163f82f.js" defer="defer"></script>
 <script src="/wegent-docs/assets/js/main.9a550796.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -197,6 +197,17 @@ the full blast radius of a change. All three test workflows respond to label
 events; without <code>ci:all</code>, test selection still follows the changed paths.
 The Wework macOS memory gate runs only for non-draft PRs carrying <code>ci:all</code>;
 Regular PRs, scheduled runs, and manual runs do not trigger memory E2E.</p>
+<p>Platform E2E selects tests by changed paths on PRs and merge queue commits.
+Platform E2E and Rust tests cover source-only changes in the task execution
+crates. Delivery-image verification still runs for packaging, startup and other
+Backend inputs, and during full regression runs.
+Scheduled and manual runs retain full coverage. Executor device and sandbox
+projects run in parallel on separate runners with their own services and
+databases. Device tests keep one worker and sandbox tests keep two. Rust Backend
+Clippy runs alongside the tests, and <code>Test Summary</code> requires both to pass.
+The macOS renderer budget gate runs when renderer inputs change and during full
+regressions. It uploads the original measurements on failure.
+For a trace, run <code>pnpm --filter wework profile:renderer --capture</code> on macOS.</p>
 <p>Linux desktop E2E shards get their native test tools from the shared image.
 Platform E2E prepares its dependencies and services while the Rust backend builds,
 then waits for the backend artifact from the same CI run before using it. PRs
@@ -207,10 +218,31 @@ macOS desktop checks on ordinary PRs build the local app and Executor. Use a
 from a PR.</p>
 <p>Rust backend E2E first looks up the exact runtime. On a miss, the build can
 reuse a prebuilt dependency image and GHCR BuildKit layers written by main.
+The dependency resolver is part of the runtime cache key so changes to it
+exercise a real build.
+If the current dependency image is missing, the resolver searches the eight
+most recent first-parent revisions from the base for a matching toolchain and
+dependency build recipe. Cargo validates dependencies against the current lockfile
+and recompiles affected targets. The build synchronizes workspace sources by content, removes deleted
+files, and preserves unchanged timestamps so Cargo can rebuild affected crates.
 Without a prebuilt dependency image, it compiles the real targets directly.
-Only dependency prewarming compiles placeholder targets. The two Linux Core
-latency benchmarks keep their dedicated shards, while the scheduler distributes
-the remaining checkpoints across the existing shards.</p>
+Only dependency prewarming compiles placeholder targets. Functional E2E builds
+the gateway package at optimization level 0 and reuses the compiled dependencies.
+The two Linux Core latency benchmarks and running-conversation history keep
+dedicated shards. The scheduler distributes the remaining checkpoints across
+the existing shards, spreading long checkpoints to reduce CPU contention
+between Electron sessions.
+Changes to CI scheduling, path classification, or Rust E2E build orchestration
+run desktop smoke checks for packaged startup, native lifecycle, and plugin
+routing. Product paths retain their scenario selection. Scheduled, manual, and
+<code>ci:all</code> runs execute the full desktop suites.
+PR changes to the shared desktop test helper run native lifecycle, device
+artifact delivery, embedded browser, and plugin routing checks. These cover
+project creation, file operations, and window interactions. The full suites
+exercise the helper&#x27;s other callers.</p>
+<p>The Backend Rust module check reuses workspace test binaries for package-specific
+MySQL and Redis regressions, retaining each step&#x27;s service configuration and logs.
+A filter that matches no tests fails the check.</p>
 <p>Windows desktop builds share the <code>build-wework-windows-e2e</code> action between PRs
 and main-branch cache warmup. Only <code>main</code> writes shared caches. Complete packages
 require an exact match of source inputs, Node, Rust, and runner image versions;
@@ -331,6 +363,9 @@ warmups from non-<code>main</code> refs. It downloads dependencies or compiles c
 entries without repeating tests already validated by the merge queue. Do not add large automatically saved PR or
 merge-group caches. Use <code>actions/cache/restore</code> plus a <code>main</code>-only
 <code>actions/cache/save</code>, or reuse the existing shared action.</p>
+<p>A new push cancels the previous warmup. The replacement compares against the
+last successful main-branch push run so it includes inputs from cancelled runs.
+It warms all inputs when that run has no usable ancestor.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="writing-github-actions-outputs">Writing GitHub Actions Outputs<a href="#writing-github-actions-outputs" class="hash-link" aria-label="Direct link to Writing GitHub Actions Outputs" title="Direct link to Writing GitHub Actions Outputs" translate="no">​</a></h3>
 <p>Every line written to <code>$GITHUB_OUTPUT</code> must use the <code>name=value</code> format. Do not
 write the substituted output of a command that can emit progress or diagnostic
