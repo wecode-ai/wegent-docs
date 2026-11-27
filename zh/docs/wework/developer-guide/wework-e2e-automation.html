@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">E2E 自动化 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="E2E 自动化 | Wegent"><meta data-rh="true" name="description" content="CI 后台任务负载策略"><meta data-rh="true" property="og:description" content="CI 后台任务负载策略"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/developer-guide/wework-e2e-automation" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Developer guide","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/category/developer-guide-1"},{"@type":"ListItem","position":2,"name":"E2E 自动化","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/developer-guide/wework-e2e-automation"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.8e13c3d7.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.b02005d9.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -289,7 +289,8 @@ GC；最终内存验证仍使用默认完整采样。超时诊断保留最后一
 权限与审批配置，避免该沙箱无法表达分离可写目录时直接拒绝执行。
 Windows 源项目回归据此验证目录外写入可执行，其他平台继续验证操作系统阻止写入；
 所有平台仍验证显式授权写入、原生审批拒绝私有数据读取及拒绝后无数据泄露。网络探针
-声明文本响应类型，避免 PowerShell 将响应体按字节数组逐项输出。
+声明文本响应类型，避免 PowerShell 将响应体按字节数组逐项输出。角色委派和 Dots 场景在 Windows 的隔离 Codex 配置中启用 unelevated 沙箱。角色委派用实际文件写入验证工作区可写和切换只读后的写入限制。
+Windows 的嵌入浏览器下载检查通过 UI Automation 操作当前 Electron 进程的原生右键菜单和另存为对话框，并继续核对取消和保存的文件结果。Core 3 补录了五个成功检查点的耗时，DingTalk 场景共用一次协议夹具准备。助理任务准备和创建通过已有的 Future 装箱边界运行，避免嵌套在 Windows 工作线程栈上。
 订阅模型服务对所有升级路径统一返回 HTTP 426，并在连接整个生命周期内处理
 <code>ECONNRESET</code> 并关闭连接；其他 Socket 错误仍失败。节点回归验证不同路径、重复重置和非预期错误，避免场景通过后
 在清理阶段因未处理的 Socket 错误退出。
