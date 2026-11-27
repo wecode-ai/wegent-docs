@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">代码工作台 | Wegent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" name="twitter:image" content="https://wecode-ai.github.io/wegent-docs/zh/img/wegent-social-card.png"><meta data-rh="true" property="og:url" content="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><meta data-rh="true" property="og:locale" content="zh_CN"><meta data-rh="true" property="og:locale:alternate" content="en_US"><meta data-rh="true" name="docusaurus_locale" content="zh"><meta data-rh="true" name="docsearch:language" content="zh"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="代码工作台 | Wegent"><meta data-rh="true" name="description" content="启动动画"><meta data-rh="true" property="og:description" content="启动动画"><link data-rh="true" rel="icon" href="/wegent-docs/zh/img/wegent.png"><link data-rh="true" rel="canonical" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench" hreflang="zh-CN"><link data-rh="true" rel="alternate" href="https://wecode-ai.github.io/wegent-docs/docs/wework/workbench" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"代码工作台","item":"https://wecode-ai.github.io/wegent-docs/zh/docs/wework/workbench"}]}</script><link rel="stylesheet" href="/wegent-docs/zh/assets/css/styles.3b869d6d.css">
-<script src="/wegent-docs/zh/assets/js/runtime~main.4fe5375a.js" defer="defer"></script>
+<script src="/wegent-docs/zh/assets/js/runtime~main.639dbfaa.js" defer="defer"></script>
 <script src="/wegent-docs/zh/assets/js/main.86de86e2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -154,8 +154,9 @@
 <p>首次打开的对话会定位到最新消息。已经停留在底部的对话切回后仍保持底部；如果之前浏览到历史消息，则恢复与底部的相对距离。长对话只挂载视口附近的消息，并复用已测量的消息高度，减少滚动时的 WebView 内存增长。</p>
 <p>消息、滚动位置和消息高度缓存都有数量上限。归档任务时会立即移除该任务的缓存；再次打开已被缓存淘汰的任务时，Wework 会从本地运行时重新读取完整记录。</p>
 <p>恢复会话后，即使模型列表仍在加载或已配置模型暂时不可用，也可以回答运行中任务已经发出的 MCP 表单或其他需要直接回应的请求。发送新的聊天消息仍需要可用的模型。</p>
+<a id="message-actions"></a>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="使用回复中的选中文本">使用回复中的选中文本<a href="#使用回复中的选中文本" class="hash-link" aria-label="使用回复中的选中文本的直接链接" title="使用回复中的选中文本的直接链接" translate="no">​</a></h2>
-<p>普通消息悬停时，可从操作区复制消息。用户消息仅在提供编辑入口时显示铅笔按钮；点击后在编辑器中修改，并按编辑器提示提交或取消。不是所有历史消息、助手消息都可编辑；引用选中文本与修改原消息是不同操作。</p>
+<p>悬停消息时，可从操作区复制消息。最后一条普通用户消息在支持编辑时显示铅笔按钮。最后一条用户消息如果是已发送的引导，等回复结束后悬停，选择 <strong>修改后继续</strong>，修改原文并点击 <strong>发送修正</strong>。修正会直接更新这条引导，并从修正后的内容继续下一轮，不会在下面追加重复的用户消息；原有回复仍按时间顺序保留。纯附件引导也可以打开编辑表单，补充文字或再次发送附件。</p>
 <p>在助手回复中选择一段文本后，可以将其添加到当前对话输入框，或在侧边栏中基于该文本继续提问。回复仍在流式输出时也可以使用这些操作；后续内容更新不会关闭已经打开的文本操作菜单。</p>
 <p>任务运行期间显示在工具调用上方的过程文本也属于可选回复内容。选择其中的文本后会显示相同的操作菜单，可以直接添加到当前任务的输入框。</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="审核本轮变更">审核本轮变更<a href="#审核本轮变更" class="hash-link" aria-label="审核本轮变更的直接链接" title="审核本轮变更的直接链接" translate="no">​</a></h2>
